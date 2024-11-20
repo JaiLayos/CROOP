@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "603330253402",
+    "project_id": "croop-1b5f0",
+    "storage_bucket": "croop-1b5f0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603330253402:android:f73470581522ad02a8fe63",
+        "android_client_info": {
+          "package_name": "com.example.croop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDo5RoHTbWSwZGReUAAarTt8WIWgGNadA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

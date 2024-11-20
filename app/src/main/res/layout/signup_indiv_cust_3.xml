@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige_brackground"
+    tools:context=".SignUp_IndivCust_Activity">
+
+    <TextView
+        android:id="@+id/signUpCustomer"
+        android:layout_width="141dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="156dp"
+        android:fontFamily="@font/inter_semibold"
+        android:text="Sign Up"
+        android:textAlignment="center"
+        android:textColor="@color/secondary_color"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/phoneNumLabel"
+        android:layout_width="221dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="44dp"
+        android:fontFamily="@font/mulish_medium"
+        android:text="Phone Number"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.215"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpCustomer" />
+
+    <EditText
+        android:id="@+id/phoneNumText"
+        android:layout_width="312dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_border_edit_text"
+        android:hint="Enter PH Phone Number"
+        android:includeFontPadding="false"
+        android:inputType="text"
+        android:paddingStart="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.414"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumLabel" />
+
+    <TextView
+        android:id="@+id/emailLabel"
+        android:layout_width="267dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/mulish_medium"
+        android:text="Email"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.284"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumText" />
+
+    <EditText
+        android:id="@+id/emailText"
+        android:layout_width="312dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_border_edit_text"
+        android:hint="Enter valid email"
+        android:inputType="text"
+        android:paddingStart="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.414"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailLabel" />
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="332dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="56dp"
+        android:backgroundTint="@color/secondary_color"
+        android:fontFamily="@font/inter_semibold"
+        android:text="Next"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailText" />
+
+    <TextView
+        android:id="@+id/existingAcctLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Already have an account ?"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.274"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nextButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/signInHyperlink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="24dp"
+        android:text="Sign In"
+        android:textColor="@color/highlight_green"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/existingAcctLabel"
+        app:layout_constraintTop_toBottomOf="@+id/nextButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
