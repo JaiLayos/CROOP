@@ -4,14 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/beige_brackground"
-    tools:context=".SignUp_IndivCust_Activity">
+    android:background="@color/beige_brackground">
+
+    <TextView
+        android:id="@+id/didNotReceiveOTPLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Did not receive code?"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.303"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/otpText" />
+
+    <TextView
+        android:id="@+id/resendTimerLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
+        android:text="Resend"
+        android:textColor="@color/highlight_green"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/nextButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/didNotReceiveOTPLabel"
+        app:layout_constraintTop_toBottomOf="@+id/otpText"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/signUpCustomer"
         android:layout_width="141dp"
         android:layout_height="46dp"
-        android:layout_marginTop="156dp"
+        android:layout_marginTop="144dp"
         android:fontFamily="@font/inter_semibold"
         android:text="Sign Up"
         android:textAlignment="center"
@@ -23,16 +51,17 @@
 
     <TextView
         android:id="@+id/otpLabel"
-        android:layout_width="221dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="310dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="36dp"
         android:fontFamily="@font/mulish_medium"
-        android:text="Phone Number"
-        android:textAlignment="viewStart"
+        android:text=" An OTP is sent to your number."
+        android:textAlignment="center"
         android:textColor="@color/black_opaque_text"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.215"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpCustomer" />
 
@@ -40,81 +69,47 @@
         android:id="@+id/otpText"
         android:layout_width="312dp"
         android:layout_height="55dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/rounded_border_edit_text"
-        android:hint="Enter PH Phone Number"
+        android:hint="Enter 6-digit number"
         android:includeFontPadding="false"
         android:inputType="text"
         android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/otpLabel" />
-
-    <TextView
-        android:id="@+id/emailLabel"
-        android:layout_width="267dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/mulish_medium"
-        android:text="Email"
-        android:textAlignment="viewStart"
-        android:textColor="@color/black_opaque_text"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.284"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/otpText" />
-
-    <EditText
-        android:id="@+id/emailText"
-        android:layout_width="312dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/rounded_border_edit_text"
-        android:hint="Enter valid email"
-        android:inputType="text"
-        android:paddingStart="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailLabel" />
 
     <Button
         android:id="@+id/nextButton"
         android:layout_width="332dp"
         android:layout_height="63dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="112dp"
         android:backgroundTint="@color/secondary_color"
         android:fontFamily="@font/inter_semibold"
         android:text="Next"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailText" />
+        app:layout_constraintTop_toBottomOf="@+id/didNotReceiveOTPLabel" />
 
     <TextView
         android:id="@+id/existingAcctLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="52dp"
         android:text="Already have an account ?"
         android:textColor="@color/black_opaque_text"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.274"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextButton"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/nextButton" />
 
     <TextView
         android:id="@+id/signInHyperlink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="52dp"
         android:text="Sign In"
         android:textColor="@color/highlight_green"
         android:textSize="16sp"

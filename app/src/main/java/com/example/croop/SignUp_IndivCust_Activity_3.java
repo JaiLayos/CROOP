@@ -1,5 +1,6 @@
 package com.example.croop;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -8,31 +9,42 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.model.Customer;
+import com.example.croop.model.PhoneVerification;
 import com.example.croop.singleton.CustomerSingleton;
+import com.example.croop.singleton.PhoneAuthenticationSimpleton;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
+
+    PhoneVerification verifyId = PhoneAuthenticationSimpleton.getInstance().getPhoneVerification();
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_indiv_cust_3);
-        
+
         initializeComponent();
     }
 
     private void initializeComponent() {
-        EditText phoneNumber = findViewById(R.id.phoneNumText);
+        EditText phoneNumber = findViewById(R.id.otpText);
         EditText email = findViewById(R.id.emailText);
         Button nextButton = findViewById(R.id.nextButton);
-
 
         nextButton.setOnClickListener(view ->{
             String phone_customer = String.valueOf(phoneNumber.getText());;
@@ -56,13 +68,31 @@ public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
                     customerProfile.put("Name", customer.getCust_Name());
                     customerProfile.put("Updated At", customer.getCust_UpdatedAt());
                     customerProfile.put("phone number", customer.getCust_PhoneNum());
+                    customerProfile.put("Role", customer.setRole());
                     CollectionReference customerRef = db.collection("Customers");
                     customerRef.add(customerProfile).addOnSuccessListener(documentReference -> {
                         Toast.makeText(SignUp_IndivCust_Activity_3.this, "Customer added!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignUp_IndivCust_Activity_3.this, SignUp_IndivCust_MobPhone_valid.class);
+                        startActivity(intent);
                     }).addOnFailureListener(e ->{
                         Toast.makeText(SignUp_IndivCust_Activity_3.this, "Error!", Toast.LENGTH_SHORT).show();
                     });
-
+                    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                        @Override
+                        public void onVerificationCompleted(PhoneAuthCredential credential) {
+                            System.out.println("Verification Completed!");
+                        }
+                        @Override
+                        public void onVerificationFailed(FirebaseException e) {
+                            System.out.println("Verification Failed: " + e.getMessage());
+                        }
+                        @Override
+                        public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
+                            System.out.println("Code Sent: " + verificationId);
+                            verifyId.setVerificationId(verificationId);
+                        }
+                    };
+                    sendToPhone(customer, mCallbacks);
                 }else{
                     if(!phoneNumberValidation(phone_customer)){
                         Toast.makeText(SignUp_IndivCust_Activity_3.this, "Please input a valid phone number!", Toast.LENGTH_SHORT).show();
@@ -75,6 +105,18 @@ public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
         Pattern p = Pattern.compile("^\\d{11}$");
         Matcher m = p.matcher(phoneNum);
         return(m.matches());
+    }
+
+    private void sendToPhone(Customer customer, PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks) {
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(customer.getCust_PhoneNum().toString())       // Phone number to verify
+                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // (optional) Activity for callback binding
+                        // If no activity is passed, reCAPTCHA verification can not be used.
+                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
 }

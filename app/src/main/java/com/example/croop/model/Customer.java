@@ -12,13 +12,14 @@ public class Customer {
     private String bio;
     private Date createdAt;
     private Date updatedAt;
+    private String roles;
 
     public Customer(){
 
     }
 
     public Customer(int id, String name, Map<String, String> address, String phoneNumber,
-     String email, String bio, Date createdAt, Date updatedAt){
+     String email, String bio, Date createdAt, Date updatedAt, String roles){
         this.id = id;
         this.name =  name;
         this.address = address;
@@ -27,6 +28,7 @@ public class Customer {
         this.bio = bio;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.roles = roles;
     }
     public int getCust_Id() {
         return id;
@@ -79,5 +81,9 @@ public class Customer {
     }
     public void setCust_UpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String setRole(){
+        return "Individual Customer";
     }
 }
