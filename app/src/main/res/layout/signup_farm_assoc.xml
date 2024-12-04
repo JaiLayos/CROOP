@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/beige_brackground"
+        tools:context=".SignUp_IndivCust_Activity">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"> <!-- Ensures content fills the viewport -->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"> <!-- Padding for consistent spacing -->
+
+                <!-- Sign Up Label -->
+                <TextView
+                    android:id="@+id/signUpCustomer"
+                    android:layout_width="143dp"
+                    android:layout_height="34dp"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="Sign Up"
+                    android:textAlignment="center"
+                    android:textColor="@color/secondary_color"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/subHeading"
+                    android:layout_width="181dp"
+                    android:layout_height="21dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/mulish_medium"
+                    android:text="As a Farming Association"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black_opaque_text"
+                    android:textSize="15sp"
+                    android:textStyle="bold|italic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.496"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/signUpCustomer" />
+
+                <TextView
+                    android:id="@+id/coopName"
+                    android:layout_width="294dp"
+                    android:layout_height="31dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/mulish_medium"
+                    android:text="Name of Farming Association"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black_opaque_text"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.35"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/subHeading" />
+
+                <EditText
+                    android:id="@+id/coopNameText"
+                    android:layout_width="312dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/rounded_border_edit_text"
+                    android:hint="Enter Name"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:paddingStart="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.414"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/coopName" />
+
+                <TextView
+                    android:id="@+id/userName1"
+                    android:layout_width="285dp"
+                    android:layout_height="26dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/mulish_medium"
+                    android:text="Name of Point Person"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black_opaque_text"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.333"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/coopNameText" />
+
+                <EditText
+                    android:id="@+id/userNameText1"
+                    android:layout_width="312dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/rounded_border_edit_text"
+                    android:hint="Enter Name"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:paddingStart="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.393"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/userName1" />
+
+                <TextView
+                    android:id="@+id/userAge1"
+                    android:layout_width="285dp"
+                    android:layout_height="29dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/mulish_medium"
+                    android:text="Age (number only ex. 21)"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black_opaque_text"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.333"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/userNameText1" />
+
+                <EditText
+                    android:id="@+id/userAgeText1"
+                    android:layout_width="312dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/rounded_border_edit_text"
+                    android:hint="Enter Age"
+                    android:includeFontPadding="false"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:paddingStart="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.393"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/userAge1" />
+
+                <TextView
+                    android:id="@+id/positionName1"
+                    android:layout_width="285dp"
+                    android:layout_height="26dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/mulish_medium"
+                    android:text="Postion"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black_opaque_text"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.309"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/userAgeText1" />
+
+                <EditText
+                    android:id="@+id/positionNameText1"
+                    android:layout_width="312dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/rounded_border_edit_text"
+                    android:hint="Enter Postion"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:paddingStart="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.363"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/positionName1" />
+
+                <TextView
+                    android:id="@+id/phoneNumber"
+                    android:layout_width="285dp"
+                    android:layout_height="26dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/mulish_medium"
+                    android:text="Phone Number"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black_opaque_text"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.285"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/positionNameText1" />
+
+                <EditText
+                    android:id="@+id/otpText4"
+                    android:layout_width="312dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/rounded_border_edit_text"
+                    android:hint="Enter PH Phone Number"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:paddingStart="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.363"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
+
+                <Button
+                    android:id="@+id/nextButton4"
+                    android:layout_width="332dp"
+                    android:layout_height="63dp"
+                    android:layout_marginTop="30dp"
+                    android:backgroundTint="@color/secondary_color"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="Next"
+                    android:textSize="22sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.595"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/otpText4"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/existingAcctLabel4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="28dp"
+                    android:text="Already have an account ?"
+                    android:textColor="@color/black_opaque_text"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/signInHyperlink4"
+                    app:layout_constraintHorizontal_bias="0.978"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nextButton4"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/signInHyperlink4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="88dp"
+                    android:text="Sign In"
+                    android:textColor="@color/highlight_green"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nextButton4"
+                    app:layout_constraintVertical_bias="0.0" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

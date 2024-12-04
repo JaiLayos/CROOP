@@ -8,33 +8,20 @@
     tools:context=".SignUp_IndivCust_Activity">
 
     <TextView
-        android:id="@+id/lastNameLabel"
-        android:layout_width="138dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="24dp"
+        android:id="@+id/houseLabel8"
+        android:layout_width="95dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/mulish_medium"
-        android:text="Last Name"
+        android:text="As a Retailer"
         android:textAlignment="viewStart"
         android:textColor="@color/black_opaque_text"
-        android:textSize="20sp"
+        android:textSize="15sp"
+        android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coopNameText" />
-
-    <EditText
-        android:id="@+id/lastNameText"
-        android:layout_width="312dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/rounded_border_edit_text"
-        android:hint="Enter Last Name"
-        android:inputType="text"
-        android:paddingStart="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastNameLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpCustomer" />
 
     <TextView
         android:id="@+id/signUpCustomer"
@@ -51,34 +38,63 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/coopName"
-        android:layout_width="138dp"
-        android:layout_height="35dp"
+        android:id="@+id/otpLabel"
+        android:layout_width="221dp"
+        android:layout_height="36dp"
         android:layout_marginTop="44dp"
         android:fontFamily="@font/mulish_medium"
-        android:text="First Name"
+        android:text="Phone Number"
         android:textAlignment="viewStart"
         android:textColor="@color/black_opaque_text"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintHorizontal_bias="0.215"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpCustomer" />
 
     <EditText
-        android:id="@+id/coopNameText"
+        android:id="@+id/otpText"
         android:layout_width="312dp"
         android:layout_height="55dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/rounded_border_edit_text"
-        android:hint="Enter First Name"
+        android:hint="Enter PH Phone Number"
         android:includeFontPadding="false"
         android:inputType="text"
         android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coopName" />
+        app:layout_constraintTop_toBottomOf="@+id/otpLabel" />
+
+    <TextView
+        android:id="@+id/emailLabel"
+        android:layout_width="267dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/mulish_medium"
+        android:text="Email"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.284"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/otpText" />
+
+    <EditText
+        android:id="@+id/emailText"
+        android:layout_width="312dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_border_edit_text"
+        android:hint="Enter valid email"
+        android:inputType="text"
+        android:paddingStart="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.414"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailLabel" />
 
     <Button
         android:id="@+id/nextButton"
@@ -92,7 +108,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastNameText" />
+        app:layout_constraintTop_toBottomOf="@+id/emailText" />
 
     <TextView
         android:id="@+id/existingAcctLabel"

@@ -19,6 +19,22 @@
 
             <!-- Sign Up Label -->
             <TextView
+                android:id="@+id/houseLabel7"
+                android:layout_width="95dp"
+                android:layout_height="23dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/mulish_medium"
+                android:text="As a Retailer"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black_opaque_text"
+                android:textSize="15sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signUpCustomer" />
+
+            <TextView
                 android:id="@+id/signUpCustomer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
