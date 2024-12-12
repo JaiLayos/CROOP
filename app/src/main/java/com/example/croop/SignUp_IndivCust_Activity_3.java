@@ -31,13 +31,13 @@ public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    PhoneVerification verifyId = PhoneAuthenticationSimpleton.getInstance().getPhoneVerification();
+    PhoneVerification verifyId = new PhoneVerification();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_indiv_cust_3);
-
+        mAuth = FirebaseAuth.getInstance();
         initializeComponent();
     }
 
@@ -52,6 +52,7 @@ public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
                 if(phoneNumberValidation(phone_customer)){
 
                     Date currentdate = new Date();
+                    phone_customer= "+63" + phone_customer.substring(1);
                     Customer customer = CustomerSingleton.getInstance().getCustomer();
                     customer.setCust_PhoneNum(phone_customer.toString());
                     customer.setCust_Email(email_customer.toString());
@@ -90,6 +91,7 @@ public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
                         public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
                             System.out.println("Code Sent: " + verificationId);
                             verifyId.setVerificationId(verificationId);
+                            PhoneAuthenticationSimpleton.getInstance().setPhoneVerification(verifyId);
                         }
                     };
                     sendToPhone(customer, mCallbacks);

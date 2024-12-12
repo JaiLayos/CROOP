@@ -19,7 +19,6 @@ import com.google.firebase.auth.PhoneAuthProvider;
 public class SignUp_IndivCust_MobPhone_valid extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    PhoneVerification verifyId = PhoneAuthenticationSimpleton.getInstance().getPhoneVerification();
 
 
     @Override
@@ -39,6 +38,7 @@ public class SignUp_IndivCust_MobPhone_valid extends AppCompatActivity {
             otpSent.setInputType(InputType.TYPE_CLASS_NUMBER);
             fourDigitFilter(otpSent);
             String otp = otpSent.getText().toString();
+            PhoneVerification verifyId = PhoneAuthenticationSimpleton.getInstance().getPhoneVerification();
             String sentVerifyId = verifyId.getVerificationId().toString();
             verifyCode(sentVerifyId, otp);
         });
