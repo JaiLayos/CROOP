@@ -5,34 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="413dp"
+        android:layout_height="735dp"
+        android:scaleType="centerCrop"
+        android:src="@tools:sample/avatars"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/cda_header" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="350dp"
+        android:layout_height="640dp"
         android:background="@color/beige_brackground"
-        tools:context=".SignUp_IndivCust_Activity">
+        app:cardBackgroundColor="@color/secondary_color"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="355dp"
+            android:layout_height="651dp"
+            android:layout_marginTop="44dp"
             android:fillViewport="true"> <!-- Ensures content fills the viewport -->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/beige_brackground"
                 android:padding="16dp"> <!-- Padding for consistent spacing -->
 
                 <!-- Sign Up Label -->
+
                 <TextView
                     android:id="@+id/signUpCustomer"
                     android:layout_width="143dp"
                     android:layout_height="34dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="75dp"
                     android:fontFamily="@font/inter_semibold"
                     android:text="Sign Up"
                     android:textAlignment="center"
                     android:textColor="@color/secondary_color"
                     android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.509"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -253,5 +274,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
