@@ -46,11 +46,11 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
         initializeComponents();
     }
     public void initializeComponents() {
-        house = findViewById(R.id.houseText);
-        subdivision = findViewById(R.id.subdivisionText);
-        city = findViewById(R.id.cityText);
-        region = findViewById(R.id.regionText);
-        postCode = findViewById(R.id.postalText);
+        house = findViewById(R.id.userHouseText);
+        subdivision = findViewById(R.id.userSubdivisionText);
+        city = findViewById(R.id.userCityText);
+        region = findViewById(R.id.userRegionText);
+        postCode = findViewById(R.id.userPostalText);
         country = findViewById(R.id.countryText);
         Button nextButton = findViewById(R.id.nextButton);
 

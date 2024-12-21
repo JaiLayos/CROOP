@@ -18,20 +18,22 @@
         app:srcCompat="@drawable/cda_header" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="350dp"
-        android:layout_height="640dp"
+        android:layout_width="414dp"
+        android:layout_height="571dp"
         app:cardBackgroundColor="@color/secondary_color"
         app:cardCornerRadius="5dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView">
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="1.0">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="10dp"
             android:background="@color/beige_brackground"
             android:fillViewport="true"> <!-- Ensures content fills the viewport -->
 
@@ -42,7 +44,7 @@
 
                 <!-- Sign Up Label -->
                 <TextView
-                    android:id="@+id/houseLabel10"
+                    android:id="@+id/assocLabel"
                     android:layout_width="178dp"
                     android:layout_height="24dp"
                     android:layout_marginTop="4dp"
@@ -57,25 +59,27 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/signUpCustomer" />
 
-                <TextView
-                    android:id="@+id/signUpCustomer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp"
-                    android:fontFamily="@font/inter_semibold"
-                    android:text="Sign Up"
-                    android:textColor="@color/secondary_color"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <!-- House/Street Label -->
 
                 <!-- House/Street Input -->
 
                 <TextView
-                    android:id="@+id/coopName"
+                    android:id="@+id/signUpCustomer"
+                    android:layout_width="217dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="436dp"
+                    android:fontFamily="@font/inter_semibold"
+                    android:text="Sign Up"
+                    android:textAlignment="center"
+                    android:textColor="@color/secondary_color"
+                    android:textSize="42sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.501"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/assocStreetlabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="44dp"
@@ -89,7 +93,7 @@
                     app:layout_constraintTop_toBottomOf="@id/signUpCustomer" />
 
                 <EditText
-                    android:id="@+id/houseText"
+                    android:id="@+id/assocHouseText"
                     android:layout_width="0dp"
                     android:layout_height="55dp"
                     android:layout_marginTop="4dp"
@@ -98,10 +102,10 @@
                     android:paddingStart="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/coopName" />
+                    app:layout_constraintTop_toBottomOf="@id/assocStreetlabel" />
 
                 <TextView
-                    android:id="@+id/subdivisionLabel"
+                    android:id="@+id/assocSubdivisionLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -112,24 +116,22 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/houseText" />
+                    app:layout_constraintTop_toBottomOf="@+id/assocHouseText" />
+
+               <EditText
+                android:id="@+id/assocSubdivisionText"
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:hint="Enter Subdivision"
+                android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/assocSubdivisionLabel" />
 
                 <TextView
-                    android:id="@+id/regionLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:fontFamily="@font/mulish_medium"
-                    android:text="State/Province/Region"
-                    android:textColor="@color/black_opaque_text"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.009"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cityText" />
-
-                <TextView
-                    android:id="@+id/cityLabel"
+                    android:id="@+id/assocCityLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -140,25 +142,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/subdivisionText" />
-
-
-                <!-- Next Button -->
+                    app:layout_constraintTop_toBottomOf="@+id/assocSubdivisionText" />
 
                 <EditText
-                    android:id="@+id/subdivisionText"
-                    android:layout_width="0dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/rounded_border_edit_text"
-                    android:hint="Enter Subdivision"
-                    android:paddingStart="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/subdivisionLabel" />
-
-                <EditText
-                    android:id="@+id/cityText"
+                    android:id="@+id/assocCityText"
                     android:layout_width="0dp"
                     android:layout_height="55dp"
                     android:layout_marginTop="4dp"
@@ -167,10 +154,25 @@
                     android:paddingStart="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cityLabel" />
+                    app:layout_constraintTop_toBottomOf="@+id/assocCityLabel" />
+
+                <TextView
+                    android:id="@+id/assocRegionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/mulish_medium"
+                    android:text="State/Province/Region"
+                    android:textColor="@color/black_opaque_text"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.009"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/assocCityText" />
+
 
                 <EditText
-                    android:id="@+id/regionText"
+                    android:id="@+id/assocRegionText"
                     android:layout_width="0dp"
                     android:layout_height="55dp"
                     android:layout_marginTop="4dp"
@@ -179,10 +181,36 @@
                     android:paddingStart="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/regionLabel" />
+                    app:layout_constraintTop_toBottomOf="@+id/assocRegionLabel" />
 
                 <TextView
-                    android:id="@+id/countryLabel"
+                    android:id="@+id/assocPostalLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/mulish_medium"
+                    android:text="Postal Code"
+                    android:textColor="@color/black_opaque_text"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.01"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/assocRegionText" />
+
+                <EditText
+                    android:id="@+id/assocPostalText"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/rounded_border_edit_text"
+                    android:hint="Enter Postal Code"
+                    android:paddingStart="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/assocPostalLabel" />
+
+                <TextView
+                    android:id="@+id/assocCountryLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -192,10 +220,10 @@
                     android:textColor="@color/black_opaque_text"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/postalText" />
+                    app:layout_constraintTop_toBottomOf="@+id/assocPostalText" />
 
                 <EditText
-                    android:id="@+id/countryText"
+                    android:id="@+id/assocCountryText"
                     android:layout_width="0dp"
                     android:layout_height="55dp"
                     android:layout_marginTop="4dp"
@@ -204,7 +232,7 @@
                     android:paddingStart="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/countryLabel" />
+                    app:layout_constraintTop_toBottomOf="@id/assocCountryLabel" />
 
                 <Button
                     android:id="@+id/nextButton"
@@ -217,35 +245,11 @@
                     android:textSize="22sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/countryText" />
+                    app:layout_constraintTop_toBottomOf="@id/assocCountryText" />
 
                 <!-- Already Have an Account -->
 
-                <TextView
-                    android:id="@+id/postalLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:fontFamily="@font/mulish_medium"
-                    android:text="Postal Code"
-                    android:textColor="@color/black_opaque_text"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.01"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/regionText" />
 
-                <EditText
-                    android:id="@+id/postalText"
-                    android:layout_width="0dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/rounded_border_edit_text"
-                    android:hint="Enter Postal Code"
-                    android:paddingStart="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/postalLabel" />
 
                 <TextView
                     android:id="@+id/existingAcctLabel"

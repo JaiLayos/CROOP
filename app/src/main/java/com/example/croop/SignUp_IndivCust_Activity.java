@@ -27,8 +27,8 @@ public class SignUp_IndivCust_Activity extends AppCompatActivity {
 
     private void initializeComponents() {
         Button nextButton = findViewById(R.id.nextButton);
-        EditText firstName = findViewById(R.id.coopNameText);
-        EditText lastName = findViewById(R.id.lastNameText);
+        EditText firstName = findViewById(R.id.userFirstNameText);
+        EditText lastName = findViewById(R.id.userLastNameText);
         validName(firstName);
         validName(lastName);
 
