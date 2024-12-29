@@ -50,13 +50,14 @@
                 android:id="@+id/userFirstNameText"
                 android:layout_width="325dp"
                 android:layout_height="55dp"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="28dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter First Name"
                 android:includeFontPadding="false"
                 android:inputType="text"
                 android:paddingStart="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.505"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/signUpCustomer" />
 
@@ -74,18 +75,31 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/userFirstNameText" />
 
+            <EditText
+                android:id="@+id/userAge"
+                android:layout_width="325dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:hint="Enter Age"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userLastNameText" />
+
             <Button
                 android:id="@+id/nextButton"
                 android:layout_width="332dp"
                 android:layout_height="63dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="28dp"
                 android:backgroundTint="@color/secondary_color"
                 android:fontFamily="@font/inter_semibold"
                 android:text="Next"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userLastNameText" />
+                app:layout_constraintTop_toBottomOf="@+id/userAge" />
 
             <TextView
                 android:id="@+id/existingAcctLabel"

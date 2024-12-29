@@ -55,10 +55,10 @@ public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
                 Date currentdate = new Date();
                 phone_customer= "+63" + phone_customer.substring(1);
                 Customer customer = CustomerSingleton.getInstance().getCustomer();
-                customer.setCust_PhoneNum(phone_customer.toString());
-                customer.setCust_Email(email_customer.toString());
-                customer.setCust_CreatedAt(currentdate);
-                customer.setCust_UpdatedAt(currentdate);
+                customer.setPhoneNum(phone_customer.toString());
+                customer.setEmail(email_customer.toString());
+                customer.setCreatedAt(currentdate);
+                customer.setUpdatedAt(currentdate);
 
                 CurrentRole cr = new CurrentRole();
                 cr.setRole(customer.setRole());
@@ -67,18 +67,19 @@ public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 Map<String, Object> customerProfile = new HashMap<>();
-                customerProfile.put("Address", customer.getCust_Address());
+                customerProfile.put("Address", customer.getAddress());
+                customerProfile.put("Age", customer.getAge());
                 customerProfile.put("Bio", "Hi! I'm new here.");
-                customerProfile.put("Created At", customer.getCust_CreatedAt());
-                customerProfile.put("Email", customer.getCust_Email());
-                customerProfile.put("Name", customer.getCust_Name());
-                customerProfile.put("Updated At", customer.getCust_UpdatedAt());
-                customerProfile.put("phone number", customer.getCust_PhoneNum());
+                customerProfile.put("Created At", customer.getCreatedAt());
+                customerProfile.put("Email", customer.getEmail());
+                customerProfile.put("Name", customer.getName());
+                customerProfile.put("Updated At", customer.getUpdatedAt());
+                customerProfile.put("phone number", customer.getPhoneNum());
                 customerProfile.put("Role", customer.setRole());
                 CollectionReference customerRef = db.collection("Customers");
                 customerRef.add(customerProfile).addOnSuccessListener(documentReference -> {
                     Toast.makeText(SignUp_IndivCust_Activity_3.this, "Customer added!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SignUp_IndivCust_Activity_3.this, SignUp_IndivCust_MobPhone_valid.class);
+                    Intent intent = new Intent(SignUp_IndivCust_Activity_3.this, SignUp_MobPhone_valid.class);
                     startActivity(intent);
                 }).addOnFailureListener(e ->{
                     Toast.makeText(SignUp_IndivCust_Activity_3.this, "Error!", Toast.LENGTH_SHORT).show();
@@ -117,7 +118,7 @@ public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
     private void sendToPhone(Customer customer, PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks) {
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber(customer.getCust_PhoneNum().toString())       // Phone number to verify
+                        .setPhoneNumber(customer.getPhoneNum().toString())       // Phone number to verify
                         .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
                         .setActivity(this)                 // (optional) Activity for callback binding
                         // If no activity is passed, reCAPTCHA verification can not be used.

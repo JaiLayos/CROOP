@@ -76,7 +76,7 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
                 addressMap.put("State/Province/Region", region_customer);
                 addressMap.put("Subdivision/Baranggay", subdivision_customer);
                 Customer customer = CustomerSingleton.getInstance().getCustomer();
-                customer.setCust_Address(addressMap);
+                customer.setAddress(addressMap);
             }
 
             Intent intent = new Intent(SignUp_IndivCust_Activity_2.this, SignUp_IndivCust_Activity_3.class);
@@ -164,7 +164,7 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
                 addressMap.put("State/Province/Region", region_permitted);
                 addressMap.put("Subdivision/Baranggay", subdivision_permitted);
                 Customer customer = CustomerSingleton.getInstance().getCustomer();
-                customer.setCust_Address(addressMap);
+                customer.setAddress(addressMap);
             }
         }catch(IOException e){
 

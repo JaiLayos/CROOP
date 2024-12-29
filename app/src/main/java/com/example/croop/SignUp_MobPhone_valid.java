@@ -20,14 +20,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
-public class SignUp_IndivCust_MobPhone_valid extends AppCompatActivity {
+public class SignUp_MobPhone_valid extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup_indiv_cust_mobphone_valid);
+        setContentView(R.layout.signup_mobphone_valid);
         mAuth = FirebaseAuth.getInstance();
         initializeComponent();
     }
@@ -65,7 +65,7 @@ public class SignUp_IndivCust_MobPhone_valid extends AppCompatActivity {
                             public void onFinish() {
                                 switch(CurrentUserSingleton.getInstance().getCurrentRole().getRole()){
                                     case "Individual Customer":
-                                        Intent intent = new Intent(SignUp_IndivCust_MobPhone_valid.this, Home_Group_Activity.class);
+                                        Intent intent = new Intent(SignUp_MobPhone_valid.this, Home_Group_Activity.class);
                                         startActivity(intent);
                                         break;
                                 }

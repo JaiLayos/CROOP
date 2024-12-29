@@ -6,6 +6,7 @@ import java.util.Map;
 public class Customer {
     private int id;
     private String name;
+    private int age;
     private Map<String, String> address;
     private String phoneNumber;
     private String email;
@@ -18,8 +19,9 @@ public class Customer {
 
     }
 
-    public Customer(int id, String name, Map<String, String> address, String phoneNumber,
+    public Customer(int id, String name, int age, Map<String, String> address, String phoneNumber,
      String email, String bio, Date createdAt, Date updatedAt, String roles){
+        this.age = age;
         this.id = id;
         this.name =  name;
         this.address = address;
@@ -30,56 +32,59 @@ public class Customer {
         this.updatedAt = updatedAt;
         this.roles = roles;
     }
-    public int getCust_Id() {
+    public int getId() {
         return id;
     }
 
-    public String getCust_Name(){
+    public String getName(){
         return name;
     }
-    public void setCust_Name(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Map<String, String> getCust_Address(){
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age=age; }
+
+    public Map<String, String> getAddress(){
         return address;
     }
-    public void setCust_Address(Map<String, String> address) {
+    public void setAddress(Map<String, String> address) {
         this.address = address;
     }
 
-    public String getCust_PhoneNum(){
+    public String getPhoneNum(){
         return phoneNumber;
     }
-    public void setCust_PhoneNum(String phoneNumber) {
+    public void setPhoneNum(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getCust_Email(){
+    public String getEmail(){
         return email;
     }
-    public void setCust_Email(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getCust_Bio(){
+    public String getBio(){
         return bio;
     }
-    public void setCust_Bio(String bio) {
+    public void setBio(String bio) {
         this.bio = bio;
     }
 
-    public Date getCust_CreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
-    public void setCust_CreatedAt(Date createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getCust_UpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
-    public void setCust_UpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 

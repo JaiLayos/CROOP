@@ -89,7 +89,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/subHeading" />
 
                 <EditText
-                    android:id="@+id/coopNameText"
+                    android:id="@+id/assocNameText"
                     android:layout_width="312dp"
                     android:layout_height="55dp"
                     android:layout_marginTop="4dp"
@@ -104,34 +104,64 @@
                     app:layout_constraintTop_toBottomOf="@+id/coopName" />
 
                 <TextView
-                    android:id="@+id/userName1"
+                    android:id="@+id/firstNamePPersonLabel"
                     android:layout_width="285dp"
                     android:layout_height="26dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/mulish_medium"
-                    android:text="Name of Point Person"
+                    android:text="First Name of Point Person"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black_opaque_text"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.333"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/coopNameText" />
+                    app:layout_constraintTop_toBottomOf="@+id/assocNameText" />
 
                 <EditText
-                    android:id="@+id/pPersonNameText"
+                    android:id="@+id/a_pPersonFirstNameText"
                     android:layout_width="312dp"
                     android:layout_height="55dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/rounded_border_edit_text"
-                    android:hint="Enter Name"
+                    android:hint="Enter First Name"
                     android:includeFontPadding="false"
                     android:inputType="text"
                     android:paddingStart="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.393"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userName1" />
+                    app:layout_constraintTop_toBottomOf="@+id/firstNamePPersonLabel" />
+
+                <TextView
+                    android:id="@+id/lastNamePPersonLabel"
+                    android:layout_width="285dp"
+                    android:layout_height="26dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/mulish_medium"
+                    android:text="Last Name of Point Person"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black_opaque_text"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.333"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/a_pPersonFirstNameText" />
+
+                <EditText
+                    android:id="@+id/a_pPersonLastNameText"
+                    android:layout_width="312dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/rounded_border_edit_text"
+                    android:hint="Enter Last Name"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:paddingStart="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.393"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lastNamePPersonLabel" />
 
                 <TextView
                     android:id="@+id/userAge1"
@@ -146,10 +176,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.333"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pPersonNameText" />
+                    app:layout_constraintTop_toBottomOf="@+id/a_pPersonLastNameText" />
 
                 <EditText
-                    android:id="@+id/pPersonAgeText"
+                    android:id="@+id/a_pPersonAgeText"
                     android:layout_width="312dp"
                     android:layout_height="55dp"
                     android:layout_marginTop="4dp"
@@ -177,10 +207,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.309"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/pPersonAgeText" />
+                    app:layout_constraintTop_toBottomOf="@+id/a_pPersonAgeText" />
 
                 <EditText
-                    android:id="@+id/positionNameText"
+                    android:id="@+id/a_positionNameText"
                     android:layout_width="312dp"
                     android:layout_height="55dp"
                     android:layout_marginTop="4dp"
@@ -207,10 +237,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.285"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/positionNameText" />
+                    app:layout_constraintTop_toBottomOf="@+id/a_positionNameText" />
 
                 <EditText
-                    android:id="@+id/otpText4"
+                    android:id="@+id/a_ppPhoneNumberText"
                     android:layout_width="312dp"
                     android:layout_height="55dp"
                     android:layout_marginTop="4dp"
@@ -237,7 +267,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.595"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/otpText4"
+                    app:layout_constraintTop_toBottomOf="@+id/a_ppPhoneNumberText"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView

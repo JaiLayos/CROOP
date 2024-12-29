@@ -29,14 +29,18 @@ public class SignUp_IndivCust_Activity extends AppCompatActivity {
         Button nextButton = findViewById(R.id.nextButton);
         EditText firstName = findViewById(R.id.userFirstNameText);
         EditText lastName = findViewById(R.id.userLastNameText);
+        EditText age = findViewById(R.id.userAge);
         validName(firstName);
         validName(lastName);
 
         nextButton.setOnClickListener(view ->{
             String first_name_customer = String.valueOf(firstName.getText());
             String last_name_customer = String.valueOf(lastName.getText());
+            String string_age = String.valueOf(age);
+            int age_customer = Integer.parseInt(string_age);
             Customer customer = new Customer();
-            customer.setCust_Name(first_name_customer + " " + last_name_customer);
+            customer.setName(first_name_customer + " " + last_name_customer);
+            customer.setAge(age_customer);
             CustomerSingleton.getInstance().setCustomer(customer);
             Intent intent = new Intent(SignUp_IndivCust_Activity.this, SignUp_IndivCust_Activity_2.class);
             startActivity(intent);
