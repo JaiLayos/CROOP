@@ -52,7 +52,7 @@ public class SignUp_Farm_Assoc_Activity extends AppCompatActivity {
             seller.setGroupName(association);
             seller.setAge(age_point_person);
             GroupSellersSingleton.getInstance().setGroupSellers(seller);
-            Intent intent = new Intent(SignUp_Farm_Assoc_Activity.this, SignUp_IndivCust_Activity_2.class);
+            Intent intent = new Intent(SignUp_Farm_Assoc_Activity.this, SignUp_Farm_Assoc_Activity_2.class);
             startActivity(intent);
         });
     }

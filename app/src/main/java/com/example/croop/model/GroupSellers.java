@@ -12,7 +12,7 @@ public class GroupSellers extends Customer{
     public GroupSellers(int id, String name, int age, Map<String, String> address, String phoneNumber,
                         String email, String bio, Date createdAt, Date updatedAt, String groupName, String roles,
                         List<String> permitUrls){
-        super(id, name, age, address, phoneNumber, email, bio, createdAt, updatedAt, "Business User");
+        super(id, name, age, address, phoneNumber, email, bio, createdAt, updatedAt, "Group Business User");
         this.groupName = groupName;
         this.permitUrls = new ArrayList<>(permitUrls);
     }

@@ -74,7 +74,7 @@ public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
                 customerProfile.put("Email", customer.getEmail());
                 customerProfile.put("Name", customer.getName());
                 customerProfile.put("Updated At", customer.getUpdatedAt());
-                customerProfile.put("phone number", customer.getPhoneNum());
+                customerProfile.put("Phone Number", customer.getPhoneNum());
                 customerProfile.put("Role", customer.setRole());
                 CollectionReference customerRef = db.collection("Customers");
                 customerRef.add(customerProfile).addOnSuccessListener(documentReference -> {
