@@ -9,10 +9,10 @@ public class IndividualSellers extends Customer{
     private List<String> permitUrls;
     private String roles;
 
-    public IndividualSellers (int id, String name, Map<String, String> address, String phoneNumber,
+    public IndividualSellers (int id, String name, int age, Map<String, String> address, String phoneNumber,
                               String email, String bio, Date createdAt, Date updatedAt, String roles,
                               List <String> permitUrls){
-        super(id, name, address, phoneNumber, email, bio, createdAt, updatedAt, "Business User");
+        super(id, name, age, address, phoneNumber, email, bio, createdAt, updatedAt, "Business User");
         this.permitUrls = new ArrayList<>(permitUrls);
         this.roles = roles;
     }

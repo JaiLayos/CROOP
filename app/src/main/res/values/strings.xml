@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CROOP</string>
+    <string name="using_app_as">You will be using the application as...</string>
+    <string name="seller_caps">SELLER</string>
+    <string name="customer_caps">CUSTOMER</string>
+    <string name="individual_caps">INDIVIDUAL</string>
+    <string name="group_caps">GROUP</string>
+    <string name="grocery_caps">FOR GROCERY</string>
+    <string name="retail_caps">FOR RETAIL</string>
 </resources>

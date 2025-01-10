@@ -28,7 +28,7 @@ public class SignUp_Farm_Assoc_Activity extends AppCompatActivity {
     }
 
     private void initializeComponents() {
-        Button nextButton = findViewById(R.id.nextButton);
+        Button nextButton = findViewById(R.id.nextButton4);
         EditText association_name = findViewById(R.id.assocNameText);
         EditText pointPerson_FirstName = findViewById(R.id.a_pPersonFirstNameText);
         EditText pointPerson_LastName = findViewById(R.id.a_pPersonLastNameText);
@@ -45,15 +45,21 @@ public class SignUp_Farm_Assoc_Activity extends AppCompatActivity {
             String phone_number_point_person = String.valueOf(pointPerson_PhoneNumber.getText());
             int age_point_person = Integer.parseInt(String.valueOf(pointPerson_Age));
 
-            phoneNumberValidation(phone_number_point_person);
+            if(phoneNumberValidation(phone_number_point_person)){
+                GroupSellers seller = new GroupSellers();
+                seller.setName(first_name_point_person + " " + last_name_point_person);
+                seller.setGroupName(association);
+                seller.setAge(age_point_person);
+                GroupSellersSingleton.getInstance().setGroupSellers(seller);
+                Intent intent = new Intent(SignUp_Farm_Assoc_Activity.this, SignUp_Farm_Assoc_Activity_2.class);
+                startActivity(intent);
+            }else{
+                if(!phoneNumberValidation(phone_number_point_person)) {
+                    Toast.makeText(SignUp_Farm_Assoc_Activity.this,"Wrong Input",Toast.LENGTH_SHORT).show();
+                }
+            };
 
-            GroupSellers seller = new GroupSellers();
-            seller.setName(first_name_point_person + " " + last_name_point_person);
-            seller.setGroupName(association);
-            seller.setAge(age_point_person);
-            GroupSellersSingleton.getInstance().setGroupSellers(seller);
-            Intent intent = new Intent(SignUp_Farm_Assoc_Activity.this, SignUp_Farm_Assoc_Activity_2.class);
-            startActivity(intent);
+
         });
     }
 
