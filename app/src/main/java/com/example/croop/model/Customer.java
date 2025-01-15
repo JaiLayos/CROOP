@@ -13,6 +13,7 @@ public class Customer {
     private String bio;
     private Date createdAt;
     private Date updatedAt;
+    private String messengerLink;
     private String roles;
 
     public Customer(){
@@ -20,7 +21,7 @@ public class Customer {
     }
 
     public Customer(int id, String name, int age, Map<String, String> address, String phoneNumber,
-     String email, String bio, Date createdAt, Date updatedAt, String roles){
+     String email, String bio, Date createdAt, Date updatedAt, String messengerLink, String roles){
         this.age = age;
         this.id = id;
         this.name =  name;
@@ -30,8 +31,10 @@ public class Customer {
         this.bio = bio;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.messengerLink = messengerLink;
         this.roles = roles;
     }
+
     public int getId() {
         return id;
     }
@@ -43,8 +46,12 @@ public class Customer {
         this.name = name;
     }
 
-    public int getAge() { return age; }
-    public void setAge(int age) { this.age=age; }
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age=age;
+    }
 
     public Map<String, String> getAddress(){
         return address;
@@ -86,6 +93,13 @@ public class Customer {
     }
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getMessengerLink() {
+        return messengerLink;
+    }
+    public void setMessengerLink(String messengerLink) {
+        this.messengerLink = messengerLink;
     }
 
     public String setRole(){

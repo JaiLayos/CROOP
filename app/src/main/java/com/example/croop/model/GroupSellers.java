@@ -10,9 +10,9 @@ public class GroupSellers extends Customer{
     private List<String> permitUrls;
 
     public GroupSellers(int id, String name, int age, Map<String, String> address, String phoneNumber,
-                        String email, String bio, Date createdAt, Date updatedAt, String groupName, String roles,
-                        List<String> permitUrls){
-        super(id, name, age, address, phoneNumber, email, bio, createdAt, updatedAt, "Group Business User");
+                        String email, String bio, Date createdAt, Date updatedAt, String groupName, String messengerLink,
+                        String roles, List<String> permitUrls){
+        super(id, name, age, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, "Group Business User");
         this.groupName = groupName;
         this.permitUrls = new ArrayList<>(permitUrls);
     }

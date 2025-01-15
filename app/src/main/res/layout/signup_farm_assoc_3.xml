@@ -107,7 +107,7 @@
         android:id="@+id/nextButton"
         android:layout_width="332dp"
         android:layout_height="63dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:backgroundTint="@color/secondary_color"
         android:fontFamily="@font/inter_semibold"
         android:text="Next"

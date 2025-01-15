@@ -13,16 +13,19 @@
         android:theme="@style/Theme.CROOP"
         tools:targetApi="31">
         <activity
-            android:name=".SignUp_Farm_Assoc_Activity"
+            android:name=".Landing_Activity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Roles_Activity" />
+        <activity android:name=".Population_Seller_Activity" />
         <activity android:name=".SignUp_IndivCust_Activity" />
         <activity android:name=".SignUp_IndivCust_Activity_2" />
         <activity android:name=".SignUp_IndivCust_Activity_3" />
+        <activity android:name=".SignUp_Farm_Assoc_Activity" />
         <activity android:name=".SignUp_Farm_Assoc_Activity_2" />
         <activity android:name=".SignUp_Farm_Assoc_Activity_3" />
         <activity android:name=".SignUp_MobPhone_valid" />

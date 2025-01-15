@@ -18,11 +18,11 @@ public class Roles_Activity extends AppCompatActivity {
         Button seller = findViewById(R.id.sellerButton);
         Button customer = findViewById(R.id.customerButton);
         seller.setOnClickListener(view -> {
-            Intent intent = new Intent(Roles_Activity.this,Population_Activity.class);
+            Intent intent = new Intent(Roles_Activity.this,Population_Seller_Activity.class);
             startActivity(intent);
         });
         customer.setOnClickListener(view -> {
-            Intent intent = new Intent(Roles_Activity.this,Population_Activity.class);
+            Intent intent = new Intent(Roles_Activity.this,Population_Seller_Activity.class);
             startActivity(intent);
         });
     }
