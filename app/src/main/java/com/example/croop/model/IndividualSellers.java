@@ -8,6 +8,9 @@ import java.util.Map;
 public class IndividualSellers extends Customer{
     private List<String> permitUrls;
 
+    public IndividualSellers(){
+
+    }
     public IndividualSellers (int id, String name, int age, Map<String, String> address, String phoneNumber,
                               String email, String bio, Date createdAt, Date updatedAt, String messengerLink,
                               String roles, List <String> permitUrls){

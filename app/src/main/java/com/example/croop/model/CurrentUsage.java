@@ -1,8 +1,8 @@
 package com.example.croop.model;
 
 public class CurrentUsage {
-    String currentUsage;
-    String population;
+    private String currentUsage;
+    private String population;
 
     public CurrentUsage(){
 
@@ -10,6 +10,7 @@ public class CurrentUsage {
 
     public CurrentUsage(String currentUsage, String population){
         this.currentUsage = currentUsage;
+        this.population = population;
     }
 
     public void setCurrentUsage(String currentUsage){

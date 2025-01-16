@@ -71,43 +71,49 @@
 
     <EditText
         android:id="@+id/indivFarmFirstName"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
         android:hint='"Ex. Cardo'
         android:inputType="text"
         android:paddingStart="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/indivFarmFirstNameLabel" />
 
     <EditText
         android:id="@+id/indivFarmLastName"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
         android:hint="Ex. Dalisay"
         android:inputType="text"
         android:paddingStart="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/indivFarmLastNameLabel" />
 
     <EditText
         android:id="@+id/indivFarmAge"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
         android:hint="Only 18 above"
         android:inputType="text"
         android:paddingStart="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/indivFarmAgeLabel" />
 

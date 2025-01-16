@@ -11,10 +11,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.croop.model.Customer;
 import com.example.croop.model.PhoneVerification;
 import com.example.croop.singleton.CurrentUserSingleton;
-import com.example.croop.singleton.CustomerSingleton;
 import com.example.croop.singleton.PhoneAuthenticationSimpleton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -33,7 +31,6 @@ public class SignUp_MobPhone_valid extends AppCompatActivity {
     }
 
     private void initializeComponent(){
-        Customer customer = CustomerSingleton.getInstance().getCustomer();
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
             EditText otpSent = findViewById(R.id.otpText);

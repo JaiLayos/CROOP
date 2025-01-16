@@ -28,7 +28,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextButton_" />
+        app:layout_constraintTop_toBottomOf="@+id/nextButton_SUIF_2" />
 
     <TextView
         android:id="@+id/signUpCustomer3"
@@ -72,14 +72,17 @@
 
     <EditText
         android:id="@+id/indivFarmMobileText"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
         android:hint="09123456789"
         android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/indivFarmMobileLabel" />
 
@@ -96,14 +99,18 @@
         app:layout_constraintTop_toBottomOf="@+id/indivFarmMobileText" />
 
     <EditText
-        android:id="@+id/editTextText2"
-        android:layout_width="355dp"
+        android:id="@+id/indivFarmEmailText"
+        android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
         android:hint="cardodalisay@gmail.com"
         android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/indivFarmEmail" />
 
@@ -117,22 +124,27 @@
         android:text="Messenger Link"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
+        app:layout_constraintTop_toBottomOf="@+id/indivFarmEmailText" />
 
     <EditText
-        android:id="@+id/editTextText3"
-        android:layout_width="355dp"
+        android:id="@+id/indivFarmMessengerText"
+        android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
         android:hint="https://www.facebook.com/jairusmatthew.layos/"
         android:inputType="text"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/indivFarmMessenger" />
 
     <Button
-        android:id="@+id/nextButton_"
+        android:id="@+id/nextButton_SUIF_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -145,5 +157,5 @@
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText3" />
+        app:layout_constraintTop_toBottomOf="@+id/indivFarmMessengerText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

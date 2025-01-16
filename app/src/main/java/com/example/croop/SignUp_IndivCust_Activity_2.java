@@ -78,7 +78,6 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
                 Customer customer = CustomerSingleton.getInstance().getCustomer();
                 customer.setAddress(addressMap);
             }
-
             Intent intent = new Intent(SignUp_IndivCust_Activity_2.this, SignUp_IndivCust_Activity_3.class);
             startActivity(intent);
         });

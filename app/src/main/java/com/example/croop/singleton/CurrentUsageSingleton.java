@@ -4,9 +4,9 @@ import com.example.croop.model.CurrentUsage;
 
 public class CurrentUsageSingleton {
     public static CurrentUsageSingleton instance;
-    public CurrentUsage cUsage;
+    private CurrentUsage cUsage;
 
-    public CurrentUsageSingleton() {
+    private CurrentUsageSingleton() {
 
     }
 
