@@ -15,7 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.croop.model.Customer;
+import com.example.croop.model.GroupSellers;
 import com.example.croop.singleton.CustomerSingleton;
+import com.example.croop.singleton.GroupSellersSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -27,31 +29,31 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
+public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean allowed = false;
     private double latitude;
     private double longitude;
     private FusedLocationProviderClient fusedLocationClient;
-
-    EditText house, subdivision, city, region, postCode, country;
+    EditText house, baranggay, city, region, postCode, country;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup_indiv_cust_2);
+    public void onCreate(Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.signup_farm_assoc_2);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocationPermission();
         initializeComponents();
     }
-    public void initializeComponents() {
-        house = findViewById(R.id.userHouseText);
-        subdivision = findViewById(R.id.userSubdivisionText);
-        city = findViewById(R.id.userCityText);
-        region = findViewById(R.id.userRegionText);
-        postCode = findViewById(R.id.userPostalText);
-        country = findViewById(R.id.countryText);
+
+    private void initializeComponents() {
+        house = findViewById(R.id.assocHouseText);
+        baranggay = findViewById(R.id.assocSubdivisionText);
+        city = findViewById(R.id.assocCityText);
+        region = findViewById(R.id.assocRegionText);
+        postCode = findViewById(R.id.assocPostalText);
+        country = findViewById(R.id.assocCountryText);
         Button nextButton = findViewById(R.id.nextButton);
 
         postCode.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -62,7 +64,7 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
                 getAddressUsingGeocoder(latitude, longitude);
             }else{
                 String house_customer = String.valueOf(house.getText());
-                String subdivision_customer = String.valueOf(subdivision.getText());
+                String subdivision_customer = String.valueOf(baranggay.getText());
                 String city_customer = String.valueOf(city.getText());
                 String region_customer = String.valueOf(region.getText());
                 String postal_customer = String.valueOf(postCode.getText());
@@ -75,10 +77,11 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
                 addressMap.put("Postal Code", postal_customer);
                 addressMap.put("State/Province/Region", region_customer);
                 addressMap.put("Subdivision/Baranggay", subdivision_customer);
-                Customer customer = CustomerSingleton.getInstance().getCustomer();
-                customer.setAddress(addressMap);
+                GroupSellers gSellers = GroupSellersSingleton.getInstance().getGroupSellers();
+                gSellers.setAddress(addressMap);
             }
-            Intent intent = new Intent(SignUp_IndivCust_Activity_2.this, SignUp_IndivCust_Activity_3.class);
+
+            Intent intent = new Intent(SignUp_Farm_Assoc_Activity_2.this, SignUp_IndivCust_Activity_3.class);
             startActivity(intent);
         });
     }
@@ -94,7 +97,6 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -132,9 +134,9 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
 
     private void getAddressUsingGeocoder(double latitude, double longitude) {
         Geocoder gecode = new Geocoder(this, Locale.getDefault());
-        try{
+        try {
             List<Address> addresses = gecode.getFromLocation(latitude, longitude, 1);
-            if(addresses != null || !addresses.isEmpty()){
+            if (addresses != null || !addresses.isEmpty()) {
                 Address address = addresses.get(0);
                 String city_add = address.getLocality();
                 String country_add = address.getCountryName();
@@ -143,14 +145,14 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
                 String baranggay_add = address.getSubThoroughfare() + " " + address.getThoroughfare();
 
                 house.setText(houseNum_add != null ? houseNum_add : "");
-                subdivision.setText(baranggay_add != null ? baranggay_add : "");
+                baranggay.setText(baranggay_add != null ? baranggay_add : "");
                 city.setText(city_add != null ? city_add : "");
                 region.setText(region_add != null ? region_add : "");
                 country.setText(country_add != null ? country_add : "");
 
                 String postal_permitted = String.valueOf(postCode.getText());
                 String house_permitted = String.valueOf(house.getText());
-                String subdivision_permitted = String.valueOf(subdivision.getText());
+                String subdivision_permitted = String.valueOf(baranggay.getText());
                 String city_permitted = String.valueOf(city.getText());
                 String region_permitted = String.valueOf(region.getText());
                 String country_permitted = String.valueOf(country.getText());
@@ -165,12 +167,8 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
                 Customer customer = CustomerSingleton.getInstance().getCustomer();
                 customer.setAddress(addressMap);
             }
-        }catch(IOException e){
+        } catch (IOException e) {
 
         }
     }
-
-
-
-
 }

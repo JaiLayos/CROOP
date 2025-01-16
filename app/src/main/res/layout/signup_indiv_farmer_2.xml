@@ -19,11 +19,11 @@
 
             <!-- Sign Up Label -->
             <TextView
-                android:id="@+id/assocLabel"
+                android:id="@+id/indivFarmLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/mulish_medium"
-                android:text="As a Farming Association"
+                android:text="As an Individual Seller"
                 android:textAlignment="center"
                 android:textColor="@color/black_opaque_text"
                 android:textSize="15sp"
@@ -51,7 +51,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/assocStreetlabel"
+                android:id="@+id/indivFarmStreetlabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -61,11 +61,11 @@
                 android:textColor="@color/black_opaque_text"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmLabel" />
 
             <EditText
-                android:id="@+id/assocHouseText"
-                android:layout_width="350dp"
+                android:id="@+id/indivFarmHouseText"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_marginLeft="3dp"
                 android:layout_marginTop="5dp"
@@ -73,10 +73,11 @@
                 android:hint="Enter House/Street"
                 android:paddingStart="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocStreetlabel" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmStreetlabel"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
             <TextView
-                android:id="@+id/assocSubdivisionLabel"
+                android:id="@+id/indivFarmSubdivisionLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -86,22 +87,23 @@
                 android:textColor="@color/black_opaque_text"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocHouseText" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmHouseText" />
 
             <EditText
-                android:id="@+id/assocSubdivisionText"
-                android:layout_width="350dp"
+                android:id="@+id/indivFarmSubdivisionText"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_marginLeft="3dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter Subdivision"
                 android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocSubdivisionLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmSubdivisionLabel" />
 
             <TextView
-                android:id="@+id/assocCityLabel"
+                android:id="@+id/indivFarmCityLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -111,22 +113,22 @@
                 android:textColor="@color/black_opaque_text"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocSubdivisionText" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmSubdivisionText" />
 
             <EditText
-                android:id="@+id/assocCityText"
-                android:layout_width="350dp"
+                android:id="@+id/indivFarmCityText"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter City"
                 android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocCityLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmCityLabel" />
 
             <TextView
-                android:id="@+id/assocRegionLabel"
+                android:id="@+id/indivFarmRegionLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -136,21 +138,23 @@
                 android:textColor="@color/black_opaque_text"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocCityText" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmCityText" />
 
 
             <EditText
-                android:id="@+id/assocRegionText"
-                android:layout_width="350dp"
+                android:id="@+id/indivFarmRegionText"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter State/Province/Region"
                 android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocRegionLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmRegionLabel" />
 
             <TextView
-                android:id="@+id/assocPostalLabel"
+                android:id="@+id/indivFarmPostalLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -160,22 +164,22 @@
                 android:textColor="@color/black_opaque_text"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocRegionText" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmRegionText" />
 
             <EditText
-                android:id="@+id/assocPostalText"
-                android:layout_width="350dp"
+                android:id="@+id/indivFarmPostalText"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter Postal Code"
                 android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocPostalLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmPostalLabel" />
 
             <TextView
-                android:id="@+id/assocCountryLabel"
+                android:id="@+id/indivFarmCountryLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -185,19 +189,19 @@
                 android:textColor="@color/black_opaque_text"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocPostalText" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmPostalText" />
 
             <EditText
-                android:id="@+id/assocCountryText"
-                android:layout_width="350dp"
+                android:id="@+id/indivFarmCountryText"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter Country"
                 android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocCountryLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmCountryLabel" />
 
             <Button
                 android:id="@+id/nextButton"
@@ -214,7 +218,7 @@
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocCountryText" />
+                app:layout_constraintTop_toBottomOf="@+id/indivFarmCountryText" />
 
             <!-- Already Have an Account -->
 

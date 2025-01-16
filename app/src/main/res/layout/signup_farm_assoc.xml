@@ -3,255 +3,296 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@drawable/cda_header">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/beige_brackground"
-        tools:context=".SignUp_IndivCust_Activity">
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"> <!-- Ensures content fills the viewport -->
 
-        <ScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"> <!-- Ensures content fills the viewport -->
+            android:background="@color/beige_brackground"
+            android:backgroundTintMode="screen"
+            android:padding="16dp"> <!-- Padding for consistent spacing -->
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <!-- Sign Up Label -->
+
+            <TextView
+                android:id="@+id/signUpCustomer"
+                android:layout_width="197dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="100dp"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Sign Up"
+                android:textAlignment="center"
+                android:textColor="@color/secondary_color"
+                android:textSize="42sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/subHeading"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="16dp"> <!-- Padding for consistent spacing -->
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/mulish_medium"
+                android:text="As a Farming Association"
+                android:textAlignment="center"
+                android:textColor="@color/black_opaque_text"
+                android:textSize="15sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signUpCustomer" />
 
-                <!-- Sign Up Label -->
-                <TextView
-                    android:id="@+id/signUpCustomer"
-                    android:layout_width="143dp"
-                    android:layout_height="34dp"
-                    android:layout_marginTop="25dp"
-                    android:fontFamily="@font/inter_semibold"
-                    android:text="Sign Up"
-                    android:textAlignment="center"
-                    android:textColor="@color/secondary_color"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/coopName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/mulish_medium"
+                android:text="Name of Farming Association"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black_opaque_text"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.125"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subHeading" />
 
-                <TextView
-                    android:id="@+id/subHeading"
-                    android:layout_width="181dp"
-                    android:layout_height="21dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/mulish_medium"
-                    android:text="As a Farming Association"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black_opaque_text"
-                    android:textSize="15sp"
-                    android:textStyle="bold|italic"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.496"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/signUpCustomer" />
+            <EditText
+                android:id="@+id/assocNameText"
+                android:layout_width="350dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:hint="Enter Name"
+                android:includeFontPadding="false"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.406"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/coopName" />
 
-                <TextView
-                    android:id="@+id/coopName"
-                    android:layout_width="294dp"
-                    android:layout_height="31dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/mulish_medium"
-                    android:text="Name of Farming Association"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black_opaque_text"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.35"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/subHeading" />
+            <TextView
+                android:id="@+id/firstNamePPersonLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/mulish_medium"
+                android:text="First Name of Point Person"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black_opaque_text"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.083"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/assocNameText" />
 
-                <EditText
-                    android:id="@+id/coopNameText"
-                    android:layout_width="312dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/rounded_border_edit_text"
-                    android:hint="Enter Name"
-                    android:includeFontPadding="false"
-                    android:inputType="text"
-                    android:paddingStart="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.414"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/coopName" />
+            <EditText
+                android:id="@+id/a_pPersonFirstNameText"
+                android:layout_width="350dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:hint="Enter First Name"
+                android:includeFontPadding="false"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.393"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/firstNamePPersonLabel" />
 
-                <TextView
-                    android:id="@+id/userName1"
-                    android:layout_width="285dp"
-                    android:layout_height="26dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/mulish_medium"
-                    android:text="Name of Point Person"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black_opaque_text"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.333"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/coopNameText" />
+            <TextView
+                android:id="@+id/lastNamePPersonLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/mulish_medium"
+                android:text="Last Name of Point Person"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black_opaque_text"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.098"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/a_pPersonFirstNameText" />
 
-                <EditText
-                    android:id="@+id/userNameText1"
-                    android:layout_width="312dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/rounded_border_edit_text"
-                    android:hint="Enter Name"
-                    android:includeFontPadding="false"
-                    android:inputType="text"
-                    android:paddingStart="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.393"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userName1" />
+            <EditText
+                android:id="@+id/a_pPersonLastNameText"
+                android:layout_width="350dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:hint="Enter Last Name"
+                android:includeFontPadding="false"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.448"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lastNamePPersonLabel" />
 
-                <TextView
-                    android:id="@+id/userAge1"
-                    android:layout_width="285dp"
-                    android:layout_height="29dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/mulish_medium"
-                    android:text="Age (number only ex. 21)"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black_opaque_text"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.333"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userNameText1" />
+            <TextView
+                android:id="@+id/userAge1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/mulish_medium"
+                android:text="Age (number only ex. 21)"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black_opaque_text"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.074"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/a_pPersonLastNameText" />
 
-                <EditText
-                    android:id="@+id/userAgeText1"
-                    android:layout_width="312dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/rounded_border_edit_text"
-                    android:hint="Enter Age"
-                    android:includeFontPadding="false"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:paddingStart="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.393"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userAge1" />
+            <EditText
+                android:id="@+id/a_pPersonAgeText"
+                android:layout_width="350dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:hint="Enter Age"
+                android:includeFontPadding="false"
+                android:inputType="number"
+                android:maxLength="2"
+                android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.393"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userAge1" />
 
-                <TextView
-                    android:id="@+id/positionName1"
-                    android:layout_width="285dp"
-                    android:layout_height="26dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/mulish_medium"
-                    android:text="Postion"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black_opaque_text"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.309"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userAgeText1" />
+            <TextView
+                android:id="@+id/positionName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/mulish_medium"
+                android:text="Postion"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black_opaque_text"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.041"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/a_pPersonAgeText" />
 
-                <EditText
-                    android:id="@+id/positionNameText1"
-                    android:layout_width="312dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/rounded_border_edit_text"
-                    android:hint="Enter Postion"
-                    android:includeFontPadding="false"
-                    android:inputType="text"
-                    android:paddingStart="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.363"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/positionName1" />
+            <EditText
+                android:id="@+id/a_positionNameText"
+                android:layout_width="350dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:hint="Enter Postion"
+                android:includeFontPadding="false"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.363"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/positionName" />
 
-                <TextView
-                    android:id="@+id/phoneNumber"
-                    android:layout_width="285dp"
-                    android:layout_height="26dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/mulish_medium"
-                    android:text="Phone Number"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black_opaque_text"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.285"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/positionNameText1" />
+            <TextView
+                android:id="@+id/ppPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/mulish_medium"
+                android:text="Phone Number"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black_opaque_text"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.046"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/a_positionNameText" />
 
-                <EditText
-                    android:id="@+id/otpText4"
-                    android:layout_width="312dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/rounded_border_edit_text"
-                    android:hint="Enter PH Phone Number"
-                    android:includeFontPadding="false"
-                    android:inputType="text"
-                    android:paddingStart="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.363"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
+            <EditText
+                android:id="@+id/a_ppPhoneNumberText"
+                android:layout_width="350dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_border_edit_text"
+                android:hint="Enter PH Phone Number"
+                android:includeFontPadding="false"
+                android:inputType="text"
+                android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.363"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ppPhoneNumber" />
 
-                <Button
-                    android:id="@+id/nextButton4"
-                    android:layout_width="332dp"
-                    android:layout_height="63dp"
-                    android:layout_marginTop="30dp"
-                    android:backgroundTint="@color/secondary_color"
-                    android:fontFamily="@font/inter_semibold"
-                    android:text="Next"
-                    android:textSize="22sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.595"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/otpText4"
-                    app:layout_constraintVertical_bias="0.0" />
+            <Button
+                android:id="@+id/nextButton4"
+                android:layout_width="wrap_content"
+                android:layout_height="63dp"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/secondary_color"
+                android:fontFamily="@font/inter_semibold"
+                android:paddingLeft="100dp"
+                android:paddingTop="10dp"
+                android:paddingRight="100dp"
+                android:paddingBottom="10dp"
+                android:text="Next"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/a_ppPhoneNumberText" />
 
-                <TextView
-                    android:id="@+id/existingAcctLabel4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="28dp"
-                    android:text="Already have an account ?"
-                    android:textColor="@color/black_opaque_text"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/signInHyperlink4"
-                    app:layout_constraintHorizontal_bias="0.978"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nextButton4"
-                    app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/existingAcctLabel4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Already have an account ?"
+                android:textColor="@color/black_opaque_text"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nextButton4" />
 
-                <TextView
-                    android:id="@+id/signInHyperlink4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="88dp"
-                    android:text="Sign In"
-                    android:textColor="@color/highlight_green"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nextButton4"
-                    app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/signInHyperlink4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="50dp"
+                android:text="Sign In"
+                android:textColor="@color/highlight_green"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/existingAcctLabel4" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
