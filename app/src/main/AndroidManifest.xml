@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.croop">
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -30,13 +34,25 @@
         <activity android:name=".SignUp_Farm_Assoc_Activity_3" />
         <activity android:name=".SignUp_Indiv_Farmer_Activity"/>
         <activity android:name=".SignUp_Indiv_Farmer_Activity_2"/>
+        <activity android:name=".SignUp_Indiv_Farmer_Activity_3"/>
+        <activity android:name=".SignUp_Indiv_Farmer_Activity_4"/>
         <activity android:name=".SignUp_MobPhone_valid" />
         <activity android:name=".SignIn_Indiv_Farmer_Activity"/>
         <activity android:name=".Home_Group_Activity" />
+        <activity android:name=".Home_Customer_Activity" />
+        <activity android:name=".Home_Seller_Activity" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
     </application>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 </manifest>

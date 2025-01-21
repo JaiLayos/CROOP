@@ -11,10 +11,10 @@ public class IndividualSellers extends Customer{
     public IndividualSellers(){
 
     }
-    public IndividualSellers (int id, String name, int age, Map<String, String> address, String phoneNumber,
+    public IndividualSellers (int id, String name, String password, int age, Map<String, String> address, String phoneNumber,
                               String email, String bio, Date createdAt, Date updatedAt, String messengerLink,
                               String roles, List <String> permitUrls){
-        super(id, name, age, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, "Individual Business User");
+        super(id, name, password, age, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, roles);
         this.permitUrls = new ArrayList<>(permitUrls);
     }
 
@@ -24,7 +24,7 @@ public class IndividualSellers extends Customer{
     public void setPermitUrls(List<String> permitUrls){
         this.permitUrls = permitUrls;
     }
-    public String returnRole(String roles){
-        return roles;
+    public String returnRole(){
+        return "Individual Business User";
     }
 }

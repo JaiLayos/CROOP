@@ -20,6 +20,7 @@ import com.example.croop.singleton.CustomerSingleton;
 import com.example.croop.singleton.GroupSellersSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -103,19 +104,15 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    allowed = true;
-                    return;
-                }
-                getCurrentLocation();
+                getCurrentLocation();  // Retry fetching location after permission is granted
             } else {
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
+
     private void getCurrentLocation() {
-        // If location services are enabled, proceed to get the current location
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, location -> {
@@ -124,13 +121,25 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
                             longitude = location.getLongitude();
                             getAddressUsingGeocoder(latitude, longitude);
                         } else {
-                            Toast.makeText(this, "Unable to get location", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Location is not available. Trying to refresh...", Toast.LENGTH_SHORT).show();
+                            // Retry getting the location
+                            fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                                    .addOnSuccessListener(location2 -> {
+                                        if (location2 != null) {
+                                            latitude = location2.getLatitude();
+                                            longitude = location2.getLongitude();
+                                            getAddressUsingGeocoder(latitude, longitude);
+                                        } else {
+                                            Toast.makeText(this, "Unable to fetch location. Please check your GPS settings.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                         }
                     });
         } else {
             Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void getAddressUsingGeocoder(double latitude, double longitude) {
         Geocoder gecode = new Geocoder(this, Locale.getDefault());
@@ -168,7 +177,7 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
                 customer.setAddress(addressMap);
             }
         } catch (IOException e) {
-
+                Toast.makeText(this, "Please input location manually.", Toast.LENGTH_SHORT).show();
         }
     }
 }

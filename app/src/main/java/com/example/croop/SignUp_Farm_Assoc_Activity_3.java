@@ -2,6 +2,7 @@ package com.example.croop;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -36,6 +37,10 @@ public class SignUp_Farm_Assoc_Activity_3 extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     PhoneVerification verifyId = new PhoneVerification();
+    GroupSellers gSellers = GroupSellersSingleton.getInstance().getGroupSellers();
+    CurrentRole cr = new CurrentRole();
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,68 +55,75 @@ public class SignUp_Farm_Assoc_Activity_3 extends AppCompatActivity {
         email = findViewById(R.id.assocEmailText);
         next = findViewById(R.id.nextButton);
 
+        phoneNum.setInputType(InputType.TYPE_CLASS_NUMBER);
+
         next.setOnClickListener(view -> {
             Date currentDate = new Date();
-            GroupSellers gSellers = GroupSellersSingleton.getInstance().getGroupSellers();
             gSellers.setPhoneNum(String.valueOf(phoneNum));
             gSellers.setEmail(String.valueOf(email));
             gSellers.setCreatedAt(currentDate);
             gSellers.setUpdatedAt(currentDate);
 
-            CurrentRole cr = new CurrentRole();
-            cr.setRole(gSellers.setRole());
-            CurrentUserSingleton.getInstance().setCurrentRole(cr);
-
-            if(phoneNumberValidation(String.valueOf(phoneNum))){
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                Map<String, Object> gSellerProfile = new HashMap<>();
-                gSellerProfile.put("Address", gSellers.getAddress());
-                gSellerProfile.put("Association", gSellers.getGroupName());
-                gSellerProfile.put("Age", gSellers.getAge());
-                gSellerProfile.put("Bio", gSellers.getBio());
-                gSellerProfile.put("Created At", gSellers.getCreatedAt());
-                gSellerProfile.put("Email", gSellers.getEmail());
-                gSellerProfile.put("Point Person Name", gSellers.getName());
-                gSellerProfile.put("Updated At", gSellers.getUpdatedAt());
-                gSellerProfile.put("Phone Number", gSellers.getPhoneNum());
-                gSellerProfile.put("Role", cr.getRole());
-                CollectionReference gSellerRef = db.collection("Group Seller");
-
-                gSellerRef.add(gSellerProfile).addOnSuccessListener(DocumentReference ->{
-                    Toast.makeText(SignUp_Farm_Assoc_Activity_3.this,"Group Seller Added!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SignUp_Farm_Assoc_Activity_3.this, SignUp_MobPhone_valid.class);
-                }).addOnFailureListener( e ->{
-
-                });
-
-                PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                    @Override
-                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                        System.out.println("Verification Complete!");
+            if(validEmail(String.valueOf(email)) || email != null){
+                if(phoneNumberValidation(String.valueOf(phoneNum))){
+                    setNumberEmailLink();
+                }else{
+                    if(!phoneNumberValidation(String.valueOf(phoneNum))){
+                        Toast.makeText(SignUp_Farm_Assoc_Activity_3.this, "Please input a valid phone number!", Toast.LENGTH_SHORT).show();
                     }
-
-                    @Override
-                    public void onVerificationFailed(@NonNull FirebaseException e) {
-                        System.out.println("Verification Failed! Error: " + e);
-                    }
-                    @Override
-                    public void onCodeSent(String verificationID, PhoneAuthProvider.ForceResendingToken token){
-                        System.out.println("Code Sent: " + verificationID);
-                        verifyId.setVerificationId(verificationID);
-                        PhoneAuthenticationSimpleton.getInstance().setPhoneVerification(verifyId);
-                    }
-                };
-
-                sendToPhone(gSellers, mCallbacks);
-            }else{
-                if(!phoneNumberValidation(String.valueOf(phoneNum))){
-                    Toast.makeText(SignUp_Farm_Assoc_Activity_3.this, "Please input a valid phone number!", Toast.LENGTH_SHORT).show();
                 }
+            }else{
+                Toast.makeText(this, "Please input a valid email.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private boolean validEmail(String email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private void setNumberEmailLink(){
+        cr.setRole(gSellers.setRole());
+        CurrentUserSingleton.getInstance().setCurrentRole(cr);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> gSellerProfile = new HashMap<>();
+        gSellerProfile.put("Address", gSellers.getAddress());
+        gSellerProfile.put("Association", gSellers.getGroupName());
+        gSellerProfile.put("Age", gSellers.getAge());
+        gSellerProfile.put("Bio", gSellers.getBio());
+        gSellerProfile.put("Created At", gSellers.getCreatedAt());
+        gSellerProfile.put("Email", gSellers.getEmail());
+        gSellerProfile.put("Point Person Name", gSellers.getName());
+        gSellerProfile.put("Updated At", gSellers.getUpdatedAt());
+        gSellerProfile.put("Phone Number", gSellers.getPhoneNum());
+        gSellerProfile.put("Role", cr.getRole());
+        CollectionReference gSellerRef = db.collection("Group Seller");
+
+        gSellerRef.add(gSellerProfile).addOnSuccessListener(DocumentReference ->{
+            Toast.makeText(SignUp_Farm_Assoc_Activity_3.this,"Group Seller Added!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SignUp_Farm_Assoc_Activity_3.this, SignUp_MobPhone_valid.class);
+        }).addOnFailureListener( e ->{
+
+        });
+
+        PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            @Override
+            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                System.out.println("Verification Complete!");
             }
 
-
+            @Override
+            public void onVerificationFailed(@NonNull FirebaseException e) {
+                System.out.println("Verification Failed! Error: " + e);
             }
-        );
+            @Override
+            public void onCodeSent(String verificationID, PhoneAuthProvider.ForceResendingToken token){
+                System.out.println("Code Sent: " + verificationID);
+                verifyId.setVerificationId(verificationID);
+                PhoneAuthenticationSimpleton.getInstance().setPhoneVerification(verifyId);
+            }
+        };
+        sendToPhone(gSellers, mCallbacks);
     }
 
     private void sendToPhone(GroupSellers gSellers, PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks) {

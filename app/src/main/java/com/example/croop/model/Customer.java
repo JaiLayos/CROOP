@@ -6,6 +6,7 @@ import java.util.Map;
 public class Customer {
     private int id;
     private String name;
+    private String password;
     private int age;
     private Map<String, String> address;
     private String phoneNumber;
@@ -20,11 +21,12 @@ public class Customer {
 
     }
 
-    public Customer(int id, String name, int age, Map<String, String> address, String phoneNumber,
+    public Customer(int id, String name, String password, int age, Map<String, String> address, String phoneNumber,
      String email, String bio, Date createdAt, Date updatedAt, String messengerLink, String roles){
         this.age = age;
         this.id = id;
         this.name =  name;
+        this.password = password;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -44,6 +46,11 @@ public class Customer {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword(){return password;}
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getAge() {

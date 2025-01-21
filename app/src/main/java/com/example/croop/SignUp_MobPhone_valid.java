@@ -2,12 +2,10 @@ package com.example.croop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -51,30 +49,17 @@ public class SignUp_MobPhone_valid extends AppCompatActivity {
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(this, "Phone Number Verified!", Toast.LENGTH_SHORT).show();
-                        new CountDownTimer(5000,1000){
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-
-                            }
-                            @Override
-                            public void onFinish() {
-                                switch(CurrentUserSingleton.getInstance().getCurrentRole().getRole()){
-                                    case "Individual Customer":
-                                        Intent intent = new Intent(SignUp_MobPhone_valid.this, Home_Customer_Activity.class);
-                                        startActivity(intent);
-                                        break;
-                                    case "Group Business User":
-                                        Intent intent_1 = new Intent(SignUp_MobPhone_valid.this,Home_Group_Activity.class);
-                                        startActivity(intent_1);
-                                        break;
-                                }
-                            }
-                        }.start();
-
-                    } else {
-                        Toast.makeText(this, "Verification Failed: " + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                    switch (CurrentUserSingleton.getInstance().getCurrentRole().getRole()) {
+                        case "Individual Business User":
+                            Intent intent = new Intent(SignUp_MobPhone_valid.this, Home_Seller_Activity.class);
+                            startActivity(intent);
+                            System.out.println("Phone Verified");
+                            break;
+                        case "Group Business User":
+                            Intent intent_1 = new Intent(SignUp_MobPhone_valid.this, Home_Group_Activity.class);
+                            startActivity(intent_1);
+                            System.out.println("Phone Verified");
+                            break;
                     }
                 });
     }
