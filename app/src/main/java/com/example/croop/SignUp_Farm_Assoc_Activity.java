@@ -28,7 +28,7 @@ public class SignUp_Farm_Assoc_Activity extends AppCompatActivity {
     }
 
     private void initializeComponents() {
-        Button nextButton = findViewById(R.id.nextButton4);
+        Button nextButton = findViewById(R.id.nextButton_SUC);
         EditText association_name = findViewById(R.id.assocNameText);
         EditText pointPerson_FirstName = findViewById(R.id.a_pPersonFirstNameText);
         EditText pointPerson_LastName = findViewById(R.id.a_pPersonLastNameText);

@@ -23,14 +23,14 @@ public class Landing_Activity extends AppCompatActivity {
         signIn.setOnClickListener( view -> {
             CurrentUsage currentUsage = new CurrentUsage();
             currentUsage.setCurrentUsage("Sign In");
-            CurrentUsageSingleton.getInstance().setCurrentUsage(currentUsage);
+            CurrentUsageSingleton.getInstance().setCurrentUsageSingleton(currentUsage);
             Intent intent = new Intent(Landing_Activity.this, Roles_Activity.class);
             startActivity(intent);
         });
         signUp.setOnClickListener(view -> {
             CurrentUsage currentUsage = new CurrentUsage();
             currentUsage.setCurrentUsage("Sign Up");
-            CurrentUsageSingleton.getInstance().setCurrentUsage(currentUsage);
+            CurrentUsageSingleton.getInstance().setCurrentUsageSingleton(currentUsage);
             Intent intent = new Intent(Landing_Activity.this, Roles_Activity.class);
             startActivity(intent);
         });

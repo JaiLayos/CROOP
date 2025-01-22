@@ -40,7 +40,7 @@
 
                 <!-- Sign Up Label -->
                 <TextView
-                    android:id="@+id/signUpCustomer"
+                    android:id="@+id/signUpLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
@@ -64,7 +64,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/signUpCustomer" />
+                    app:layout_constraintTop_toBottomOf="@id/signUpLabel" />
 
                 <EditText
                     android:id="@+id/userHouseText"

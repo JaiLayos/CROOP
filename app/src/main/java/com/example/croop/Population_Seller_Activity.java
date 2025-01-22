@@ -33,5 +33,19 @@ public class Population_Seller_Activity extends AppCompatActivity {
                     startActivity(intent_signIn);
             }
         });
+        group.setOnClickListener(view -> {
+            CurrentUsage cUsage = CurrentUsageSingleton.getInstance().getCurrentUsage();
+            String current = cUsage.getCurrentUsage();
+            switch(current){
+                case "Sign Up":
+                    Intent intent_signUp = new Intent(Population_Seller_Activity.this, Group_Seller_Activity.class);
+                    startActivity(intent_signUp);
+                    break;
+                case "Sign In":
+                    Intent intent_signIn = new Intent(Population_Seller_Activity.this, Group_Seller_Activity.class);
+                    startActivity(intent_signIn);
+            }
+
+        });
     }
 }
