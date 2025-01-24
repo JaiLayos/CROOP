@@ -56,7 +56,7 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
             String messenger = messengerText.getText().toString();
             if(messenger.isEmpty()){
                 Toast.makeText(this, "Please input a valid messenger link.", Toast.LENGTH_SHORT).show();
-            }else if(!validEmail(email)){
+            }else if(!validEmail(email) || email.isEmpty()){
                 Toast.makeText(this, "Please input a valid email!", Toast.LENGTH_SHORT).show();
             }else if(!phoneNumberValidation(mobilePhone)){
                 Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Please input a valid phone number!", Toast.LENGTH_SHORT).show();

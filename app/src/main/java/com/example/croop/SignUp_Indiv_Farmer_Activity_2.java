@@ -64,7 +64,7 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
                 String subdivision = subdivisionText.getText().toString();
                 String city = cityText.getText().toString();
                 String region = regionText.getText().toString();
-                String postal = regionText.getText().toString();
+                String postal = postCodeText.getText().toString();
                 String country = countryText.getText().toString();
 
                 Map<String, String> addressMap = new HashMap<>();
@@ -126,7 +126,6 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
         }catch(IOException e){
             System.out.println("Error: " + e);
         }
-
     }
 
     private void requestLocationPermission() {

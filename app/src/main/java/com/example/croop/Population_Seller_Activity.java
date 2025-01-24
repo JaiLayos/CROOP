@@ -21,7 +21,7 @@ public class Population_Seller_Activity extends AppCompatActivity {
         Button individual = findViewById(R.id.individualButton);
         Button group = findViewById(R.id.groupButton);
         individual.setOnClickListener(view ->{
-            CurrentUsage cUsage = CurrentUsageSingleton.getInstance().getCurrentUsage();
+            CurrentUsage cUsage = CurrentUsageSingleton.getInstance().getCurrentUsageSingleton();
             String current = cUsage.getCurrentUsage();
             switch(current){
                 case "Sign Up":
@@ -34,7 +34,7 @@ public class Population_Seller_Activity extends AppCompatActivity {
             }
         });
         group.setOnClickListener(view -> {
-            CurrentUsage cUsage = CurrentUsageSingleton.getInstance().getCurrentUsage();
+            CurrentUsage cUsage = CurrentUsageSingleton.getInstance().getCurrentUsageSingleton();
             String current = cUsage.getCurrentUsage();
             switch(current){
                 case "Sign Up":

@@ -4,41 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/beige_brackground"
-    tools:context=".SignUp_IndivCust_Activity">
+    android:background="@color/beige_brackground">
 
     <TextView
-        android:id="@+id/existingAcctLabel"
+        android:id="@+id/signUpLabel2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Already have an account ?"
-        android:textColor="@color/black_opaque_text"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextButton" />
-
-    <TextView
-        android:id="@+id/houseLabel4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/mulish_medium"
-        android:text="As a Farming Association"
-        android:textAlignment="center"
-        android:textColor="@color/black_opaque_text"
-        android:textSize="15sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpLabel" />
-
-    <TextView
-        android:id="@+id/signUpLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="100dp"
         android:fontFamily="@font/inter_semibold"
         android:text="Sign Up"
         android:textAlignment="center"
@@ -49,75 +21,106 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/otpLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
+        android:id="@+id/assocLabel2"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/mulish_medium"
-        android:text="Phone Number"
-        android:textAlignment="viewStart"
+        android:text="As a Farming Association"
+        android:textAlignment="center"
         android:textColor="@color/black_opaque_text"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/houseLabel4" />
-
-    <EditText
-        android:id="@+id/assocOtpText"
-        android:layout_width="350dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/rounded_border_edit_text"
-        android:hint="Enter PH Phone Number"
-        android:includeFontPadding="false"
-        android:inputType="text"
-        android:paddingStart="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/otpLabel" />
-
-    <TextView
-        android:id="@+id/emailLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/mulish_medium"
-        android:text="Email"
-        android:textAlignment="viewStart"
-        android:textColor="@color/black_opaque_text"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/assocOtpText" />
-
-    <EditText
-        android:id="@+id/assocEmailText"
-        android:layout_width="350dp"
-        android:layout_height="55dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/rounded_border_edit_text"
-        android:hint="Enter valid email"
-        android:inputType="text"
-        android:paddingStart="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailLabel" />
-
-    <Button
-        android:id="@+id/nextButton"
-        android:layout_width="332dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/secondary_color"
-        android:fontFamily="@font/inter_semibold"
-        android:text="Next"
-        android:textSize="22sp"
+        android:textSize="15sp"
+        android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/assocEmailText" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpLabel2" />
 
     <TextView
-        android:id="@+id/signInHyperlink"
+        android:id="@+id/assocPasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/mulish_medium"
+        android:text="Password"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assocLabel2" />
+
+    <EditText
+        android:id="@+id/assocPasswordText"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/rounded_border_edit_text"
+        android:ems="10"
+        android:hint="Enter Password"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assocPasswordLabel" />
+
+    <TextView
+        android:id="@+id/assocRePasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/mulish_medium"
+        android:text="Re-enter Password"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assocPasswordText" />
+
+    <EditText
+        android:id="@+id/assocRePasswordText"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/rounded_border_edit_text"
+        android:ems="10"
+        android:hint="Enter Password Again"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assocRePasswordLabel" />
+
+    <Button
+        android:id="@+id/nextButton_SUF_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@color/secondary_color"
+        android:fontFamily="@font/inter_semibold"
+        android:paddingLeft="100dp"
+        android:paddingTop="10dp"
+        android:paddingRight="100dp"
+        android:paddingBottom="10dp"
+        android:text="Next"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assocRePasswordText" />
+
+    <TextView
+        android:id="@+id/existingAcctLabel6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Already have an account?"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nextButton_SUF_3" />
+
+    <TextView
+        android:id="@+id/signInHyperlink6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -126,6 +129,5 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/existingAcctLabel" />
-
+        app:layout_constraintTop_toBottomOf="@+id/existingAcctLabel6" />
 </androidx.constraintlayout.widget.ConstraintLayout>

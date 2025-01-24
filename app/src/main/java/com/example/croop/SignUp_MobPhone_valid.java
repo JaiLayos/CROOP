@@ -6,6 +6,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,7 +37,7 @@ public class SignUp_MobPhone_valid extends AppCompatActivity {
             fourDigitFilter(otpSent);
             String otp = otpSent.getText().toString();
             PhoneVerification verifyId = PhoneAuthenticationSimpleton.getInstance().getPhoneVerification();
-            String sentVerifyId = verifyId.getVerificationId().toString();
+            String sentVerifyId = verifyId.getVerificationId();
             verifyCode(sentVerifyId, otp);
         });
     }
@@ -61,6 +62,8 @@ public class SignUp_MobPhone_valid extends AppCompatActivity {
                             System.out.println("Phone Verified");
                             break;
                     }
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 

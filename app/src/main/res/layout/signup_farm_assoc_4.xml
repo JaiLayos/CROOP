@@ -8,10 +8,37 @@
     tools:context=".SignUp_IndivCust_Activity">
 
     <TextView
+        android:id="@+id/existingAcctLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Already have an account ?"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nextButton" />
+
+    <TextView
+        android:id="@+id/houseLabel4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/mulish_medium"
+        android:text="As a Farming Association"
+        android:textAlignment="center"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="15sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpLabel" />
+
+    <TextView
         android:id="@+id/signUpLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="120dp"
         android:fontFamily="@font/inter_semibold"
         android:text="Sign Up"
         android:textAlignment="center"
@@ -22,26 +49,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/houseLabel6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/mulish_medium"
-        android:text="As a Cooperative"
-        android:textAlignment="viewStart"
-        android:textColor="@color/black_opaque_text"
-        android:textSize="15sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpLabel" />
-
-    <TextView
-        android:id="@+id/coopMobileLabel"
+        android:id="@+id/otpLabel"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/mulish_medium"
         android:text="Phone Number"
@@ -49,10 +60,10 @@
         android:textColor="@color/black_opaque_text"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/houseLabel6" />
+        app:layout_constraintTop_toBottomOf="@+id/houseLabel4" />
 
     <EditText
-        android:id="@+id/coopMobileText"
+        android:id="@+id/assocOtpText"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginLeft="20dp"
@@ -64,15 +75,14 @@
         android:inputType="text"
         android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coopMobileLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/otpLabel" />
 
     <TextView
-        android:id="@+id/coopEmailLabel"
+        android:id="@+id/emailLabel"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/mulish_medium"
         android:text="Email"
@@ -80,10 +90,10 @@
         android:textColor="@color/black_opaque_text"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coopMobileText" />
+        app:layout_constraintTop_toBottomOf="@+id/assocOtpText" />
 
     <EditText
-        android:id="@+id/coopEmailText"
+        android:id="@+id/assocEmailText"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginLeft="20dp"
@@ -94,34 +104,21 @@
         android:inputType="text"
         android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coopEmailLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/emailLabel" />
 
     <Button
         android:id="@+id/nextButton"
         android:layout_width="332dp"
         android:layout_height="63dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:backgroundTint="@color/secondary_color"
         android:fontFamily="@font/inter_semibold"
         android:text="Next"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coopEmailText" />
-
-    <TextView
-        android:id="@+id/existingAcctLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Already have an account ?"
-        android:textColor="@color/black_opaque_text"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextButton" />
+        app:layout_constraintTop_toBottomOf="@+id/assocEmailText" />
 
     <TextView
         android:id="@+id/signInHyperlink"

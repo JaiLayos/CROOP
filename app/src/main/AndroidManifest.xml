@@ -33,12 +33,19 @@
         <activity android:name=".SignUp_Farm_Assoc_Activity" />
         <activity android:name=".SignUp_Farm_Assoc_Activity_2" />
         <activity android:name=".SignUp_Farm_Assoc_Activity_3" />
+        <activity android:name=".SignUp_Farm_Assoc_Activity_4" />
         <activity android:name=".SignUp_Indiv_Farmer_Activity"/>
         <activity android:name=".SignUp_Indiv_Farmer_Activity_2"/>
         <activity android:name=".SignUp_Indiv_Farmer_Activity_3"/>
         <activity android:name=".SignUp_Indiv_Farmer_Activity_4"/>
+        <activity android:name=".SignUp_COOP_Activity"/>
+        <activity android:name=".SignUp_COOP_Activity_2"/>
+        <activity android:name=".SignUp_COOP_Activity_3"/>
+        <activity android:name=".SignUp_COOP_Activity_4"/>
         <activity android:name=".SignUp_MobPhone_valid" />
+
         <activity android:name=".SignIn_Indiv_Farmer_Activity"/>
+
         <activity android:name=".Home_Group_Activity" />
         <activity android:name=".Home_Customer_Activity" />
         <activity android:name=".Home_Seller_Activity" />

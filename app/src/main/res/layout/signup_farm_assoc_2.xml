@@ -19,6 +19,20 @@
 
             <!-- Sign Up Label -->
             <TextView
+                android:id="@+id/signUpLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Sign Up"
+                android:textAlignment="center"
+                android:textColor="@color/secondary_color"
+                android:textSize="42sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 android:id="@+id/assocLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -37,20 +51,6 @@
             <!-- House/Street Input -->
 
             <TextView
-                android:id="@+id/signUpLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:fontFamily="@font/inter_semibold"
-                android:text="Sign Up"
-                android:textAlignment="center"
-                android:textColor="@color/secondary_color"
-                android:textSize="42sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/assocStreetlabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,13 +65,15 @@
 
             <EditText
                 android:id="@+id/assocHouseText"
-                android:layout_width="350dp"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter House/Street"
                 android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/assocStreetlabel" />
 
@@ -90,13 +92,15 @@
 
             <EditText
                 android:id="@+id/assocSubdivisionText"
-                android:layout_width="350dp"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter Subdivision"
                 android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/assocSubdivisionLabel" />
 
@@ -115,13 +119,15 @@
 
             <EditText
                 android:id="@+id/assocCityText"
-                android:layout_width="350dp"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter City"
                 android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/assocCityLabel" />
 
@@ -141,11 +147,15 @@
 
             <EditText
                 android:id="@+id/assocRegionText"
-                android:layout_width="350dp"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter State/Province/Region"
                 android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/assocRegionLabel" />
 
@@ -164,13 +174,15 @@
 
             <EditText
                 android:id="@+id/assocPostalText"
-                android:layout_width="350dp"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter Postal Code"
                 android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/assocPostalLabel" />
 
@@ -189,13 +201,15 @@
 
             <EditText
                 android:id="@+id/assocCountryText"
-                android:layout_width="350dp"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter Country"
                 android:paddingStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/assocCountryLabel" />
 
