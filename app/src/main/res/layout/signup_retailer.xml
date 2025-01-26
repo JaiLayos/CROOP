@@ -78,7 +78,7 @@
                     android:inputType="text"
                     android:paddingStart="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.414"
+                    app:layout_constraintHorizontal_bias="0.417"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/coopHouseNameLabel" />
 
