@@ -51,7 +51,7 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
         city = findViewById(R.id.userCityText);
         region = findViewById(R.id.userRegionText);
         postCode = findViewById(R.id.userPostalText);
-        country = findViewById(R.id.countryText);
+        country = findViewById(R.id.userCountryText);
         Button nextButton = findViewById(R.id.nextButton);
 
         postCode.setInputType(InputType.TYPE_CLASS_NUMBER);

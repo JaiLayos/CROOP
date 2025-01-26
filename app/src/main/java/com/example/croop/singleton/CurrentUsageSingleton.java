@@ -17,11 +17,11 @@ public class CurrentUsageSingleton {
         return instance;
     }
 
-    public void setCurrentUsage(CurrentUsage cUsage){
+    public void setCurrentUsageSingleton(CurrentUsage cUsage){
         this.cUsage = cUsage;
     }
 
-    public CurrentUsage getCurrentUsage(){
+    public CurrentUsage getCurrentUsageSingleton(){
         return cUsage;
     }
 

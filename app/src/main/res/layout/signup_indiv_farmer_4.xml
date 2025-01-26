@@ -7,19 +7,7 @@
     android:background="@color/beige_brackground">
 
     <TextView
-        android:id="@+id/existingAcctLabel3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Already have an account ?"
-        android:textColor="@color/black_opaque_text"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextButton_SUIF_3" />
-
-    <TextView
-        android:id="@+id/signInHyperlink3"
+        android:id="@+id/signInHyperlink2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -28,10 +16,22 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/existingAcctLabel3" />
+        app:layout_constraintTop_toBottomOf="@+id/existingAcctLabel2" />
 
     <TextView
-        android:id="@+id/signUpCustomer4"
+        android:id="@+id/existingAcctLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Already have an account ?"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nextButton_SUIF_2" />
+
+    <TextView
+        android:id="@+id/signUpCustomer3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -45,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/indivFarmLabel3"
+        android:id="@+id/indivFarmLabel2"
         android:layout_width="411dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/mulish_medium"
@@ -56,33 +56,50 @@
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpCustomer4" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpCustomer3" />
 
     <TextView
-        android:id="@+id/indivFarmPasswordLabel"
+        android:id="@+id/indivFarmMobileLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/mulish_medium"
-        android:text="Enter Password"
+        android:text="Mobile Phone"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmLabel3" />
+        app:layout_constraintTop_toBottomOf="@+id/indivFarmLabel2" />
+
+    <EditText
+        android:id="@+id/indivFarmMobileText"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/rounded_border_edit_text"
+        android:ems="10"
+        android:hint="09123456789"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/indivFarmMobileLabel" />
 
     <TextView
-        android:id="@+id/indivFarmPasswordReLabel"
+        android:id="@+id/indivFarmEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="Re-enter Password"
+        android:fontFamily="@font/mulish_medium"
+        android:text="Email"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordText" />
+        app:layout_constraintTop_toBottomOf="@+id/indivFarmMobileText" />
 
     <EditText
-        android:id="@+id/indivFarmPasswordText"
+        android:id="@+id/indivFarmEmailText"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginLeft="20dp"
@@ -90,15 +107,27 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
-        android:hint="Must have special characters and numbers"
+        android:hint="cardodalisay@gmail.com"
         android:inputType="text"
         android:paddingLeft="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/indivFarmEmail" />
+
+    <TextView
+        android:id="@+id/indivFarmMessenger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/mulish_medium"
+        android:text="Messenger Link"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/indivFarmEmailText" />
 
     <EditText
-        android:id="@+id/indivFarmPasswordReText"
+        android:id="@+id/indivFarmMessengerText"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginLeft="20dp"
@@ -106,15 +135,16 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
-        android:hint="Re-enter Password"
+        android:hint="https://www.facebook.com/jairusmatthew.layos/"
         android:inputType="text"
         android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordReLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/indivFarmMessenger" />
 
     <Button
-        android:id="@+id/nextButton_SUIF_3"
+        android:id="@+id/nextButton_SUIF_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -128,5 +158,5 @@
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordReText" />
+        app:layout_constraintTop_toBottomOf="@+id/indivFarmMessengerText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

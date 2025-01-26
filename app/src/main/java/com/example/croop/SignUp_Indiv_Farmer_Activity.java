@@ -1,5 +1,7 @@
 package com.example.croop;
 
+import static android.text.InputType.*;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -23,13 +25,16 @@ public class SignUp_Indiv_Farmer_Activity extends AppCompatActivity {
         EditText firstNameText = findViewById(R.id.indivFarmFirstName);
         EditText lastNameText = findViewById(R.id.indivFarmLastName);
         EditText ageText = findViewById(R.id.indivFarmAge);
+        firstNameText.setInputType(TYPE_CLASS_TEXT);
+        lastNameText.setInputType(TYPE_CLASS_TEXT);
+        ageText.setInputType(TYPE_CLASS_NUMBER);
         Button nextButton = findViewById(R.id.nextButtonSUIF);
         nextButton.setOnClickListener(view -> {
             String firstName = firstNameText.getText().toString();
             String lastName = lastNameText.getText().toString();
             int age = Integer.parseInt(ageText.getText().toString());
             IndividualSellers individualSellers = new IndividualSellers();
-            individualSellers.setName(firstName + lastName);
+            individualSellers.setName(firstName + " " + lastName);
             individualSellers.setAge(age);
             IndividualSellersSingleton.getInstance().setIndividualSellers(individualSellers);
             Intent intent = new Intent(SignUp_Indiv_Farmer_Activity.this,SignUp_Indiv_Farmer_Activity_2.class);

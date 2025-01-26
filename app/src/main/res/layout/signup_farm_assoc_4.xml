@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/beige_brackground">
+    android:background="@color/beige_brackground"
+    tools:context=".SignUp_IndivCust_Activity">
 
     <TextView
-        android:id="@+id/existingAcctLabel3"
+        android:id="@+id/existingAcctLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -16,25 +17,28 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextButton_SUIF_3" />
+        app:layout_constraintTop_toBottomOf="@+id/nextButton" />
 
     <TextView
-        android:id="@+id/signInHyperlink3"
-        android:layout_width="wrap_content"
+        android:id="@+id/houseLabel4"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Sign In"
-        android:textColor="@color/highlight_green"
-        android:textSize="16sp"
+        android:fontFamily="@font/mulish_medium"
+        android:text="As a Farming Association"
+        android:textAlignment="center"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="15sp"
+        android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/existingAcctLabel3" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpLabel" />
 
     <TextView
-        android:id="@+id/signUpCustomer4"
+        android:id="@+id/signUpLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="120dp"
         android:fontFamily="@font/inter_semibold"
         android:text="Sign Up"
         android:textAlignment="center"
@@ -45,88 +49,87 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/indivFarmLabel3"
-        android:layout_width="411dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/mulish_medium"
-        android:text="As an Individual Seller"
-        android:textAlignment="center"
-        android:textColor="@color/black_opaque_text"
-        android:textSize="15sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpCustomer4" />
-
-    <TextView
-        android:id="@+id/indivFarmPasswordLabel"
+        android:id="@+id/otpLabel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/mulish_medium"
-        android:text="Enter Password"
+        android:text="Phone Number"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black_opaque_text"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmLabel3" />
+        app:layout_constraintTop_toBottomOf="@+id/houseLabel4" />
+
+    <EditText
+        android:id="@+id/assocOtpText"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/rounded_border_edit_text"
+        android:hint="Enter PH Phone Number"
+        android:includeFontPadding="false"
+        android:inputType="text"
+        android:paddingStart="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/otpLabel" />
 
     <TextView
-        android:id="@+id/indivFarmPasswordReLabel"
+        android:id="@+id/emailLabel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:text="Re-enter Password"
+        android:fontFamily="@font/mulish_medium"
+        android:text="Email"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black_opaque_text"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordText" />
+        app:layout_constraintTop_toBottomOf="@+id/assocOtpText" />
 
     <EditText
-        android:id="@+id/indivFarmPasswordText"
+        android:id="@+id/assocEmailText"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/rounded_border_edit_text"
-        android:ems="10"
-        android:hint="Must have special characters and numbers"
+        android:hint="Enter valid email"
         android:inputType="text"
-        android:paddingLeft="20dp"
+        android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordLabel" />
-
-    <EditText
-        android:id="@+id/indivFarmPasswordReText"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/rounded_border_edit_text"
-        android:ems="10"
-        android:hint="Re-enter Password"
-        android:inputType="text"
-        android:paddingLeft="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordReLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/emailLabel" />
 
     <Button
-        android:id="@+id/nextButton_SUIF_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:id="@+id/nextButton"
+        android:layout_width="332dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="40dp"
         android:backgroundTint="@color/secondary_color"
         android:fontFamily="@font/inter_semibold"
-        android:paddingLeft="100dp"
-        android:paddingTop="10dp"
-        android:paddingRight="100dp"
-        android:paddingBottom="10dp"
         android:text="Next"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordReText" />
+        app:layout_constraintTop_toBottomOf="@+id/assocEmailText" />
+
+    <TextView
+        android:id="@+id/signInHyperlink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Sign In"
+        android:textColor="@color/highlight_green"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/existingAcctLabel" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

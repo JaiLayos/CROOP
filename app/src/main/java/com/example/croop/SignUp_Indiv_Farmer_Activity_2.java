@@ -1,5 +1,6 @@
 package com.example.croop;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -63,7 +64,7 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
                 String subdivision = subdivisionText.getText().toString();
                 String city = cityText.getText().toString();
                 String region = regionText.getText().toString();
-                String postal = regionText.getText().toString();
+                String postal = postCodeText.getText().toString();
                 String country = countryText.getText().toString();
 
                 Map<String, String> addressMap = new HashMap<>();
@@ -77,6 +78,8 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
                 indivFarmer.setAddress(addressMap);
 
             }
+            Intent intent = new Intent(SignUp_Indiv_Farmer_Activity_2.this, SignUp_Indiv_Farmer_Activity_3.class);
+            startActivity(intent);
         });
 
     }
@@ -115,9 +118,13 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
                 addressMap.put("Subdivision/Baranggay", subdivision_permitted);
                 IndividualSellers indivFarmer = IndividualSellersSingleton.getInstance().getIndividualSellers();
                 indivFarmer.setAddress(addressMap);
-            }
-        }catch(IOException e){
 
+            }else{
+                Toast.makeText(this,"Please input your location manually!", Toast.LENGTH_SHORT).show();
+            }
+
+        }catch(IOException e){
+            System.out.println("Error: " + e);
         }
     }
 

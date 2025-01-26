@@ -21,7 +21,7 @@ public class Population_Seller_Activity extends AppCompatActivity {
         Button individual = findViewById(R.id.individualButton);
         Button group = findViewById(R.id.groupButton);
         individual.setOnClickListener(view ->{
-            CurrentUsage cUsage = CurrentUsageSingleton.getInstance().getCurrentUsage();
+            CurrentUsage cUsage = CurrentUsageSingleton.getInstance().getCurrentUsageSingleton();
             String current = cUsage.getCurrentUsage();
             switch(current){
                 case "Sign Up":
@@ -32,6 +32,20 @@ public class Population_Seller_Activity extends AppCompatActivity {
                     Intent intent_signIn = new Intent(Population_Seller_Activity.this, SignIn_Indiv_Farmer_Activity.class);
                     startActivity(intent_signIn);
             }
+        });
+        group.setOnClickListener(view -> {
+            CurrentUsage cUsage = CurrentUsageSingleton.getInstance().getCurrentUsageSingleton();
+            String current = cUsage.getCurrentUsage();
+            switch(current){
+                case "Sign Up":
+                    Intent intent_signUp = new Intent(Population_Seller_Activity.this, Group_Seller_Activity.class);
+                    startActivity(intent_signUp);
+                    break;
+                case "Sign In":
+                    Intent intent_signIn = new Intent(Population_Seller_Activity.this, Group_Seller_Activity.class);
+                    startActivity(intent_signIn);
+            }
+
         });
     }
 }

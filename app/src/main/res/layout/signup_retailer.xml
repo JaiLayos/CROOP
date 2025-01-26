@@ -23,7 +23,7 @@
 
                 <!-- Sign Up Label -->
                 <TextView
-                    android:id="@+id/signUpCustomer"
+                    android:id="@+id/signUpLabel"
                     android:layout_width="143dp"
                     android:layout_height="34dp"
                     android:layout_marginTop="25dp"
@@ -50,10 +50,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.496"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/signUpCustomer" />
+                    app:layout_constraintTop_toBottomOf="@+id/signUpLabel" />
 
                 <TextView
-                    android:id="@+id/coopName"
+                    android:id="@+id/coopHouseNameLabel"
                     android:layout_width="294dp"
                     android:layout_height="31dp"
                     android:layout_marginTop="16dp"
@@ -80,10 +80,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.414"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/coopName" />
+                    app:layout_constraintTop_toBottomOf="@+id/coopHouseNameLabel" />
 
                 <TextView
-                    android:id="@+id/userName1"
+                    android:id="@+id/coopPersonFirstNameLabel"
                     android:layout_width="285dp"
                     android:layout_height="26dp"
                     android:layout_marginTop="16dp"
@@ -98,7 +98,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/coopNameText" />
 
                 <EditText
-                    android:id="@+id/userNameText1"
+                    android:id="@+id/coopPersonFirstNameText"
                     android:layout_width="312dp"
                     android:layout_height="55dp"
                     android:layout_marginTop="4dp"
@@ -110,10 +110,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.393"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userName1" />
+                    app:layout_constraintTop_toBottomOf="@+id/coopPersonFirstNameLabel" />
 
                 <TextView
-                    android:id="@+id/userAge1"
+                    android:id="@+id/coopPersonAge"
                     android:layout_width="285dp"
                     android:layout_height="29dp"
                     android:layout_marginTop="16dp"
@@ -125,10 +125,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.333"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userNameText1" />
+                    app:layout_constraintTop_toBottomOf="@+id/coopPersonFirstNameText" />
 
                 <EditText
-                    android:id="@+id/userAgeText1"
+                    android:id="@+id/coopPersonAgeText"
                     android:layout_width="312dp"
                     android:layout_height="55dp"
                     android:layout_marginTop="4dp"
@@ -141,10 +141,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.393"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userAge1" />
+                    app:layout_constraintTop_toBottomOf="@+id/coopPersonAge" />
 
                 <TextView
-                    android:id="@+id/positionName1"
+                    android:id="@+id/coopPersonPositionLabel"
                     android:layout_width="285dp"
                     android:layout_height="26dp"
                     android:layout_marginTop="16dp"
@@ -156,10 +156,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.309"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userAgeText1" />
+                    app:layout_constraintTop_toBottomOf="@+id/coopPersonAgeText" />
 
                 <EditText
-                    android:id="@+id/positionNameText1"
+                    android:id="@+id/coopPersonPositionText"
                     android:layout_width="312dp"
                     android:layout_height="55dp"
                     android:layout_marginTop="4dp"
@@ -171,7 +171,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.363"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/positionName1" />
+                    app:layout_constraintTop_toBottomOf="@+id/coopPersonPositionLabel" />
 
                 <TextView
                     android:id="@+id/phoneNumber"
@@ -186,7 +186,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.285"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/positionNameText1" />
+                    app:layout_constraintTop_toBottomOf="@+id/coopPersonPositionText" />
 
                 <EditText
                     android:id="@+id/otpText4"
@@ -204,7 +204,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
 
                 <Button
-                    android:id="@+id/nextButton4"
+                    android:id="@+id/nextButton_SUC"
                     android:layout_width="332dp"
                     android:layout_height="63dp"
                     android:layout_marginTop="30dp"
@@ -233,7 +233,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/signInHyperlink4"
                     app:layout_constraintHorizontal_bias="0.978"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nextButton4"
+                    app:layout_constraintTop_toBottomOf="@+id/nextButton_SUC"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
@@ -247,7 +247,7 @@
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nextButton4"
+                    app:layout_constraintTop_toBottomOf="@+id/nextButton_SUC"
                     app:layout_constraintVertical_bias="0.0" />
 
 

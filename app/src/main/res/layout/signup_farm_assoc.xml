@@ -25,7 +25,7 @@
             <!-- Sign Up Label -->
 
             <TextView
-                android:id="@+id/signUpCustomer"
+                android:id="@+id/signUpLabel"
                 android:layout_width="197dp"
                 android:layout_height="56dp"
                 android:layout_marginTop="100dp"
@@ -53,10 +53,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/signUpCustomer" />
+                app:layout_constraintTop_toBottomOf="@+id/signUpLabel" />
 
             <TextView
-                android:id="@+id/coopName"
+                android:id="@+id/assocNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -73,10 +73,11 @@
 
             <EditText
                 android:id="@+id/assocNameText"
-                android:layout_width="350dp"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter Name"
                 android:includeFontPadding="false"
@@ -85,10 +86,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.406"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/coopName" />
+                app:layout_constraintTop_toBottomOf="@+id/assocNameLabel" />
 
             <TextView
-                android:id="@+id/firstNamePPersonLabel"
+                android:id="@+id/assocFirstNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -104,11 +105,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/assocNameText" />
 
             <EditText
-                android:id="@+id/a_pPersonFirstNameText"
-                android:layout_width="350dp"
+                android:id="@+id/assocFirstNameText"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter First Name"
                 android:includeFontPadding="false"
@@ -117,10 +119,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.393"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/firstNamePPersonLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/assocFirstNameLabel" />
 
             <TextView
-                android:id="@+id/lastNamePPersonLabel"
+                android:id="@+id/assocLastNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -133,14 +135,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.098"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/a_pPersonFirstNameText" />
+                app:layout_constraintTop_toBottomOf="@+id/assocFirstNameText" />
 
             <EditText
-                android:id="@+id/a_pPersonLastNameText"
-                android:layout_width="350dp"
+                android:id="@+id/assocLastNameText"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter Last Name"
                 android:includeFontPadding="false"
@@ -149,10 +152,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.448"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lastNamePPersonLabel" />
+                app:layout_constraintTop_toBottomOf="@+id/assocLastNameLabel" />
 
             <TextView
-                android:id="@+id/userAge1"
+                android:id="@+id/assocPersonAge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -165,14 +168,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.074"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/a_pPersonLastNameText" />
+                app:layout_constraintTop_toBottomOf="@+id/assocLastNameText" />
 
             <EditText
-                android:id="@+id/a_pPersonAgeText"
-                android:layout_width="350dp"
+                android:id="@+id/assocAgeText"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_border_edit_text"
                 android:hint="Enter Age"
                 android:includeFontPadding="false"
@@ -182,10 +186,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.393"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userAge1" />
+                app:layout_constraintTop_toBottomOf="@+id/assocPersonAge" />
 
             <TextView
-                android:id="@+id/positionName"
+                android:id="@+id/assocPositionLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -198,61 +202,29 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.041"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/a_pPersonAgeText" />
+                app:layout_constraintTop_toBottomOf="@+id/assocAgeText" />
 
             <EditText
-                android:id="@+id/a_positionNameText"
-                android:layout_width="350dp"
+                android:id="@+id/assocPositionText"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/rounded_border_edit_text"
-                android:hint="Enter Postion"
-                android:includeFontPadding="false"
-                android:inputType="text"
-                android:paddingStart="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.363"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/positionName" />
-
-            <TextView
-                android:id="@+id/ppPhoneNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/mulish_medium"
-                android:text="Phone Number"
-                android:textAlignment="viewStart"
-                android:textColor="@color/black_opaque_text"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.046"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/a_positionNameText" />
-
-            <EditText
-                android:id="@+id/a_ppPhoneNumberText"
-                android:layout_width="350dp"
-                android:layout_height="55dp"
-                android:layout_marginLeft="3dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/rounded_border_edit_text"
-                android:hint="Enter PH Phone Number"
-                android:includeFontPadding="false"
+                android:ems="10"
+                android:hint="Enter Position"
                 android:inputType="text"
-                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.363"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ppPhoneNumber" />
+                app:layout_constraintTop_toBottomOf="@+id/assocPositionLabel" />
 
             <Button
-                android:id="@+id/nextButton4"
+                android:id="@+id/nextButton_SUFA"
                 android:layout_width="wrap_content"
                 android:layout_height="63dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:backgroundTint="@color/secondary_color"
                 android:fontFamily="@font/inter_semibold"
                 android:paddingLeft="100dp"
@@ -263,7 +235,7 @@
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/a_ppPhoneNumberText" />
+                app:layout_constraintTop_toBottomOf="@+id/assocPositionText" />
 
             <TextView
                 android:id="@+id/existingAcctLabel4"
@@ -275,7 +247,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nextButton4" />
+                app:layout_constraintTop_toBottomOf="@+id/nextButton_SUFA" />
 
             <TextView
                 android:id="@+id/signInHyperlink4"

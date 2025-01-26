@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.model.CurrentRole;
@@ -38,7 +39,7 @@ public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup_indiv_cust_3);
+        setContentView(R.layout.signup_indiv_cust_4);
         mAuth = FirebaseAuth.getInstance();
         initializeComponent();
     }
@@ -55,8 +56,8 @@ public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
                 Date currentdate = new Date();
                 phone_customer= "+63" + phone_customer.substring(1);
                 Customer customer = CustomerSingleton.getInstance().getCustomer();
-                customer.setPhoneNum(phone_customer.toString());
-                customer.setEmail(email_customer.toString());
+                customer.setPhoneNum(phone_customer);
+                customer.setEmail(email_customer);
                 customer.setCreatedAt(currentdate);
                 customer.setUpdatedAt(currentdate);
 
@@ -86,15 +87,16 @@ public class SignUp_IndivCust_Activity_3 extends AppCompatActivity {
                 });
                 PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     @Override
-                    public void onVerificationCompleted(PhoneAuthCredential credential) {
+                    public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
                         System.out.println("Verification Completed!");
+                        Toast.makeText(SignUp_IndivCust_Activity_3.this, "Verification Completed!", Toast.LENGTH_SHORT).show();
                     }
                     @Override
                     public void onVerificationFailed(FirebaseException e) {
                         System.out.println("Verification Failed: " + e.getMessage());
                     }
                     @Override
-                    public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
+                    public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
                         System.out.println("Code Sent: " + verificationId);
                         verifyId.setVerificationId(verificationId);
                         PhoneAuthenticationSimpleton.getInstance().setPhoneVerification(verifyId);
