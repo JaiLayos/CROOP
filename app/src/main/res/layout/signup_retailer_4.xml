@@ -8,9 +8,25 @@
     tools:context=".SignUp_Indiv_Cust_Activity">
 
     <TextView
+        android:id="@+id/houseLabel8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/mulish_medium"
+        android:text="As a Retailer"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="15sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpLabel" />
+
+    <TextView
         android:id="@+id/signUpLabel"
         android:layout_width="wrap_content"
-        android:layout_height="66dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:fontFamily="@font/inter_semibold"
         android:text="Sign Up"
@@ -21,56 +37,71 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/bulkPhoneLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/mulish_medium"
+        android:text="Phone Number"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/houseLabel8" />
+
     <EditText
-        android:id="@+id/userFirstNameText"
+        android:id="@+id/bulkPhoneText"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/rounded_border_edit_text"
-        android:hint="Enter First Name"
+        android:hint="Enter PH Phone Number"
         android:includeFontPadding="false"
         android:inputType="text"
         android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/bulkPhoneLabel" />
+
+    <TextView
+        android:id="@+id/bulkEmailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/mulish_medium"
+        android:text="Email"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bulkPhoneText" />
 
     <EditText
-        android:id="@+id/userLastNameText"
+        android:id="@+id/bulkEmailText"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/rounded_border_edit_text"
-        android:hint="Enter Last Name"
+        android:hint="Enter valid email"
         android:inputType="text"
         android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userFirstNameText" />
-
-    <EditText
-        android:id="@+id/userAgeText"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/rounded_border_edit_text"
-        android:hint="Enter Age"
-        android:inputType="text"
-        android:paddingStart="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userLastNameText" />
+        app:layout_constraintTop_toBottomOf="@+id/bulkEmailLabel" />
 
     <Button
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
-        android:layout_height="63dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:backgroundTint="@color/secondary_color"
         android:fontFamily="@font/inter_semibold"
@@ -79,10 +110,10 @@
         android:paddingRight="100dp"
         android:paddingBottom="10dp"
         android:text="Next"
-        android:textSize="22sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userAgeText" />
+        app:layout_constraintTop_toBottomOf="@+id/bulkEmailText" />
 
     <TextView
         android:id="@+id/existingAcctLabel"

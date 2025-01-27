@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
+public class SignUp_Indiv_Cust_Activity_2 extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean allowed = false;
     private double latitude;
@@ -78,7 +78,7 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
                 Customer customer = CustomerSingleton.getInstance().getCustomer();
                 customer.setAddress(addressMap);
             }
-            Intent intent = new Intent(SignUp_IndivCust_Activity_2.this, SignUp_IndivCust_Activity_3.class);
+            Intent intent = new Intent(SignUp_Indiv_Cust_Activity_2.this, SignUp_Indiv_Cust_Activity_3.class);
             startActivity(intent);
         });
     }
@@ -166,11 +166,7 @@ public class SignUp_IndivCust_Activity_2 extends AppCompatActivity {
                 customer.setAddress(addressMap);
             }
         }catch(IOException e){
-
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
 }

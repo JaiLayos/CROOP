@@ -7,4 +7,5 @@
     <string name="group_caps">GROUP</string>
     <string name="grocery_caps">FOR GROCERY</string>
     <string name="retail_caps">FOR RETAIL</string>
+    <string name="first_name">First Name</string>
 </resources>

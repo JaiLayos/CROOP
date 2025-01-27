@@ -6,7 +6,6 @@ public class GroupSellersSingleton {
 
     private static GroupSellersSingleton instance;
     private GroupSellers groupSellers;
-
     private GroupSellersSingleton(){
 
     }

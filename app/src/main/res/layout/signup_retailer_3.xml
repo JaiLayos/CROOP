@@ -4,14 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/beige_brackground"
-    tools:context=".SignUp_IndivCust_Activity">
+    android:background="@color/beige_brackground">
 
     <TextView
-        android:id="@+id/houseLabel8"
-        android:layout_width="95dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="4dp"
+        android:id="@+id/signUpLabel3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:fontFamily="@font/inter_semibold"
+        android:text="Sign Up"
+        android:textColor="@color/secondary_color"
+        android:textSize="42sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/houseLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/mulish_medium"
         android:text="As a Retailer"
         android:textAlignment="viewStart"
@@ -19,124 +30,103 @@
         android:textSize="15sp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpLabel3" />
 
     <TextView
-        android:id="@+id/signUpLabel"
-        android:layout_width="141dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="156dp"
-        android:fontFamily="@font/inter_semibold"
-        android:text="Sign Up"
-        android:textAlignment="center"
-        android:textColor="@color/secondary_color"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/otpLabel"
-        android:layout_width="221dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="44dp"
+        android:id="@+id/bulkPasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="@font/mulish_medium"
-        android:text="Phone Number"
-        android:textAlignment="viewStart"
-        android:textColor="@color/black_opaque_text"
+        android:text="Password"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.215"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/houseLabel2" />
 
     <EditText
-        android:id="@+id/otpText"
-        android:layout_width="312dp"
+        android:id="@+id/bulkPasswordText"
+        android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/rounded_border_edit_text"
-        android:hint="Enter PH Phone Number"
-        android:includeFontPadding="false"
+        android:ems="10"
+        android:hint="Enter Password"
         android:inputType="text"
-        android:paddingStart="20dp"
+        android:paddingLeft="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/otpLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/bulkPasswordLabel" />
 
     <TextView
-        android:id="@+id/emailLabel"
-        android:layout_width="267dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="24dp"
+        android:id="@+id/bulkRePasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/mulish_medium"
-        android:text="Email"
-        android:textAlignment="viewStart"
-        android:textColor="@color/black_opaque_text"
+        android:text="Re-enter Password"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.284"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/otpText" />
+        app:layout_constraintTop_toBottomOf="@+id/bulkPasswordText" />
 
     <EditText
-        android:id="@+id/emailText"
-        android:layout_width="312dp"
+        android:id="@+id/bulkRePasswordText"
+        android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/rounded_border_edit_text"
-        android:hint="Enter valid email"
+        android:ems="10"
+        android:hint="Enter Password Again"
         android:inputType="text"
-        android:paddingStart="20dp"
+        android:paddingLeft="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/bulkRePasswordLabel" />
 
     <Button
-        android:id="@+id/nextButton"
-        android:layout_width="332dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="56dp"
+        android:id="@+id/nextButton_SUR_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:backgroundTint="@color/secondary_color"
         android:fontFamily="@font/inter_semibold"
+        android:paddingLeft="100dp"
+        android:paddingTop="10dp"
+        android:paddingRight="100dp"
+        android:paddingBottom="10dp"
         android:text="Next"
-        android:textSize="22sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailText" />
+        app:layout_constraintTop_toBottomOf="@+id/bulkRePasswordText" />
 
     <TextView
-        android:id="@+id/existingAcctLabel"
+        android:id="@+id/existingAcctLabel7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Already have an account ?"
+        android:layout_marginTop="20dp"
+        android:text="Already have an account?"
         android:textColor="@color/black_opaque_text"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.274"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextButton"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/nextButton_SUR_3" />
 
     <TextView
-        android:id="@+id/signInHyperlink"
+        android:id="@+id/signInHyperlink7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="5dp"
         android:text="Sign In"
         android:textColor="@color/highlight_green"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/existingAcctLabel"
-        app:layout_constraintTop_toBottomOf="@+id/nextButton" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/existingAcctLabel7" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -110,6 +110,6 @@ public class Customer {
     }
 
     public String setRole(){
-        return "Individual Customer";
+        return "Individual Customer User";
     }
 }

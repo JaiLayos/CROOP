@@ -22,7 +22,7 @@ public class Roles_Activity extends AppCompatActivity {
             startActivity(intent);
         });
         customer.setOnClickListener(view -> {
-            Intent intent = new Intent(Roles_Activity.this,Population_Seller_Activity.class);
+            Intent intent = new Intent(Roles_Activity.this,Population_Customer_Activity.class);
             startActivity(intent);
         });
     }

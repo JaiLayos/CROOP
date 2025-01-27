@@ -52,13 +52,23 @@ public class SignUp_MobPhone_valid extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     switch (CurrentUserSingleton.getInstance().getCurrentRole().getRole()) {
                         case "Individual Business User":
-                            Intent intent = new Intent(SignUp_MobPhone_valid.this, Home_Seller_Activity.class);
+                            Intent intent = new Intent(SignUp_MobPhone_valid.this, Home_Individual_Seller_Activity.class);
                             startActivity(intent);
                             System.out.println("Phone Verified");
                             break;
                         case "Group Business User":
-                            Intent intent_1 = new Intent(SignUp_MobPhone_valid.this, Home_Group_Activity.class);
+                            Intent intent_1 = new Intent(SignUp_MobPhone_valid.this, Home_Group_Seller_Activity.class);
                             startActivity(intent_1);
+                            System.out.println("Phone Verified");
+                            break;
+                        case "Group Customer User":
+                            Intent intent_2 = new Intent(SignUp_MobPhone_valid.this, Home_Group_Customer_Activity.class);
+                            startActivity(intent_2);
+                            System.out.println("Phone Verified");
+                            break;
+                        case "Individual Customer User":
+                            Intent intent_3 = new Intent(SignUp_MobPhone_valid.this, Home_Individual_Customer_Activity.class);
+                            startActivity(intent_3);
                             System.out.println("Phone Verified");
                             break;
                     }

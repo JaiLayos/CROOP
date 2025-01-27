@@ -29,7 +29,7 @@ public class Population_Seller_Activity extends AppCompatActivity {
                     startActivity(intent_signUp);
                     break;
                 case "Sign In":
-                    Intent intent_signIn = new Intent(Population_Seller_Activity.this, SignIn_Indiv_Farmer_Activity.class);
+                    Intent intent_signIn = new Intent(Population_Seller_Activity.this, SignIn_Activity.class);
                     startActivity(intent_signIn);
             }
         });
@@ -42,7 +42,7 @@ public class Population_Seller_Activity extends AppCompatActivity {
                     startActivity(intent_signUp);
                     break;
                 case "Sign In":
-                    Intent intent_signIn = new Intent(Population_Seller_Activity.this, Group_Seller_Activity.class);
+                    Intent intent_signIn = new Intent(Population_Seller_Activity.this, SignIn_Activity.class);
                     startActivity(intent_signIn);
             }
 
