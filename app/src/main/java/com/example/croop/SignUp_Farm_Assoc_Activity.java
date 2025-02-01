@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -40,6 +41,11 @@ public class SignUp_Farm_Assoc_Activity extends AppCompatActivity {
             String last_name_point_person = String.valueOf(pointPerson_LastName.getText());
             String position_point_person = String.valueOf(pointPerson_Position.getText());
             int age_point_person = Integer.parseInt(String.valueOf(pointPerson_Age.getText()));
+
+            if (age_point_person < 18 || age_point_person > 80) {
+                Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             GroupSellers seller = new GroupSellers();
             seller.setName(first_name_point_person + " " + last_name_point_person);

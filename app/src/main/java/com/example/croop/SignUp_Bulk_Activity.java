@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +40,11 @@ public class SignUp_Bulk_Activity extends AppCompatActivity {
             String firstName = bulkFirstName.getText().toString();
             String lastName = bulkLastName.getText().toString();
             int age = Integer.parseInt(bulkAge.getText().toString());
+
+            if (age < 18 || age > 80) {
+                Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+                return;
+            }
             String position = bulkPosition.getText().toString();
 
             GroupCustomer groupCustomer = new GroupCustomer();

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,12 +36,16 @@ public class SignUp_COOP_Activity extends AppCompatActivity {
 
         Button next = findViewById(R.id.nextButton_SUC);
         next.setOnClickListener(view -> {
+            int age = Integer.parseInt(coopPersonAge.getText().toString());
+            if (age < 18 || age > 80) {
+                Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             GroupSellers groupSellers = new GroupSellers();
             groupSellers.setGroupName(coopName.getText().toString());
             groupSellers.setName(coopPersonFirstName.getText().toString() + " " + coopPersonLastName.getText().toString());
-            groupSellers.setAge(Integer.parseInt(coopPersonAge.getText().toString()));
-            groupSellers.setPersonPosition(coopPersonPosition.getText().toString());
-            GroupSellersSingleton.getInstance().setGroupSellers(groupSellers);
+            groupSellers.setAge(age);
 
             CurrentRole cr = new CurrentRole();
             cr.setRole(groupSellers.returnRole());

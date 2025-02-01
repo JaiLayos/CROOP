@@ -7,28 +7,65 @@
     android:background="@color/beige_brackground">
 
     <TextView
-        android:id="@+id/existingAcctLabel3"
+        android:id="@+id/coopRePasswordLabel11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Already have an account ?"
-        android:textColor="@color/black_opaque_text"
-        android:textSize="16sp"
+        android:text="@string/pass_req_second_line"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.322"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nextButton_SUIF_3" />
+        app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel8" />
 
     <TextView
-        android:id="@+id/signInHyperlink3"
+        android:id="@+id/coopRePasswordLabel12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Sign In"
-        android:textColor="@color/highlight_green"
-        android:textSize="16sp"
+        android:text="@string/pass_req_third_line"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/existingAcctLabel3" />
+        app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel11" />
+
+    <TextView
+        android:id="@+id/coopRePasswordLabel13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pass_req_fourth_line"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.232"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel12" />
+
+    <TextView
+        android:id="@+id/coopRePasswordLabel8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pass_req_first_line"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel2" />
+
+    <TextView
+        android:id="@+id/coopRePasswordLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/password_requirements"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordText" />
 
     <TextView
         android:id="@+id/signUpCustomer4"
@@ -36,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:fontFamily="@font/inter_semibold"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:textAlignment="center"
         android:textColor="@color/secondary_color"
         android:textSize="42sp"
@@ -49,7 +86,7 @@
         android:layout_width="411dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/mulish_medium"
-        android:text="As an Individual Seller"
+        android:text="@string/as_an_indiv_seller"
         android:textAlignment="center"
         android:textColor="@color/black_opaque_text"
         android:textSize="15sp"
@@ -63,9 +100,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/mulish_medium"
-        android:text="Enter Password"
+        android:text="@string/enter_password"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/indivFarmLabel3" />
@@ -74,12 +111,73 @@
         android:id="@+id/indivFarmPasswordReLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="Re-enter Password"
+        android:text="@string/re_enter_passord"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordText" />
+        app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel13" />
+
+    <TextView
+        android:id="@+id/existingAcctLabel3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/already_have_an_account"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nextButton_SUIF_3" />
+
+    <Button
+        android:id="@+id/nextButton_SUIF_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/secondary_color"
+        android:fontFamily="@font/inter_semibold"
+        android:paddingLeft="100dp"
+        android:paddingTop="10dp"
+        android:paddingRight="100dp"
+        android:paddingBottom="10dp"
+        android:text="@string/next"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordReText" />
+
+    <TextView
+        android:id="@+id/signInHyperlink3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/sign_in"
+        android:textColor="@color/highlight_green"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/existingAcctLabel3"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/indivFarmPasswordReText"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/rounded_border_edit_text"
+        android:ems="10"
+        android:hint="@string/re_enter_passord"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordReLabel" />
 
     <EditText
         android:id="@+id/indivFarmPasswordText"
@@ -90,43 +188,11 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
-        android:hint="Must have special characters and numbers"
+        android:hint="@string/enter_password"
         android:inputType="text"
         android:paddingLeft="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordLabel" />
 
-    <EditText
-        android:id="@+id/indivFarmPasswordReText"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/rounded_border_edit_text"
-        android:ems="10"
-        android:hint="Re-enter Password"
-        android:inputType="text"
-        android:paddingLeft="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordReLabel" />
-
-    <Button
-        android:id="@+id/nextButton_SUIF_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:backgroundTint="@color/secondary_color"
-        android:fontFamily="@font/inter_semibold"
-        android:paddingLeft="100dp"
-        android:paddingTop="10dp"
-        android:paddingRight="100dp"
-        android:paddingBottom="10dp"
-        android:text="Next"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordReText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

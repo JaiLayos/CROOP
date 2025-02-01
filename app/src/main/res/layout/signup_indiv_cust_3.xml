@@ -7,28 +7,87 @@
     android:background="@color/beige_brackground">
 
     <TextView
-        android:id="@+id/existingAcctLabel8"
+        android:id="@+id/coopRePasswordLabel54"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="Already have an account ?"
-        android:textColor="@color/black_opaque_text"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/re_enter_passord"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel53" />
 
     <TextView
-        android:id="@+id/signInHyperlink8"
+        android:id="@+id/coopRePasswordLabel51"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:text="Sign In"
-        android:textColor="@color/highlight_green"
-        android:textSize="16sp"
+        android:text="@string/pass_req_second_line"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.322"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/existingAcctLabel8" />
+        app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel47" />
+
+    <TextView
+        android:id="@+id/coopRePasswordLabel52"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pass_req_third_line"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel51" />
+
+    <TextView
+        android:id="@+id/coopRePasswordLabel53"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pass_req_fourth_line"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.232"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel52" />
+
+    <TextView
+        android:id="@+id/coopRePasswordLabel46"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/password_requirements"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.075"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userPasswordText" />
+
+    <TextView
+        android:id="@+id/coopRePasswordLabel47"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pass_req_first_line"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel46" />
+
+    <TextView
+        android:id="@+id/coopPaswordLabel6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/enter_password"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpLabel4" />
 
     <TextView
         android:id="@+id/signUpLabel4"
@@ -36,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:fontFamily="@font/inter_semibold"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:textColor="@color/secondary_color"
         android:textSize="42sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,44 +107,78 @@
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
-        android:hint="Enter Password"
+        android:hint="@string/enter_password"
         android:inputType="text"
         android:paddingLeft="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpLabel4" />
+        app:layout_constraintTop_toBottomOf="@+id/coopPaswordLabel6" />
 
     <EditText
         android:id="@+id/userRePasswordText"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
-        android:hint="Re-enter Password"
+        android:hint="@string/re_enter_passord"
         android:inputType="text"
         android:paddingLeft="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userPasswordText" />
+        app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel54" />
+
+    <TextView
+        android:id="@+id/existingAcctLabel8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/already_have_an_account"
+        android:textColor="@color/black_opaque_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+    <TextView
+        android:id="@+id/signInHyperlink8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:paddingTop="5dp"
+        android:text="@string/sign_in"
+        android:textColor="@color/highlight_green"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/existingAcctLabel8"
+        app:layout_constraintVertical_bias="0.076" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/secondary_color"
         android:paddingLeft="100dp"
         android:paddingTop="10dp"
         android:paddingRight="100dp"
         android:paddingBottom="10dp"
-        android:text="Button"
+        android:text="@string/next"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userRePasswordText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

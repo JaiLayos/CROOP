@@ -29,6 +29,10 @@ public class SignUp_Bulk_Activity_3 extends AppCompatActivity {
 
         Button next = findViewById(R.id.nextButton_SUR_3);
         next.setOnClickListener(view -> {
+            if (!isValidPassword(password)) {
+                Toast.makeText(this, "Password does not meet the requirements.", Toast.LENGTH_LONG).show();
+                return;
+            }
             if(password.matches(repassword)){
                 GroupCustomer groupCustomer = GroupCustomerSingleton.getInstance().getGroupCustomer();
                 groupCustomer.setPassword(password);
@@ -38,5 +42,24 @@ public class SignUp_Bulk_Activity_3 extends AppCompatActivity {
                 Toast.makeText(this, "Password doesn't match.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean isValidPassword(String password) {
+        if (password.length() < 8 || password.length() > 32) {
+            return false;
+        }
+        if (!password.matches(".*[a-z].*")) {
+            return false;
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            return false;
+        }
+        if (!password.matches(".*\\d.*")) {
+            return false;
+        }
+        if (!password.matches(".*[!@#$%^&*].*")) {
+            return false;
+        }
+        return true;
     }
 }

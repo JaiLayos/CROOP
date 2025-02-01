@@ -32,6 +32,10 @@ public class SignUp_Indiv_Farmer_Activity_3 extends AppCompatActivity {
         next.setOnClickListener(view -> {
             String password = passwordText.getText().toString();
             String repassword = repasswordText.getText().toString();
+            if (!isValidPassword(password)) {
+                Toast.makeText(this, "Password does not meet the requirements.", Toast.LENGTH_LONG).show();
+                return;
+            }
             if(password.isEmpty()){
                 Toast.makeText(this, "Please input a password!", Toast.LENGTH_SHORT).show();
             }else if(!password.equals(repassword)){
@@ -45,4 +49,22 @@ public class SignUp_Indiv_Farmer_Activity_3 extends AppCompatActivity {
         });
     }
 
+    private boolean isValidPassword(String password) {
+        if (password.length() < 8 || password.length() > 32) {
+            return false;
+        }
+        if (!password.matches(".*[a-z].*")) {
+            return false;
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            return false;
+        }
+        if (!password.matches(".*\\d.*")) {
+            return false;
+        }
+        if (!password.matches(".*[!@#$%^&*].*")) {
+            return false;
+        }
+        return true;
+    }
 }

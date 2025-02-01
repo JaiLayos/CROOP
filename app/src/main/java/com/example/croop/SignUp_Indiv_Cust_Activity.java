@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,7 +36,18 @@ public class SignUp_Indiv_Cust_Activity extends AppCompatActivity {
             String first_name_customer = String.valueOf(firstName.getText());
             String last_name_customer = String.valueOf(lastName.getText());
             String string_age = String.valueOf(age.getText());
-            int age_customer = Integer.parseInt(string_age);
+            int age_customer;
+            try {
+                age_customer = Integer.parseInt(string_age);
+                if (age_customer < 18 || age_customer > 80) {
+                    Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
             Customer customer = new Customer();
             customer.setName(first_name_customer + " " + last_name_customer);
             customer.setAge(age_customer);

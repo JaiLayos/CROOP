@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,6 +34,12 @@ public class SignUp_Indiv_Farmer_Activity extends AppCompatActivity {
             String firstName = firstNameText.getText().toString();
             String lastName = lastNameText.getText().toString();
             int age = Integer.parseInt(ageText.getText().toString());
+
+            if (age < 18 || age > 80) {
+                Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             IndividualSellers individualSellers = new IndividualSellers();
             individualSellers.setName(firstName + " " + lastName);
             individualSellers.setAge(age);
