@@ -6,8 +6,12 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.croop.model.CurrentRole;
 import com.example.croop.model.CurrentUsage;
+import com.example.croop.model.GroupSellers;
+import com.example.croop.model.IndividualSellers;
 import com.example.croop.singleton.CurrentUsageSingleton;
+import com.example.croop.singleton.CurrentUserSingleton;
 
 public class Population_Seller_Activity extends AppCompatActivity {
     @Override
@@ -23,6 +27,10 @@ public class Population_Seller_Activity extends AppCompatActivity {
         individual.setOnClickListener(view ->{
             CurrentUsage cUsage = CurrentUsageSingleton.getInstance().getCurrentUsageSingleton();
             String current = cUsage.getCurrentUsage();
+            IndividualSellers individualSellers = new IndividualSellers();
+            CurrentRole currentRole = new CurrentRole();
+            currentRole.setRole(individualSellers.returnRole());
+            CurrentUserSingleton.getInstance().setCurrentRole(currentRole);
             switch(current){
                 case "Sign Up":
                     Intent intent_signUp = new Intent(Population_Seller_Activity.this, SignUp_Indiv_Farmer_Activity.class);
@@ -34,18 +42,12 @@ public class Population_Seller_Activity extends AppCompatActivity {
             }
         });
         group.setOnClickListener(view -> {
-            CurrentUsage cUsage = CurrentUsageSingleton.getInstance().getCurrentUsageSingleton();
-            String current = cUsage.getCurrentUsage();
-            switch(current){
-                case "Sign Up":
-                    Intent intent_signUp = new Intent(Population_Seller_Activity.this, Group_Seller_Activity.class);
-                    startActivity(intent_signUp);
-                    break;
-                case "Sign In":
-                    Intent intent_signIn = new Intent(Population_Seller_Activity.this, SignIn_Activity.class);
-                    startActivity(intent_signIn);
-            }
-
+            GroupSellers groupSellers = new GroupSellers();
+            CurrentRole cr = new CurrentRole();
+            cr.setRole(groupSellers.returnRole());
+            CurrentUserSingleton.getInstance().setCurrentRole(cr);
+            Intent intent = new Intent(Population_Seller_Activity.this, Group_Seller_Activity.class);
+            startActivity(intent);
         });
     }
 }

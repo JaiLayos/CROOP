@@ -24,11 +24,10 @@ public class SignUp_Bulk_Activity_3 extends AppCompatActivity {
         EditText bulkPassword = findViewById(R.id.bulkPasswordText);
         EditText bulkRePassword = findViewById(R.id.bulkRePasswordText);
 
-        String password = bulkPassword.getText().toString();
-        String repassword = bulkRePassword.getText().toString();
-
         Button next = findViewById(R.id.nextButton_SUR_3);
         next.setOnClickListener(view -> {
+            String password = bulkPassword.getText().toString();
+            String repassword = bulkRePassword.getText().toString();
             if (!isValidPassword(password)) {
                 Toast.makeText(this, "Password does not meet the requirements.", Toast.LENGTH_LONG).show();
                 return;

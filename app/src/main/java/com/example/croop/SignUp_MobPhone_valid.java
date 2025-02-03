@@ -10,9 +10,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.croop.model.PhoneVerification;
-import com.example.croop.singleton.CurrentUserSingleton;
-import com.example.croop.singleton.PhoneAuthenticationSimpleton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -26,19 +23,19 @@ public class SignUp_MobPhone_valid extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_mobphone_valid);
         mAuth = FirebaseAuth.getInstance();
-        initializeComponent();
+        Intent intent = getIntent();
+        String verificationId = intent.getStringExtra("V_ID");
+        initializeComponent(verificationId);
     }
 
-    private void initializeComponent(){
+    private void initializeComponent(String verificationId){
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
             EditText otpSent = findViewById(R.id.otpText);
             otpSent.setInputType(InputType.TYPE_CLASS_NUMBER);
             fourDigitFilter(otpSent);
-            String otp = otpSent.getText().toString();
-            PhoneVerification verifyId = PhoneAuthenticationSimpleton.getInstance().getPhoneVerification();
-            String sentVerifyId = verifyId.getVerificationId();
-            verifyCode(sentVerifyId, otp);
+            String otp = otpSent.getText().toString();;
+            verifyCode(verificationId, otp);
         });
     }
 
@@ -50,28 +47,8 @@ public class SignUp_MobPhone_valid extends AppCompatActivity {
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
-                    switch (CurrentUserSingleton.getInstance().getCurrentRole().getRole()) {
-                        case "Individual Business User":
-                            Intent intent = new Intent(SignUp_MobPhone_valid.this, Home_Individual_Seller_Activity.class);
-                            startActivity(intent);
-                            System.out.println("Phone Verified");
-                            break;
-                        case "Group Business User":
-                            Intent intent_1 = new Intent(SignUp_MobPhone_valid.this, Home_Group_Seller_Activity.class);
-                            startActivity(intent_1);
-                            System.out.println("Phone Verified");
-                            break;
-                        case "Group Customer User":
-                            Intent intent_2 = new Intent(SignUp_MobPhone_valid.this, Home_Group_Customer_Activity.class);
-                            startActivity(intent_2);
-                            System.out.println("Phone Verified");
-                            break;
-                        case "Individual Customer User":
-                            Intent intent_3 = new Intent(SignUp_MobPhone_valid.this, Home_Individual_Customer_Activity.class);
-                            startActivity(intent_3);
-                            System.out.println("Phone Verified");
-                            break;
-                    }
+                    Intent intent = new Intent(this, SignIn_Activity.class);
+                    startActivity(intent);
                 }).addOnFailureListener(e -> {
                     Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });

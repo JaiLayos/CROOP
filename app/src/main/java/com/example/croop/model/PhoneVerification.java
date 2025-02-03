@@ -7,9 +7,6 @@ public class PhoneVerification {
 
     }
 
-    public PhoneVerification(String verificationId){
-        this.verificationId = verificationId;
-    }
 
     public String getVerificationId(){
         return verificationId;

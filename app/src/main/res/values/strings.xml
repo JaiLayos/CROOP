@@ -7,7 +7,6 @@
     <string name="group_caps">GROUP</string>
     <string name="grocery_caps">FOR GROCERY</string>
     <string name="retail_caps">FOR RETAIL</string>
-    <string name="first_name">First Name</string>
     <string name="sign_up">MAG-SIGN UP</string>
     <string name="as_a_cooperative">Bilang isang Kooperatiba</string>
     <string name="name_of_cooperative">Pangalan ng Kooperatiba</string>
@@ -50,7 +49,6 @@
     <string name="as_an_independent_farmer">Bilang isang Malayang Magsasaka</string>
     <string name="first_name">Unang Pangalan</string>
     <string name="last_name">Apelyido</string>
-    <string name="age">Edad</string>
     <string name="as_an_indiv_seller">Bilang Isang Indibidwal na Nagbebenta</string>
     <string name="oTP_Label">Isang OTP ang ipinadala sa iyong numero.</string>
     <string name="enter_OTP">Ilagay ang anim na numero</string>
@@ -59,9 +57,4 @@
     <string name="name_of_business">Pangalan ng Negosyo</string>
     <string name="enter_name_of_business">Ilagay ang Pangalan</string>
     <string name="as_a_retailer">Bilang isang retailer</string>
-    <string name=""></string>
-    <string name=""></string>
-    <string name=""></string>
-    <string name=""></string>
-    <string name=""></string>
 </resources>

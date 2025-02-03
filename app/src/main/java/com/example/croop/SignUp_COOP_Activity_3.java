@@ -23,11 +23,11 @@ public class SignUp_COOP_Activity_3 extends AppCompatActivity {
     private void initializeComponents() {
         EditText passwordText = findViewById(R.id.coopPasswordText);
         EditText repasswordText = findViewById(R.id.coopRePasswordText);
-        String password = passwordText.getText().toString();
-        String repassword = repasswordText.getText().toString();
 
         Button next = findViewById(R.id.button);
         next.setOnClickListener(view -> {
+            String password = passwordText.getText().toString();
+            String repassword = repasswordText.getText().toString();
             if (!isValidPassword(password)) {
                 Toast.makeText(this, "Password does not meet the requirements.", Toast.LENGTH_LONG).show();
                 return;

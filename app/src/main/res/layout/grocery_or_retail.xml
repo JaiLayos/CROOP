@@ -31,13 +31,13 @@
 
     <Button
         android:id="@+id/groceryButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
         android:backgroundTint="@color/secondary_color"
-        android:paddingLeft="100dp"
         android:paddingTop="10dp"
-        android:paddingRight="100dp"
         android:paddingBottom="10dp"
         android:text="@string/grocery_caps"
         android:textAlignment="center"
@@ -48,13 +48,13 @@
 
     <Button
         android:id="@+id/retailButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
         android:backgroundTint="@color/secondary_color"
-        android:paddingLeft="110dp"
         android:paddingTop="10dp"
-        android:paddingRight="110dp"
         android:paddingBottom="10dp"
         android:text="@string/retail_caps"
         android:textAlignment="center"

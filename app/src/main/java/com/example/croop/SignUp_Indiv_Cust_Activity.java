@@ -9,9 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.croop.model.CurrentRole;
 import com.example.croop.model.Customer;
-import com.example.croop.singleton.CurrentUserSingleton;
 import com.example.croop.singleton.CustomerSingleton;
 
 public class SignUp_Indiv_Cust_Activity extends AppCompatActivity {
@@ -52,10 +50,6 @@ public class SignUp_Indiv_Cust_Activity extends AppCompatActivity {
             customer.setName(first_name_customer + " " + last_name_customer);
             customer.setAge(age_customer);
             CustomerSingleton.getInstance().setCustomer(customer);
-            CurrentRole currentRole = new CurrentRole();
-            currentRole.setRole(customer.setRole());
-            CurrentUserSingleton.getInstance().setCurrentRole(currentRole);
-            System.out.println(currentRole);
 
             Intent intent = new Intent(SignUp_Indiv_Cust_Activity.this, SignUp_Indiv_Cust_Activity_2.class);
             startActivity(intent);

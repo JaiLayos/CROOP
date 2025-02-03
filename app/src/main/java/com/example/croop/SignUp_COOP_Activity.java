@@ -9,9 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.croop.model.CurrentRole;
 import com.example.croop.model.GroupSellers;
-import com.example.croop.singleton.CurrentUserSingleton;
 import com.example.croop.singleton.GroupSellersSingleton;
 
 public class SignUp_COOP_Activity extends AppCompatActivity {
@@ -46,10 +44,8 @@ public class SignUp_COOP_Activity extends AppCompatActivity {
             groupSellers.setGroupName(coopName.getText().toString());
             groupSellers.setName(coopPersonFirstName.getText().toString() + " " + coopPersonLastName.getText().toString());
             groupSellers.setAge(age);
-
-            CurrentRole cr = new CurrentRole();
-            cr.setRole(groupSellers.returnRole());
-            CurrentUserSingleton.getInstance().setCurrentRole(cr);
+            groupSellers.setPersonPosition(coopPersonPosition.getText().toString());
+            GroupSellersSingleton.getInstance().setGroupSellers(groupSellers);
 
             Intent intent = new Intent(this, SignUp_COOP_Activity_2.class);
             startActivity(intent);
