@@ -59,6 +59,12 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
         countryText = findViewById(R.id.indivFarmCountryText);
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
+            if (houseText.getText().toString().isEmpty() || subdivisionText.getText().toString().isEmpty() ||
+                    cityText.getText().toString().isEmpty() || regionText.getText().toString().isEmpty() ||
+                    postCodeText.getText().toString().isEmpty() || countryText.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if(allowed){
                 getAddressUsingGeocoder(latitude, longitude);
             }else{

@@ -60,6 +60,12 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
         Button nextButton = findViewById(R.id.nextButton);
 
         nextButton.setOnClickListener(view -> {
+            if (assocHouse.getText().toString().isEmpty() || assocBaranggay.getText().toString().isEmpty() ||
+                    assocCity.getText().toString().isEmpty() || assocRegion.getText().toString().isEmpty() ||
+                    assocPostCode.getText().toString().isEmpty() || assocCountry.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if(allowed){
                 getAddressUsingGeocoder(latitude, longitude);
             }else{

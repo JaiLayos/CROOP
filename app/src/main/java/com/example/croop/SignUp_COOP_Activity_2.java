@@ -62,6 +62,12 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
         coopCountry = findViewById(R.id.coopCountryText);
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
+            if (coopHouse.getText().toString().isEmpty() || coopSubdivision.getText().toString().isEmpty() ||
+                    coopCity.getText().toString().isEmpty() || coopRegion.getText().toString().isEmpty() ||
+                    coopPostal.getText().toString().isEmpty() || coopCountry.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if(allowed){
                 getAddressUsingGeocoder(latitude, longitude);
             }else{

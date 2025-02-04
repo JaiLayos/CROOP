@@ -57,6 +57,12 @@ public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
         bulkCountry = findViewById(R.id.bulkCountryText);
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
+            if (bulkHouse.getText().toString().isEmpty() || bulkSubdivision.getText().toString().isEmpty() ||
+                    bulkCity.getText().toString().isEmpty() || bulkRegion.getText().toString().isEmpty() ||
+                    bulkPostal.getText().toString().isEmpty() || bulkCountry.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if(allowed){
                 getAddressUsingGeocoder(latitude, longitude);
             }else{

@@ -60,6 +60,12 @@ public class SignUp_Indiv_Cust_Activity_2 extends AppCompatActivity {
         restrictPostInput(postCode);
 
         nextButton.setOnClickListener(view -> {
+            if (house.getText().toString().isEmpty() || subdivision.getText().toString().isEmpty() ||
+                    city.getText().toString().isEmpty() || region.getText().toString().isEmpty() ||
+                    postCode.getText().toString().isEmpty() || country.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if(allowed){
                 getAddressUsingGeocoder(latitude, longitude);
             }else{
