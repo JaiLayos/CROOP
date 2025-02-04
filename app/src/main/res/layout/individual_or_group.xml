@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/mulish_medium"
-        android:text="What kind of seller are you?"
+        android:text="Paano ka magbebenta?"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -40,10 +40,21 @@ public class SignUp_Farm_Assoc_Activity extends AppCompatActivity {
             String first_name_point_person = String.valueOf(pointPerson_FirstName.getText());
             String last_name_point_person = String.valueOf(pointPerson_LastName.getText());
             String position_point_person = String.valueOf(pointPerson_Position.getText());
-            int age_point_person = Integer.parseInt(String.valueOf(pointPerson_Age.getText()));
+            String ageStr = String.valueOf(pointPerson_Age.getText());
+            int age_point_person;
 
-            if (age_point_person < 18 || age_point_person > 80) {
-                Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+            try {
+                age_point_person = Integer.parseInt(ageStr);
+                if (age_point_person < 18 || age_point_person > 80) {
+                    Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (ageStr.length() != 2) {
+                    Toast.makeText(this, "Please enter a valid 2-digit age", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show();
                 return;
             }
 

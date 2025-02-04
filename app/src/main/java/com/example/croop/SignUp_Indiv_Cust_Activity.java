@@ -41,6 +41,10 @@ public class SignUp_Indiv_Cust_Activity extends AppCompatActivity {
                     Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (string_age.length() != 2) {
+                    Toast.makeText(this, "Please enter a valid 2-digit age", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             } catch (NumberFormatException e) {
                 Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show();
                 return;

@@ -14,7 +14,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.croop.model.GroupCustomer;
 import com.example.croop.model.GroupSellers;
+import com.example.croop.singleton.GroupCustomerSingleton;
 import com.example.croop.singleton.GroupSellersSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -68,15 +70,16 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
                 String postal_customer = String.valueOf(assocPostCode.getText());
                 String country_customer = String.valueOf(assocCountry.getText());
 
-                Map<String, String> addressMap = new HashMap<>();
-                addressMap.put("City", city_customer);
-                addressMap.put("Country", country_customer);
-                addressMap.put("House/Street Name", house_customer);
-                addressMap.put("Postal Code", postal_customer);
-                addressMap.put("State/Province/Region", region_customer);
-                addressMap.put("Subdivision/Baranggay", subdivision_customer);
-                GroupSellers gSellers = GroupSellersSingleton.getInstance().getGroupSellers();
-                gSellers.setAddress(addressMap);
+                    Map<String, String> addressMap = new HashMap<>();
+                    addressMap.put("City", city_customer);
+                    addressMap.put("Country", country_customer);
+                    addressMap.put("House/Street Name", house_customer);
+                    addressMap.put("Postal Code", postal_customer);
+                    addressMap.put("State/Province/Region", region_customer);
+                    addressMap.put("Subdivision/Baranggay", subdivision_customer);
+                    GroupSellers gSellers = GroupSellersSingleton.getInstance().getGroupSellers();
+                    gSellers.setAddress(addressMap);
+
             }
             Intent intent = new Intent(this, SignUp_Farm_Assoc_Activity_3.class);
             startActivity(intent);

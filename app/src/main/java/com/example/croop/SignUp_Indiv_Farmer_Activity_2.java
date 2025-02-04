@@ -14,7 +14,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.croop.model.GroupCustomer;
 import com.example.croop.model.IndividualSellers;
+import com.example.croop.singleton.GroupCustomerSingleton;
 import com.example.croop.singleton.IndividualSellersSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -67,15 +69,15 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
                 String postal = postCodeText.getText().toString();
                 String country = countryText.getText().toString();
 
-                Map<String, String> addressMap = new HashMap<>();
-                addressMap.put("City", city);
-                addressMap.put("Country", country);
-                addressMap.put("House/Street Name", house);
-                addressMap.put("Postal Code", postal);
-                addressMap.put("State/Province/Region", region);
-                addressMap.put("Subdivision/Baranggay", subdivision);
-                IndividualSellers indivFarmer = IndividualSellersSingleton.getInstance().getIndividualSellers();
-                indivFarmer.setAddress(addressMap);
+                    Map<String, String> addressMap = new HashMap<>();
+                    addressMap.put("City", city);
+                    addressMap.put("Country", country);
+                    addressMap.put("House/Street Name", house);
+                    addressMap.put("Postal Code", postal);
+                    addressMap.put("State/Province/Region", region);
+                    addressMap.put("Subdivision/Baranggay", subdivision);
+                    IndividualSellers indivFarmer = IndividualSellersSingleton.getInstance().getIndividualSellers();
+                    indivFarmer.setAddress(addressMap);
 
             }
             Intent intent = new Intent(SignUp_Indiv_Farmer_Activity_2.this, SignUp_Indiv_Farmer_Activity_3.class);

@@ -15,7 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.croop.model.GroupCustomer;
 import com.example.croop.model.GroupSellers;
+import com.example.croop.singleton.GroupCustomerSingleton;
 import com.example.croop.singleton.GroupSellersSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -70,15 +72,15 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
                 String postal = coopPostal.getText().toString();
                 String country = coopCountry.getText().toString();
 
-                Map<String, String> addressMap = new HashMap<>();
-                addressMap.put("City", city);
-                addressMap.put("Country", country);
-                addressMap.put("House/Street Name", house);
-                addressMap.put("Postal Code", postal);
-                addressMap.put("State/Province/Region", region);
-                addressMap.put("Subdivision/Baranggay", subdivision);
-                GroupSellers groupSellers = GroupSellersSingleton.getInstance().getGroupSellers();
-                groupSellers.setAddress(addressMap);
+                    Map<String, String> addressMap = new HashMap<>();
+                    addressMap.put("City", city);
+                    addressMap.put("Country", country);
+                    addressMap.put("House/Street Name", house);
+                    addressMap.put("Postal Code", postal);
+                    addressMap.put("State/Province/Region", region);
+                    addressMap.put("Subdivision/Baranggay", subdivision);
+                    GroupCustomer groupCustomer = GroupCustomerSingleton.getInstance().getGroupCustomer();
+                    groupCustomer.setAddress(addressMap);
 
             }
             Intent intent = new Intent(this, SignUp_COOP_Activity_3.class);

@@ -56,7 +56,7 @@ public class SignUp_Bulk_Activity_3 extends AppCompatActivity {
         if (!password.matches(".*\\d.*")) {
             return false;
         }
-        if (!password.matches(".*[!@#$%^&*].*")) {
+        if (!password.matches(".*[!@#$%^&*_].*")) {
             return false;
         }
         return true;

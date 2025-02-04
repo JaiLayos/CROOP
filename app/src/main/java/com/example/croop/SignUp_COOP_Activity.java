@@ -30,13 +30,23 @@ public class SignUp_COOP_Activity extends AppCompatActivity {
         coopPersonAge = findViewById(R.id.coopPersonAgeText);
         coopPersonPosition = findViewById(R.id.coopPersonPositionText);
 
-
-
         Button next = findViewById(R.id.nextButton_SUC);
         next.setOnClickListener(view -> {
-            int age = Integer.parseInt(coopPersonAge.getText().toString());
-            if (age < 18 || age > 80) {
-                Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+            String ageStr = coopPersonAge.getText().toString();
+            int age;
+
+            try {
+                age = Integer.parseInt(ageStr);
+                if (age < 18 || age > 80) {
+                    Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (ageStr.length() != 2) {
+                    Toast.makeText(this, "Please enter a valid 2-digit age", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show();
                 return;
             }
 

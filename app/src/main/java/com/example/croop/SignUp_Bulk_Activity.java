@@ -39,12 +39,24 @@ public class SignUp_Bulk_Activity extends AppCompatActivity {
             String groupName = bulkGroupName.getText().toString();
             String firstName = bulkFirstName.getText().toString();
             String lastName = bulkLastName.getText().toString();
-            int age = Integer.parseInt(bulkAge.getText().toString());
+            String ageStr = bulkAge.getText().toString();
+            int age;
 
-            if (age < 18 || age > 80) {
-                Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+            try {
+                age = Integer.parseInt(ageStr);
+                if (age < 18 || age > 80) {
+                    Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (ageStr.length() != 2) {
+                    Toast.makeText(this, "Please enter a valid 2-digit age", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             String position = bulkPosition.getText().toString();
 
             GroupCustomer groupCustomer = new GroupCustomer();

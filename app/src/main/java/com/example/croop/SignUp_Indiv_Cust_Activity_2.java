@@ -15,7 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.croop.model.Customer;
+import com.example.croop.model.GroupSellers;
 import com.example.croop.singleton.CustomerSingleton;
+import com.example.croop.singleton.GroupSellersSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -68,15 +70,15 @@ public class SignUp_Indiv_Cust_Activity_2 extends AppCompatActivity {
                 String postal_customer = String.valueOf(postCode.getText());
                 String country_customer = String.valueOf(country.getText());
 
-                Map<String, String> addressMap = new HashMap<>();
-                addressMap.put("City", city_customer);
-                addressMap.put("Country", country_customer);
-                addressMap.put("House/Street Name", house_customer);
-                addressMap.put("Postal Code", postal_customer);
-                addressMap.put("State/Province/Region", region_customer);
-                addressMap.put("Subdivision/Baranggay", subdivision_customer);
-                Customer customer = CustomerSingleton.getInstance().getCustomer();
-                customer.setAddress(addressMap);
+                    Map<String, String> addressMap = new HashMap<>();
+                    addressMap.put("City", city_customer);
+                    addressMap.put("Country", country_customer);
+                    addressMap.put("House/Street Name", house_customer);
+                    addressMap.put("Postal Code", postal_customer);
+                    addressMap.put("State/Province/Region", region_customer);
+                    addressMap.put("Subdivision/Baranggay", subdivision_customer);
+                    Customer customer = CustomerSingleton.getInstance().getCustomer();
+                    customer.setAddress(addressMap);
             }
             Intent intent = new Intent(SignUp_Indiv_Cust_Activity_2.this, SignUp_Indiv_Cust_Activity_3.class);
             startActivity(intent);

@@ -40,7 +40,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/mulish_medium"
-        android:text="First Name"
+        android:text="@string/first_name"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -52,7 +52,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/mulish_medium"
-        android:text="Last Name"
+        android:text="@string/last_name"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/indivFarmFirstName" />
@@ -78,7 +78,7 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
-        android:hint='"Ex. Cardo'
+        android:hint='@string/enter_first_name'
         android:inputType="text"
         android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,7 +94,7 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/rounded_border_edit_text"
         android:ems="10"
-        android:hint="Ex. Dalisay"
+        android:hint="@string/enter_last_name"
         android:inputType="text"
         android:paddingStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"

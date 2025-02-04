@@ -67,15 +67,15 @@ public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
                 String postal = bulkPostal.getText().toString();
                 String country = bulkCountry.getText().toString();
 
-                Map<String, String> addressMap = new HashMap<>();
-                addressMap.put("City", city);
-                addressMap.put("Country", country);
-                addressMap.put("House/Street Name", house);
-                addressMap.put("Postal Code", postal);
-                addressMap.put("State/Province/Region", region);
-                addressMap.put("Subdivision/Baranggay", subdivision);
-                GroupCustomer groupCustomer = GroupCustomerSingleton.getInstance().getGroupCustomer();
-                groupCustomer.setAddress(addressMap);
+                    Map<String, String> addressMap = new HashMap<>();
+                    addressMap.put("City", city);
+                    addressMap.put("Country", country);
+                    addressMap.put("House/Street Name", house);
+                    addressMap.put("Postal Code", postal);
+                    addressMap.put("State/Province/Region", region);
+                    addressMap.put("Subdivision/Baranggay", subdivision);
+                    GroupCustomer groupCustomer = GroupCustomerSingleton.getInstance().getGroupCustomer();
+                    groupCustomer.setAddress(addressMap);
 
             }
             Intent intent = new Intent(this, SignUp_Bulk_Activity_3.class);

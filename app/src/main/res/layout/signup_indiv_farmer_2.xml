@@ -23,7 +23,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/mulish_medium"
-                android:text="@string/as_an_indiv_seller"
+                android:text="@string/as_an_independent_farmer"
                 android:textAlignment="center"
                 android:textColor="@color/black_opaque_text"
                 android:textSize="15sp"

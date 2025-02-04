@@ -33,12 +33,24 @@ public class SignUp_Indiv_Farmer_Activity extends AppCompatActivity {
         nextButton.setOnClickListener(view -> {
             String firstName = firstNameText.getText().toString();
             String lastName = lastNameText.getText().toString();
-            int age = Integer.parseInt(ageText.getText().toString());
+            String ageStr = ageText.getText().toString();
+            int age;
 
-            if (age < 18 || age > 80) {
-                Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+            try {
+                age = Integer.parseInt(ageStr);
+                if (age < 18 || age > 80) {
+                    Toast.makeText(this, "Age must be between 18 and 80", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (ageStr.length() != 2) {
+                    Toast.makeText(this, "Please enter a valid 2-digit age", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show();
                 return;
             }
+
 
             IndividualSellers individualSellers = new IndividualSellers();
             individualSellers.setName(firstName + " " + lastName);
