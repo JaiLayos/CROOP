@@ -1,4 +1,3 @@
-Added the following:
-- Age (try-catch method for input)
-- Password Requirements on Sign-ups
-- Translation of words in UIs
+Updates:
+- Change English text to Tagalog 
+- Fix password validation (added underscore option)
