@@ -2,6 +2,7 @@ package com.example.croop;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType; // import statement for password
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,6 +24,9 @@ public class SignUp_Bulk_Activity_3 extends AppCompatActivity {
     private void initializeComponents() {
         EditText bulkPassword = findViewById(R.id.bulkPasswordText);
         EditText bulkRePassword = findViewById(R.id.bulkRePasswordText);
+
+        bulkPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        bulkRePassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         Button next = findViewById(R.id.nextButton_SUR_3);
         next.setOnClickListener(view -> {

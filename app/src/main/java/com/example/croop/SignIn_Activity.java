@@ -3,6 +3,7 @@ package com.example.croop;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType; // import statement for password
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ public class SignIn_Activity extends AppCompatActivity {
         EditText emailText, passwordText;
         emailText = findViewById(R.id.emailLoginText);
         passwordText = findViewById(R.id.passwordLoginText);
+        passwordText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         Button next = findViewById(R.id.signInButton);
         next.setOnClickListener(view -> {

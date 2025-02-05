@@ -2,6 +2,7 @@ package com.example.croop;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType; // import statement for password
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,6 +24,9 @@ public class SignUp_COOP_Activity_3 extends AppCompatActivity {
     private void initializeComponents() {
         EditText passwordText = findViewById(R.id.coopPasswordText);
         EditText repasswordText = findViewById(R.id.coopRePasswordText);
+
+        passwordText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        repasswordText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         Button next = findViewById(R.id.button);
         next.setOnClickListener(view -> {

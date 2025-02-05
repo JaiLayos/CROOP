@@ -4,6 +4,7 @@ import static android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType; // import statement for password
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -28,6 +29,9 @@ public class SignUp_Indiv_Farmer_Activity_3 extends AppCompatActivity {
 
         passwordText.setInputType(TYPE_TEXT_VARIATION_PASSWORD);
         repasswordText.setInputType(TYPE_TEXT_VARIATION_PASSWORD);
+
+        passwordText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        repasswordText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         next.setOnClickListener(view -> {
             String password = passwordText.getText().toString();
