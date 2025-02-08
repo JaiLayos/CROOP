@@ -27,7 +27,7 @@ public class Group_Seller_Activity extends AppCompatActivity {
         coop.setOnClickListener(view -> {
             GroupSellers groupSellers = new GroupSellers();
             CurrentRole cr = new CurrentRole();
-            cr.setRole(groupSellers.returnRole());
+            cr.setRole(groupSellers.returnRole_coop());
             CurrentUserSingleton.getInstance().setCurrentRole(cr);
             CurrentUsage currentUsage = CurrentUsageSingleton.getInstance().getCurrentUsageSingleton();
             String cU = currentUsage.getCurrentUsage();
@@ -45,7 +45,7 @@ public class Group_Seller_Activity extends AppCompatActivity {
         assoc.setOnClickListener(view -> {
             GroupSellers groupSellers = new GroupSellers();
             CurrentRole cr = new CurrentRole();
-            cr.setRole(groupSellers.returnRole());
+            cr.setRole(groupSellers.returnRole_assoc());
             CurrentUserSingleton.getInstance().setCurrentRole(cr);
             CurrentUsage currentUsage = CurrentUsageSingleton.getInstance().getCurrentUsageSingleton();
             String cU = currentUsage.getCurrentUsage();

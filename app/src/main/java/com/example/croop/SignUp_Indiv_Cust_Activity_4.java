@@ -51,7 +51,7 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
 
     private void initializeComponents() {
         phoneNumberText = findViewById(R.id.userPhoneNumText);
-        emailText = findViewById(R.id.userEmailText);
+        emailText = findViewById(R.id.userEmailLabel);
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
             String mobilePhone = phoneNumberText.getText().toString();

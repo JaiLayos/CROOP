@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.model.CurrentRole;
 import com.example.croop.model.CurrentUsage;
-import com.example.croop.model.GroupSellers;
 import com.example.croop.model.IndividualSellers;
 import com.example.croop.singleton.CurrentUsageSingleton;
 import com.example.croop.singleton.CurrentUserSingleton;
@@ -42,10 +41,6 @@ public class Population_Seller_Activity extends AppCompatActivity {
             }
         });
         group.setOnClickListener(view -> {
-            GroupSellers groupSellers = new GroupSellers();
-            CurrentRole cr = new CurrentRole();
-            cr.setRole(groupSellers.returnRole());
-            CurrentUserSingleton.getInstance().setCurrentRole(cr);
             Intent intent = new Intent(Population_Seller_Activity.this, Group_Seller_Activity.class);
             startActivity(intent);
         });

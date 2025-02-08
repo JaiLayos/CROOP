@@ -41,7 +41,10 @@ public class GroupSellers extends Customer{
         return personPosition;
     }
 
-    public String returnRole(){
-        return "Group Business User";
+    public String returnRole_assoc(){
+        return "Group Business User (Association)";
+    }
+    public String returnRole_coop(){
+        return "Group Business User (Cooperative)";
     }
 }

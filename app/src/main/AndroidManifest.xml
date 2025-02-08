@@ -56,6 +56,9 @@
         <activity android:name=".Home_Group_Customer_Activity" />
         <activity android:name=".Home_Individual_Seller_Activity" />
         <activity android:name=".Home_Individual_Customer_Activity"/>
+
+        <activity android:name=".Profile_Individual_Seller_Activity"/>
+        <activity android:name=".Profile_Group_Seller_Activity"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -65,7 +65,7 @@ public class SignUp_Farm_Assoc_Activity extends AppCompatActivity {
             seller.setPersonPosition(position_point_person);
             GroupSellersSingleton.getInstance().setGroupSellers(seller);
             CurrentRole currentRole = new CurrentRole();
-            currentRole.setRole(seller.returnRole());
+            currentRole.setRole(seller.returnRole_assoc());
             CurrentUserSingleton.getInstance().setCurrentRole(currentRole);
             Intent intent = new Intent(SignUp_Farm_Assoc_Activity.this, SignUp_Farm_Assoc_Activity_2.class);
             startActivity(intent);

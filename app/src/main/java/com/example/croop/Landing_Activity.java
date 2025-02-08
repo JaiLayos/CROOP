@@ -40,32 +40,33 @@ public class Landing_Activity extends AppCompatActivity {
                 return;
             }
             switch (role) {
-                case "Group Business User": {
-                    Intent intent = new Intent(this, Home_Group_Seller_Activity.class);
+                case "Group Business User (Association)":
+                case "Group Business User (Cooperative)":{
+                    Intent intent = new Intent(Landing_Activity.this, Home_Group_Seller_Activity.class);
                     startActivity(intent);
                     finish();
                     break;
                 }
                 case "Individual Business User": {
-                    Intent intent = new Intent(this, Home_Individual_Seller_Activity.class);
+                    Intent intent = new Intent(Landing_Activity.this, Home_Individual_Seller_Activity.class);
                     startActivity(intent);
                     finish();
                     break;
                 }
                 case "Individual Customer User": {
-                    Intent intent = new Intent(this, Home_Individual_Customer_Activity.class);
+                    Intent intent = new Intent(Landing_Activity.this, Home_Individual_Customer_Activity.class);
                     startActivity(intent);
                     finish();
                     break;
                 }
                 case "Group Customer User": {
-                    Intent intent = new Intent(this, Home_Group_Customer_Activity.class);
+                    Intent intent = new Intent(Landing_Activity.this, Home_Group_Customer_Activity.class);
                     startActivity(intent);
                     finish();
                     break;
                 }
                 default:
-                    Toast.makeText(this, "Invalid role: " + role, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Landing_Activity.this, "Invalid role: " + role, Toast.LENGTH_SHORT).show();
                     break;
             }
         }

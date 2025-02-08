@@ -25,7 +25,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
@@ -82,7 +81,7 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    private void submitToFirebase(IndividualSellers individualSellers){
+    private void submitToFirebase(IndividualSellers individualSellers, String userId){
         CurrentRole cr = new CurrentRole();
         cr.setRole(individualSellers.returnRole());
         CurrentUserSingleton.getInstance().setCurrentRole(cr);
@@ -99,15 +98,16 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
         indivSellerProfile.put("Updated At", individualSellers.getUpdatedAt());
         indivSellerProfile.put("Phone Number", individualSellers.getPhoneNum());
         indivSellerProfile.put("Role", cr.getRole());
-        CollectionReference indivSellerRef = db.collection("Individual Sellers");
 
-        indivSellerRef.add(indivSellerProfile).addOnSuccessListener(DocumentReference -> {
-            Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this,"Individual Seller Added!", Toast.LENGTH_SHORT).show();
-            sendToPhone(individualSellers);
-
-        }).addOnFailureListener(e -> {
-            Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Error!" + e, Toast.LENGTH_SHORT).show();
-        });
+        db.collection("Individual Sellers").document(userId)
+                .set(indivSellerProfile)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Individual Seller Added!", Toast.LENGTH_SHORT).show();
+                    sendToPhone(individualSellers);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Error! " + e, Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void signUpUser(String email, String password, IndividualSellers individualSellers) {
@@ -118,7 +118,8 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            submitToFirebase(individualSellers);
+                            String userId = user.getUid();
+                            submitToFirebase(individualSellers, userId);
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Authentication failed.",

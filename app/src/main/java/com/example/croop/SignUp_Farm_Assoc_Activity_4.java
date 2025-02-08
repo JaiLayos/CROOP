@@ -27,7 +27,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
@@ -79,7 +78,7 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            submitToFirebase(groupSellers);
+                            submitToFirebase(groupSellers, user.getUid());
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SignUp_Farm_Assoc_Activity_4.this, "Authentication failed.",
@@ -93,29 +92,33 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
         return Patterns.EMAIL_ADDRESS.matcher(coopEmail).matches();
     }
 
-    public void submitToFirebase(GroupSellers groupSellers){
+    public void submitToFirebase(GroupSellers groupSellers, String userId){
         Date currentDate = new Date();
         CurrentRole cr = CurrentUserSingleton.getInstance().getCurrentRole();
         FirebaseFirestore db =FirebaseFirestore.getInstance();
         Map<String, Object> groupSellerProfile = new HashMap<>();
         groupSellerProfile.put("Address", groupSellers.getAddress());
         groupSellerProfile.put("Age", groupSellers.getAge());
+        groupSellerProfile.put("Group Name", groupSellers.getGroupName());
         groupSellerProfile.put("Bio", "I'm new here!");
         groupSellerProfile.put("Created At", currentDate);
         groupSellerProfile.put("Email", groupSellers.getEmail());
         groupSellerProfile.put("Messenger Link", groupSellers.getMessengerLink());
         groupSellerProfile.put("Name", groupSellers.getName());
         groupSellerProfile.put("Password", groupSellers.getPassword());
+        groupSellerProfile.put("Position", groupSellers.getPersonPosition());
         groupSellerProfile.put("Updated At", currentDate);
         groupSellerProfile.put("Phone Number", groupSellers.getPhoneNum());
         groupSellerProfile.put("Role", cr.getRole());
-        CollectionReference groupSellerRef = db.collection("Farming Association");
-        groupSellerRef.add(groupSellerProfile).addOnSuccessListener(DocumentReference -> {
-            Toast.makeText(this, "Group Seller successfully added!", Toast.LENGTH_SHORT).show();
-            sendToPhone(groupSellers);
-        }).addOnFailureListener(e ->{
-            Toast.makeText(this, "Error: " + e, Toast.LENGTH_SHORT).show();
-        });
+        db.collection("Farming Association").document(userId)
+                .set(groupSellerProfile)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(SignUp_Farm_Assoc_Activity_4.this, "Group Seller Successfully Added!", Toast.LENGTH_SHORT).show();
+                    sendToPhone(groupSellers);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(SignUp_Farm_Assoc_Activity_4.this, "Error! " + e, Toast.LENGTH_SHORT).show();
+                });
     }
 
     public String formatPhone(String coopMobile){
