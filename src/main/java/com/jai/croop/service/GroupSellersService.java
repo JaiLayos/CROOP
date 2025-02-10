@@ -1,0 +1,55 @@
+package com.jai.croop.service;
+
+import com.jai.croop.model.Customer;
+import com.jai.croop.model.GroupSellers;
+import com.jai.croop.repository.GroupSellersRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class GroupSellersService implements IGroupSellersService{
+    @Autowired
+    GroupSellersRepository groupSellersRepository;
+    @Override
+    public GroupSellers addGroupSellers(GroupSellers groupSellers) {
+        return groupSellersRepository.save(groupSellers);
+    }
+
+    @Override
+    public List<GroupSellers> getAllGroupSellers() {
+        return groupSellersRepository.findAll();
+    }
+
+    @Override
+    public GroupSellers getGroupSellers(int id) {
+        return groupSellersRepository.findById(id).orElseThrow(() -> new RuntimeException("Group Seller Not Found!"));
+    }
+
+    @Transactional
+    @Override
+    public GroupSellers updateGroupSellers(int id, GroupSellers updatedGroupSellers) {
+        Date date = new Date();
+        GroupSellers groupSellers = getGroupSellers(id);
+        groupSellers.setName(updatedGroupSellers.getName());
+        groupSellers.setAddress(updatedGroupSellers.getAddress());
+        groupSellers.setPhoneNumber(updatedGroupSellers.getPhoneNumber());
+        groupSellers.setEmail(updatedGroupSellers.getEmail());
+        groupSellers.setBio(updatedGroupSellers.getBio());
+        groupSellers.setPosition(updatedGroupSellers.getPosition());
+        groupSellers.setGroupName(updatedGroupSellers.getGroupName());
+        groupSellers.setRoles(updatedGroupSellers.getRoles());
+        groupSellers.setUpdatedAt(date);
+        return groupSellersRepository.save(groupSellers);
+    }
+
+    @Transactional
+    @Override
+    public void deleteGroupSellers(int id) {
+        groupSellersRepository.deleteById(id);
+    }
+}
