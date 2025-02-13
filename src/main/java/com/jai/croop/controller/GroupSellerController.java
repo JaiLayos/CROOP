@@ -1,6 +1,7 @@
 package com.jai.croop.controller;
 
 import com.jai.croop.model.GroupSellers;
+import com.jai.croop.model.GroupSellersOrders;
 import com.jai.croop.service.IGroupSellersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,11 @@ public class GroupSellerController {
     @GetMapping("/{id}")
     public ResponseEntity<GroupSellers> getGroupSellers(@PathVariable int id){
         return ResponseEntity.ok(groupSellersService.getGroupSellers(id));
+    }
+
+    @GetMapping("/orders/{firebaseID}")
+    public ResponseEntity<GroupSellersOrders> getGroupSellersbyFirebase(@PathVariable String firebaseID){
+        return ResponseEntity.ok(groupSellersService.getGroupSellerIdByFirebaseID(firebaseID));
     }
 
     @GetMapping

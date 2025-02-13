@@ -1,7 +1,8 @@
 package com.jai.croop.service;
 
-import com.jai.croop.model.Customer;
 import com.jai.croop.model.GroupSellers;
+import com.jai.croop.model.GroupSellersOrders;
+import com.jai.croop.repository.GroupSellersOrdersRepository;
 import com.jai.croop.repository.GroupSellersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GroupSellersService implements IGroupSellersService{
     @Autowired
     GroupSellersRepository groupSellersRepository;
+    @Autowired
+    GroupSellersOrdersRepository groupSellersOrdersRepository;
     @Override
     public GroupSellers addGroupSellers(GroupSellers groupSellers) {
         return groupSellersRepository.save(groupSellers);
@@ -24,6 +26,13 @@ public class GroupSellersService implements IGroupSellersService{
     public List<GroupSellers> getAllGroupSellers() {
         return groupSellersRepository.findAll();
     }
+
+    @Override
+    public GroupSellersOrders getGroupSellerIdByFirebaseID(String firebaseID) {
+        GroupSellers groupSellers = groupSellersRepository.findByFirebaseID(firebaseID);
+        return (GroupSellersOrders) groupSellersOrdersRepository.findByGroupSellerId(groupSellers.getId());
+    }
+
 
     @Override
     public GroupSellers getGroupSellers(int id) {

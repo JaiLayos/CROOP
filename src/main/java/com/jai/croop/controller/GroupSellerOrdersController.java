@@ -1,10 +1,8 @@
 package com.jai.croop.controller;
 
 import com.jai.croop.model.Customer;
-import com.jai.croop.model.CustomerOrders;
 import com.jai.croop.model.GroupSellers;
 import com.jai.croop.model.GroupSellersOrders;
-import com.jai.croop.service.ICustomerOrdersService;
 import com.jai.croop.service.IGroupSellersOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +32,7 @@ public class GroupSellerOrdersController {
     public ResponseEntity<List<GroupSellersOrders>> getAllGroupSellerOrders(){
         return ResponseEntity.ok(groupSellersOrdersService.getAllGroupSellerOrders());
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<GroupSellersOrders> updateCustomerOrders(@PathVariable int id, @RequestBody GroupSellersOrders groupSellersOrders){

@@ -1,7 +1,6 @@
 package com.jai.croop.service;
 
 import com.jai.croop.model.Customer;
-import com.jai.croop.model.CustomerOrders;
 import com.jai.croop.model.GroupSellers;
 import com.jai.croop.model.GroupSellersOrders;
 import com.jai.croop.repository.CustomerRepository;
@@ -20,7 +19,8 @@ public class GroupSellersOrdersService implements IGroupSellersOrdersService{
     private CustomerRepository customerRepository;
     @Autowired
     private GroupSellersOrdersRepository groupSellersOrdersRepository;
-
+    @Autowired
+    private GroupSellersService groupSellersService;
 
     @Override
     public GroupSellersOrders addGroupSellerOrders(GroupSellersOrders groupSellersOrders, Customer customer, GroupSellers groupSellers) {
@@ -43,6 +43,12 @@ public class GroupSellersOrdersService implements IGroupSellersOrdersService{
     public List<GroupSellersOrders> getAllGroupSellerOrders() {
         return groupSellersOrdersRepository.findAll();
     }
+
+    @Override
+    public GroupSellersOrders findByGroupSellerID(int id) {
+        return groupSellersOrdersRepository.findByGroupSellerId(id);
+    }
+
 
     @Override
     public GroupSellersOrders updateGroupSellerOrders(int id, GroupSellersOrders updatedGroupSellersOrders) {
