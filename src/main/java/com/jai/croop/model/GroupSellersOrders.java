@@ -1,5 +1,6 @@
 package com.jai.croop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -14,10 +15,12 @@ public class GroupSellersOrders extends BaseOrder{
 
     @ManyToOne
     @JoinColumn(name = "group_seller_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private GroupSellers groupSeller;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private Customer customer;
 
     public GroupSellersOrders() {

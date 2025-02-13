@@ -45,8 +45,9 @@ public class GroupSellersOrdersService implements IGroupSellersOrdersService{
     }
 
     @Override
-    public GroupSellersOrders findByGroupSellerID(int id) {
-        return groupSellersOrdersRepository.findByGroupSellerId(id);
+    public List<GroupSellersOrders> findByGroupSellerID(int id) {
+        List<GroupSellersOrders> orders = groupSellersOrdersRepository.findByGroupSellerId(id);
+        return orders;
     }
 
 

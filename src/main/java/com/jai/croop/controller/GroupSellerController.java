@@ -29,7 +29,7 @@ public class GroupSellerController {
 
     @GetMapping("/orders/{firebaseID}")
     public ResponseEntity<GroupSellersOrders> getGroupSellersbyFirebase(@PathVariable String firebaseID){
-        return ResponseEntity.ok(groupSellersService.getGroupSellerIdByFirebaseID(firebaseID));
+        return ResponseEntity.ok((GroupSellersOrders) groupSellersService.getGroupSellerIdByFirebaseID(firebaseID));
     }
 
     @GetMapping

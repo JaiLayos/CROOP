@@ -10,7 +10,7 @@ public interface IGroupSellersOrdersService {
     GroupSellersOrders addGroupSellerOrders(GroupSellersOrders groupSellersOrders, Customer customer, GroupSellers groupSellers);
     GroupSellersOrders getGroupSellerOrders(int id);
     List<GroupSellersOrders> getAllGroupSellerOrders();
-    GroupSellersOrders  findByGroupSellerID(int id);
+    List<GroupSellersOrders>  findByGroupSellerID(int id);
     GroupSellersOrders updateGroupSellerOrders(int id, GroupSellersOrders updatedGroupSellersOrders);
     void deleteGroupSellerOrders(int id);
 }
