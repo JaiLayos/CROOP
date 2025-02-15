@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class GroupSellersItemService implements IGroupSellersItemInventoryService {
     @Autowired
-    private GroupSellersItemRepository GroupSellersItemRepository;
+    private GroupSellersItemRepository groupSellersItemRepository;
     @Autowired
     private GroupSellersRepository groupSellersRepository;
 
@@ -22,28 +22,27 @@ public class GroupSellersItemService implements IGroupSellersItemInventoryServic
         if (groupSellersItemInventory.getGroupSellers() == null) {
             throw new IllegalArgumentException("GroupSeller cannot be null");
         }
-        // Retrieve the GroupSellers entity
         GroupSellers existingGroupSeller = groupSellersRepository.findById(groupSellersItemInventory.getGroupSellers().getId())
                 .orElseThrow(() -> new RuntimeException("GroupSeller does not exist!"));
         groupSellersItemInventory.setGroupSellers(existingGroupSeller);
-        int remaining = groupSellersItemInventory.getItemStart() - groupSellersItemInventory.getItemRemaining();
-        groupSellersItemInventory.setItemRemaining(remaining);
-        return GroupSellersItemRepository.save(groupSellersItemInventory);
+        return groupSellersItemRepository.save(groupSellersItemInventory);
     }
 
     @Override
     public GroupSellersItemInventory getItem(int id) {
-        return GroupSellersItemRepository.findById(id).orElseThrow(()-> new RuntimeException("No items found!"));
+        return groupSellersItemRepository.findById(id).orElseThrow(()-> new RuntimeException("No items found!"));
     }
 
     @Override
-    public GroupSellersItemInventory findByItemName(String itemName) {
-        return GroupSellersItemRepository.findByItemName(itemName);
+    public List<GroupSellersItemInventory> findByItemName(String itemName) {
+
+        List<GroupSellersItemInventory> items = groupSellersItemRepository.findByItemName(itemName);
+        return items;
     }
 
     @Override
     public List<GroupSellersItemInventory> getAllItems() {
-        return GroupSellersItemRepository.findAll();
+        return groupSellersItemRepository.findAll();
     }
 
 
@@ -54,12 +53,12 @@ public class GroupSellersItemService implements IGroupSellersItemInventoryServic
         groupSellersItemInventory.setItemName(newGroupSellersItemInventory.getItemName());
         groupSellersItemInventory.setItemStart(newGroupSellersItemInventory.getItemStart());
         groupSellersItemInventory.setItemUsed(newGroupSellersItemInventory.getItemUsed());
-        return GroupSellersItemRepository.save(groupSellersItemInventory);
+        return groupSellersItemRepository.save(groupSellersItemInventory);
     }
 
     @Transactional
     @Override
     public void deleteItems(int id) {
-        GroupSellersItemRepository.deleteById(id);
+        groupSellersItemRepository.deleteById(id);
     }
 }

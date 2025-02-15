@@ -18,7 +18,7 @@ public class BaseInventory {
         this.itemName = itemName;
         this.itemStart = itemStart;
         this.itemUsed = itemUsed;
-        this.itemRemaining = itemRemaining;
+        this.itemRemaining = itemStart - itemUsed;
     }
 
     public String getItemName() {

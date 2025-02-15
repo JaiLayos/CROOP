@@ -29,7 +29,7 @@ public class GroupSellerItemInventoryController {
 
     @GetMapping("/items/{itemName}")
     public ResponseEntity<List<GroupSellersItemInventory>> getItemByName(@PathVariable String itemName){
-        return ResponseEntity.ok((List<GroupSellersItemInventory>) groupSellersItemInventoryService.findByItemName(itemName));
+        return ResponseEntity.ok(groupSellersItemInventoryService.findByItemName(itemName));
     }
 
     @GetMapping
