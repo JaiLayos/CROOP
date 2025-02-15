@@ -1,5 +1,6 @@
 package com.jai.croop.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Map;
@@ -13,10 +14,12 @@ public class CustomerOrders extends BaseOrder{
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+    @JsonBackReference("customer-orders")
     private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "group_seller_id", referencedColumnName = "id", nullable = false)
+    @JsonBackReference("group-orders")
     private GroupSellers groupSeller;
 
     public CustomerOrders() {

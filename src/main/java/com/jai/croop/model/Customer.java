@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jai.croop.AddressConverter;
 import jakarta.persistence.*;
 
@@ -15,9 +16,11 @@ public class Customer extends BaseUser{
     private int id;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("customer-orders")
     private List<CustomerOrders> customerOrders;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("customer-group-orders")
     private List<GroupSellersOrders> groupSellerOrders;
 
     public Customer() {}

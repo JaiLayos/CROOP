@@ -1,5 +1,6 @@
 package com.jai.croop.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -17,7 +18,12 @@ public class GroupSellers extends BaseUser{
     private String position;
 
     @OneToMany(mappedBy = "groupSeller", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference("group-orders")
     private List<GroupSellersOrders> groupSellerOrders;
+
+    @OneToMany(mappedBy = "groupSeller", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference("group-inventory")
+    private List<GroupSellersItemInventory> groupSellersItemInventoryList;
 
     public GroupSellers() {}
 
@@ -55,5 +61,13 @@ public class GroupSellers extends BaseUser{
 
     public void setGroupSellerOrders(List<GroupSellersOrders> groupSellerOrders) {
         this.groupSellerOrders = groupSellerOrders;
+    }
+
+    public List<GroupSellersItemInventory> getGroupSellerItems() {
+        return groupSellersItemInventoryList;
+    }
+
+    public void setGroupSellerItem(List<GroupSellersItemInventory> groupSellersItemInventoryList) {
+        this.groupSellersItemInventoryList = groupSellersItemInventoryList;
     }
 }

@@ -28,13 +28,13 @@ public class GroupSellersService implements IGroupSellersService{
     }
 
     @Override
-    public GroupSellersOrders getGroupSellerIdByFirebaseID(String firebaseID) {
+    public List<GroupSellersOrders> getGroupSellerIdByFirebaseID(String firebaseID) {
         GroupSellers groupSellers = groupSellersRepository.findByFirebaseID(firebaseID);
         List<GroupSellersOrders> orders = groupSellersOrdersRepository.findByGroupSellerId(groupSellers.getId());
         if (orders.isEmpty()) {
             throw new RuntimeException("No orders found for the given Firebase ID");
         }
-        return orders.get(0); // Return the first order in the list
+        return orders; // Return the first order in the list
     }
 
 
