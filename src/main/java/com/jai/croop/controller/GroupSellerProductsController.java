@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/group-sellers-products")
-public class GroupSellerProductsInventory {
+public class GroupSellerProductsController {
     @Autowired
     public IGroupSellersProductInventoryService groupSellersProductsInventoryService;
 

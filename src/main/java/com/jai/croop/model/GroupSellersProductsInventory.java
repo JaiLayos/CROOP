@@ -1,7 +1,10 @@
 package com.jai.croop.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "group_seller_products")
@@ -13,6 +16,12 @@ public class GroupSellersProductsInventory extends BaseInventory{
     @JoinColumn(name = "group_seller_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference("group-products")
     private GroupSellers groupSellers;
+
+    @OneToOne
+    @JsonManagedReference("group-products-discounted")
+    private GroupSellerDiscount groupSellerDiscounts;
+
+
     private int price;
     public GroupSellersProductsInventory(){
 
@@ -41,5 +50,12 @@ public class GroupSellersProductsInventory extends BaseInventory{
     }
     public int getPrice() {
         return price;
+    }
+
+    public GroupSellerDiscount getGroupSellerDiscounts() {
+        return groupSellerDiscounts;
+    }
+    public void setGroupSellerDiscounts(GroupSellerDiscount groupSellerDiscounts) {
+        this.groupSellerDiscounts = groupSellerDiscounts;
     }
 }

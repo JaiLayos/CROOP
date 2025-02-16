@@ -29,6 +29,10 @@ public class GroupSellers extends BaseUser{
     @JsonManagedReference("group-products")
     private List<GroupSellersProductsInventory> groupSellersProductsInventoryList;
 
+    @OneToMany(mappedBy = "groupSellers", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference("group-discounts")
+    private List<GroupSellerDiscount> groupSellerDiscounts;
+
     public GroupSellers() {}
 
     public GroupSellers(String firebaseID, String name, Map<String, String> address, String phoneNumber,
