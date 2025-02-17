@@ -1,4 +1,4 @@
-package com.example.croop;
+package com.example.croop.SignUpActivities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,13 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.croop.model.GroupCustomer;
-import com.example.croop.model.IndividualSellers;
-import com.example.croop.singleton.GroupCustomerSingleton;
-import com.example.croop.singleton.IndividualSellersSingleton;
+import com.example.croop.R;
+import com.example.croop.model.GroupSellers;
+import com.example.croop.singleton.GroupSellersSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -29,19 +29,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
+public class SignUp_COOP_Activity_2 extends AppCompatActivity {
+    EditText coopHouse, coopSubdivision, coopCity,
+            coopRegion, coopPostal, coopCountry;
+
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean allowed = false;
     private double latitude;
     private double longitude;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
-    EditText houseText, subdivisionText, cityText, regionText, postCodeText, countryText;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.signup_indiv_farmer_2);
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        setContentView(R.layout.signup_coop_2);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocationPermission();
@@ -49,44 +51,45 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
     }
 
     private void initializeComponents() {
-        houseText = findViewById(R.id.indivFarmHouseText);
-        subdivisionText = findViewById(R.id.indivFarmSubdivisionText);
-        cityText = findViewById(R.id.indivFarmCityText);
-        regionText = findViewById(R.id.indivFarmRegionText);
-        postCodeText = findViewById(R.id.indivFarmPostalText);
-        postCodeText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        restrictPostInput(postCodeText);
-        countryText = findViewById(R.id.indivFarmCountryText);
+        coopHouse = findViewById(R.id.coopHouseText);
+        coopSubdivision = findViewById(R.id.coopSubdivisionText);
+        coopCity = findViewById(R.id.coopCityText);
+        coopRegion = findViewById(R.id.coopRegionText);
+        coopPostal = findViewById(R.id.coopPostalText);
+        coopPostal.setInputType(InputType.TYPE_CLASS_NUMBER);
+        restrictPostInput(coopPostal);
+        coopCountry = findViewById(R.id.coopCountryText);
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
-            if (houseText.getText().toString().isEmpty() || subdivisionText.getText().toString().isEmpty() ||
-                    cityText.getText().toString().isEmpty() || regionText.getText().toString().isEmpty() ||
-                    postCodeText.getText().toString().isEmpty() || countryText.getText().toString().isEmpty()) {
+            if (coopHouse.getText().toString().isEmpty() || coopSubdivision.getText().toString().isEmpty() ||
+                    coopCity.getText().toString().isEmpty() || coopRegion.getText().toString().isEmpty() ||
+                    coopPostal.getText().toString().isEmpty() || coopCountry.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
             if(allowed){
                 getAddressUsingGeocoder(latitude, longitude);
-            }else{
-                String house = houseText.getText().toString();
-                String subdivision = subdivisionText.getText().toString();
-                String city = cityText.getText().toString();
-                String region = regionText.getText().toString();
-                String postal = postCodeText.getText().toString();
-                String country = countryText.getText().toString();
 
-                    Map<String, String> addressMap = new HashMap<>();
-                    addressMap.put("City", city);
-                    addressMap.put("Country", country);
-                    addressMap.put("House/Street Name", house);
-                    addressMap.put("Postal Code", postal);
-                    addressMap.put("State/Province/Region", region);
-                    addressMap.put("Subdivision/Baranggay", subdivision);
-                    IndividualSellers indivFarmer = IndividualSellersSingleton.getInstance().getIndividualSellers();
-                    indivFarmer.setAddress(addressMap);
+            }else{
+                String house = coopHouse.getText().toString();
+                String subdivision = coopSubdivision.getText().toString();
+                String city = coopCity.getText().toString();
+                String region = coopRegion.getText().toString();
+                String postal = coopPostal.getText().toString();
+                String country = coopCountry.getText().toString();
+
+                Map<String, String> addressMap = new HashMap<>();
+                addressMap.put("City", city);
+                addressMap.put("Country", country);
+                addressMap.put("House/Street Name", house);
+                addressMap.put("Postal Code", postal);
+                addressMap.put("State/Province/Region", region);
+                addressMap.put("Subdivision/Baranggay", subdivision);
+                GroupSellers groupSellers = GroupSellersSingleton.getInstance().getGroupSellers();
+                groupSellers.setAddress(addressMap);
 
             }
-            Intent intent = new Intent(SignUp_Indiv_Farmer_Activity_2.this, SignUp_Indiv_Farmer_Activity_3.class);
+            Intent intent = new Intent(this, SignUp_COOP_Activity_3.class);
             startActivity(intent);
         });
 
@@ -104,18 +107,18 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
                 String region_add = address.getSubAdminArea() + ", " + address.getAdminArea();
                 String baranggay_add = address.getSubThoroughfare() + " " + address.getThoroughfare();
 
-                houseText.setText(houseNum_add != null ? houseNum_add : "");
-                subdivisionText.setText(baranggay_add != null ? baranggay_add : "");
-                cityText.setText(city_add != null ? city_add : "");
-                regionText.setText(region_add != null ? region_add : "");
-                countryText.setText(country_add != null ? country_add : "");
+                coopHouse.setText(houseNum_add != null ? houseNum_add : "");
+                coopSubdivision.setText(baranggay_add != null ? baranggay_add : "");
+                coopCity.setText(city_add != null ? city_add : "");
+                coopRegion.setText(region_add != null ? region_add : "");
+                coopCountry.setText(country_add != null ? country_add : "");
 
-                String postal_permitted = String.valueOf(postCodeText.getText());
-                String house_permitted = String.valueOf(houseText.getText());
-                String subdivision_permitted = String.valueOf(subdivisionText.getText());
-                String city_permitted = String.valueOf(cityText.getText());
-                String region_permitted = String.valueOf(regionText.getText());
-                String country_permitted = String.valueOf(countryText.getText());
+                String postal_permitted = String.valueOf(coopPostal.getText());
+                String house_permitted = String.valueOf(coopHouse.getText());
+                String subdivision_permitted = String.valueOf(coopSubdivision.getText());
+                String city_permitted = String.valueOf(coopCity.getText());
+                String region_permitted = String.valueOf(coopRegion.getText());
+                String country_permitted = String.valueOf(coopCountry.getText());
 
                 Map<String, String> addressMap = new HashMap<>();
                 addressMap.put("City", city_permitted);
@@ -124,8 +127,8 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
                 addressMap.put("Postal Code", postal_permitted);
                 addressMap.put("State/Province/Region", region_permitted);
                 addressMap.put("Subdivision/Baranggay", subdivision_permitted);
-                IndividualSellers indivFarmer = IndividualSellersSingleton.getInstance().getIndividualSellers();
-                indivFarmer.setAddress(addressMap);
+                GroupSellers groupSellers = GroupSellersSingleton.getInstance().getGroupSellers();
+                groupSellers.setAddress(addressMap);
 
             }else{
                 Toast.makeText(this,"Please input your location manually!", Toast.LENGTH_SHORT).show();
@@ -142,6 +145,12 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
         }
     }
 
+    private void restrictPostInput(EditText coopPostal) {
+        InputFilter[] filters = new InputFilter[1];
+        filters[0] = new InputFilter.LengthFilter(4);
+        coopPostal.setFilters(filters);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -156,12 +165,6 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    private void restrictPostInput(EditText postCode){
-        InputFilter[] filters = new InputFilter[1];
-        filters[0] = new InputFilter.LengthFilter(4);
-        postCode.setFilters(filters);
     }
 
     private void getCurrentLocation() {
@@ -181,4 +184,5 @@ public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
             Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

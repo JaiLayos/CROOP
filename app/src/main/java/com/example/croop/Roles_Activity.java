@@ -6,6 +6,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.croop.SignUpActivities.Population_Customer_Activity;
+import com.example.croop.SignUpActivities.Population_Seller_Activity;
+
 public class Roles_Activity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -18,11 +21,11 @@ public class Roles_Activity extends AppCompatActivity {
         Button seller = findViewById(R.id.sellerButton);
         Button customer = findViewById(R.id.customerButton);
         seller.setOnClickListener(view -> {
-            Intent intent = new Intent(Roles_Activity.this,Population_Seller_Activity.class);
+            Intent intent = new Intent(Roles_Activity.this, Population_Seller_Activity.class);
             startActivity(intent);
         });
         customer.setOnClickListener(view -> {
-            Intent intent = new Intent(Roles_Activity.this,Population_Customer_Activity.class);
+            Intent intent = new Intent(Roles_Activity.this, Population_Customer_Activity.class);
             startActivity(intent);
         });
     }

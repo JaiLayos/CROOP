@@ -1,5 +1,4 @@
-package com.example.croop;
-
+package com.example.croop.SignUpActivities;
 
 import static android.content.ContentValues.TAG;
 
@@ -15,10 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.croop.R;
 import com.example.croop.model.CurrentRole;
-import com.example.croop.model.GroupSellers;
+import com.example.croop.model.GroupCustomer;
 import com.example.croop.singleton.CurrentUserSingleton;
-import com.example.croop.singleton.GroupSellersSingleton;
+import com.example.croop.singleton.GroupCustomerSingleton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
@@ -37,41 +38,39 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SignUp_COOP_Activity_4 extends AppCompatActivity {
-    private EditText coopMobileText, coopEmailText;
+public class SignUp_Bulk_Activity_4 extends AppCompatActivity {
+    private EditText bulkMobileText, bulkEmailText;
     private FirebaseAuth mAuth;
-
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        setContentView(R.layout.signup_coop_4);
+        setContentView(R.layout.signup_retailer_4);
         mAuth = FirebaseAuth.getInstance();
         initializeComponents();
     }
-
     private void initializeComponents() {
-        coopMobileText = findViewById(R.id.coopMobileText);
-        coopEmailText = findViewById(R.id.coopEmailText);
+        bulkMobileText = findViewById(R.id.bulkPhoneText);
+        bulkEmailText = findViewById(R.id.bulkEmailText);
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
-            String coopMobile = coopMobileText.getText().toString();
-            String coopEmail = coopEmailText.getText().toString();
-            if(coopMobile.isEmpty() || !phoneNumberValidation(coopMobile)){
-                Toast.makeText(this, "Please input a valid mobile phone number.", Toast.LENGTH_SHORT).show();
-            }else if(coopEmail.isEmpty() || !validEmail(coopEmail)){
+            String bulkMobile = bulkMobileText.getText().toString();
+            String bulkEmail = bulkEmailText.getText().toString();
+            if(bulkMobile.isEmpty() || !phoneNumberValidation(bulkMobile)){
+                Toast.makeText(this, "Please input a  valid mobile phone number.", Toast.LENGTH_SHORT).show();
+            }else if(bulkEmail.isEmpty() || !validEmail(bulkEmail)){
                 Toast.makeText(this, "Please input a valid email.", Toast.LENGTH_SHORT).show();
             }else{
-                coopMobile = coopMobile.trim();
-                String coopPhone = formatPhone(coopMobile);
-                GroupSellers groupSellers = GroupSellersSingleton.getInstance().getGroupSellers();
-                groupSellers.setPhoneNum(coopPhone);
-                groupSellers.setEmail(coopEmail);
-                signUpUser(coopEmail, groupSellers.getPassword(), groupSellers);
+                bulkMobile = bulkMobile.trim();
+                bulkMobile = formatPhone(bulkMobile);
+                GroupCustomer groupCustomer = GroupCustomerSingleton.getInstance().getGroupCustomer();
+                groupCustomer.setPhoneNum(bulkMobile);
+                groupCustomer.setEmail(bulkEmail);
+                signUpUser(bulkEmail, groupCustomer.getPassword(), groupCustomer);
             }
         });
     }
 
-    private void signUpUser(String email, String password, GroupSellers groupSellers) {
+    private void signUpUser(String email, String password, GroupCustomer groupCustomer) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -79,10 +78,10 @@ public class SignUp_COOP_Activity_4 extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            submitToFirebase(groupSellers, user.getUid());
+                            submitToFirebase(groupCustomer);
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUp_COOP_Activity_4.this, "Authentication failed.",
+                            Toast.makeText(SignUp_Bulk_Activity_4.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -93,73 +92,69 @@ public class SignUp_COOP_Activity_4 extends AppCompatActivity {
         return Patterns.EMAIL_ADDRESS.matcher(coopEmail).matches();
     }
 
-    public void submitToFirebase(GroupSellers groupSellers, String userId){
+    public void submitToFirebase(GroupCustomer groupCustomer){
         Date currentDate = new Date();
+
         CurrentRole cr = CurrentUserSingleton.getInstance().getCurrentRole();
 
         FirebaseFirestore db =FirebaseFirestore.getInstance();
-        Map<String, Object> groupSellerProfile = new HashMap<>();
-        groupSellerProfile.put("Address", groupSellers.getAddress());
-        groupSellerProfile.put("Age", groupSellers.getAge());
-        groupSellerProfile.put("Bio", "Hi! I'm new here");
-        groupSellerProfile.put("Created At", currentDate);
-        groupSellerProfile.put("Group Name", groupSellers.getGroupName());
-        groupSellerProfile.put("Email", groupSellers.getEmail());
-        groupSellerProfile.put("Messenger Link", groupSellers.getMessengerLink());
-        groupSellerProfile.put("Name", groupSellers.getName());
-        groupSellerProfile.put("Password", groupSellers.getPassword());
-        groupSellerProfile.put("Position", groupSellers.getPersonPosition());
-        groupSellerProfile.put("Updated At", currentDate);
-        groupSellerProfile.put("Phone Number", groupSellers.getPhoneNum());
-        groupSellerProfile.put("Role", cr.getRole());
-
-        db.collection("Farming Cooperatives").document(userId)
-                .set(groupSellerProfile)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(SignUp_COOP_Activity_4.this, "Group Seller Added!", Toast.LENGTH_SHORT).show();
-                    sendToPhone(groupSellers);
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(SignUp_COOP_Activity_4.this, "Error! " + e, Toast.LENGTH_SHORT).show();
-                });
+        Map<String, Object> groupCustomerProfile = new HashMap<>();
+        groupCustomerProfile.put("Address", groupCustomer.getAddress());
+        groupCustomerProfile.put("Age", groupCustomer.getAge());
+        groupCustomerProfile.put("Bio", groupCustomer.getBio());
+        groupCustomerProfile.put("Created At", currentDate);
+        groupCustomerProfile.put("Email", groupCustomer.getEmail());
+        groupCustomerProfile.put("Messenger Link", groupCustomer.getMessengerLink());
+        groupCustomerProfile.put("Name", groupCustomer.getName());
+        groupCustomerProfile.put("Password", groupCustomer.getPassword());
+        groupCustomerProfile.put("Updated At", currentDate);
+        groupCustomerProfile.put("Phone Number", groupCustomer.getPhoneNum());
+        groupCustomerProfile.put("Role", cr.getRole());
+        CollectionReference groupSellerRef = db.collection("Group Customers");
+        groupSellerRef.add(groupCustomerProfile).addOnSuccessListener(DocumentReference -> {
+            Toast.makeText(this, "Group Customer successfully added!", Toast.LENGTH_SHORT).show();
+            sendToPhone(groupCustomer);
+        }).addOnFailureListener(e ->{
+            Toast.makeText(this, "Error: " + e, Toast.LENGTH_SHORT).show();
+        });
     }
 
-    public String formatPhone(String coopMobile){
-        if(coopMobile.startsWith("0")){
-            return "+63" + coopMobile.substring(1);
+    public String formatPhone(String bulkMobile){
+        if(bulkMobile.startsWith("0")){
+            return "+63" + bulkMobile.substring(1);
         }
-        return coopMobile;
+        return bulkMobile;
     }
 
-    public boolean phoneNumberValidation(String coopNumber){
+    public boolean phoneNumberValidation(String bulkMobile){
         Pattern p = Pattern.compile("^\\d{11}$");
-        Matcher m =p.matcher(coopNumber);
+        Matcher m =p.matcher(bulkMobile);
         return (m.matches());
     }
 
-    public void sendToPhone(GroupSellers groupSellers){
+    public void sendToPhone(GroupCustomer groupCustomer){
         PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                Toast.makeText(SignUp_COOP_Activity_4.this,"Verification Completed! " + phoneAuthCredential, Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Bulk_Activity_4.this,"Verification Completed! " + phoneAuthCredential, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
-                Toast.makeText(SignUp_COOP_Activity_4.this, "Verification Failed. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Bulk_Activity_4.this, "Verification Failed. " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 System.out.println("Code Sent: " + verificationId);
-                Intent intent = new Intent(SignUp_COOP_Activity_4.this, SignUp_MobPhone_valid.class);
+                Intent intent = new Intent(SignUp_Bulk_Activity_4.this, SignUp_MobPhone_valid.class);
                 intent.putExtra("V_ID", verificationId);
                 startActivity(intent);
             }
         };
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber(groupSellers.getPhoneNum())       // Phone number to verify
+                        .setPhoneNumber(groupCustomer.getPhoneNum())       // Phone number to verify
                         .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
                         .setActivity(this)                 // (optional) Activity for callback binding
                         // If no activity is passed, reCAPTCHA verification can not be used.

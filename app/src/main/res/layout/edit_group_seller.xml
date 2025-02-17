@@ -75,7 +75,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/extensionSecondary"
-                        tools:srcCompat="@tools:sample/avatars" />
+                        tools:srcCompat="@drawable/dummy_profile" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/extensionSecondary"
@@ -102,7 +102,7 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/editTextText5"
+                        android:id="@+id/userNameText"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:layout_marginStart="20dp"
@@ -202,23 +202,127 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/userAddressLabel"
+                            android:id="@+id/userStreetLabel"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/inter_semibold"
                             android:paddingLeft="10dp"
                             android:paddingBottom="10dp"
-                            android:text="Address"
+                            android:text="Street"
                             android:textSize="16sp" />
 
                         <EditText
-                            android:id="@+id/userAddressText"
+                            android:id="@+id/userStreetText"
                             android:layout_width="0dp"
                             android:layout_height="55dp"
                             android:layout_weight="1"
                             android:ems="10"
-                            android:hint="Input new address"
+                            android:hint="Input new street"
+                            android:inputType="text" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/userSubdivisionLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/inter_semibold"
+                            android:paddingLeft="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="Subdivision"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/userSubdivisionText"
+                            android:layout_width="0dp"
+                            android:layout_height="55dp"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="Input new subd"
+                            android:inputType="text" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/userCityLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/inter_semibold"
+                            android:paddingLeft="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="City"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/userCityText"
+                            android:layout_width="0dp"
+                            android:layout_height="55dp"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="Input new city"
+                            android:inputType="text" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/userRegionLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/inter_semibold"
+                            android:paddingLeft="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="Region"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/userRegionText"
+                            android:layout_width="0dp"
+                            android:layout_height="55dp"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="Input new region"
+                            android:inputType="text" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/userPostalLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/inter_semibold"
+                            android:paddingLeft="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="Postal"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/userPostalText"
+                            android:layout_width="0dp"
+                            android:layout_height="55dp"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="Input new postal"
                             android:inputType="text" />
 
                     </TableRow>

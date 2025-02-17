@@ -1,4 +1,4 @@
-package com.example.croop;
+package com.example.croop.GroupSellerLanding;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.croop.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,11 +25,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
 
-public class Profile_Group_Seller_Fragment extends Fragment {
+public class Fragment_Profile_Group_Seller extends Fragment {
 
     FirebaseFirestore db;
     FirebaseAuth mAuth;
-    TextView userName, userRole, userBio, userEmail, userPhone, userAddress, userMessenger, userGroup;
+    TextView userName, userRole, userBio, userEmail, userPhone, userAddress, userGroup;
+
+    public Fragment_Profile_Group_Seller(){
+
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -48,7 +53,7 @@ public class Profile_Group_Seller_Fragment extends Fragment {
         userBio = rootView.findViewById(R.id.userBioText);
         userEmail = rootView.findViewById(R.id.userEmailText);
         userPhone = rootView.findViewById(R.id.userPhoneNumberText);
-        userAddress = rootView.findViewById(R.id.userAddressText);
+        userAddress = rootView.findViewById(R.id.userCityText);
         userGroup = rootView.findViewById(R.id.userGroupText);
 
         initializeComponents(collection);

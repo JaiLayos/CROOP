@@ -7,6 +7,8 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.croop.SignUpActivities.SignUp_COOP_Activity;
+import com.example.croop.SignUpActivities.SignUp_Farm_Assoc_Activity;
 import com.example.croop.model.CurrentRole;
 import com.example.croop.model.CurrentUsage;
 import com.example.croop.model.GroupSellers;

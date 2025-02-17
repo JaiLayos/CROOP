@@ -1,4 +1,4 @@
-package com.example.croop;
+package com.example.croop.SignUpActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.croop.R;
 import com.example.croop.model.CurrentRole;
 import com.example.croop.model.GroupCustomer;
 import com.example.croop.singleton.CurrentUserSingleton;

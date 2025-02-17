@@ -1,4 +1,4 @@
-package com.example.croop;
+package com.example.croop.SignUpActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,36 +10,37 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.croop.model.GroupCustomer;
-import com.example.croop.singleton.GroupCustomerSingleton;
+import com.example.croop.R;
+import com.example.croop.model.Customer;
+import com.example.croop.singleton.CustomerSingleton;
 
-public class SignUp_Bulk_Activity_3 extends AppCompatActivity {
+public class SignUp_Indiv_Cust_Activity_3 extends AppCompatActivity {
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        setContentView(R.layout.signup_retailer_3);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.signup_indiv_cust_3);
         initializeComponents();
     }
 
     private void initializeComponents() {
-        EditText bulkPassword = findViewById(R.id.bulkPasswordText);
-        EditText bulkRePassword = findViewById(R.id.bulkRePasswordText);
+        EditText userPassword = findViewById(R.id.userPasswordText);
+        EditText userRePassword = findViewById(R.id.userRePasswordText);
 
-        bulkPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        bulkRePassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        userPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        userRePassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
-        Button next = findViewById(R.id.nextButton_SUR_3);
+        Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
-            String password = bulkPassword.getText().toString();
-            String repassword = bulkRePassword.getText().toString();
+            String password = userPassword.getText().toString();
+            String rePassword = userRePassword.getText().toString();
             if (!isValidPassword(password)) {
                 Toast.makeText(this, "Password does not meet the requirements.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(password.matches(repassword)){
-                GroupCustomer groupCustomer = GroupCustomerSingleton.getInstance().getGroupCustomer();
-                groupCustomer.setPassword(password);
-                Intent intent = new Intent(this, SignUp_Bulk_Activity_4.class);
+            if(password.matches(rePassword)){
+                Customer customer = CustomerSingleton.getInstance().getCustomer();
+                customer.setPassword(password);
+                Intent intent = new Intent(this, SignUp_Indiv_Cust_Activity_4.class);
                 startActivity(intent);
             }else{
                 Toast.makeText(this, "Password doesn't match.", Toast.LENGTH_SHORT).show();

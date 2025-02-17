@@ -1,4 +1,4 @@
-package com.example.croop;
+package com.example.croop.SignUpActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,39 +10,40 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.croop.model.GroupSellers;
-import com.example.croop.singleton.GroupSellersSingleton;
+import com.example.croop.R;
+import com.example.croop.model.GroupCustomer;
+import com.example.croop.singleton.GroupCustomerSingleton;
 
-public class SignUp_COOP_Activity_3 extends AppCompatActivity {
+public class SignUp_Bulk_Activity_3 extends AppCompatActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        setContentView(R.layout.signup_coop_3);
+        setContentView(R.layout.signup_retailer_3);
         initializeComponents();
     }
 
     private void initializeComponents() {
-        EditText passwordText = findViewById(R.id.coopPasswordText);
-        EditText repasswordText = findViewById(R.id.coopRePasswordText);
+        EditText bulkPassword = findViewById(R.id.bulkPasswordText);
+        EditText bulkRePassword = findViewById(R.id.bulkRePasswordText);
 
-        passwordText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        repasswordText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        bulkPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        bulkRePassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
-        Button next = findViewById(R.id.button);
+        Button next = findViewById(R.id.nextButton_SUR_3);
         next.setOnClickListener(view -> {
-            String password = passwordText.getText().toString();
-            String repassword = repasswordText.getText().toString();
+            String password = bulkPassword.getText().toString();
+            String repassword = bulkRePassword.getText().toString();
             if (!isValidPassword(password)) {
                 Toast.makeText(this, "Password does not meet the requirements.", Toast.LENGTH_LONG).show();
                 return;
             }
             if(password.matches(repassword)){
-                GroupSellers groupSellers = GroupSellersSingleton.getInstance().getGroupSellers();
-                groupSellers.setPassword(password);
-                Intent intent = new Intent(this, SignUp_COOP_Activity_4.class);
+                GroupCustomer groupCustomer = GroupCustomerSingleton.getInstance().getGroupCustomer();
+                groupCustomer.setPassword(password);
+                Intent intent = new Intent(this, SignUp_Bulk_Activity_4.class);
                 startActivity(intent);
             }else{
-                Toast.makeText(this, "Password doesn't match", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Password doesn't match.", Toast.LENGTH_SHORT).show();
             }
         });
     }

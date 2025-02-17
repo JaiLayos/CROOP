@@ -1,4 +1,4 @@
-package com.example.croop;
+package com.example.croop.GroupSellerLanding;
 
 import android.os.Bundle;
 import android.widget.TableLayout;
@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.croop.R;
 import com.example.croop.model.GroupSellersOrders;
 import com.example.croop.model.OrderItem;
 import com.example.croop.retrofit.RetrofitService;
@@ -26,7 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Orders_Group_Activity extends AppCompatActivity {
+public class Activity_Orders_Group extends AppCompatActivity {
     private TableLayout table;
     FirebaseAuth mAuth;
     RetrofitService RetrofitClient;
@@ -48,16 +49,16 @@ public class Orders_Group_Activity extends AppCompatActivity {
             public void onResponse(Call<List<GroupSellersOrders>> call, Response<List<GroupSellersOrders>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<GroupSellersOrders> orders = response.body();
-                    Toast.makeText(Orders_Group_Activity.this, "Number of orders fetched: " + orders.size(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Orders_Group.this, "Number of orders fetched: " + orders.size(), Toast.LENGTH_SHORT).show();
                     populateTable(orders);
                 }else{
-                    Toast.makeText(Orders_Group_Activity.this, "API_ERROR: Response not successful or body is null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Orders_Group.this, "API_ERROR: Response not successful or body is null", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<GroupSellersOrders>> call, Throwable t) {
-                Toast.makeText(Orders_Group_Activity.this, "API_ERROR"+ t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_Orders_Group.this, "API_ERROR"+ t.toString(), Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }
         });

@@ -1,4 +1,4 @@
-package com.example.croop;
+package com.example.croop.SignUpActivities;
 
 import static android.content.ContentValues.TAG;
 
@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.croop.R;
 import com.example.croop.model.CurrentRole;
 import com.example.croop.model.GroupSellers;
 import com.example.croop.retrofit.RetrofitService;

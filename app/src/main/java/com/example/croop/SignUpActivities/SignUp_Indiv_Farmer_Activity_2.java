@@ -1,4 +1,4 @@
-package com.example.croop;
+package com.example.croop.SignUpActivities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,12 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.croop.model.GroupCustomer;
-import com.example.croop.singleton.GroupCustomerSingleton;
+import com.example.croop.R;
+import com.example.croop.model.IndividualSellers;
+import com.example.croop.singleton.IndividualSellersSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -28,50 +28,51 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
-    EditText bulkHouse, bulkSubdivision, bulkCity, bulkRegion,
-    bulkPostal, bulkCountry;
+public class SignUp_Indiv_Farmer_Activity_2 extends AppCompatActivity {
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean allowed = false;
     private double latitude;
     private double longitude;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
+    EditText houseText, subdivisionText, cityText, regionText, postCodeText, countryText;
+
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        setContentView(R.layout.signup_retailer_2);
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.signup_indiv_farmer_2);
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocationPermission();
         initializeComponents();
     }
 
     private void initializeComponents() {
-        bulkHouse = findViewById(R.id.bulkhouseText);
-        bulkSubdivision = findViewById(R.id.bulkSubdivisionText);
-        bulkCity = findViewById(R.id.bulkCityText);
-        bulkRegion = findViewById(R.id.bulkRegionText);
-        bulkPostal = findViewById(R.id.bulkPostalText);
-        bulkPostal.setInputType(InputType.TYPE_CLASS_NUMBER);
-        restrictPostInput(bulkPostal);
-        bulkCountry = findViewById(R.id.bulkCountryText);
+        houseText = findViewById(R.id.indivFarmHouseText);
+        subdivisionText = findViewById(R.id.indivFarmSubdivisionText);
+        cityText = findViewById(R.id.indivFarmCityText);
+        regionText = findViewById(R.id.indivFarmRegionText);
+        postCodeText = findViewById(R.id.indivFarmPostalText);
+        postCodeText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        restrictPostInput(postCodeText);
+        countryText = findViewById(R.id.indivFarmCountryText);
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
-            if (bulkHouse.getText().toString().isEmpty() || bulkSubdivision.getText().toString().isEmpty() ||
-                    bulkCity.getText().toString().isEmpty() || bulkRegion.getText().toString().isEmpty() ||
-                    bulkPostal.getText().toString().isEmpty() || bulkCountry.getText().toString().isEmpty()) {
+            if (houseText.getText().toString().isEmpty() || subdivisionText.getText().toString().isEmpty() ||
+                    cityText.getText().toString().isEmpty() || regionText.getText().toString().isEmpty() ||
+                    postCodeText.getText().toString().isEmpty() || countryText.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
             if(allowed){
                 getAddressUsingGeocoder(latitude, longitude);
             }else{
-                String house = bulkHouse.getText().toString();
-                String subdivision = bulkSubdivision.getText().toString();
-                String city = bulkCity.getText().toString();
-                String region = bulkRegion.getText().toString();
-                String postal = bulkPostal.getText().toString();
-                String country = bulkCountry.getText().toString();
+                String house = houseText.getText().toString();
+                String subdivision = subdivisionText.getText().toString();
+                String city = cityText.getText().toString();
+                String region = regionText.getText().toString();
+                String postal = postCodeText.getText().toString();
+                String country = countryText.getText().toString();
 
                     Map<String, String> addressMap = new HashMap<>();
                     addressMap.put("City", city);
@@ -80,11 +81,11 @@ public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
                     addressMap.put("Postal Code", postal);
                     addressMap.put("State/Province/Region", region);
                     addressMap.put("Subdivision/Baranggay", subdivision);
-                    GroupCustomer groupCustomer = GroupCustomerSingleton.getInstance().getGroupCustomer();
-                    groupCustomer.setAddress(addressMap);
+                    IndividualSellers indivFarmer = IndividualSellersSingleton.getInstance().getIndividualSellers();
+                    indivFarmer.setAddress(addressMap);
 
             }
-            Intent intent = new Intent(this, SignUp_Bulk_Activity_3.class);
+            Intent intent = new Intent(SignUp_Indiv_Farmer_Activity_2.this, SignUp_Indiv_Farmer_Activity_3.class);
             startActivity(intent);
         });
 
@@ -102,18 +103,18 @@ public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
                 String region_add = address.getSubAdminArea() + ", " + address.getAdminArea();
                 String baranggay_add = address.getSubThoroughfare() + " " + address.getThoroughfare();
 
-                bulkHouse.setText(houseNum_add != null ? houseNum_add : "");
-                bulkSubdivision.setText(baranggay_add != null ? baranggay_add : "");
-                bulkCity.setText(city_add != null ? city_add : "");
-                bulkRegion.setText(region_add != null ? region_add : "");
-                bulkCountry.setText(country_add != null ? country_add : "");
+                houseText.setText(houseNum_add != null ? houseNum_add : "");
+                subdivisionText.setText(baranggay_add != null ? baranggay_add : "");
+                cityText.setText(city_add != null ? city_add : "");
+                regionText.setText(region_add != null ? region_add : "");
+                countryText.setText(country_add != null ? country_add : "");
 
-                String postal_permitted = String.valueOf(bulkPostal.getText());
-                String house_permitted = String.valueOf(bulkHouse.getText());
-                String subdivision_permitted = String.valueOf(bulkSubdivision.getText());
-                String city_permitted = String.valueOf(bulkCity.getText());
-                String region_permitted = String.valueOf(bulkRegion.getText());
-                String country_permitted = String.valueOf(bulkCountry.getText());
+                String postal_permitted = String.valueOf(postCodeText.getText());
+                String house_permitted = String.valueOf(houseText.getText());
+                String subdivision_permitted = String.valueOf(subdivisionText.getText());
+                String city_permitted = String.valueOf(cityText.getText());
+                String region_permitted = String.valueOf(regionText.getText());
+                String country_permitted = String.valueOf(countryText.getText());
 
                 Map<String, String> addressMap = new HashMap<>();
                 addressMap.put("City", city_permitted);
@@ -122,8 +123,8 @@ public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
                 addressMap.put("Postal Code", postal_permitted);
                 addressMap.put("State/Province/Region", region_permitted);
                 addressMap.put("Subdivision/Baranggay", subdivision_permitted);
-                GroupCustomer groupCustomer = GroupCustomerSingleton.getInstance().getGroupCustomer();
-                groupCustomer.setAddress(addressMap);
+                IndividualSellers indivFarmer = IndividualSellersSingleton.getInstance().getIndividualSellers();
+                indivFarmer.setAddress(addressMap);
 
             }else{
                 Toast.makeText(this,"Please input your location manually!", Toast.LENGTH_SHORT).show();
@@ -140,12 +141,6 @@ public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
         }
     }
 
-    private void restrictPostInput(EditText coopPostal) {
-        InputFilter[] filters = new InputFilter[1];
-        filters[0] = new InputFilter.LengthFilter(4);
-        coopPostal.setFilters(filters);
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -160,6 +155,12 @@ public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void restrictPostInput(EditText postCode){
+        InputFilter[] filters = new InputFilter[1];
+        filters[0] = new InputFilter.LengthFilter(4);
+        postCode.setFilters(filters);
     }
 
     private void getCurrentLocation() {
@@ -179,5 +180,4 @@ public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
             Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

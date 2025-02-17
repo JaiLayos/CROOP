@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/beige_brackground"
-    tools:context=".SignUp_Indiv_Cust_Activity">
+    tools:context=".SignUpActivities.SignUp_Indiv_Cust_Activity">
 
     <TextView
         android:id="@+id/existingAcctLabel"

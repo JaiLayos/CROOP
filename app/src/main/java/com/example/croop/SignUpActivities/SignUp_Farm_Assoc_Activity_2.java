@@ -1,4 +1,4 @@
-package com.example.croop;
+package com.example.croop.SignUpActivities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.croop.R;
 import com.example.croop.model.GroupSellers;
 import com.example.croop.singleton.GroupSellersSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -28,21 +28,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class SignUp_COOP_Activity_2 extends AppCompatActivity {
-    EditText coopHouse, coopSubdivision, coopCity,
-            coopRegion, coopPostal, coopCountry;
-
-    public static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean allowed = false;
     private double latitude;
     private double longitude;
     private FusedLocationProviderClient fusedLocationProviderClient;
-
+    EditText assocHouse, assocBaranggay, assocCity, assocRegion, assocPostCode, assocCountry;
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        setContentView(R.layout.signup_coop_2);
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.signup_farm_assoc_2);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocationPermission();
@@ -50,55 +48,54 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
     }
 
     private void initializeComponents() {
-        coopHouse = findViewById(R.id.coopHouseText);
-        coopSubdivision = findViewById(R.id.coopSubdivisionText);
-        coopCity = findViewById(R.id.coopCityText);
-        coopRegion = findViewById(R.id.coopRegionText);
-        coopPostal = findViewById(R.id.coopPostalText);
-        coopPostal.setInputType(InputType.TYPE_CLASS_NUMBER);
-        restrictPostInput(coopPostal);
-        coopCountry = findViewById(R.id.coopCountryText);
-        Button next = findViewById(R.id.nextButton);
-        next.setOnClickListener(view -> {
-            if (coopHouse.getText().toString().isEmpty() || coopSubdivision.getText().toString().isEmpty() ||
-                    coopCity.getText().toString().isEmpty() || coopRegion.getText().toString().isEmpty() ||
-                    coopPostal.getText().toString().isEmpty() || coopCountry.getText().toString().isEmpty()) {
+        assocHouse = findViewById(R.id.assocHouseText);
+        assocBaranggay = findViewById(R.id.assocSubdivisionText);
+        assocCity = findViewById(R.id.assocCityText);
+        assocRegion = findViewById(R.id.assocRegionText);
+        assocPostCode = findViewById(R.id.assocPostalText);
+        assocPostCode.setInputType(InputType.TYPE_CLASS_NUMBER);
+        restrictPostInput(assocPostCode);
+        assocCountry = findViewById(R.id.assocCountryText);
+        Button nextButton = findViewById(R.id.nextButton);
+
+        nextButton.setOnClickListener(view -> {
+            if (assocHouse.getText().toString().isEmpty() || assocBaranggay.getText().toString().isEmpty() ||
+                    assocCity.getText().toString().isEmpty() || assocRegion.getText().toString().isEmpty() ||
+                    assocPostCode.getText().toString().isEmpty() || assocCountry.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
             if(allowed){
                 getAddressUsingGeocoder(latitude, longitude);
-
             }else{
-                String house = coopHouse.getText().toString();
-                String subdivision = coopSubdivision.getText().toString();
-                String city = coopCity.getText().toString();
-                String region = coopRegion.getText().toString();
-                String postal = coopPostal.getText().toString();
-                String country = coopCountry.getText().toString();
+                String house_customer = String.valueOf(assocHouse.getText());
+                String subdivision_customer = String.valueOf(assocBaranggay.getText());
+                String city_customer = String.valueOf(assocCity.getText());
+                String region_customer = String.valueOf(assocRegion.getText());
+                String postal_customer = String.valueOf(assocPostCode.getText());
+                String country_customer = String.valueOf(assocCountry.getText());
 
-                Map<String, String> addressMap = new HashMap<>();
-                addressMap.put("City", city);
-                addressMap.put("Country", country);
-                addressMap.put("House/Street Name", house);
-                addressMap.put("Postal Code", postal);
-                addressMap.put("State/Province/Region", region);
-                addressMap.put("Subdivision/Baranggay", subdivision);
-                GroupSellers groupSellers = GroupSellersSingleton.getInstance().getGroupSellers();
-                groupSellers.setAddress(addressMap);
+                    Map<String, String> addressMap = new HashMap<>();
+                    addressMap.put("City", city_customer);
+                    addressMap.put("Country", country_customer);
+                    addressMap.put("House_Street_Name", house_customer);
+                    addressMap.put("Postal_Code", postal_customer);
+                    addressMap.put("State_Province_Region", region_customer);
+                    addressMap.put("Subdivision_Baranggay", subdivision_customer);
+                    GroupSellers gSellers = GroupSellersSingleton.getInstance().getGroupSellers();
+                    gSellers.setAddress(addressMap);
 
             }
-            Intent intent = new Intent(this, SignUp_COOP_Activity_3.class);
+            Intent intent = new Intent(this, SignUp_Farm_Assoc_Activity_3.class);
             startActivity(intent);
         });
-
     }
 
     private void getAddressUsingGeocoder(double latitude, double longitude) {
         Geocoder gecode = new Geocoder(this, Locale.getDefault());
-        try{
+        try {
             List<Address> addresses = gecode.getFromLocation(latitude, longitude, 1);
-            if(addresses != null || !addresses.isEmpty()){
+            if (addresses != null || !addresses.isEmpty()) {
                 Address address = addresses.get(0);
                 String city_add = address.getLocality();
                 String country_add = address.getCountryName();
@@ -106,18 +103,18 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
                 String region_add = address.getSubAdminArea() + ", " + address.getAdminArea();
                 String baranggay_add = address.getSubThoroughfare() + " " + address.getThoroughfare();
 
-                coopHouse.setText(houseNum_add != null ? houseNum_add : "");
-                coopSubdivision.setText(baranggay_add != null ? baranggay_add : "");
-                coopCity.setText(city_add != null ? city_add : "");
-                coopRegion.setText(region_add != null ? region_add : "");
-                coopCountry.setText(country_add != null ? country_add : "");
+                assocHouse.setText(houseNum_add != null ? houseNum_add : "");
+                assocBaranggay.setText(baranggay_add != null ? baranggay_add : "");
+                assocCity.setText(city_add != null ? city_add : "");
+                assocRegion.setText(region_add != null ? region_add : "");
+                assocCountry.setText(country_add != null ? country_add : "");
 
-                String postal_permitted = String.valueOf(coopPostal.getText());
-                String house_permitted = String.valueOf(coopHouse.getText());
-                String subdivision_permitted = String.valueOf(coopSubdivision.getText());
-                String city_permitted = String.valueOf(coopCity.getText());
-                String region_permitted = String.valueOf(coopRegion.getText());
-                String country_permitted = String.valueOf(coopCountry.getText());
+                String postal_permitted = String.valueOf(assocPostCode.getText());
+                String house_permitted = String.valueOf(assocHouse.getText());
+                String subdivision_permitted = String.valueOf(assocBaranggay.getText());
+                String city_permitted = String.valueOf(assocCity.getText());
+                String region_permitted = String.valueOf(assocRegion.getText());
+                String country_permitted = String.valueOf(assocCountry.getText());
 
                 Map<String, String> addressMap = new HashMap<>();
                 addressMap.put("City", city_permitted);
@@ -128,13 +125,11 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
                 addressMap.put("Subdivision/Baranggay", subdivision_permitted);
                 GroupSellers groupSellers = GroupSellersSingleton.getInstance().getGroupSellers();
                 groupSellers.setAddress(addressMap);
-
             }else{
                 Toast.makeText(this,"Please input your location manually!", Toast.LENGTH_SHORT).show();
             }
-
-        }catch(IOException e){
-            System.out.println("Error: " + e);
+        } catch (IOException e) {
+            Toast.makeText(this, "Please input location manually.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -144,10 +139,10 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
         }
     }
 
-    private void restrictPostInput(EditText coopPostal) {
+    private void restrictPostInput(EditText postCode) {
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(4);
-        coopPostal.setFilters(filters);
+        postCode.setFilters(filters);
     }
 
     @Override
@@ -166,8 +161,8 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
         }
     }
 
+
     private void getCurrentLocation() {
-        // If location services are enabled, proceed to get the current location
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationProviderClient.getLastLocation()
                     .addOnSuccessListener(this, location -> {

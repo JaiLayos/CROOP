@@ -1,4 +1,4 @@
-package com.example.croop;
+package com.example.croop.SignUpActivities;
 
 import static android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD;
 
@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.croop.R;
 import com.example.croop.model.IndividualSellers;
 import com.example.croop.singleton.IndividualSellersSingleton;
 

@@ -1,4 +1,4 @@
-package com.example.croop;
+package com.example.croop.SignUpActivities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,10 +14,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.croop.R;
 import com.example.croop.model.Customer;
-import com.example.croop.model.GroupSellers;
 import com.example.croop.singleton.CustomerSingleton;
-import com.example.croop.singleton.GroupSellersSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
