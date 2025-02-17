@@ -80,7 +80,7 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
 
     private void submitToFirebase(Customer customer){
         CurrentRole cr = new CurrentRole();
-        cr.setRole(customer.setRole());
+        cr.setRole(customer.getRoles());
         CurrentUserSingleton.getInstance().setCurrentRole(cr);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> userProfile = new HashMap<>();

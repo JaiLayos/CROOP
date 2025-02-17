@@ -14,9 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.croop.model.GroupCustomer;
 import com.example.croop.model.GroupSellers;
-import com.example.croop.singleton.GroupCustomerSingleton;
 import com.example.croop.singleton.GroupSellersSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -79,10 +77,10 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
                     Map<String, String> addressMap = new HashMap<>();
                     addressMap.put("City", city_customer);
                     addressMap.put("Country", country_customer);
-                    addressMap.put("House/Street Name", house_customer);
-                    addressMap.put("Postal Code", postal_customer);
-                    addressMap.put("State/Province/Region", region_customer);
-                    addressMap.put("Subdivision/Baranggay", subdivision_customer);
+                    addressMap.put("House_Street_Name", house_customer);
+                    addressMap.put("Postal_Code", postal_customer);
+                    addressMap.put("State_Province_Region", region_customer);
+                    addressMap.put("Subdivision_Baranggay", subdivision_customer);
                     GroupSellers gSellers = GroupSellersSingleton.getInstance().getGroupSellers();
                     gSellers.setAddress(addressMap);
 

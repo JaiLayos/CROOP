@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.model.CurrentRole;
 import com.example.croop.model.GroupSellers;
+import com.example.croop.retrofit.RetrofitService;
+import com.example.croop.retrofit.UserAPI;
 import com.example.croop.singleton.CurrentUserSingleton;
 import com.example.croop.singleton.GroupSellersSingleton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,9 +38,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
     private EditText assocMobileText, assocEmailText;
     private FirebaseAuth mAuth;
+    private RetrofitService RetrofitClient;
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -101,6 +108,7 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
         groupSellerProfile.put("Age", groupSellers.getAge());
         groupSellerProfile.put("Group Name", groupSellers.getGroupName());
         groupSellerProfile.put("Bio", "I'm new here!");
+        groupSellers.setBio("I'm new here!");
         groupSellerProfile.put("Created At", currentDate);
         groupSellerProfile.put("Email", groupSellers.getEmail());
         groupSellerProfile.put("Messenger Link", groupSellers.getMessengerLink());
@@ -109,17 +117,48 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
         groupSellerProfile.put("Position", groupSellers.getPersonPosition());
         groupSellerProfile.put("Updated At", currentDate);
         groupSellerProfile.put("Phone Number", groupSellers.getPhoneNum());
+        groupSellers.setRoles(groupSellers.returnRole_assoc());
         groupSellerProfile.put("Role", cr.getRole());
+
+        //add the code that will use my api here to post the data
+
         db.collection("Farming Association").document(userId)
                 .set(groupSellerProfile)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(SignUp_Farm_Assoc_Activity_4.this, "Group Seller Successfully Added!", Toast.LENGTH_SHORT).show();
-                    sendToPhone(groupSellers);
+                    sendToPhone(groupSellers, userId);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(SignUp_Farm_Assoc_Activity_4.this, "Error! " + e, Toast.LENGTH_SHORT).show();
                 });
     }
+
+    private void sendToPostgres(GroupSellers groupSellers, String userID) {
+        try {
+            groupSellers.setFirebaseID(userID);
+            UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
+            Call<Void> call = userAPI.sendGroupSellers(groupSellers);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        Log.d("RetrofitAPI", "Data stored successfully in PostgreSQL");
+                    } else {
+                        Log.e("RetrofitAPI", "Error storing data: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Log.e("RetrofitAPI", "Failed to send data", t);
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e("RetrofitAPI", "Error building JSON", e);
+        }
+    }
+
 
     public String formatPhone(String coopMobile){
         if(coopMobile.startsWith("0")){
@@ -134,7 +173,7 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
         return (m.matches());
     }
 
-    public void sendToPhone(GroupSellers groupSellers){
+    public void sendToPhone(GroupSellers groupSellers, String userId){
         PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
@@ -148,6 +187,7 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
 
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                sendToPostgres(groupSellers, userId);
                 System.out.println("Code Sent: " + verificationId);
                 Intent intent = new Intent(SignUp_Farm_Assoc_Activity_4.this, SignUp_MobPhone_valid.class);
                 intent.putExtra("V_ID", verificationId);

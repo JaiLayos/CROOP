@@ -1,17 +1,17 @@
 package com.example.croop;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,32 +22,40 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class Home_Group_Seller_Activity extends AppCompatActivity {
-    FirebaseFirestore db;
-    FirebaseAuth mAuth;
-    TextView name, bio;
+public class Home_Group_Seller_Fragment extends Fragment {
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private TextView name, bio;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_group_seller);
-        db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        String role = prefs.getString("user_role", null);
-        initializeComponents(role);
+    public Home_Group_Seller_Fragment() {
+        // Required empty public constructor
     }
 
-    private void initializeComponents(String role) {
-        name = findViewById(R.id.userNameDisplay);
-        bio = findViewById(R.id.userBioDisplay);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.home_group_seller, container, false);
+
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
+        name = view.findViewById(R.id.userNameDisplay);
+        bio = view.findViewById(R.id.userBioDisplay);
+
+        // Get the user role from SharedPreferences
+        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", getContext().MODE_PRIVATE);
+        String role = prefs.getString("user_role", null);
+
         FirebaseUser user = mAuth.getCurrentUser();
         String collection = getCollection(role);
         DocumentReference docRef = db.collection(collection).document(user.getUid());
+
+        // Fetch user data from Firestore
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Toast.makeText(Home_Group_Seller_Activity.this, "Hello! " + role + documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Hello! " + role + documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
             }
         }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -59,22 +67,23 @@ public class Home_Group_Seller_Activity extends AppCompatActivity {
                         name.setText(name_user);
                         String bio_user = document.getString("Bio");
                         bio.setText(bio_user);
-                    } else {
-                        Log.d(TAG, "No such document");
                     }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
-        Button profile = findViewById(R.id.profileButton);
-        profile.setOnClickListener(view -> {
-            Intent intent = new Intent(this, Profile_Group_Seller_Activity.class);
+
+        Button order = view.findViewById(R.id.orderButton);
+        order.setOnClickListener(v -> {
+            // Handle order button click
+            Intent intent = new Intent(getActivity(), Orders_Group_Activity.class);
             startActivity(intent);
         });
+
+        return view;
     }
+
     private String getCollection(String role) {
-        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", getContext().MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         String collection;
 

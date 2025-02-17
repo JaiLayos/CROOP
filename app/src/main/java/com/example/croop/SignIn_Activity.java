@@ -81,7 +81,7 @@ public class SignIn_Activity extends AppCompatActivity {
         switch (role) {
             case "Group Business User (Association)":
             case "Group Business User (Cooperative)":{
-                Intent intent = new Intent(SignIn_Activity.this, Home_Group_Seller_Activity.class);
+                Intent intent = new Intent(SignIn_Activity.this, Sign_In_Success_Group_Seller.class);
                 startActivity(intent);
                 finish();
                 break;

@@ -28,7 +28,7 @@ public class Population_Customer_Activity extends AppCompatActivity {
         grocery.setOnClickListener(view -> {
             Customer customer = new Customer();;
             CurrentRole currentRole = new CurrentRole();
-            currentRole.setRole(customer.setRole());
+            currentRole.setRole(customer.getRoles());
             CurrentUserSingleton.getInstance().setCurrentRole(currentRole);
 
             CurrentUsage currentUsage = CurrentUsageSingleton.getInstance().getCurrentUsageSingleton();
