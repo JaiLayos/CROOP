@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Map;
 
 public class Customer {
+    private int id;
     private String firebaseID;
     private String name;
     private String password;
@@ -21,8 +22,9 @@ public class Customer {
 
     }
 
-    public Customer(String firebaseID, String name, String password, int age, Map<String, String> address, String phoneNumber,
+    public Customer(int id, String firebaseID, String name, String password, int age, Map<String, String> address, String phoneNumber,
      String email, String bio, Date createdAt, Date updatedAt, String messengerLink, String roles){
+        this.id = id;
         this.age = age;
         this.firebaseID = firebaseID;
         this.name =  name;
@@ -40,8 +42,12 @@ public class Customer {
     public void setFirebaseID(String firebaseID) {
         this.firebaseID = firebaseID;
     }
+
     public String getId() {
         return firebaseID;
+    }
+    public void setID(int id){
+        this.id = id;
     }
 
     public String getName(){

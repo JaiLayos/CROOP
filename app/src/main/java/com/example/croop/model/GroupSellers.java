@@ -10,10 +10,10 @@ public class GroupSellers extends Customer{
     private String position;
     private List<String> permitUrls;
 
-    public GroupSellers(String firebaseID, String name, String password, int age, Map<String, String> address, String phoneNumber,
+    public GroupSellers(int id, String firebaseID, String name, String password, int age, Map<String, String> address, String phoneNumber,
                         String email, String bio, Date createdAt, Date updatedAt, String messengerLink,
                         String roles, String groupName, String position, List<String> permitUrls){
-        super(firebaseID, name, password, age, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, roles);
+        super(id, firebaseID, name, password, age, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, roles);
         this.groupName = groupName;
         this.position = position;
         this.permitUrls = new ArrayList<>(permitUrls);

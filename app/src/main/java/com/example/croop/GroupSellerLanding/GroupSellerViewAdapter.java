@@ -1,4 +1,4 @@
-package com.example.croop;
+package com.example.croop.GroupSellerLanding;
 
 
 import android.util.Log;
@@ -8,13 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.croop.GroupSellerLanding.Fragment_Home_Group_Seller;
-import com.example.croop.GroupSellerLanding.Fragment_Profile_Group_Seller;
-
-public class MyViewAdapter extends FragmentStateAdapter {
+public class GroupSellerViewAdapter extends FragmentStateAdapter {
     private static final String TAG = "MyViewAdapter";
 
-    public MyViewAdapter(FragmentActivity fragmentActivity) {
+    public GroupSellerViewAdapter(FragmentActivity fragmentActivity) {
         super(fragmentActivity);  // You need to pass a FragmentActivity to the constructor
     }
 

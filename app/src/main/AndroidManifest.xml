@@ -63,6 +63,10 @@
         <activity android:name=".GroupSellerLanding.Sign_In_Success_Group_Seller"/>
 
         <activity android:name=".GroupSellerLanding.Activity_Orders_Group"/>
+        <activity android:name=".GroupSellerLanding.Activity_Edit_Profile"/>
+        <activity android:name=".GroupSellerLanding.Activity_Inventory_Category"/>
+        <activity android:name=".GroupSellerLanding.Activity_Item_Inventory"/>
+        <activity android:name=".GroupSellerLanding.Activity_Add_Item"/>
 
         <meta-data
             android:name="preloaded_fonts"

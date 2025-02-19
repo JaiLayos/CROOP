@@ -11,10 +11,10 @@ public class IndividualSellers extends Customer{
     public IndividualSellers(){
 
     }
-    public IndividualSellers (String firebaseID, String name, String password, int age, Map<String, String> address, String phoneNumber,
+    public IndividualSellers (int id, String firebaseID, String name, String password, int age, Map<String, String> address, String phoneNumber,
                               String email, String bio, Date createdAt, Date updatedAt, String messengerLink,
                               String roles, List <String> permitUrls){
-        super(firebaseID, name, password, age, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, roles);
+        super(id, firebaseID, name, password, age, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, roles);
         this.permitUrls = new ArrayList<>(permitUrls);
     }
 

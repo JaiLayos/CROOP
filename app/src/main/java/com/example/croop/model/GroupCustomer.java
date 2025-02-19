@@ -10,10 +10,10 @@ public class GroupCustomer extends Customer {
 
     }
 
-    public GroupCustomer(String firebaseID, String name, String password, int age, Map<String, String> address, String phoneNumber,
+    public GroupCustomer(int id, String firebaseID, String name, String password, int age, Map<String, String> address, String phoneNumber,
                     String email, String bio, Date createdAt, Date updatedAt, String messengerLink, String roles, String groupName,
                          String position){
-        super(firebaseID, name, password, age, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, roles);
+        super(id, firebaseID, name, password, age, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, roles);
         this.groupName = groupName;
         this.position = position;
     }

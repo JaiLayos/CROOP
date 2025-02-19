@@ -56,7 +56,7 @@ public class Fragment_Home_Group_Seller extends Fragment {
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Toast.makeText(getContext(), "Hello! " + role + documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Hello! " + role + " " + documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
             }
         }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -75,8 +75,12 @@ public class Fragment_Home_Group_Seller extends Fragment {
 
         Button order = view.findViewById(R.id.orderButton);
         order.setOnClickListener(v -> {
-            // Handle order button click
             Intent intent = new Intent(getActivity(), Activity_Orders_Group.class);
+            startActivity(intent);
+        });
+        Button inventory = view.findViewById(R.id.inventoryButton);
+        inventory.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), Activity_Inventory_Category.class);
             startActivity(intent);
         });
 

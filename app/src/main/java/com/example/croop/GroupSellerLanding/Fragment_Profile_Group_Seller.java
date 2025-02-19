@@ -2,12 +2,14 @@ package com.example.croop.GroupSellerLanding;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,6 +59,12 @@ public class Fragment_Profile_Group_Seller extends Fragment {
         userGroup = rootView.findViewById(R.id.userGroupText);
 
         initializeComponents(collection);
+
+        Button edit = rootView.findViewById(R.id.profileEditButton);
+        edit.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), Activity_Edit_Profile.class);
+            startActivity(intent);
+        });
 
         return rootView;
     }

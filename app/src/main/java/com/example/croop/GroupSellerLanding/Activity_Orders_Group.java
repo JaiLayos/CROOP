@@ -84,6 +84,9 @@ public class Activity_Orders_Group extends AppCompatActivity {
             idTextView.setText(String.valueOf(order.getId()));
             idTextView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
             idTextView.setLayoutParams(params);
+            idTextView.setOnClickListener(view -> {
+
+            });
             row.addView(idTextView);
 
             TextView dateTextView = new TextView(this);
@@ -93,7 +96,7 @@ public class Activity_Orders_Group extends AppCompatActivity {
             row.addView(dateTextView);
 
             TextView customerTextView = new TextView(this);
-            customerTextView.setText("aayusin ko pa"); // Assuming Customer has a name field
+            customerTextView.setText(order.getGroupSeller().getGroupName()); // Assuming Customer has a name field
             customerTextView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
             customerTextView.setLayoutParams(params);
             row.addView(customerTextView);
