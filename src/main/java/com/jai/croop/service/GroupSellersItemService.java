@@ -41,6 +41,13 @@ public class GroupSellersItemService implements IGroupSellersItemInventoryServic
     }
 
     @Override
+    public List<GroupSellersItemInventory> findByFirebaseID(String firebaseID) {
+        GroupSellers groupSellers = groupSellersRepository.findByFirebaseID(firebaseID);
+        int id = groupSellers.getId();
+        return groupSellersItemRepository.findByGroupSellerId(id);
+    }
+
+    @Override
     public List<GroupSellersItemInventory> getAllItems() {
         return groupSellersItemRepository.findAll();
     }

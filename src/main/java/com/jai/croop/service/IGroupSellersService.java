@@ -10,6 +10,8 @@ public interface IGroupSellersService {
     List<GroupSellers> getAllGroupSellers();
     List<GroupSellersOrders> getGroupSellerIdByFirebaseID(String firebaseID);
     GroupSellers getGroupSellers(int id);
+    int findIDByFirebaseID(String firebaseID);
     GroupSellers updateGroupSellers(int id, GroupSellers updatedGroupSellers);
+    GroupSellers updateGroupSellersByFirebaseID(String firebaseID, GroupSellers updatedGroupSellers);
     void deleteGroupSellers(int id);
 }

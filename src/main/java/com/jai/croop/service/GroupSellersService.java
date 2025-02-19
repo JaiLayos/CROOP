@@ -1,5 +1,6 @@
 package com.jai.croop.service;
 
+import com.jai.croop.model.GroupSellerDiscount;
 import com.jai.croop.model.GroupSellers;
 import com.jai.croop.model.GroupSellersOrders;
 import com.jai.croop.repository.GroupSellersOrdersRepository;
@@ -43,11 +44,34 @@ public class GroupSellersService implements IGroupSellersService{
         return groupSellersRepository.findById(id).orElseThrow(() -> new RuntimeException("Group Seller Not Found!"));
     }
 
+    @Override
+    public int findIDByFirebaseID(String firebaseID) {
+        GroupSellers groupSellers = groupSellersRepository.findByFirebaseID(firebaseID);
+        return groupSellers.getId();
+    }
+
     @Transactional
     @Override
     public GroupSellers updateGroupSellers(int id, GroupSellers updatedGroupSellers) {
         Date date = new Date();
         GroupSellers groupSellers = getGroupSellers(id);
+        groupSellers.setName(updatedGroupSellers.getName());
+        groupSellers.setAddress(updatedGroupSellers.getAddress());
+        groupSellers.setPhoneNumber(updatedGroupSellers.getPhoneNumber());
+        groupSellers.setEmail(updatedGroupSellers.getEmail());
+        groupSellers.setBio(updatedGroupSellers.getBio());
+        groupSellers.setPosition(updatedGroupSellers.getPosition());
+        groupSellers.setGroupName(updatedGroupSellers.getGroupName());
+        groupSellers.setRoles(updatedGroupSellers.getRoles());
+        groupSellers.setUpdatedAt(date);
+        return groupSellersRepository.save(groupSellers);
+    }
+
+    @Transactional
+    @Override
+    public GroupSellers updateGroupSellersByFirebaseID(String firebaseID, GroupSellers updatedGroupSellers) {
+        Date date = new Date();
+        GroupSellers groupSellers = groupSellersRepository.findByFirebaseID(firebaseID);
         groupSellers.setName(updatedGroupSellers.getName());
         groupSellers.setAddress(updatedGroupSellers.getAddress());
         groupSellers.setPhoneNumber(updatedGroupSellers.getPhoneNumber());

@@ -27,6 +27,11 @@ public class GroupSellerController {
         return ResponseEntity.ok(groupSellersService.getGroupSellers(id));
     }
 
+    @GetMapping("/id/{firebaseID}")
+    public ResponseEntity<Integer> getGroupSellersID(@PathVariable String firebaseID){
+        return ResponseEntity.ok(groupSellersService.findIDByFirebaseID(firebaseID));
+    }
+
     @GetMapping("/orders/{firebaseID}")
     public ResponseEntity<List<GroupSellersOrders>> getGroupSellersbyFirebase(@PathVariable String firebaseID){
         return ResponseEntity.ok((List<GroupSellersOrders>) groupSellersService.getGroupSellerIdByFirebaseID(firebaseID));
@@ -40,6 +45,11 @@ public class GroupSellerController {
     @PutMapping("/{id}")
     public ResponseEntity<GroupSellers> updateGroupSellers(@PathVariable int id, @RequestBody GroupSellers groupSellers){
         return ResponseEntity.ok((groupSellersService.updateGroupSellers(id, groupSellers)));
+    }
+
+    @PutMapping("/firebase/{firebaseID}")
+    public ResponseEntity<GroupSellers> updateGroupSellersByFirebaseID(@PathVariable String firebaseID, @RequestBody GroupSellers groupSellers){
+        return ResponseEntity.ok((groupSellersService.updateGroupSellersByFirebaseID(firebaseID, groupSellers)));
     }
 
     @DeleteMapping("/{id}")

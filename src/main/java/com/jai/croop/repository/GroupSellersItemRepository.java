@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface GroupSellersItemRepository extends JpaRepository<GroupSellersItemInventory, Integer> {
     List<GroupSellersItemInventory> findByItemName(String itemName);
+    List<GroupSellersItemInventory> findByGroupSellerId(int groupSellerId);
+
 }
