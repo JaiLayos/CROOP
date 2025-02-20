@@ -8,10 +8,12 @@ import android.text.InputType; // import statement for password
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.R;
+import com.example.croop.SignIn_Activity;
 import com.example.croop.model.IndividualSellers;
 import com.example.croop.singleton.IndividualSellersSingleton;
 
@@ -21,6 +23,11 @@ public class SignUp_Indiv_Farmer_Activity_3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_indiv_farmer_3);
         initializeComponents();
+        TextView signInHyperlink = findViewById(R.id.signInHyperlink3);
+        signInHyperlink.setOnClickListener(view -> {
+            Intent intent = new Intent(SignUp_Indiv_Farmer_Activity_3.this, SignIn_Activity.class);
+            startActivity(intent);
+        });
     }
 
     private void initializeComponents() {

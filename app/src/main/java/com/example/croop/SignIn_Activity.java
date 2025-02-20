@@ -7,9 +7,12 @@ import android.text.InputType; // import statement for password
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.croop.Roles_Activity;
 
 import com.example.croop.GroupSellerLanding.Sign_In_Success_Group_Seller;
 import com.example.croop.model.CurrentRole;
@@ -29,6 +32,12 @@ public class SignIn_Activity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.signin);
         initializeComponents();
+
+        TextView signUpHyperlink = findViewById(R.id.signInHyperlink9);
+        signUpHyperlink.setOnClickListener(view -> {
+            Intent intent = new Intent(SignIn_Activity.this, Roles_Activity.class);
+            startActivity(intent);
+        });
     }
 
     private void initializeComponents() {

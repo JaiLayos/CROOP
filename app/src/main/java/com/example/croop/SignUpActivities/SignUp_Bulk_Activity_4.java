@@ -9,12 +9,14 @@ import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.R;
+import com.example.croop.SignIn_Activity;
 import com.example.croop.model.CurrentRole;
 import com.example.croop.model.GroupCustomer;
 import com.example.croop.singleton.CurrentUserSingleton;
@@ -47,6 +49,11 @@ public class SignUp_Bulk_Activity_4 extends AppCompatActivity {
         setContentView(R.layout.signup_retailer_4);
         mAuth = FirebaseAuth.getInstance();
         initializeComponents();
+        TextView signInHyperlink = findViewById(R.id.signInHyperlink);
+        signInHyperlink.setOnClickListener(view -> {
+            Intent intent = new Intent(SignUp_Bulk_Activity_4.this, SignIn_Activity.class);
+            startActivity(intent);
+        });
     }
     private void initializeComponents() {
         bulkMobileText = findViewById(R.id.bulkPhoneText);

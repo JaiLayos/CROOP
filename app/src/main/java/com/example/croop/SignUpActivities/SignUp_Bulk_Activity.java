@@ -6,11 +6,13 @@ import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.R;
+import com.example.croop.SignIn_Activity;
 import com.example.croop.model.CurrentRole;
 import com.example.croop.model.GroupCustomer;
 import com.example.croop.singleton.CurrentUserSingleton;
@@ -22,6 +24,11 @@ public class SignUp_Bulk_Activity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         setContentView(R.layout.signup_retailer);
         initializeComponents();
+        TextView signInHyperlink = findViewById(R.id.signInHyperlink4);
+        signInHyperlink.setOnClickListener(view -> {
+            Intent intent = new Intent(SignUp_Bulk_Activity.this, SignIn_Activity.class);
+            startActivity(intent);
+        });
     }
 
     private void initializeComponents() {

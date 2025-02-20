@@ -10,11 +10,13 @@ import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.croop.R;
+import com.example.croop.SignIn_Activity;
 import com.example.croop.model.Customer;
 import com.example.croop.singleton.CustomerSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -45,6 +47,11 @@ public class SignUp_Indiv_Cust_Activity_2 extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocationPermission();
         initializeComponents();
+        TextView signInHyperlink = findViewById(R.id.signInHyperlink);
+        signInHyperlink.setOnClickListener(view -> {
+            Intent intent = new Intent(SignUp_Indiv_Cust_Activity_2.this, SignIn_Activity.class);
+            startActivity(intent);
+        });
     }
     public void initializeComponents() {
         house = findViewById(R.id.userHouseText);

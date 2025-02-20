@@ -6,11 +6,13 @@ import android.text.InputType; // import statement for password
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.R;
+import com.example.croop.SignIn_Activity;
 import com.example.croop.model.GroupSellers;
 import com.example.croop.singleton.GroupSellersSingleton;
 
@@ -20,6 +22,11 @@ public class SignUp_COOP_Activity_3 extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         setContentView(R.layout.signup_coop_3);
         initializeComponents();
+        TextView signInHyperlink = findViewById(R.id.signInHyperlink5);
+        signInHyperlink.setOnClickListener(view -> {
+            Intent intent = new Intent(SignUp_COOP_Activity_3.this, SignIn_Activity.class);
+            startActivity(intent);
+        });
     }
 
     private void initializeComponents() {

@@ -8,11 +8,13 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.R;
+import com.example.croop.SignIn_Activity;
 import com.example.croop.model.CurrentRole;
 import com.example.croop.model.Customer;
 import com.example.croop.singleton.CurrentUserSingleton;
@@ -48,6 +50,11 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseAuth.getInstance().setLanguageCode(String.valueOf(Log.DEBUG));
         initializeComponents();
+        TextView signInHyperlink = findViewById(R.id.signInHyperlink);
+        signInHyperlink.setOnClickListener(view -> {
+            Intent intent = new Intent(SignUp_Indiv_Cust_Activity_4.this, SignIn_Activity.class);
+            startActivity(intent);
+        });
     }
 
     private void initializeComponents() {

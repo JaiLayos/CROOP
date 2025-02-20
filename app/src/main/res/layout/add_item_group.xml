@@ -121,7 +121,7 @@
                             android:background="@drawable/rounded_border_edit_text"
                             android:ems="10"
                             android:hint="Ex. 10"
-                            android:inputType="text"
+                            android:inputType="number"
                             android:paddingStart="10dp" />
                     </LinearLayout>
 

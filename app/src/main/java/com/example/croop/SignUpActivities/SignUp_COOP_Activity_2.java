@@ -10,12 +10,14 @@ import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.croop.R;
+import com.example.croop.SignIn_Activity;
 import com.example.croop.model.GroupSellers;
 import com.example.croop.singleton.GroupSellersSingleton;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -48,6 +50,11 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocationPermission();
         initializeComponents();
+        TextView signInHyperlink = findViewById(R.id.signInHyperlink);
+        signInHyperlink.setOnClickListener(view -> {
+            Intent intent = new Intent(SignUp_COOP_Activity_2.this, SignIn_Activity.class);
+            startActivity(intent);
+        });
     }
 
     private void initializeComponents() {

@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.R;
+import com.example.croop.SignIn_Activity;
 import com.example.croop.model.IndividualSellers;
 import com.example.croop.singleton.IndividualSellersSingleton;
 
@@ -58,6 +60,12 @@ public class SignUp_Indiv_Farmer_Activity extends AppCompatActivity {
             individualSellers.setAge(age);
             IndividualSellersSingleton.getInstance().setIndividualSellers(individualSellers);
             Intent intent = new Intent(SignUp_Indiv_Farmer_Activity.this,SignUp_Indiv_Farmer_Activity_2.class);
+            startActivity(intent);
+        });
+
+        TextView signInHyperlink = findViewById(R.id.clickHere);
+        signInHyperlink.setOnClickListener(view -> {
+            Intent intent = new Intent(SignUp_Indiv_Farmer_Activity.this, SignIn_Activity.class);
             startActivity(intent);
         });
     }

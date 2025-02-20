@@ -7,6 +7,7 @@ import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +29,12 @@ public class SignUp_MobPhone_valid extends AppCompatActivity {
         Intent intent = getIntent();
         String verificationId = intent.getStringExtra("V_ID");
         initializeComponent(verificationId);
+
+        TextView signInHyperlink = findViewById(R.id.signInHyperlink);
+        signInHyperlink.setOnClickListener(view -> {
+            Intent intent2 = new Intent(SignUp_MobPhone_valid.this, SignIn_Activity.class);
+            startActivity(intent2);
+        });
     }
 
     private void initializeComponent(String verificationId){
