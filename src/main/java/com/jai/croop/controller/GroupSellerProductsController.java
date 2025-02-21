@@ -1,6 +1,7 @@
 package com.jai.croop.controller;
 
 import com.jai.croop.model.GroupSellers;
+import com.jai.croop.model.GroupSellersItemInventory;
 import com.jai.croop.model.GroupSellersProductsInventory;
 import com.jai.croop.service.IGroupSellersProductInventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,8 @@ public class GroupSellerProductsController {
     public IGroupSellersProductInventoryService groupSellersProductsInventoryService;
 
     @PostMapping
-    public ResponseEntity<GroupSellersProductsInventory> addItem(@RequestBody GroupSellersProductsInventory groupSellersProductsInventory, GroupSellers groupSellers){
+    public ResponseEntity<GroupSellersProductsInventory> addItem(@RequestBody GroupSellersProductsInventory groupSellersProductsInventory){
+        GroupSellers groupSellers = groupSellersProductsInventory.getGroupSellers();
         System.out.println("Receive Group Seller Item: " + groupSellersProductsInventory);
         return ResponseEntity.ok(groupSellersProductsInventoryService.addItems(groupSellersProductsInventory, groupSellers));
     }
@@ -29,6 +31,11 @@ public class GroupSellerProductsController {
     @GetMapping("/products/{itemName}")
     public ResponseEntity<List<GroupSellersProductsInventory>> getItemByName(@PathVariable String itemName){
         return ResponseEntity.ok(groupSellersProductsInventoryService.findByItemName(itemName));
+    }
+
+    @GetMapping("/items/firebase/{firebaseID}")
+    public ResponseEntity<List<GroupSellersProductsInventory>> getItemsByFirebaseID(@PathVariable String firebaseID){
+        return ResponseEntity.ok(groupSellersProductsInventoryService.findByFirebaseID(firebaseID));
     }
 
     @GetMapping

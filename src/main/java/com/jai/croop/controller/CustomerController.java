@@ -25,6 +25,11 @@ public class CustomerController {
     public ResponseEntity<Customer> getCustomer(@PathVariable int id) {
         return ResponseEntity.ok(customerService.getCustomer(id));
     }
+    @GetMapping("/name/{id}")
+    public ResponseEntity<String> getCustomerName(@PathVariable int id) {
+        Customer customer = customerService.getCustomer(id);
+        return ResponseEntity.ok(customer.getName());
+    }
 
     // Add a new customer
     @PostMapping

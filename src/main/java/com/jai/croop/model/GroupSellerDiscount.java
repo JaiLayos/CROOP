@@ -14,7 +14,7 @@ public class GroupSellerDiscount extends BaseDiscount{
     @JsonBackReference("group-discounts")
     private GroupSellers groupSellers;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "group_products_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference("group-products-discounted")
     private GroupSellersProductsInventory groupSellersProductsInventory;

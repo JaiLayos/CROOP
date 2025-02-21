@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GroupSellersProductService implements IGroupSellersProductInventoryService{
@@ -36,8 +37,16 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
 
     @Override
     public List<GroupSellersProductsInventory> findByItemName(String itemName) {
+        //List<GroupSellersProductsInventory> selection = groupSellersProductsRepository.findByFirebaseID(firebaseID);
         List<GroupSellersProductsInventory> products = groupSellersProductsRepository.findByItemName(itemName);
         return products;
+    }
+
+    @Override
+    public List<GroupSellersProductsInventory> findByFirebaseID(String firebaseID) {
+        GroupSellers groupSellers = groupSellersRepository.findByFirebaseID(firebaseID);
+        int id = groupSellers.getId();
+        return groupSellersProductsRepository.findByGroupSellersId(id);
     }
 
     @Override

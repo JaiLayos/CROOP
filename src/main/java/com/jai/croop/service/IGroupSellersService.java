@@ -8,7 +8,7 @@ import java.util.List;
 public interface IGroupSellersService {
     GroupSellers addGroupSellers(GroupSellers groupSellers);
     List<GroupSellers> getAllGroupSellers();
-    List<GroupSellersOrders> getGroupSellerIdByFirebaseID(String firebaseID);
+    int getGroupSellerIdByFirebaseID(String firebaseID);
     GroupSellers getGroupSellers(int id);
     int findIDByFirebaseID(String firebaseID);
     GroupSellers updateGroupSellers(int id, GroupSellers updatedGroupSellers);

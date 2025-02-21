@@ -17,7 +17,9 @@ public class GroupSellerDiscountControlller {
     @Autowired
     private IGroupSellersDiscountService groupSellersDiscountService;
     @PostMapping
-    public ResponseEntity<GroupSellerDiscount> addDiscount(@RequestBody GroupSellerDiscount groupSellerDiscount, GroupSellers groupSellers, GroupSellersProductsInventory groupSellersProductsInventory){
+    public ResponseEntity<GroupSellerDiscount> addDiscount(@RequestBody GroupSellerDiscount groupSellerDiscount){
+        GroupSellersProductsInventory groupSellersProductsInventory = groupSellerDiscount.getGroupSellersProductsInventory();
+        GroupSellers groupSellers = groupSellerDiscount.getGroupSellers();
         System.out.println("Receive Group Seller Item: " + groupSellersProductsInventory);
         return ResponseEntity.ok(groupSellersDiscountService.addDiscounts(groupSellerDiscount, groupSellers, groupSellersProductsInventory));
     }

@@ -17,7 +17,7 @@ public class GroupSellersProductsInventory extends BaseInventory{
     @JsonBackReference("group-products")
     private GroupSellers groupSellers;
 
-    @OneToOne
+    @ManyToOne
     @JsonManagedReference("group-products-discounted")
     private GroupSellerDiscount groupSellerDiscounts;
 
