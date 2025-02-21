@@ -1,5 +1,6 @@
 package com.example.croop.GroupSellerLanding;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -10,16 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.R;
-import com.example.croop.model.GroupSellersOrders;
-import com.example.croop.model.OrderItem;
+import com.example.croop.model.GroupSellerOrdersDTO;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
-import com.google.common.reflect.TypeToken;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.gson.Gson;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -43,12 +41,12 @@ public class Activity_Orders_Group extends AppCompatActivity {
 
         // Fetch data from the API
         String firebaseID = user.getUid(); // Replace with the actual Firebase
-        Call<List<GroupSellersOrders>> call = apiService.getGroupSellersOrders(firebaseID);
-        call.enqueue(new Callback<List<GroupSellersOrders>>() {
+        Call<List<GroupSellerOrdersDTO>> call = apiService.getGroupSellersOrders(firebaseID);
+        call.enqueue(new Callback<List<GroupSellerOrdersDTO>>() {
             @Override
-            public void onResponse(Call<List<GroupSellersOrders>> call, Response<List<GroupSellersOrders>> response) {
+            public void onResponse(Call<List<GroupSellerOrdersDTO>> call, Response<List<GroupSellerOrdersDTO>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<GroupSellersOrders> orders = response.body();
+                    List<GroupSellerOrdersDTO> orders = response.body();
                     Toast.makeText(Activity_Orders_Group.this, "Number of orders fetched: " + orders.size(), Toast.LENGTH_SHORT).show();
                     populateTable(orders);
                 }else{
@@ -57,10 +55,16 @@ public class Activity_Orders_Group extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<GroupSellersOrders>> call, Throwable t) {
+            public void onFailure(Call<List<GroupSellerOrdersDTO>> call, Throwable t) {
                 Toast.makeText(Activity_Orders_Group.this, "API_ERROR"+ t.toString(), Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }
+        });
+
+        FloatingActionButton back = findViewById(R.id.backFloat);
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Sign_In_Success_Group_Seller.class);
+            startActivity(intent);
         });
     }
 
@@ -68,11 +72,11 @@ public class Activity_Orders_Group extends AppCompatActivity {
         table = findViewById(R.id.tableLayout);
     }
 
-    private void populateTable(List<GroupSellersOrders> orders) {
+    private void populateTable(List<GroupSellerOrdersDTO> orders) {
         // Clear existing rows (except the header)
         table.removeViews(1, table.getChildCount() - 1);
 
-        for (GroupSellersOrders order : orders) {
+        for (GroupSellerOrdersDTO order : orders) {
             TableRow row = new TableRow(this);
             TableRow.LayoutParams params = new TableRow.LayoutParams(
                     0, // Width: 0 means the width will be determined by the weight
@@ -96,31 +100,14 @@ public class Activity_Orders_Group extends AppCompatActivity {
             row.addView(dateTextView);
 
             TextView customerTextView = new TextView(this);
-            int customerId = Integer.parseInt(order.getCustomer().getId());
-            Call<String> customerName = apiService.getCustomerName(customerId);
-            customerName.enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        String customerName = response.body();
-                        customerTextView.setText(customerName); // Update the TextView with the customer name
-                    } else {
-                        customerTextView.setText("Unknown Customer"); // Handle API error
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-
-                }
-            });
+            customerTextView.setText(order.getCustomerName());
             customerTextView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
             customerTextView.setLayoutParams(params);
             row.addView(customerTextView);
 
             TextView orderListTextView = new TextView(this);
-            Map<String, Integer> orderListJson = order.getOrderList(); // Assuming this is a JSON string
-            String formattedOrderList = formatOrderList(orderListJson.toString()); // Format the JSON
+            Map<String, Integer> orderList = order.getOrderList(); // Get the orderList Map
+            String formattedOrderList = formatOrderList(orderList); // Format the Map into a readable string
             orderListTextView.setText(formattedOrderList);
             orderListTextView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
             orderListTextView.setLayoutParams(params);
@@ -143,18 +130,14 @@ public class Activity_Orders_Group extends AppCompatActivity {
         // Add a new row for each order
     }
 
-    private String formatOrderList(String orderListJson) {
+    private String formatOrderList(Map<String, Integer> orderList) {
         try {
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<OrderItem>>() {}.getType();
-            List<OrderItem> orderItems = gson.fromJson(orderListJson, listType);
-
             StringBuilder formattedList = new StringBuilder();
-            for (OrderItem item : orderItems) {
-                formattedList.append(item.getItem())
-                        .append(" x ")
-                        .append(item.getQuantity())
-                        .append("\n");
+            for (Map.Entry<String, Integer> entry : orderList.entrySet()) {
+                formattedList.append(entry.getKey()) // Item name
+                        .append(" - P")
+                        .append(entry.getValue()) // Quantity
+                        .append("\n"); // Add a newline for readability
             }
             return formattedList.toString().trim(); // Remove trailing newline
         } catch (Exception e) {

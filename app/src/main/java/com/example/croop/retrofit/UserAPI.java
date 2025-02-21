@@ -1,9 +1,10 @@
 package com.example.croop.retrofit;
 
 import com.example.croop.model.Customer;
+import com.example.croop.model.GroupSellerOrdersDTO;
 import com.example.croop.model.GroupSellers;
+import com.example.croop.model.GroupSellersDiscount;
 import com.example.croop.model.GroupSellersItemInventory;
-import com.example.croop.model.GroupSellersOrders;
 import com.example.croop.model.GroupSellersProductsInventory;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public interface UserAPI {
     Call<String> getCustomerName(@Path("id") int id);
     //ORDERS
     @GET("api/group-sellers/orders/{firebaseID}")
-    Call<List<GroupSellersOrders>> getGroupSellersOrders(@Path("firebaseID") String firebaseID);
+    Call<List<GroupSellerOrdersDTO>> getGroupSellersOrders(@Path("firebaseID") String firebaseID);
 
 
     //Group Sellers Item Inventory
@@ -51,19 +52,20 @@ public interface UserAPI {
     Call<GroupSellersProductsInventory> addProduct(@Body GroupSellersProductsInventory groupSellersProductsInventory);
     @GET("api/group-sellers-products/{id}")
     Call<GroupSellersProductsInventory> getProduct(@Path("id") int id);
-
     @GET("api/group-sellers-products/products/{itemName}")
     Call<List<GroupSellersProductsInventory>> getProductsByName(@Path("itemName")String itemName);
-
     @GET("api/group-sellers-products/items/firebase/{firebaseID}")
     Call<List<GroupSellersProductsInventory>> getProductsByFirebaseID(@Path("firebaseID") String firebaseID);
-
     @GET("api/group-sellers-products")
     Call<List<GroupSellersProductsInventory>> getAllProducts();
-
     @PUT("api/group-sellers-products/{id}")
     Call<GroupSellersProductsInventory> updateProducts(@Path("id") int id, @Body GroupSellersProductsInventory groupSellersProductsInventory);
-
     @DELETE("api/group-sellers-products/{id}")
     Call<GroupSellersProductsInventory> deleteProducts(@Path("id") int id);
+
+    //Group Sellers Discount
+    @GET("api/group-seller-discount/firebase/{firebaseID}")
+    Call<List<GroupSellersDiscount>> getDiscountbyFirebaseID(@Path("firebaseID") String firebaseID);
+    @GET("api/group-seller-discount/discount/{itemName}")
+    Call<List<GroupSellersDiscount>> getDiscountByName(@Path("itemName") String itemName);
 }

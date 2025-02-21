@@ -2,14 +2,14 @@ package com.example.croop.model;
 
 public class BaseDiscount {
     private int originalPrice;
-    private long discountPercent;
+    private double discountPercent;
     private int salePrice;
 
     public BaseDiscount(){
 
     }
 
-    public BaseDiscount(int originalPrice, int discountPercent, int salePrice){
+    public BaseDiscount(int originalPrice, double discountPercent, int salePrice){
         this.originalPrice = originalPrice;
         this.discountPercent = discountPercent;
         this.salePrice = salePrice;
@@ -22,10 +22,10 @@ public class BaseDiscount {
         this.originalPrice = originalPrice;
     }
 
-    public long getDiscountPercent() {
+    public double getDiscountPercent() {
         return discountPercent;
     }
-    public void setDiscountPercent(long discountPercent) {
+    public void setDiscountPercent(double discountPercent) {
         this.discountPercent = discountPercent;
     }
 

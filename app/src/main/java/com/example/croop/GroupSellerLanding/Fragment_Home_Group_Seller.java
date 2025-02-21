@@ -83,6 +83,11 @@ public class Fragment_Home_Group_Seller extends Fragment {
             Intent intent = new Intent(getActivity(), Activity_Inventory_Category.class);
             startActivity(intent);
         });
+        Button discount = view.findViewById(R.id.discountButton);
+        discount.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), Activity_Discount_Inventory.class);
+            startActivity(intent);
+        });
 
         return view;
     }

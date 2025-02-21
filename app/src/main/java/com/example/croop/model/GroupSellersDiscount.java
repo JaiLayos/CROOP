@@ -12,7 +12,7 @@ public class GroupSellersDiscount extends BaseDiscount{
 
     }
 
-    public GroupSellersDiscount(GroupSellers groupSellers, GroupSellersProductsInventory groupSellersProductsInventory, int originalPrice, int discountPercent, int salePrice){
+    public GroupSellersDiscount(GroupSellers groupSellers, GroupSellersProductsInventory groupSellersProductsInventory, int originalPrice, double discountPercent, int salePrice){
         super(originalPrice, discountPercent, salePrice);
         this.groupSellers = groupSellers;
         this.groupSellersProductsInventory = groupSellersProductsInventory;

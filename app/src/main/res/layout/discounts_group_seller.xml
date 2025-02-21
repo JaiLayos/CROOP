@@ -83,20 +83,6 @@
                         android:text="SEARCH"
                         android:textSize="20sp" />
 
-                    <Button
-                        android:id="@+id/addItemButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:backgroundTint="@color/highlight_green"
-                        android:fontFamily="@font/inter_semibold"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="ADD ITEM"
-                        android:textSize="20sp" />
-
                     <TableLayout
                         android:id="@+id/tableLayout"
                         android:layout_width="match_parent"
@@ -137,7 +123,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_semibold"
-                                android:text="Used"
+                                android:text="Discount"
                                 android:textAlignment="center"
                                 android:textSize="14sp" />
 
