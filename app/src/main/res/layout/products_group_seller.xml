@@ -131,6 +131,16 @@
                                 android:textAlignment="center"
                                 android:textSize="14sp" />
 
+                            <TextView
+                                android:id="@+id/textView8"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Promos"
+                                android:textAlignment="center"
+                                android:textSize="14sp" />
+
                         </TableRow>
 
                     </TableLayout>
