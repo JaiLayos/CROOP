@@ -24,6 +24,8 @@ public class GroupSellerViewAdapter extends FragmentStateAdapter {
                 return new Fragment_Home_Group_Seller();
             case 1:
                 return new Fragment_Profile_Group_Seller();
+            case 2:
+                return new Fragment_Account_Group_Seller();
             default:
                 return new Fragment();  // Default case
         }
@@ -31,7 +33,7 @@ public class GroupSellerViewAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;  // Number of fragments
+        return 3;  // Number of fragments
     }
 }
 

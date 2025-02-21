@@ -3,7 +3,6 @@ package com.example.croop.GroupSellerLanding;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +28,8 @@ public class Activity_Inventory_Category extends AppCompatActivity {
         product = findViewById(R.id.productInventoryButton);
         item = findViewById(R.id.itemInventoryButton);
         product.setOnClickListener(v -> {
-            Toast.makeText(this,"Insert product here", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, Activity_Products_Inventory.class);
+            startActivity(intent);
         });
         item.setOnClickListener(v -> {
             Intent intent = new Intent(this, Activity_Item_Inventory.class);

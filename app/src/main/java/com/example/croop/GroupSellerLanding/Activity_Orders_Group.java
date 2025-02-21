@@ -31,13 +31,13 @@ public class Activity_Orders_Group extends AppCompatActivity {
     private TableLayout table;
     FirebaseAuth mAuth;
     RetrofitService RetrofitClient;
+    UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.orders_group_seller);
         initializeComponents();
-        UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -96,7 +96,24 @@ public class Activity_Orders_Group extends AppCompatActivity {
             row.addView(dateTextView);
 
             TextView customerTextView = new TextView(this);
-            customerTextView.setText(order.getGroupSeller().getGroupName()); // Assuming Customer has a name field
+            int customerId = Integer.parseInt(order.getCustomer().getId());
+            Call<String> customerName = apiService.getCustomerName(customerId);
+            customerName.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String customerName = response.body();
+                        customerTextView.setText(customerName); // Update the TextView with the customer name
+                    } else {
+                        customerTextView.setText("Unknown Customer"); // Handle API error
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+
+                }
+            });
             customerTextView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
             customerTextView.setLayoutParams(params);
             row.addView(customerTextView);

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige_brackground">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/headerCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/beige_brackground">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/backFloat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="80dp"
+                    android:clickable="true"
+                    android:contentDescription="back"
+                    app:backgroundTint="@color/highlight_green"
+                    app:srcCompat="@drawable/back" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/formCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/beige_brackground">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/addTableLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_marginEnd="20dp"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="ADDING PRODUCTS"
+                        android:textAlignment="center"
+                        android:textSize="42sp" />
+
+                    <TextView
+                        android:id="@+id/addDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:text="Input here the details of the new item to be added."
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/nameLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/mulish_medium"
+                            android:paddingStart="20dp"
+                            android:text="Product Name"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/nameText"
+                            android:layout_width="0dp"
+                            android:layout_height="55dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_border_edit_text"
+                            android:ems="10"
+                            android:hint="Ex. Fertilizer"
+                            android:inputType="text"
+                            android:paddingStart="10dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/initialLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/mulish_medium"
+                            android:paddingStart="20dp"
+                            android:text="Product Quantity"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/initialText"
+                            android:layout_width="0dp"
+                            android:layout_height="55dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_border_edit_text"
+                            android:ems="10"
+                            android:hint="Ex. 10"
+                            android:inputType="text"
+                            android:paddingStart="10dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/priceLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/mulish_medium"
+                            android:paddingStart="20dp"
+                            android:text="Price"
+                            android:textSize="20sp" />
+
+                        <EditText
+                            android:id="@+id/priceText"
+                            android:layout_width="0dp"
+                            android:layout_height="55dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_border_edit_text"
+                            android:ems="10"
+                            android:hint="Ex. 0.30"
+                            android:inputType="text"
+                            android:paddingStart="10dp" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/addButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_marginEnd="10dp"
+                        android:backgroundTint="@color/secondary_color"
+                        android:fontFamily="@font/inter_semibold"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="ADD"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

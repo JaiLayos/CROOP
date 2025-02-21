@@ -1,8 +1,10 @@
 package com.example.croop.retrofit;
 
+import com.example.croop.model.Customer;
 import com.example.croop.model.GroupSellers;
 import com.example.croop.model.GroupSellersItemInventory;
 import com.example.croop.model.GroupSellersOrders;
+import com.example.croop.model.GroupSellersProductsInventory;
 
 import java.util.List;
 
@@ -22,12 +24,17 @@ public interface UserAPI {
     @GET("api/group-sellers/id/{firebaseID}")
     Call<Integer> getGroupSellersID(@Path("firebaseID") String firebaseID);
 
+    //CUSTOMERS
+    @GET("api/customers/{id}")
+    Call<Customer> getCustomer(@Path("id") int id);
+    @GET("api/customers/name/{id}")
+    Call<String> getCustomerName(@Path("id") int id);
     //ORDERS
     @GET("api/group-sellers/orders/{firebaseID}")
     Call<List<GroupSellersOrders>> getGroupSellersOrders(@Path("firebaseID") String firebaseID);
 
 
-    //Group Sellers Inventory
+    //Group Sellers Item Inventory
     @POST("api/group-sellers-item-inventory/add-item")
     Call<GroupSellersItemInventory> addItem(@Body GroupSellersItemInventory groupSellersItemInventory);
     @GET("api/group-sellers-item-inventory/items/firebase/{firebaseID}")
@@ -38,4 +45,25 @@ public interface UserAPI {
     Call<GroupSellersItemInventory> updateItem(@Path("id") int id, @Body GroupSellersItemInventory groupSellersItemInventory);
     @DELETE("api/group-sellers-item-inventory/{id}")
     Call<GroupSellersItemInventory> deleteItem(@Path("id") int id);
+
+    //Group Sellers Products Inventory
+    @POST("api/group-sellers-products")
+    Call<GroupSellersProductsInventory> addProduct(@Body GroupSellersProductsInventory groupSellersProductsInventory);
+    @GET("api/group-sellers-products/{id}")
+    Call<GroupSellersProductsInventory> getProduct(@Path("id") int id);
+
+    @GET("api/group-sellers-products/products/{itemName}")
+    Call<List<GroupSellersProductsInventory>> getProductsByName(@Path("itemName")String itemName);
+
+    @GET("api/group-sellers-products/items/firebase/{firebaseID}")
+    Call<List<GroupSellersProductsInventory>> getProductsByFirebaseID(@Path("firebaseID") String firebaseID);
+
+    @GET("api/group-sellers-products")
+    Call<List<GroupSellersProductsInventory>> getAllProducts();
+
+    @PUT("api/group-sellers-products/{id}")
+    Call<GroupSellersProductsInventory> updateProducts(@Path("id") int id, @Body GroupSellersProductsInventory groupSellersProductsInventory);
+
+    @DELETE("api/group-sellers-products/{id}")
+    Call<GroupSellersProductsInventory> deleteProducts(@Path("id") int id);
 }
