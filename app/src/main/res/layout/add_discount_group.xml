@@ -151,7 +151,7 @@
                             android:background="@drawable/rounded_border_edit_text"
                             android:ems="10"
                             android:hint="Ex. 0.30"
-                            android:inputType="text"
+                            android:inputType="numberDecimal"
                             android:paddingStart="10dp" />
                     </LinearLayout>
 

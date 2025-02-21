@@ -55,7 +55,7 @@
                         android:layout_marginTop="50dp"
                         android:layout_marginEnd="20dp"
                         android:fontFamily="@font/inter_semibold"
-                        android:text="ADDING PRODUCTS"
+                        android:text="@string/adding_product"
                         android:textAlignment="center"
                         android:textSize="42sp" />
 
@@ -65,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Input here the details of the new item to be added."
+                        android:text="@string/input_details_of_product_here"
                         android:textAlignment="center"
                         android:textSize="16sp" />
 
@@ -82,7 +82,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/mulish_medium"
                             android:paddingStart="20dp"
-                            android:text="Product Name"
+                            android:text="@string/item_name"
                             android:textSize="20sp" />
 
                         <EditText
@@ -93,7 +93,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/rounded_border_edit_text"
                             android:ems="10"
-                            android:hint="Ex. Fertilizer"
+                            android:hint="Hal. Mangga"
                             android:inputType="text"
                             android:paddingStart="10dp" />
                     </LinearLayout>
@@ -111,7 +111,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/mulish_medium"
                             android:paddingStart="20dp"
-                            android:text="Product Quantity"
+                            android:text="@string/item_quantitiy"
                             android:textSize="20sp" />
 
                         <EditText
@@ -122,7 +122,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/rounded_border_edit_text"
                             android:ems="10"
-                            android:hint="Ex. 10"
+                            android:hint="Hal. 10"
                             android:inputType="text"
                             android:paddingStart="10dp" />
                     </LinearLayout>
@@ -141,7 +141,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/mulish_medium"
                             android:paddingStart="20dp"
-                            android:text="Price"
+                            android:text="@string/price"
                             android:textSize="20sp" />
 
                         <EditText
@@ -152,7 +152,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/rounded_border_edit_text"
                             android:ems="10"
-                            android:hint="Ex. 0.30"
+                            android:hint="Hal. 1205"
                             android:inputType="text"
                             android:paddingStart="10dp" />
                     </LinearLayout>
@@ -168,7 +168,7 @@
                         android:fontFamily="@font/inter_semibold"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:text="ADD"
+                        android:text="@string/add"
                         android:textSize="20sp" />
 
                 </LinearLayout>

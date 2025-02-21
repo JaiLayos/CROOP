@@ -23,7 +23,7 @@
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/secondary_color"
                 android:fontFamily="@font/inter_medium"
-                android:text="CHANGE EMAIL"
+                android:text="@string/change_email"
                 android:textSize="16sp" />
 
             <Button
@@ -35,7 +35,7 @@
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/secondary_color"
                 android:fontFamily="@font/inter_medium"
-                android:text="CHANGE PASSWORD"
+                android:text="@string/change_password"
                 android:textSize="16sp" />
 
             <Button
@@ -47,7 +47,7 @@
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/secondary_color"
                 android:fontFamily="@font/inter_medium"
-                android:text="CHANGE PHONE NUMBER"
+                android:text="@string/change_phone_num"
                 android:textSize="16sp" />
 
             <Button
@@ -60,7 +60,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/highlight_green"
                 android:fontFamily="@font/inter_medium"
-                android:text="LOG OUT"
+                android:text="@string/logout"
                 android:textSize="20sp" />
 
             <TableLayout
@@ -79,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/inter_semibold"
-                        android:text="Contact Us?"
+                        android:text="@string/contact_us"
                         android:textAlignment="center"
                         android:textSize="16sp" />
                 </TableRow>
@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/mulish_medium"
-                        android:text="Click which one would you like to reach out to"
+                        android:text="@string/Click_which_one_would_you_like_to_reach_out_to"
                         android:textAlignment="center"
                         android:textSize="14sp" />
                 </TableRow>

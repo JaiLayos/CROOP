@@ -54,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="50dp"
                         android:fontFamily="@font/inter_semibold"
-                        android:text="ITEM INVENTORY"
+                        android:text="@string/item_inventory"
                         android:textAlignment="center"
                         android:textSize="42sp" />
 
@@ -66,7 +66,7 @@
                         android:layout_marginTop="20dp"
                         android:layout_marginEnd="20dp"
                         android:ems="10"
-                        android:hint="Type the name of the item to find here"
+                        android:hint="@string/type_search_item"
                         android:inputType="text"
                         android:textAlignment="center" />
 
@@ -80,7 +80,7 @@
                         android:fontFamily="@font/inter_semibold"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:text="SEARCH"
+                        android:text="@string/search"
                         android:textSize="20sp" />
 
                     <Button
@@ -94,7 +94,7 @@
                         android:fontFamily="@font/inter_semibold"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:text="ADD ITEM"
+                        android:text="@string/add_item_to_inventory"
                         android:textSize="20sp" />
 
                     <TableLayout
@@ -117,7 +117,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_semibold"
-                                android:text="Name"
+                                android:text="@string/item_name"
                                 android:textAlignment="center"
                                 android:textSize="14sp" />
 
@@ -137,7 +137,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_semibold"
-                                android:text="Used"
+                                android:text="@string/used"
                                 android:textAlignment="center"
                                 android:textSize="14sp" />
 
@@ -147,7 +147,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_semibold"
-                                android:text="Remaining"
+                                android:text="@string/remaining"
                                 android:textAlignment="center"
                                 android:textSize="14sp" />
 

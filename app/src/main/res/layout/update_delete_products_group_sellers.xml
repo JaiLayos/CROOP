@@ -45,7 +45,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/mulish_medium"
-                                android:text="Name"
+                                android:text="Pangalan"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/beige_brackground"
                                 android:textSize="20sp" />
@@ -56,7 +56,7 @@
                                 android:layout_height="55dp"
                                 android:layout_marginStart="20dp"
                                 android:ems="10"
-                                android:hint="Ex. Object A"
+                                android:hint="Hal. Mangga"
                                 android:inputType="text"
                                 android:textColor="@color/beige_brackground"
                                 android:textColorHint="@color/highlight_green"
@@ -72,7 +72,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/mulish_medium"
-                                android:text="Price"
+                                android:text="Presyo (₱)"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/beige_brackground"
                                 android:textSize="20sp" />
@@ -83,7 +83,7 @@
                                 android:layout_height="55dp"
                                 android:layout_marginStart="20dp"
                                 android:ems="10"
-                                android:hint="Ex. 50"
+                                android:hint="Hal. 50"
                                 android:inputType="text"
                                 android:textColor="@color/beige_brackground"
                                 android:textColorHint="@color/highlight_green"
@@ -100,7 +100,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="@font/mulish_medium"
-                                android:text="Ordered"
+                                android:text="Mga Nabili"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/beige_brackground"
                                 android:textSize="20sp" />
@@ -127,7 +127,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="@font/mulish_medium"
-                                android:text="Left"
+                                android:text="Natitira"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/beige_brackground"
                                 android:textSize="20sp" />

@@ -84,7 +84,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:fontFamily="@font/mulish_medium"
-        android:text="Input your details in their respective boxes"
+        android:text="Ilagay ang detalye sa bawat kahon."
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
