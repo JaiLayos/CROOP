@@ -173,7 +173,7 @@
                             android:fontFamily="@font/inter_semibold"
                             android:paddingLeft="10dp"
                             android:paddingBottom="10dp"
-                            android:text="Phone Number:"
+                            android:text="@string/phone_number"
                             android:textSize="16sp" />
 
                         <TextView
@@ -200,7 +200,7 @@
                             android:fontFamily="@font/inter_semibold"
                             android:paddingLeft="10dp"
                             android:paddingBottom="10dp"
-                            android:text="Address"
+                            android:text="Tirahan:"
                             android:textSize="16sp" />
 
                         <TextView
@@ -265,8 +265,8 @@
                         android:layout_marginBottom="70dp"
                         android:backgroundTint="@color/highlight_green"
                         android:fontFamily="@font/inter_semibold"
-                        android:text="Edit Profile"
-                        android:textSize="20sp"
+                        android:text="@string/edit_profile"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

@@ -88,8 +88,9 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="20dp"
                         android:fontFamily="@font/inter_semibold"
-                        android:text="Welcome!"
-                        android:textSize="48sp"
+                        android:letterSpacing="0.1"
+                        android:text="Maligayang Pagdating!"
+                        android:textSize="40sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -201,7 +202,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/inter_semibold"
-                                    android:text="Inventory"
+                                    android:text="Imbentaryo"
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="20sp" />
@@ -214,7 +215,7 @@
                                     android:paddingStart="5dp"
                                     android:paddingTop="2dp"
                                     android:paddingEnd="5dp"
-                                    android:text="Opens the inventory to view and manage stock levels of products and resources like seeds."
+                                    android:text="@string/inventory_description"
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
@@ -228,7 +229,7 @@
                                     android:layout_marginBottom="10dp"
                                     android:backgroundTint="@color/highlight_green"
                                     android:fontFamily="@font/inter_semibold"
-                                    android:text="Open"
+                                    android:text="@string/open"
                                     android:textSize="14sp" />
 
                             </LinearLayout>
@@ -265,7 +266,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/inter_semibold"
-                                    android:text="Analytics"
+                                    android:text="Analitika "
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="20sp" />
@@ -278,7 +279,7 @@
                                     android:paddingStart="5dp"
                                     android:paddingTop="2dp"
                                     android:paddingEnd="5dp"
-                                    android:text="Provides a snapshot of key business metrics, including returns, orders, and top products."
+                                    android:text="Dito makikita ang buod ng mahahalagang datos ng negosyo, gaya ng mga return, order, at mga sikat na produkto"
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="12sp" />
@@ -292,7 +293,7 @@
                                     android:layout_marginBottom="10dp"
                                     android:backgroundTint="@color/highlight_green"
                                     android:fontFamily="@font/inter_semibold"
-                                    android:text="Open"
+                                    android:text="@string/open"
                                     android:textSize="14sp" />
 
                             </LinearLayout>
@@ -344,7 +345,7 @@
                             android:layout_marginTop="20dp"
                             android:fontFamily="@font/inter_semibold"
                             android:paddingStart="5dp"
-                            android:text="Orders"
+                            android:text="@string/order"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -359,7 +360,7 @@
                             android:paddingStart="5dp"
                             android:paddingTop="3dp"
                             android:paddingEnd="20dp"
-                            android:text="Seamlessly track and manage orders across your entire product lineup."
+                            android:text="Madaling masubaybayan at maayos ang lahat ng order sa iyong mga produkto."
                             android:textColor="@color/white"
                             android:textSize="12sp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -370,13 +371,13 @@
                             android:id="@+id/orderButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="80dp"
+                            android:layout_marginEnd="10dp"
                             android:layout_marginBottom="20dp"
                             android:backgroundTint="@color/highlight_green"
                             android:fontFamily="@font/inter_semibold"
                             android:paddingLeft="70dp"
                             android:paddingRight="70dp"
-                            android:text="Open"
+                            android:text="@string/open"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -441,7 +442,7 @@
                             android:fontFamily="@font/mulish_medium"
                             android:paddingTop="3dp"
                             android:paddingRight="10dp"
-                            android:text="Create and manage exclusive discount offers to attract more customers!"
+                            android:text="I-click para gumawa ng promosyon"
                             android:textAlignment="textEnd"
                             android:textColor="@color/white"
                             android:textSize="12sp"
@@ -453,13 +454,13 @@
                             android:id="@+id/discountButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="80dp"
+                            android:layout_marginStart="20dp"
                             android:layout_marginBottom="20dp"
                             android:backgroundTint="@color/highlight_green"
                             android:fontFamily="@font/inter_semibold"
                             android:paddingLeft="70dp"
                             android:paddingRight="70dp"
-                            android:text="Open"
+                            android:text="@string/open"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/discountIcon"
@@ -493,7 +494,7 @@
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="30dp"
                             android:fontFamily="@font/inter_semibold"
-                            android:text="In Partnership"
+                            android:text="Katuwang Ang:"
                             android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

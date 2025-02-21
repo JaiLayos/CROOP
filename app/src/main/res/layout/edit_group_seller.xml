@@ -140,7 +140,7 @@
                             android:fontFamily="@font/inter_semibold"
                             android:paddingLeft="10dp"
                             android:paddingBottom="10dp"
-                            android:text="Street"
+                            android:text="@string/street_name"
                             android:textSize="16sp" />
 
                         <EditText
@@ -166,7 +166,7 @@
                             android:fontFamily="@font/inter_semibold"
                             android:paddingLeft="10dp"
                             android:paddingBottom="10dp"
-                            android:text="Subdivision"
+                            android:text="@string/subdivision"
                             android:textSize="16sp" />
 
                         <EditText
@@ -192,7 +192,7 @@
                             android:fontFamily="@font/inter_semibold"
                             android:paddingLeft="10dp"
                             android:paddingBottom="10dp"
-                            android:text="City"
+                            android:text="@string/city"
                             android:textSize="16sp" />
 
                         <EditText
@@ -218,7 +218,7 @@
                             android:fontFamily="@font/inter_semibold"
                             android:paddingLeft="10dp"
                             android:paddingBottom="10dp"
-                            android:text="Region"
+                            android:text="@string/region"
                             android:textSize="16sp" />
 
                         <EditText
@@ -281,8 +281,8 @@
                         android:layout_marginBottom="70dp"
                         android:backgroundTint="@color/secondary_color"
                         android:fontFamily="@font/inter_semibold"
-                        android:text="Edit Profile"
-                        android:textSize="20sp"
+                        android:text="@string/edit_profile"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
