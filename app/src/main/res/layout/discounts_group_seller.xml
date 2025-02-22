@@ -83,20 +83,6 @@
                         android:text="@string/search"
                         android:textSize="20sp" />
 
-                    <Button
-                        android:id="@+id/addItemButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:backgroundTint="@color/highlight_green"
-                        android:fontFamily="@font/inter_semibold"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="@string/add_item"
-                        android:textSize="20sp" />
-
                     <TableLayout
                         android:id="@+id/tableLayout"
                         android:layout_width="match_parent"

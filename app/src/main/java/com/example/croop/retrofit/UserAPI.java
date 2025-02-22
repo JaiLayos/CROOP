@@ -1,6 +1,7 @@
 package com.example.croop.retrofit;
 
 import com.example.croop.model.Customer;
+import com.example.croop.model.DiscountDTO;
 import com.example.croop.model.GroupSellerOrdersDTO;
 import com.example.croop.model.GroupSellers;
 import com.example.croop.model.GroupSellersDiscount;
@@ -18,12 +19,17 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface UserAPI {
+    //Group Sellers
     @POST("api/group-sellers")
     Call<Void> sendGroupSellers(@Body GroupSellers groupSellers);
     @PUT("firebase/{firebaseID}")
     Call<GroupSellers> updateGroupSellersByFirebaseID(@Path("firebaseID") String firebaseID, @Body GroupSellers groupSellers);
     @GET("api/group-sellers/id/{firebaseID}")
     Call<Integer> getGroupSellersID(@Path("firebaseID") String firebaseID);
+    @GET("api/group-sellers/{id}")
+    Call<GroupSellers> getGroupSellers(@Path("id") int id);
+    @GET("api/group-sellers/details/{firebaseID}")
+    Call<GroupSellers> getGroupSellersbyFirebaseID(@Path("firebaseID") String firebaseID);
 
     //CUSTOMERS
     @GET("api/customers/{id}")
@@ -64,8 +70,16 @@ public interface UserAPI {
     Call<GroupSellersProductsInventory> deleteProducts(@Path("id") int id);
 
     //Group Sellers Discount
+    @POST("api/group-seller-discount")
+    Call<GroupSellersDiscount> addDiscount(@Body GroupSellersDiscount groupSellerDiscount);
     @GET("api/group-seller-discount/firebase/{firebaseID}")
     Call<List<GroupSellersDiscount>> getDiscountbyFirebaseID(@Path("firebaseID") String firebaseID);
     @GET("api/group-seller-discount/discount/{itemName}")
     Call<List<GroupSellersDiscount>> getDiscountByName(@Path("itemName") String itemName);
+    @GET("api/group-seller-discount/{id}")
+    Call<DiscountDTO> getDiscount(@Path("id") int id);
+    @PUT("api/group-seller-discount/{id}")
+    Call<GroupSellersDiscount> updateDiscount(@Path("id") int id, @Body GroupSellersDiscount groupSellerDiscount);
+    //////
+
 }

@@ -1,10 +1,12 @@
 package com.example.croop.GroupSellerLanding;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.R;
+import com.example.croop.model.GroupSellers;
+import com.example.croop.model.GroupSellersDiscount;
 import com.example.croop.model.GroupSellersProductsInventory;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
@@ -35,6 +39,8 @@ public class Activity_Products_Inventory extends AppCompatActivity {
     private TableLayout table;
     FirebaseAuth mAuth;
     RetrofitService RetrofitClient;
+    UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +49,6 @@ public class Activity_Products_Inventory extends AppCompatActivity {
     }
 
     private void initializeComponents() {
-        UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         table = findViewById(R.id.tableLayout);
@@ -120,7 +125,6 @@ public class Activity_Products_Inventory extends AppCompatActivity {
     }
 
     private void populateTableDefault(List<GroupSellersProductsInventory> products, TableLayout table) {
-        UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
         table.removeViews(1, table.getChildCount() - 1);
 
         for (GroupSellersProductsInventory product : products) {
@@ -145,7 +149,6 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(Activity_Products_Inventory.this);
                 View bottomSheetView = getLayoutInflater().inflate(R.layout.update_delete_products_group_sellers, null);
 
-                // Populate the bottom sheet with data
                 EditText itemName = bottomSheetView.findViewById(R.id.nameText);
                 itemName.setText(product.getItemName());
                 EditText priceTag = bottomSheetView.findViewById(R.id.priceText);
@@ -240,19 +243,79 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                     recreate();
                 });
 
-                // Set the view and show the dialog
                 bottomSheetDialog.setContentView(bottomSheetView);
                 bottomSheetDialog.show();
             });
             row.addView(itemTextView);
 
-            TextView remainingTextView = new TextView(this);// Assuming this is a JSON string
-
+            TextView remainingTextView = new TextView(this);
             remainingTextView.setText(String.valueOf(remaining));
             remainingTextView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
             remainingTextView.setLayoutParams(params);
             row.addView(remainingTextView);
 
+            TextView promoView = new TextView(this);
+            String discount = "0"; // Default value
+            if (product.getGroupSellerDiscounts() != null) {
+                discount = String.valueOf(product.getGroupSellerDiscounts().getDiscountPercent());
+            }
+            promoView.setText(discount);
+            promoView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+            promoView.setLayoutParams(params);
+            promoView.setTextColor(getResources().getColor(R.color.highlight_green));
+            promoView.setTypeface(null, Typeface.ITALIC);
+            promoView.setOnClickListener(v -> {
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(Activity_Products_Inventory.this);
+
+                View bottomSheetView = LayoutInflater.from(Activity_Products_Inventory.this)
+                        .inflate(R.layout.add_discount_group, null);
+
+                EditText discountText = bottomSheetView.findViewById(R.id.discountText);
+                Button save = bottomSheetView.findViewById(R.id.saveButton);
+
+                save.setOnClickListener(v1 -> {
+                    GroupSellersDiscount groupSellersDiscount = new GroupSellersDiscount();
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    Call<GroupSellers> getGSellers = apiService.getGroupSellersbyFirebaseID(user.getUid());
+                    getGSellers.enqueue(new Callback<GroupSellers>() {
+                        @Override
+                        public void onResponse(Call<GroupSellers> call, Response<GroupSellers> response) {
+                            groupSellersDiscount.setGroupSellers(response.body());
+                        }
+
+                        @Override
+                        public void onFailure(Call<GroupSellers> call, Throwable t) {
+                            Toast.makeText(Activity_Products_Inventory.this, "wala", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    groupSellersDiscount.setGroupSellersProductsInventory(product);
+                    groupSellersDiscount.setDiscountPercent(Double.parseDouble(discountText.getText().toString()));
+                    Call<GroupSellersDiscount> updateDiscountCall = apiService.updateDiscount(
+                            product.getGroupSellerDiscounts().getId(),
+                            groupSellersDiscount
+                    );
+                    updateDiscountCall.enqueue(new Callback<GroupSellersDiscount>() {
+                        @Override
+                        public void onResponse(Call<GroupSellersDiscount> call, Response<GroupSellersDiscount> response) {
+                            Intent intent = new Intent(Activity_Products_Inventory.this, Activity_Discount_Inventory.class);
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<GroupSellersDiscount> call, Throwable t) {
+                            Toast.makeText(Activity_Products_Inventory.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                });
+
+                bottomSheetDialog.setContentView(bottomSheetView);
+
+                bottomSheetDialog.show();
+            });
+            row.addView(promoView);
             table.addView(row);
         }
     }

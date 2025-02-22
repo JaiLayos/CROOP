@@ -2,8 +2,6 @@ package com.example.croop.GroupSellerLanding;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -124,12 +122,9 @@ public class Activity_Discount_Inventory extends AppCompatActivity {
             );
 
             TextView itemTextView = new TextView(this);
-            SpannableString underlinedText = new SpannableString(String.valueOf(item.getProductName()));
-            underlinedText.setSpan(new UnderlineSpan(), 0, underlinedText.length(), 0);
-            itemTextView.setText(underlinedText);
+            itemTextView.setText(String.valueOf(item.getProductName()));
             itemTextView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
             itemTextView.setLayoutParams(params);
-            itemTextView.setTextColor(getResources().getColor(R.color.highlight_green));
             row.addView(itemTextView);
 
             TextView initialTextView = new TextView(this);

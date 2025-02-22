@@ -1,0 +1,80 @@
+package com.example.croop.model;
+
+public class DiscountDTO {
+    private int id;
+    private int sellerID;
+    private int productID;
+    private String sellerName;
+    private String itemName;
+    private int originalPrice;
+    private double discountPercent;
+    private int salePrice;
+
+    public DiscountDTO(){
+
+    }
+
+    public DiscountDTO(int id, int sellerID, int productID, String sellerName, String itemName, int originalPrice, double discountPercent, int salePrice){
+        this.id = id;
+        this.sellerID = sellerID;
+        this.productID = productID;
+        this.sellerName = sellerName;
+        this.itemName = itemName;
+        this.originalPrice = originalPrice;
+        this.discountPercent = discountPercent;
+        this.salePrice = salePrice;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getSellerID() {
+        return sellerID;
+    }
+    public void setSellerID(int sellerID) {
+        this.sellerID = sellerID;
+    }
+
+    public int getProductID() {
+        return productID;
+    }
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+
+    public String getSellerName() {
+        return sellerName;
+    }
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public int getOriginalPrice() {
+        return originalPrice;
+    }
+    public void setOriginalPrice(int originalPrice) {
+        this.originalPrice = originalPrice;
+    }
+
+    public double getDiscountPercent() {
+        return discountPercent;
+    }
+    public void setDiscountPercent(double discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+
+    public int getSalePrice() {
+        return salePrice;
+    }
+    public void setSalePrice(int salePrice) {
+        this.salePrice = salePrice;
+    }
+}

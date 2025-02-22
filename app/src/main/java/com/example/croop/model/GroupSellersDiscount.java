@@ -12,15 +12,24 @@ public class GroupSellersDiscount extends BaseDiscount{
 
     }
 
-    public GroupSellersDiscount(GroupSellers groupSellers, GroupSellersProductsInventory groupSellersProductsInventory, int originalPrice, double discountPercent, int salePrice){
+    public GroupSellersDiscount(int id, GroupSellers groupSellers, GroupSellersProductsInventory groupSellersProductsInventory, int originalPrice, double discountPercent, int salePrice){
         super(originalPrice, discountPercent, salePrice);
+        this.id = id;
         this.groupSellers = groupSellers;
         this.groupSellersProductsInventory = groupSellersProductsInventory;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int getId() {
+        return id;
     }
 
     public void setGroupSellers(GroupSellers groupSellers) {
         this.groupSellers = groupSellers;
     }
+
     public GroupSellers getGroupSellers() {
         return groupSellers;
     }
