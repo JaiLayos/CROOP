@@ -127,7 +127,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_semibold"
-                                android:text="Original"
+                                android:text="Orihinal"
                                 android:textAlignment="center"
                                 android:textSize="14sp" />
 
@@ -137,7 +137,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_semibold"
-                                android:text="Used"
+                                android:text="% Discount"
                                 android:textAlignment="center"
                                 android:textSize="14sp" />
 
@@ -147,7 +147,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/inter_semibold"
-                                android:text="Final"
+                                android:text="Huling ₱"
                                 android:textAlignment="center"
                                 android:textSize="14sp" />
 

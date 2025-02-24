@@ -65,9 +65,9 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
             String mobilePhone = phoneNumberText.getText().toString();
             String email = emailText.getText().toString();
             if(!validEmail(email) || email.isEmpty()){
-                Toast.makeText(this, "Please input a valid email!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Mangyaring maglagay ng wastong email.", Toast.LENGTH_SHORT).show();
             }else if(!phoneNumberValidation(mobilePhone)){
-                Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Please input a valid phone number!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Maglagay ng wastong numero ng telepono.", Toast.LENGTH_SHORT).show();
             }else{
                 mobilePhone = mobilePhone.trim();
                 String phoneNumber = formatPhone(mobilePhone);
@@ -106,7 +106,7 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
         CollectionReference userProfileRef = db.collection("Customers");
 
         userProfileRef.add(userProfile).addOnSuccessListener(DocumentReference -> {
-            Toast.makeText(SignUp_Indiv_Cust_Activity_4.this,"Individual Seller Added!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUp_Indiv_Cust_Activity_4.this,"Indibidwal na tagabenta ay nadagdag!", Toast.LENGTH_SHORT).show();
             sendToPhone(customer);
 
         }).addOnFailureListener(e -> {
@@ -125,7 +125,7 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
                             submitToFirebase(customer);
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Authentication failed.",
+                            Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Hindi ka nakapag-authenticate..",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -150,13 +150,13 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
                 System.out.println("Verification Completed!");
-                Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Verification Completed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Kumpleto na ang beripikasyon!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
                 System.out.println("Verification Failed: " + e);
-                Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Verification Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Hindi matagumpay ang beripikasyon: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {

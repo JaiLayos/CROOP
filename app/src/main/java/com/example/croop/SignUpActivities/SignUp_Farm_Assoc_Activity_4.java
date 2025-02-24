@@ -71,9 +71,9 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
             String assocMobile = assocMobileText.getText().toString();
             String assocEmail = assocEmailText.getText().toString();
             if(assocMobile.isEmpty() || !phoneNumberValidation(assocMobile)){
-                Toast.makeText(this, "Please input a  valid mobile phone number.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Maglagay ng wastong numero ng telepono.", Toast.LENGTH_SHORT).show();
             }else if(assocEmail.isEmpty() || !validEmail(assocEmail)){
-                Toast.makeText(this, "Please input a valid email.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Mangyaring maglagay ng wastong email.", Toast.LENGTH_SHORT).show();
             }else{
                 assocMobile = assocMobile.trim();
                 String coopPhone = formatPhone(assocMobile);
@@ -96,7 +96,7 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
                             submitToFirebase(groupSellers, user.getUid());
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUp_Farm_Assoc_Activity_4.this, "Authentication failed.",
+                            Toast.makeText(SignUp_Farm_Assoc_Activity_4.this, "Hindi ka nakapag-authenticate.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -133,7 +133,7 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
         db.collection("Farming Association").document(userId)
                 .set(groupSellerProfile)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(SignUp_Farm_Assoc_Activity_4.this, "Group Seller Successfully Added!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp_Farm_Assoc_Activity_4.this, "Matagumpay na naidagdag ang Farming Association!", Toast.LENGTH_SHORT).show();
                     sendToPhone(groupSellers, userId);
                 })
                 .addOnFailureListener(e -> {
@@ -185,12 +185,12 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
         PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                Toast.makeText(SignUp_Farm_Assoc_Activity_4.this,"Verification Completed! " + phoneAuthCredential, Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Farm_Assoc_Activity_4.this,"Kumpleto na ang beripikasyon! " + phoneAuthCredential, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
-                Toast.makeText(SignUp_Farm_Assoc_Activity_4.this, "Verification Failed. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Farm_Assoc_Activity_4.this, "Hindi matagumpay ang beripikasyon. " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

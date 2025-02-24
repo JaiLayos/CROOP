@@ -68,18 +68,18 @@ public class SignIn_Activity extends AppCompatActivity {
                                                     prefs.edit().putString("user_role", role_firestore).apply();
                                                     navigateToHome(role_firestore);
                                                 }else{
-                                                    Toast.makeText(SignIn_Activity.this, "User role is null", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(SignIn_Activity.this, "Ang user role ay null", Toast.LENGTH_SHORT).show();
                                                 }
                                             } else {
                                                 Toast.makeText(SignIn_Activity.this, "Collection: "+ collect_role+ " not found", Toast.LENGTH_SHORT).show();
                                             }
                                         })
                                         .addOnFailureListener(e -> {
-                                            Toast.makeText(SignIn_Activity.this, "Failed to fetch user data", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SignIn_Activity.this, "Hindi nakuha ang datos ng user", Toast.LENGTH_SHORT).show();
                                         });
                             }
                         } else {
-                            Toast.makeText(SignIn_Activity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignIn_Activity.this, "Hindi ka nakapag-authenticate.", Toast.LENGTH_SHORT).show();
                         }
 
 

@@ -36,7 +36,7 @@ public class Landing_Activity extends AppCompatActivity {
             String role = prefs.getString("user_role", null);
 
             if (role == null) {
-                Toast.makeText(this, "No role found. Please sign in again.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Walang nakalog in mangyaring mag-sign in muli.", Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
                 return;
             }

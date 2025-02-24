@@ -69,7 +69,7 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
             if (assocHouse.getText().toString().isEmpty() || assocBaranggay.getText().toString().isEmpty() ||
                     assocCity.getText().toString().isEmpty() || assocRegion.getText().toString().isEmpty() ||
                     assocPostCode.getText().toString().isEmpty() || assocCountry.getText().toString().isEmpty()) {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Paki-fill up ang lahat ng boxes", Toast.LENGTH_SHORT).show();
                 return;
             }
             if(allowed){
@@ -133,10 +133,10 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
                 GroupSellers groupSellers = GroupSellersSingleton.getInstance().getGroupSellers();
                 groupSellers.setAddress(addressMap);
             }else{
-                Toast.makeText(this,"Please input your location manually!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Paki-input ang iyong lokasyon", Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
-            Toast.makeText(this, "Please input location manually.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Paki-input ang lokasyon nang mano-mano", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -163,7 +163,7 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
                 }
                 getCurrentLocation();
             } else {
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Hindi pinapayagan", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -178,11 +178,11 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
                             longitude = location.getLongitude();
                             getAddressUsingGeocoder(latitude, longitude);
                         } else {
-                            Toast.makeText(this, "Unable to get location", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Hindi makuha ang lokasyon", Toast.LENGTH_SHORT).show();
                         }
                     });
         } else {
-            Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Hindi pinayagan ang pahintulot sa lokasyon", Toast.LENGTH_SHORT).show();
         }
     }
 
