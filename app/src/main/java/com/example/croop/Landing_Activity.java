@@ -70,6 +70,9 @@ public class Landing_Activity extends AppCompatActivity {
                     Toast.makeText(Landing_Activity.this, "Invalid role: " + role, Toast.LENGTH_SHORT).show();
                     break;
             }
+        }else{
+            Toast.makeText(Landing_Activity.this, "Please Sign In Again", Toast.LENGTH_SHORT).show();
+            return;
         }
     }
 

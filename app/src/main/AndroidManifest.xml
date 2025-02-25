@@ -70,7 +70,11 @@
         <activity android:name=".GroupSellerLanding.Activity_Products_Inventory"/>
         <activity android:name=".GroupSellerLanding.Activity_Add_Products"/>
         <activity android:name=".GroupSellerLanding.Activity_Discount_Inventory"/>
-        <activity android:name=".GroupSellerLanding.Activity_Add_Discount"/>
+
+        <activity android:name=".IndividualSellerLanding.Sign_In_Success_Individual_Seller"/>
+
+        <activity android:name=".Authentication_Phone_Number"/>
+        <activity android:name=".Authentication_Email_Password_Change_Email"/>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -1,4 +1,4 @@
-package com.example.croop.GroupSellerLanding;
+package com.example.croop.IndividualSellerLanding;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,18 +28,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
-public class Fragment_Account_Group_Seller extends Fragment {
+public class Fragment_Account_Individual_Seller extends Fragment {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
-    public Fragment_Account_Group_Seller() {
-        // Required empty public constructor
+    public Fragment_Account_Individual_Seller() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.account_email_edit_group_seller, container, false);
+        View view = inflater.inflate(R.layout.account_email_edit_individual_seller, container, false);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();

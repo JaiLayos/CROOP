@@ -88,10 +88,10 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
                 Map<String, String> addressMap = new HashMap<>();
                 addressMap.put("City", city);
                 addressMap.put("Country", country);
-                addressMap.put("House/Street Name", house);
-                addressMap.put("Postal Code", postal);
-                addressMap.put("State/Province/Region", region);
-                addressMap.put("Subdivision/Baranggay", subdivision);
+                addressMap.put("House_Street_Name", house);
+                addressMap.put("Postal_Code", postal);
+                addressMap.put("State_Province_Region", region);
+                addressMap.put("Subdivision_Baranggay", subdivision);
                 GroupSellers groupSellers = GroupSellersSingleton.getInstance().getGroupSellers();
                 groupSellers.setAddress(addressMap);
 
@@ -130,10 +130,10 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
                 Map<String, String> addressMap = new HashMap<>();
                 addressMap.put("City", city_permitted);
                 addressMap.put("Country", country_permitted);
-                addressMap.put("House/Street Name", house_permitted);
-                addressMap.put("Postal Code", postal_permitted);
-                addressMap.put("State/Province/Region", region_permitted);
-                addressMap.put("Subdivision/Baranggay", subdivision_permitted);
+                addressMap.put("House_Street_Name", house_permitted);
+                addressMap.put("Postal_Code", postal_permitted);
+                addressMap.put("State_Province_Region", region_permitted);
+                addressMap.put("Subdivision_Baranggay", subdivision_permitted);
                 GroupSellers groupSellers = GroupSellersSingleton.getInstance().getGroupSellers();
                 groupSellers.setAddress(addressMap);
 

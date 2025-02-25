@@ -45,7 +45,7 @@ public class Profile_Individual_Seller_Activity extends AppCompatActivity {
         userEmail = findViewById(R.id.userEmailText);
         userPhone = findViewById(R.id.userPhoneNumberText);
         userAddress = findViewById(R.id.userCityText);
-        userMessenger = findViewById(R.id.userMessengerText);
+        //userMessenger = findViewById(R.id.userMessengerText);
 
         Button back = findViewById(R.id.backButton);
         back.setOnClickListener(view -> {

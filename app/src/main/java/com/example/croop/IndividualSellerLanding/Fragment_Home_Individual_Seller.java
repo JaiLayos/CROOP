@@ -1,4 +1,4 @@
-package com.example.croop.GroupSellerLanding;
+package com.example.croop.IndividualSellerLanding;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +13,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.croop.GroupSellerLanding.Activity_Discount_Inventory;
+import com.example.croop.GroupSellerLanding.Activity_Inventory_Category;
+import com.example.croop.GroupSellerLanding.Activity_Orders_Group;
 import com.example.croop.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,12 +26,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class Fragment_Home_Group_Seller extends Fragment {
+public class Fragment_Home_Individual_Seller extends Fragment {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private TextView name, bio;
 
-    public Fragment_Home_Group_Seller() {
+    public Fragment_Home_Individual_Seller() {
         // Required empty public constructor
     }
 
@@ -36,7 +39,7 @@ public class Fragment_Home_Group_Seller extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.home_group_seller, container, false);
+        View view = inflater.inflate(R.layout.home_individual_seller, container, false);
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();

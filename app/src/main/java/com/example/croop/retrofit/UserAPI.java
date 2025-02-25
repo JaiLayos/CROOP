@@ -2,11 +2,12 @@ package com.example.croop.retrofit;
 
 import com.example.croop.model.Customer;
 import com.example.croop.model.DiscountDTO;
-import com.example.croop.model.GroupSellerOrdersDTO;
+import com.example.croop.model.SellerOrdersDTO;
 import com.example.croop.model.GroupSellers;
 import com.example.croop.model.GroupSellersDiscount;
 import com.example.croop.model.GroupSellersItemInventory;
 import com.example.croop.model.GroupSellersProductsInventory;
+import com.example.croop.model.IndividualSellers;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public interface UserAPI {
     Call<String> getCustomerName(@Path("id") int id);
     //ORDERS
     @GET("api/group-sellers/orders/{firebaseID}")
-    Call<List<GroupSellerOrdersDTO>> getGroupSellersOrders(@Path("firebaseID") String firebaseID);
+    Call<List<SellerOrdersDTO>> getGroupSellersOrders(@Path("firebaseID") String firebaseID);
 
 
     //Group Sellers Item Inventory
@@ -81,5 +82,28 @@ public interface UserAPI {
     @PUT("api/group-seller-discount/{id}")
     Call<GroupSellersDiscount> updateDiscount(@Path("id") int id, @Body GroupSellersDiscount groupSellerDiscount);
     //////
+
+    //Individual Sellers Controller
+    @POST("api/individual-sellers")
+    Call<IndividualSellers> addIndividualSellers(@Body IndividualSellers individualSellers);
+    @GET("api/individual-sellers/{id}")
+    Call<IndividualSellers> getIndividualSellers(@Path("id") int id);
+    @GET("api/individual-sellers/id/{firebaseID}")
+    Call<Integer> getIndividualSellersID(@Path("firebaseID") String firebaseID);
+    @GET("api/individual-sellers/orders/{firebaseID}")
+    Call<List<SellerOrdersDTO>> getGroupSellersbyFirebase(@Path("firebaseID") String firebaseID);
+    @GET("api/individual-sellers/details/{firebaseID}")
+    Call<IndividualSellers> getGroupSellersbyFirebaseOD(@Path("firebaseID") String firebaseID);
+    @GET("api/individual-sellers")
+    Call<List<IndividualSellers>> getAllGroupSellers();
+
+    @PUT("api/individual-sellers/{id}")
+    Call<IndividualSellers> updateGroupSellers(@Path("id") int id, @Body IndividualSellers individualSellers);
+
+    @PUT("api/individual-sellers/firebase/{firebaseID}")
+    Call<IndividualSellers> updateGroupSellersByFirebaseID(@Path("firebaseID") String firebaseID, @Body IndividualSellers individualSellers);
+
+    @DELETE("api/individual-sellers/{id}")
+    Call<IndividualSellers> deleteGroupSellers(@Path("id") int id);
 
 }

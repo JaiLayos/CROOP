@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.R;
-import com.example.croop.model.GroupSellerOrdersDTO;
+import com.example.croop.model.SellerOrdersDTO;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,12 +41,12 @@ public class Activity_Orders_Group extends AppCompatActivity {
 
         // Fetch data from the API
         String firebaseID = user.getUid(); // Replace with the actual Firebase
-        Call<List<GroupSellerOrdersDTO>> call = apiService.getGroupSellersOrders(firebaseID);
-        call.enqueue(new Callback<List<GroupSellerOrdersDTO>>() {
+        Call<List<SellerOrdersDTO>> call = apiService.getGroupSellersOrders(firebaseID);
+        call.enqueue(new Callback<List<SellerOrdersDTO>>() {
             @Override
-            public void onResponse(Call<List<GroupSellerOrdersDTO>> call, Response<List<GroupSellerOrdersDTO>> response) {
+            public void onResponse(Call<List<SellerOrdersDTO>> call, Response<List<SellerOrdersDTO>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<GroupSellerOrdersDTO> orders = response.body();
+                    List<SellerOrdersDTO> orders = response.body();
                     Toast.makeText(Activity_Orders_Group.this, "Number of orders fetched: " + orders.size(), Toast.LENGTH_SHORT).show();
                     populateTable(orders);
                 }else{
@@ -55,7 +55,7 @@ public class Activity_Orders_Group extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<GroupSellerOrdersDTO>> call, Throwable t) {
+            public void onFailure(Call<List<SellerOrdersDTO>> call, Throwable t) {
                 Toast.makeText(Activity_Orders_Group.this, "API_ERROR"+ t.toString(), Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }
@@ -72,11 +72,11 @@ public class Activity_Orders_Group extends AppCompatActivity {
         table = findViewById(R.id.tableLayout);
     }
 
-    private void populateTable(List<GroupSellerOrdersDTO> orders) {
+    private void populateTable(List<SellerOrdersDTO> orders) {
         // Clear existing rows (except the header)
         table.removeViews(1, table.getChildCount() - 1);
 
-        for (GroupSellerOrdersDTO order : orders) {
+        for (SellerOrdersDTO order : orders) {
             TableRow row = new TableRow(this);
             TableRow.LayoutParams params = new TableRow.LayoutParams(
                     0, // Width: 0 means the width will be determined by the weight

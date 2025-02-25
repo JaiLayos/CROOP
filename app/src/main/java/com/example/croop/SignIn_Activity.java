@@ -3,23 +3,22 @@ package com.example.croop;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputType; // import statement for password
+import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.croop.Roles_Activity;
-
 import com.example.croop.GroupSellerLanding.Sign_In_Success_Group_Seller;
+import com.example.croop.IndividualSellerLanding.Sign_In_Success_Individual_Seller;
 import com.example.croop.model.CurrentRole;
 import com.example.croop.singleton.CurrentUserSingleton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.*;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignIn_Activity extends AppCompatActivity {
     FirebaseAuth mAuth;
@@ -97,7 +96,7 @@ public class SignIn_Activity extends AppCompatActivity {
                 break;
             }
             case "Individual Business User": {
-                Intent intent = new Intent(SignIn_Activity.this, Home_Individual_Seller_Activity.class);
+                Intent intent = new Intent(SignIn_Activity.this, Sign_In_Success_Individual_Seller.class);
                 startActivity(intent);
                 finish();
                 break;

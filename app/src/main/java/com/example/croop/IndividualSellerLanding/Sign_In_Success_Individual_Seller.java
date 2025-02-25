@@ -1,4 +1,4 @@
-package com.example.croop.GroupSellerLanding;
+package com.example.croop.IndividualSellerLanding;
 
 import android.os.Bundle;
 
@@ -6,14 +6,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.croop.GroupSellerLanding.GroupSellerViewAdapter;
 import com.example.croop.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.auth.FirebaseAuth;
 
-public class Sign_In_Success_Group_Seller extends AppCompatActivity {
+public class Sign_In_Success_Individual_Seller extends AppCompatActivity {
     private ViewPager2 viewPager;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

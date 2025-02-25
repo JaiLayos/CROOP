@@ -24,11 +24,12 @@
                 <!-- Sign Up Label -->
                 <TextView
                     android:id="@+id/signUpLabel"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="100dp"
                     android:fontFamily="@font/inter_semibold"
                     android:text="@string/sign_up"
+                    android:textAlignment="center"
                     android:textColor="@color/secondary_color"
                     android:textSize="42sp"
                     app:layout_constraintEnd_toEndOf="parent"

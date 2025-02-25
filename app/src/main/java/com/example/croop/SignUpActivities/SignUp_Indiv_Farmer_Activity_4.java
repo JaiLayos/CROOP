@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +17,8 @@ import com.example.croop.R;
 import com.example.croop.SignIn_Activity;
 import com.example.croop.model.CurrentRole;
 import com.example.croop.model.IndividualSellers;
+import com.example.croop.retrofit.RetrofitService;
+import com.example.croop.retrofit.UserAPI;
 import com.example.croop.singleton.CurrentUserSingleton;
 import com.example.croop.singleton.IndividualSellersSingleton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,17 +32,22 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
 
     private EditText mobilePhoneText, emailText, messengerText;
     private FirebaseAuth mAuth;
+    private RetrofitService RetrofitClient;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -78,8 +85,6 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
                 individualSellers.setEmail(email);
                 individualSellers.setMessengerLink(messenger);
                 individualSellers.setBio("I'm new here!");
-                individualSellers.setCreatedAt(new Date());
-                individualSellers.setUpdatedAt(new Date());
                 signUpUser(email, individualSellers.getPassword(), individualSellers);
             }
         });
@@ -98,12 +103,10 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
         indivSellerProfile.put("Address", individualSellers.getAddress());
         indivSellerProfile.put("Age", individualSellers.getAge());
         indivSellerProfile.put("Bio", individualSellers.getBio());
-        indivSellerProfile.put("Created At", individualSellers.getCreatedAt());
         indivSellerProfile.put("Email", individualSellers.getEmail());
         indivSellerProfile.put("Messenger Link", individualSellers.getMessengerLink());
         indivSellerProfile.put("Name", individualSellers.getName());
         indivSellerProfile.put("Password", individualSellers.getPassword());
-        indivSellerProfile.put("Updated At", individualSellers.getUpdatedAt());
         indivSellerProfile.put("Phone Number", individualSellers.getPhoneNum());
         indivSellerProfile.put("Role", cr.getRole());
 
@@ -111,7 +114,7 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
                 .set(indivSellerProfile)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Individual Seller Added!", Toast.LENGTH_SHORT).show();
-                    sendToPhone(individualSellers);
+                    sendToPhone(individualSellers, userId);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Error! " + e, Toast.LENGTH_SHORT).show();
@@ -150,7 +153,7 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
         return (m.matches());
     }
 
-    private void sendToPhone(IndividualSellers individualSellers){
+    private void sendToPhone(IndividualSellers individualSellers, String userId){
         PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
@@ -165,6 +168,7 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
             }
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                sendToPostgres(individualSellers, userId);
                 System.out.println("Code Sent: " + verificationId);;
                 Intent intent = new Intent(SignUp_Indiv_Farmer_Activity_4.this, SignUp_MobPhone_valid.class);
                 intent.putExtra("V_ID", verificationId);
@@ -180,5 +184,30 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
                         .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+    private void sendToPostgres(IndividualSellers individualSellers, String userID) {
+        try {
+            individualSellers.setFirebaseID(userID);
+            UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
+            Call<IndividualSellers> call = userAPI.addIndividualSellers(individualSellers);
+            call.enqueue(new Callback<IndividualSellers>() {
+                @Override
+                public void onResponse(Call<IndividualSellers> call, Response<IndividualSellers> response) {
+                    if (response.isSuccessful()) {
+                        Log.d("RetrofitAPI", "Data stored successfully in PostgreSQL");
+                    } else {
+                        Log.e("RetrofitAPI", "Error storing data: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<IndividualSellers> call, Throwable t) {
+                    Log.e("RetrofitAPI", "Failed to send data", t);
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e("RetrofitAPI", "Error building JSON", e);
+        }
     }
 }

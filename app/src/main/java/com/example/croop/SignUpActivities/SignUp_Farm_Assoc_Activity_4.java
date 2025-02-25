@@ -212,4 +212,5 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
+
 }
