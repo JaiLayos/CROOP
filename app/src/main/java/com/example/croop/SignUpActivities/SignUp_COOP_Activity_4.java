@@ -9,8 +9,8 @@ import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,8 +20,6 @@ import com.example.croop.R;
 import com.example.croop.SignIn_Activity;
 import com.example.croop.model.CurrentRole;
 import com.example.croop.model.GroupSellers;
-import com.example.croop.retrofit.RetrofitService;
-import com.example.croop.retrofit.UserAPI;
 import com.example.croop.singleton.CurrentUserSingleton;
 import com.example.croop.singleton.GroupSellersSingleton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,15 +40,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class SignUp_COOP_Activity_4 extends AppCompatActivity {
     private EditText coopMobileText, coopEmailText;
     private FirebaseAuth mAuth;
-
-    private RetrofitService RetrofitClient;
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -73,9 +65,9 @@ public class SignUp_COOP_Activity_4 extends AppCompatActivity {
             String coopMobile = coopMobileText.getText().toString();
             String coopEmail = coopEmailText.getText().toString();
             if(coopMobile.isEmpty() || !phoneNumberValidation(coopMobile)){
-                Toast.makeText(this, "Please input a valid mobile phone number.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Maglagay ng wastong numero ng telepono.", Toast.LENGTH_SHORT).show();
             }else if(coopEmail.isEmpty() || !validEmail(coopEmail)){
-                Toast.makeText(this, "Please input a valid email.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Mangyaring maglagay ng wastong email..", Toast.LENGTH_SHORT).show();
             }else{
                 coopMobile = coopMobile.trim();
                 String coopPhone = formatPhone(coopMobile);
@@ -98,7 +90,7 @@ public class SignUp_COOP_Activity_4 extends AppCompatActivity {
                             submitToFirebase(groupSellers, user.getUid());
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUp_COOP_Activity_4.this, "Authentication failed.",
+                            Toast.makeText(SignUp_COOP_Activity_4.this, "Hindi ka nakapag-authenticate.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

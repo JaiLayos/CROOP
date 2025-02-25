@@ -49,7 +49,7 @@ public class Home_Individual_Seller_Activity extends AppCompatActivity {
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Toast.makeText(Home_Individual_Seller_Activity.this, "Hello! " + role + documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Home_Individual_Seller_Activity.this, "Mabuhay! " + role + documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
             }
         }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

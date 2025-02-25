@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,12 +31,12 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,11 +71,11 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
             String email = emailText.getText().toString();
             String messenger = messengerText.getText().toString();
             if(messenger.isEmpty()){
-                Toast.makeText(this, "Please input a valid messenger link.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Maglagay ng wastong messenger link.", Toast.LENGTH_SHORT).show();
             }else if(!validEmail(email) || email.isEmpty()){
-                Toast.makeText(this, "Please input a valid email!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Mangyaring maglagay ng wastong email!", Toast.LENGTH_SHORT).show();
             }else if(!phoneNumberValidation(mobilePhone) || mobilePhone.isEmpty()){
-                Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Please input a valid phone number!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Maglagay ng wastong numero ng telepono!", Toast.LENGTH_SHORT).show();
             }else{
                 mobilePhone = mobilePhone.trim();
                 String phoneNumber = formatPhone(mobilePhone);
@@ -158,13 +157,13 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
                 System.out.println("Verification Completed!");
-                Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Verification Completed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Kumpleto na ang beripikasyon!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
                 System.out.println("Verification Failed: " + e);
-                Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Verification Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Indiv_Farmer_Activity_4.this, "Hindi matagumpay ang beripikasyon: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {

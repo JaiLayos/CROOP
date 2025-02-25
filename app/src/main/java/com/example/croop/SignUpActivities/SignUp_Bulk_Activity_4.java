@@ -63,9 +63,9 @@ public class SignUp_Bulk_Activity_4 extends AppCompatActivity {
             String bulkMobile = bulkMobileText.getText().toString();
             String bulkEmail = bulkEmailText.getText().toString();
             if(bulkMobile.isEmpty() || !phoneNumberValidation(bulkMobile)){
-                Toast.makeText(this, "Please input a  valid mobile phone number.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Maglagay ng wastong numero ng telepono.", Toast.LENGTH_SHORT).show();
             }else if(bulkEmail.isEmpty() || !validEmail(bulkEmail)){
-                Toast.makeText(this, "Please input a valid email.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Mangyaring maglagay ng wastong email.", Toast.LENGTH_SHORT).show();
             }else{
                 bulkMobile = bulkMobile.trim();
                 bulkMobile = formatPhone(bulkMobile);
@@ -88,7 +88,7 @@ public class SignUp_Bulk_Activity_4 extends AppCompatActivity {
                             submitToFirebase(groupCustomer);
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUp_Bulk_Activity_4.this, "Authentication failed.",
+                            Toast.makeText(SignUp_Bulk_Activity_4.this, "Hindi ka nakapag-authenticate.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -119,7 +119,7 @@ public class SignUp_Bulk_Activity_4 extends AppCompatActivity {
         groupCustomerProfile.put("Role", cr.getRole());
         CollectionReference groupSellerRef = db.collection("Group Customers");
         groupSellerRef.add(groupCustomerProfile).addOnSuccessListener(DocumentReference -> {
-            Toast.makeText(this, "Group Customer successfully added!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Matagumpay na naidagdag ang Group Customer!", Toast.LENGTH_SHORT).show();
             sendToPhone(groupCustomer);
         }).addOnFailureListener(e ->{
             Toast.makeText(this, "Error: " + e, Toast.LENGTH_SHORT).show();
@@ -143,17 +143,17 @@ public class SignUp_Bulk_Activity_4 extends AppCompatActivity {
         PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                Toast.makeText(SignUp_Bulk_Activity_4.this,"Verification Completed! " + phoneAuthCredential, Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Bulk_Activity_4.this,"Kumpleto na ang beripikasyon! " + phoneAuthCredential, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
-                Toast.makeText(SignUp_Bulk_Activity_4.this, "Verification Failed. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Bulk_Activity_4.this, "Hindi matagumpay ang beripikasyon. " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                System.out.println("Code Sent: " + verificationId);
+                System.out.println("Ipinadala na ang code: " + verificationId);
                 Intent intent = new Intent(SignUp_Bulk_Activity_4.this, SignUp_MobPhone_valid.class);
                 intent.putExtra("V_ID", verificationId);
                 startActivity(intent);

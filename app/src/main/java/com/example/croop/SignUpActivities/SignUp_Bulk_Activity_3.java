@@ -41,7 +41,7 @@ public class SignUp_Bulk_Activity_3 extends AppCompatActivity {
             String password = bulkPassword.getText().toString();
             String repassword = bulkRePassword.getText().toString();
             if (!isValidPassword(password)) {
-                Toast.makeText(this, "Password does not meet the requirements.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Hindi sumusunod ang password sa mga patakaran.", Toast.LENGTH_LONG).show();
                 return;
             }
             if(password.matches(repassword)){
@@ -50,7 +50,7 @@ public class SignUp_Bulk_Activity_3 extends AppCompatActivity {
                 Intent intent = new Intent(this, SignUp_Bulk_Activity_4.class);
                 startActivity(intent);
             }else{
-                Toast.makeText(this, "Password doesn't match.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Hindi magkatugma ang password.", Toast.LENGTH_SHORT).show();
             }
         });
     }

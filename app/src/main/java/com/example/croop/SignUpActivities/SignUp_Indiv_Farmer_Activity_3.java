@@ -45,13 +45,13 @@ public class SignUp_Indiv_Farmer_Activity_3 extends AppCompatActivity {
             String password = passwordText.getText().toString();
             String repassword = repasswordText.getText().toString();
             if (!isValidPassword(password)) {
-                Toast.makeText(this, "Password does not meet the requirements.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Hindi sumusunod ang password sa mga patakaran.", Toast.LENGTH_LONG).show();
                 return;
             }
             if(password.isEmpty()){
-                Toast.makeText(this, "Please input a password!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Mag-input ng password!", Toast.LENGTH_SHORT).show();
             }else if(!password.equals(repassword)){
-                Toast.makeText(this, "Password doesn't match.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Hindi magkatugma ang password.", Toast.LENGTH_SHORT).show();
             }else{
                 IndividualSellers individualSellers = IndividualSellersSingleton.getInstance().getIndividualSellers();
                 individualSellers.setPassword(password);
