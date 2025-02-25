@@ -13,9 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.croop.GroupSellerLanding.Activity_Discount_Inventory;
-import com.example.croop.GroupSellerLanding.Activity_Inventory_Category;
-import com.example.croop.GroupSellerLanding.Activity_Orders_Group;
 import com.example.croop.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,7 +56,7 @@ public class Fragment_Home_Individual_Seller extends Fragment {
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Toast.makeText(getActivity(), "Hello! " + role + " " + documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Hello! " + role + ", " + documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
             }
         }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -78,17 +75,17 @@ public class Fragment_Home_Individual_Seller extends Fragment {
 
         Button order = view.findViewById(R.id.orderButton);
         order.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Activity_Orders_Group.class);
+            Intent intent = new Intent(getActivity(), Activity_Orders_Individual.class);
             startActivity(intent);
         });
         Button inventory = view.findViewById(R.id.inventoryButton);
         inventory.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Activity_Inventory_Category.class);
+            Intent intent = new Intent(getActivity(), Activity_Inventory_Category_Individual.class);
             startActivity(intent);
         });
         Button discount = view.findViewById(R.id.discountButton);
         discount.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Activity_Discount_Inventory.class);
+            Intent intent = new Intent(getActivity(), Activity_Discount_Inventory_Individual.class);
             startActivity(intent);
         });
 

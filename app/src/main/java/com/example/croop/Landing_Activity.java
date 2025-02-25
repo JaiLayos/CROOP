@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.GroupSellerLanding.Sign_In_Success_Group_Seller;
+import com.example.croop.IndividualSellerLanding.Sign_In_Success_Individual_Seller;
 import com.example.croop.model.CurrentUsage;
 import com.example.croop.singleton.CurrentUsageSingleton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,7 +50,7 @@ public class Landing_Activity extends AppCompatActivity {
                     break;
                 }
                 case "Individual Business User": {
-                    Intent intent = new Intent(Landing_Activity.this, Home_Individual_Seller_Activity.class);
+                    Intent intent = new Intent(Landing_Activity.this, Sign_In_Success_Individual_Seller.class);
                     startActivity(intent);
                     finish();
                     break;

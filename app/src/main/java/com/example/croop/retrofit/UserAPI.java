@@ -2,12 +2,15 @@ package com.example.croop.retrofit;
 
 import com.example.croop.model.Customer;
 import com.example.croop.model.DiscountDTO;
-import com.example.croop.model.SellerOrdersDTO;
 import com.example.croop.model.GroupSellers;
 import com.example.croop.model.GroupSellersDiscount;
 import com.example.croop.model.GroupSellersItemInventory;
 import com.example.croop.model.GroupSellersProductsInventory;
 import com.example.croop.model.IndividualSellers;
+import com.example.croop.model.IndividualSellersDiscount;
+import com.example.croop.model.IndividualSellersItemInventory;
+import com.example.croop.model.IndividualSellersProductsInventory;
+import com.example.croop.model.SellerOrdersDTO;
 
 import java.util.List;
 
@@ -93,17 +96,62 @@ public interface UserAPI {
     @GET("api/individual-sellers/orders/{firebaseID}")
     Call<List<SellerOrdersDTO>> getGroupSellersbyFirebase(@Path("firebaseID") String firebaseID);
     @GET("api/individual-sellers/details/{firebaseID}")
-    Call<IndividualSellers> getGroupSellersbyFirebaseOD(@Path("firebaseID") String firebaseID);
+    Call<IndividualSellers> getIndividualSellersbyFirebaseID(@Path("firebaseID") String firebaseID);
     @GET("api/individual-sellers")
-    Call<List<IndividualSellers>> getAllGroupSellers();
-
+    Call<List<IndividualSellers>> getAllIndividualSellers();
     @PUT("api/individual-sellers/{id}")
     Call<IndividualSellers> updateGroupSellers(@Path("id") int id, @Body IndividualSellers individualSellers);
-
     @PUT("api/individual-sellers/firebase/{firebaseID}")
     Call<IndividualSellers> updateGroupSellersByFirebaseID(@Path("firebaseID") String firebaseID, @Body IndividualSellers individualSellers);
-
     @DELETE("api/individual-sellers/{id}")
     Call<IndividualSellers> deleteGroupSellers(@Path("id") int id);
 
+    //Individual Sellers Item
+    @POST("api/individual-sellers-item-inventory/add-item")
+    Call<IndividualSellersItemInventory> addIndividualItem(@Body IndividualSellersItemInventory individualSellersItemInventory);
+    //Get Item by ID
+    @GET("api/individual-sellers-item-inventory/{id}")
+    Call<IndividualSellersItemInventory> getIndividualItem(@Path("id") int id);
+    @GET("api/individual-sellers-item-inventory/items/{itemName}")
+    Call<List<IndividualSellersItemInventory>> getIndividualItemByName(@Path("itemName") String itemName);
+    @GET("api/individual-sellers-item-inventory/items/firebase/{firebaseID}")
+    Call<List<IndividualSellersItemInventory>> getIndividualItemsByFirebaseID(@Path("firebaseID") String firebaseID);
+    @GET("api/individual-sellers-item-inventory/")
+    Call<List<IndividualSellersItemInventory>> getAllIndividualItems();
+    @PUT("api/individual-sellers-item-inventory/{id}")
+    Call<IndividualSellersItemInventory> updateIndividualItem(@Path("id") int id, @Body IndividualSellersItemInventory individualSellersItemInventory);
+    @DELETE("api/individual-sellers-item-inventory/{id}")
+    Call<IndividualSellersItemInventory> deleteIndividualItem(@Path("id") int id);
+
+    //Individual Sellers Products
+    @POST("api/individual-sellers-products-inventory/add-item")
+    Call<IndividualSellersProductsInventory> addIndividualProducts(@Body IndividualSellersProductsInventory individualSellersProductsInventory);
+    @GET("api/individual-sellers-products-inventory/{id}")
+    Call<IndividualSellersProductsInventory> getIndividualProducts(@Path("id") int id);
+    @GET("api/individual-sellers-products-inventory/items/{itemName}")
+    Call<List<IndividualSellersProductsInventory>> getIndividualProductsByName(@Path("itemName") String itemName);
+    @GET("api/individual-sellers-products-inventory/items/firebase/{firebaseID}")
+    Call<List<IndividualSellersProductsInventory>> getIndividualProductsByFirebaseID(@Path("firebaseID") String firebaseID);
+    @GET("api/individual-sellers-products-inventory")
+    Call<List<IndividualSellersProductsInventory>> getAllIndividualProducts();
+    @PUT("api/individual-sellers-products-inventory/{id}")
+    Call<IndividualSellersProductsInventory> updateIndividualProducts(@Path("id") int id, @Body IndividualSellersProductsInventory individualSellersProductsInventory);
+    @DELETE("api/individual-sellers-products-inventory/{id}")
+    Call<IndividualSellersProductsInventory> deleteIndividualProducts(@Path("id") int id);
+
+    //Individual Sellers Discounts
+    @POST("api/individual-seller-discount")
+    Call<IndividualSellersDiscount> addIndividualDiscount(@Body IndividualSellersDiscount individualSellersDiscount);
+    @GET("api/individual-seller-discount/{id}")
+    Call<DiscountDTO> getIndividualDiscount(@Path("id") int id);
+    @GET("api/individual-seller-discount/firebase/{firebaseID}")
+    Call<List<IndividualSellersDiscount>> getIndividualDiscountbyFirebaseID(@Path("firebaseID") String firebaseID);
+    @GET("api/individual-seller-discount/discount/{itemName}")
+    Call<List<IndividualSellersDiscount>> getIndividualDiscountByName(@Path("itemName") String itemName);
+    @GET("api/individual-seller-discount")
+    Call<List<IndividualSellersDiscount>> getAllIndividualDiscounts();
+    @PUT("api/individual-seller-discount/{id}")
+    Call<IndividualSellersDiscount> updateIndividualDiscount(@Path("id") int id, @Body IndividualSellersDiscount individualSellersDiscount);
+    @DELETE("api/individual-seller-discount/{id}")
+    Call<IndividualSellersDiscount> deleteIndividualDiscount(@Path("id") int id);
 }

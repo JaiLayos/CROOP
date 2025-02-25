@@ -40,7 +40,7 @@ public class Fragment_Profile_Individual_Seller extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.profile_group_seller, container, false);
+        View rootView = inflater.inflate(R.layout.profile_individual_seller, container, false);
 
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", getContext().MODE_PRIVATE);
         String collection = prefs.getString("user_collection", null);
@@ -92,8 +92,6 @@ public class Fragment_Profile_Individual_Seller extends Fragment {
                             userRole.setText(role_user);
                             String bio_user = document.getString("Bio");
                             userBio.setText(bio_user);
-                            String group_user = document.getString("Group Name");
-                            userGroup.setText(group_user);
                             String email_user = document.getString("Email");
                             userEmail.setText(email_user);
                             String phone_user = document.getString("Phone Number");

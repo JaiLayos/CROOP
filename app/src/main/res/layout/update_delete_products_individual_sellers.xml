@@ -38,26 +38,28 @@
 
                         <TableRow
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="20dp">
 
                             <TextView
                                 android:id="@+id/nameLabel"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/mulish_medium"
-                                android:text="@string/item_name"
+                                android:text="Pangalan"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/beige_brackground"
                                 android:textSize="20sp" />
 
                             <EditText
                                 android:id="@+id/nameText"
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="55dp"
                                 android:layout_marginStart="20dp"
                                 android:ems="10"
                                 android:hint="Hal. Mangga"
                                 android:inputType="text"
+                                android:paddingStart="10dp"
                                 android:textColor="@color/beige_brackground"
                                 android:textColorHint="@color/highlight_green"
                                 android:textSize="20sp" />
@@ -65,29 +67,86 @@
 
                         <TableRow
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="20dp">
 
                             <TextView
-                                android:id="@+id/percentLabel"
+                                android:id="@+id/priceLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/mulish_medium"
-                                android:text="Bilang ng Ginamit"
+                                android:text="Presyo (₱)"
                                 android:textAlignment="textEnd"
                                 android:textColor="@color/beige_brackground"
                                 android:textSize="20sp" />
 
                             <EditText
-                                android:id="@+id/percentText"
+                                android:id="@+id/priceText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="55dp"
                                 android:layout_marginStart="20dp"
                                 android:ems="10"
                                 android:hint="Hal. 50"
                                 android:inputType="text"
+                                android:paddingStart="10dp"
                                 android:textColor="@color/beige_brackground"
                                 android:textColorHint="@color/highlight_green"
                                 android:textSize="20sp" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" >
+
+                            <TextView
+                                android:id="@+id/boughtLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/mulish_medium"
+                                android:text="Mga Nabili"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/beige_brackground"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/boughtText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="55dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="10dp"
+                                android:text="TextView"
+                                android:textColor="@color/beige_brackground"
+                                android:textSize="20sp" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp">
+
+                            <TextView
+                                android:id="@+id/remainingLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/mulish_medium"
+                                android:text="Natitira"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/beige_brackground"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/remainingText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="55dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="10dp"
+                                android:text="TextView"
+                                android:textAlignment="textStart"
+                                android:textColor="@color/beige_brackground"
+                                android:textSize="20sp" />
+
                         </TableRow>
 
                     </TableLayout>
