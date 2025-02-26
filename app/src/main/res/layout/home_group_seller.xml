@@ -24,32 +24,44 @@
                 android:id="@+id/glimpseProfileContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/beige_brackground"
-                android:backgroundTint="@color/beige_brackground">
+                android:background="@drawable/sun"
+                app:cardBackgroundColor="@color/beige_brackground">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="248dp"
+                        android:layout_height="333dp"
+                        android:layout_marginEnd="260dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/sun" />
+
                     <TextView
                         android:id="@+id/welcomeHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
                         android:layout_marginTop="70dp"
+                        android:layout_marginEnd="5dp"
                         android:fontFamily="@font/inter_semibold"
                         android:letterSpacing="0.1"
                         android:text="Maligayang Pagdating!"
-                        android:textSize="40sp"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:textAlignment="textEnd"
+                        android:textSize="38sp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/userNameDisplay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="5dp"
                         android:fontFamily="@font/mulish_medium"
                         android:text="LastName, FirstName"
                         android:textSize="24sp"
@@ -60,11 +72,10 @@
                         android:id="@+id/userBioDisplay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="50dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
                         android:text="Bio"
                         android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/userNameDisplay" />
 

@@ -17,8 +17,6 @@
             android:background="@color/secondary_color"
             app:layout_scrollFlags="scroll|enterAlways"/>
 
-
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
@@ -38,6 +36,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Profile" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/sellersTab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sellers" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/cartTab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cart" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/accountTab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Account" />
 
         </com.google.android.material.tabs.TabLayout>
 
