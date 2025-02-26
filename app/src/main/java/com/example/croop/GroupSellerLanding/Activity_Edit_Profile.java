@@ -129,13 +129,13 @@ public class Activity_Edit_Profile extends AppCompatActivity {
                     "Position", position,
                     "Updated At", new Date()
             ).addOnSuccessListener( view -> {
-                    Toast.makeText(this, "User updated!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Na-update na ang user!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this, Sign_In_Success_Group_Seller.class);
                     startActivity(intent);
                     sendToPG(groupSellers);
                 }
             ).addOnFailureListener( e-> {
-                Toast.makeText(this, "Failed to update profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Hindi na-update ang profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             );
         });
@@ -150,15 +150,15 @@ public class Activity_Edit_Profile extends AppCompatActivity {
             @Override
             public void onResponse(Call<GroupSellers> call, Response<GroupSellers> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(Activity_Edit_Profile.this, "Profile updated in PostgreSQL!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Edit_Profile.this, "Na-update na ang user sa PostgreSQL!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(Activity_Edit_Profile.this, "Failed to update profile: " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Edit_Profile.this, "Hindi na-update ang profile: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<GroupSellers> call, Throwable t) {
-                Toast.makeText(Activity_Edit_Profile.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_Edit_Profile.this, "Nagkaproblema: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

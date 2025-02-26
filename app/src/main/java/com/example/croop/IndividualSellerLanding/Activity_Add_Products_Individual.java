@@ -72,7 +72,7 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
         call.enqueue(new Callback<IndividualSellersProductsInventory>() {
             @Override
             public void onResponse(Call<IndividualSellersProductsInventory> call, Response<IndividualSellersProductsInventory> response) {
-                Toast.makeText(Activity_Add_Products_Individual.this, name.getText().toString() + " is added.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_Add_Products_Individual.this, name.getText().toString() + " ay nadagdag.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Activity_Add_Products_Individual.this, Activity_Products_Inventory_Individual.class);
                 startActivity(intent);
                 finish();
@@ -80,7 +80,7 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<IndividualSellersProductsInventory> call, Throwable t) {
-                Toast.makeText(Activity_Add_Products_Individual.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_Add_Products_Individual.this, "Nagkaproblema: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

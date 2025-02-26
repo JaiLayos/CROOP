@@ -48,7 +48,7 @@ public class Activity_Orders_Individual extends AppCompatActivity {
             public void onResponse(Call<List<SellerOrdersDTO>> call, Response<List<SellerOrdersDTO>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<SellerOrdersDTO> orders = response.body();
-                    Toast.makeText(Activity_Orders_Individual.this, "Number of orders fetched: " + orders.size(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Orders_Individual.this, "Bilang ng mga order na nakuha: " + orders.size(), Toast.LENGTH_SHORT).show();
                     populateTable(orders);
                 }else{
                     Toast.makeText(Activity_Orders_Individual.this, "API_ERROR: Response not successful or body is null", Toast.LENGTH_SHORT).show();

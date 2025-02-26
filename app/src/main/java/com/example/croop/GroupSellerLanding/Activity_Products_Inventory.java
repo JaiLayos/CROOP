@@ -59,7 +59,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
             public void onResponse(Call<List<GroupSellersProductsInventory>> call, Response<List<GroupSellersProductsInventory>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<GroupSellersProductsInventory> products = response.body();
-                    Toast.makeText(Activity_Products_Inventory.this, "Number of products fetched: " + products.size(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Products_Inventory.this, "Bilang ng mga order na nakuha: " + products.size(), Toast.LENGTH_SHORT).show();
                     populateTableDefault(products,table);
                 }else{
                     try {
@@ -89,7 +89,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                 public void onResponse(Call<List<GroupSellersProductsInventory>> call, Response<List<GroupSellersProductsInventory>> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         List<GroupSellersProductsInventory> items = response.body();
-                        Toast.makeText(Activity_Products_Inventory.this, "Number of products found: " + items.size(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Products_Inventory.this, "Bilang ng mga order na natagpuan: " + items.size(), Toast.LENGTH_SHORT).show();
                         populateTableDefault(items,table);
                     }else{
                         try {
@@ -167,19 +167,19 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                     String left = leftText.getText().toString().trim();
 
                     if (itemNameText.isEmpty()) {
-                        Toast.makeText(Activity_Products_Inventory.this, "Product name cannot be empty", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Products_Inventory.this, "Dapat may pangalan ang produkto", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     if (price.isEmpty()) {
-                        Toast.makeText(Activity_Products_Inventory.this, "Product price cannot be empty", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Products_Inventory.this, "Dapat lagyan ng presyo ang produkto", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     try {
                         int priceValue = Integer.parseInt(price);
                         if (priceValue < 0) {
-                            Toast.makeText(Activity_Products_Inventory.this, "Product price must be a non-negative number", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Activity_Products_Inventory.this, "Ang presyo ng produkto ay dapat isang numero na hindi negatibo", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -194,7 +194,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<GroupSellersProductsInventory> call, Response<GroupSellersProductsInventory> response) {
                                 if (response.isSuccessful() && response.body() != null) {
-                                    Toast.makeText(Activity_Products_Inventory.this, "Product Updated", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Activity_Products_Inventory.this, "Na-update na ang produkto", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Activity_Products_Inventory.this, Activity_Inventory_Category.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                     finish();
@@ -217,7 +217,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                         });
 
                     } catch (NumberFormatException e) {
-                        Toast.makeText(Activity_Products_Inventory.this, "Invalid number for item used", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Products_Inventory.this, "Hindi valid na numero ang para sa ginamit na item", Toast.LENGTH_SHORT).show();
                     }
                 });
                 delete.setOnClickListener(v -> {
@@ -225,7 +225,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                     deleteItem.enqueue(new Callback<GroupSellersProductsInventory>() {
                         @Override
                         public void onResponse(Call<GroupSellersProductsInventory> call, Response<GroupSellersProductsInventory> response) {
-                            Toast.makeText(Activity_Products_Inventory.this, "Products Deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Activity_Products_Inventory.this, "Nabura na ang produkto", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(Activity_Products_Inventory.this, Activity_Products_Inventory.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             finish();

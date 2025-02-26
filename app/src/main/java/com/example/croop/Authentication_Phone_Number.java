@@ -29,14 +29,14 @@ public class Authentication_Phone_Number extends AppCompatActivity {
     private void initializeComponents() {
         Intent intent = getIntent();
         if (intent == null || !intent.hasExtra("storedVerificationId")) {
-            Toast.makeText(this, "Verification ID is missing. Please try again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Hindi mahanap ang Verification ID. Pakisubukan muli", Toast.LENGTH_SHORT).show();
             finish(); // Close the activity
             return;
         }
 
         String verificationId = intent.getStringExtra("storedVerificationId");
         if (verificationId == null || verificationId.isEmpty()) {
-            Toast.makeText(this, "Invalid Verification ID. Please try again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Hindi tama ang Verification ID. Pakisubukan muli.", Toast.LENGTH_SHORT).show();
             finish(); // Close the activity
             return;
         }
@@ -48,7 +48,7 @@ public class Authentication_Phone_Number extends AppCompatActivity {
         nextButton.setOnClickListener(v -> {
             String otp = otpText.getText().toString().trim();
             if (otp.isEmpty() || otp.length() < 6) {
-                Toast.makeText(this, "Please enter a valid 6-digit OTP", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Pakilagay ang valid 6-digit OTP", Toast.LENGTH_SHORT).show();
                 return;
             }
             verifyCode(verificationId, otp);
@@ -66,7 +66,7 @@ public class Authentication_Phone_Number extends AppCompatActivity {
                     Intent intent = new Intent(this, Authentication_Email_Password_Change_Email.class);
                     startActivity(intent);
                 }).addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Nagkaproblema: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 }

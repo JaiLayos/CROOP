@@ -55,7 +55,7 @@ public class Activity_Item_Inventory extends AppCompatActivity {
             public void onResponse(Call<List<GroupSellersItemInventory>> call, Response<List<GroupSellersItemInventory>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<GroupSellersItemInventory> items = response.body();
-                    Toast.makeText(Activity_Item_Inventory.this, "Number of orders fetched: " + items.size(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Item_Inventory.this, "Bilang ng mga order na nakuha: " + items.size(), Toast.LENGTH_SHORT).show();
                     populateTableDefault(items,table);
                 }else{
                     try {
@@ -85,7 +85,7 @@ public class Activity_Item_Inventory extends AppCompatActivity {
                 public void onResponse(Call<List<GroupSellersItemInventory>> call, Response<List<GroupSellersItemInventory>> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         List<GroupSellersItemInventory> items = response.body();
-                        Toast.makeText(Activity_Item_Inventory.this, "Number of orders found: " + items.size(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Item_Inventory.this, "Bilang ng mga order na natagpuan: " + items.size(), Toast.LENGTH_SHORT).show();
                         populateTableDefault(items,table);
                     }else{
                         try {
@@ -155,7 +155,7 @@ public class Activity_Item_Inventory extends AppCompatActivity {
                     deleteItem.enqueue(new Callback<GroupSellersItemInventory>() {
                         @Override
                         public void onResponse(Call<GroupSellersItemInventory> call, Response<GroupSellersItemInventory> response) {
-                            Toast.makeText(Activity_Item_Inventory.this, "Item Deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Activity_Item_Inventory.this, "Nabura na ang item", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(Activity_Item_Inventory.this, Activity_Item_Inventory.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             finish();
@@ -174,19 +174,19 @@ public class Activity_Item_Inventory extends AppCompatActivity {
                     String itemUsedText = itemUsed.getText().toString().trim();
 
                     if (itemNameText.isEmpty()) {
-                        Toast.makeText(Activity_Item_Inventory.this, "Item name cannot be empty", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Item_Inventory.this, "Dapat may pangalan ang item", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     if (itemUsedText.isEmpty()) {
-                        Toast.makeText(Activity_Item_Inventory.this, "Item used cannot be empty", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Item_Inventory.this, "Pakilagay ang item na ginamit", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     try {
                         int itemUsedValue = Integer.parseInt(itemUsedText);
                         if (itemUsedValue < 0) {
-                            Toast.makeText(Activity_Item_Inventory.this, "Item used must be a non-negative number", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Activity_Item_Inventory.this, "Kailangan ang numero ng item na ginamit at hindi negatibo", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -200,7 +200,7 @@ public class Activity_Item_Inventory extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<GroupSellersItemInventory> call, Response<GroupSellersItemInventory> response) {
                                 if (response.isSuccessful() && response.body() != null) {
-                                    Toast.makeText(Activity_Item_Inventory.this, "Item Updated", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Activity_Item_Inventory.this, "Na-update na ang item", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Activity_Item_Inventory.this, Activity_Inventory_Category.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                     finish();
@@ -223,7 +223,7 @@ public class Activity_Item_Inventory extends AppCompatActivity {
                         });
 
                     } catch (NumberFormatException e) {
-                        Toast.makeText(Activity_Item_Inventory.this, "Invalid number for item used", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Item_Inventory.this, "Hindi valid na numero ang para sa ginamit na item", Toast.LENGTH_SHORT).show();
                     }
                 });
                 check.setOnClickListener(v->{

@@ -50,7 +50,7 @@ public class Activity_Discount_Inventory extends AppCompatActivity {
             public void onResponse(Call<List<GroupSellersDiscount>> call, Response<List<GroupSellersDiscount>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<GroupSellersDiscount> discounts = response.body();
-                    Toast.makeText(Activity_Discount_Inventory.this, "Number of orders fetched: " + discounts.size(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Discount_Inventory.this, "Bilang ng mga order na nakuha: " + discounts.size(), Toast.LENGTH_SHORT).show();
                     populateTableDefault(discounts,table);
                 }else{
                     try {
@@ -80,7 +80,7 @@ public class Activity_Discount_Inventory extends AppCompatActivity {
                 public void onResponse(Call<List<GroupSellersDiscount>> call, Response<List<GroupSellersDiscount>> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         List<GroupSellersDiscount> items = response.body();
-                        Toast.makeText(Activity_Discount_Inventory.this, "Number of orders found: " + items.size(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Discount_Inventory.this, "Bilang ng mga order na natagpuan: " + items.size(), Toast.LENGTH_SHORT).show();
                         populateTableDefault(items,table);
                     }else{
                         try {

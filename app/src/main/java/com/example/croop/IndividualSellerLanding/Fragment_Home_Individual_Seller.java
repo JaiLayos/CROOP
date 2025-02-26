@@ -56,7 +56,7 @@ public class Fragment_Home_Individual_Seller extends Fragment {
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Toast.makeText(getActivity(), "Hello! " + role + ", " + documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Mabuhay! " + role + ", " + documentSnapshot.getString("Name"), Toast.LENGTH_SHORT).show();
             }
         }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

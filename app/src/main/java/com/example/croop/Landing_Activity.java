@@ -72,7 +72,7 @@ public class Landing_Activity extends AppCompatActivity {
                     break;
             }
         }else{
-            Toast.makeText(Landing_Activity.this, "Please Sign In Again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Landing_Activity.this, "Mag-login po ulit.", Toast.LENGTH_SHORT).show();
             return;
         }
     }

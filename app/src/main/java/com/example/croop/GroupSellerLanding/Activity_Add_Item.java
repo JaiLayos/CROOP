@@ -70,7 +70,7 @@ public class Activity_Add_Item extends AppCompatActivity {
         call.enqueue(new Callback<GroupSellersItemInventory>() {
             @Override
             public void onResponse(Call<GroupSellersItemInventory> call, Response<GroupSellersItemInventory> response) {
-                Toast.makeText(Activity_Add_Item.this, name.getText().toString() + " is added.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_Add_Item.this, name.getText().toString() + " ay nadagdag.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Activity_Add_Item.this, Activity_Item_Inventory.class);
                 startActivity(intent);
                 finish();
@@ -78,7 +78,7 @@ public class Activity_Add_Item extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<GroupSellersItemInventory> call, Throwable t) {
-                Toast.makeText(Activity_Add_Item.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_Add_Item.this, ": " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
