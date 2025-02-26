@@ -35,7 +35,6 @@ public class GroupSellersItemService implements IGroupSellersItemInventoryServic
 
     @Override
     public List<GroupSellersItemInventory> findByItemName(String itemName) {
-
         List<GroupSellersItemInventory> items = groupSellersItemRepository.findByItemName(itemName);
         return items;
     }

@@ -5,6 +5,7 @@ import com.jai.croop.model.GroupSellerDiscount;
 import com.jai.croop.model.GroupSellers;
 import com.jai.croop.model.GroupSellersProductsInventory;
 import com.jai.croop.service.IGroupSellersDiscountService;
+import com.jai.croop.service.IGroupSellersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ import java.util.List;
 public class GroupSellerDiscountControlller {
     @Autowired
     private IGroupSellersDiscountService groupSellersDiscountService;
+
+    @Autowired
+    private IGroupSellersService groupSellersService;
     @PostMapping
     public ResponseEntity<GroupSellerDiscount> addDiscount(@RequestBody GroupSellerDiscount groupSellerDiscount){
         GroupSellersProductsInventory groupSellersProductsInventory = groupSellerDiscount.getGroupSellersProductsInventory();
@@ -28,12 +32,22 @@ public class GroupSellerDiscountControlller {
     public ResponseEntity<DiscountDTO> getDiscount(@PathVariable int id){
         GroupSellerDiscount groupSellerDiscount = groupSellersDiscountService.getDiscounts(id);
         DiscountDTO dto = new DiscountDTO();
+        dto.setDiscountID(groupSellerDiscount.getId());
+        dto.setSellerID(groupSellerDiscount.getGroupSellers().getId());
+        dto.setProductID(groupSellerDiscount.getGroupSellersProductsInventory().getId());
         dto.setSellerName(groupSellerDiscount.getGroupSellers().getGroupName());
         dto.setItemName(groupSellerDiscount.getGroupSellersProductsInventory().getItemName());
         dto.setOriginalPrice(groupSellerDiscount.getOriginalPrice());
         dto.setDiscountPercent(groupSellerDiscount.getDiscountPercent());
         dto.setSalePrice(groupSellerDiscount.getSalePrice());
         return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("firebase/{firebaseID}")
+    public ResponseEntity<List<GroupSellerDiscount>> getDiscountbyFirebaseID(@PathVariable String firebaseID){
+        int id = groupSellersService.getGroupSellerIdByFirebaseID(firebaseID);
+        List<GroupSellerDiscount> groupSellerDiscount = groupSellersDiscountService.getDiscountsByGroupSellerID(id);
+        return ResponseEntity.ok(groupSellerDiscount);
     }
 
     @GetMapping("/discount/{itemName}")

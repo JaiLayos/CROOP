@@ -1,16 +1,17 @@
 package com.jai.croop.service;
 
-import com.jai.croop.model.Customer;
-import com.jai.croop.model.CustomerOrders;
-import com.jai.croop.model.GroupSellers;
+import com.jai.croop.model.*;
 
 import java.util.List;
 
 public interface ICustomerOrdersService {
-    CustomerOrders addCustomerOrdersToGroupOrders(CustomerOrders customerOrders, Customer customer, GroupSellers groupSellers);
-    CustomerOrders getCustomerOrders(int id);
-    List<CustomerOrders> getAllCustomerOrders();
-    CustomerOrders updateCustomerOrders(int id, CustomerOrders updatedCustomerOrders);
+    CustomerOrdersForGroupSellers addCustomerOrdersToGroupOrders(CustomerOrdersForGroupSellers customerOrders, Customer customer, GroupSellers groupSellers);
+
+    CustomerOrdersForIndivSellers addCustomerOrdersToIndividualOrders(CustomerOrdersForIndivSellers customerOrders, Customer customer, IndividualSellers individualSellers);
+
+    CustomerOrdersForGroupSellers getCustomerOrders(int id);
+    List<CustomerOrdersForGroupSellers> getAllCustomerOrders();
+    CustomerOrdersForGroupSellers updateCustomerOrders(int id, CustomerOrdersForGroupSellers updatedCustomerOrders);
     void deleteCustomerOrders(int id);
 
 }

@@ -3,7 +3,7 @@ package com.jai.croop.model;
 import java.util.Date;
 import java.util.Map;
 
-public class GroupSellerOrdersDTO {
+public class SellerOrdersDTO {
     private int id;
     private Date orderDate;
     private Map<String, Integer> orderList;
@@ -14,8 +14,8 @@ public class GroupSellerOrdersDTO {
     private String customerName; // Optionally include the customer name
 
     // Constructor, getters, setters...
-    public GroupSellerOrdersDTO(int id, Date orderDate, Map<String, Integer> orderList,
-                                 int orderPrice, String orderType, String orderStatus, int customerId, String customerName) {
+    public SellerOrdersDTO(int id, Date orderDate, Map<String, Integer> orderList,
+                           int orderPrice, String orderType, String orderStatus, int customerId, String customerName) {
         this.id = id;
         this.orderDate = orderDate;
         this.orderList = orderList;

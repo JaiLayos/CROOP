@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.jai.croop.AddressConverter;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,11 +16,13 @@ public class Customer extends BaseUser{
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("customer-orders")
-    private List<CustomerOrders> customerOrders;
-
+    private List<CustomerOrdersForGroupSellers> customerOrders;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("customer-group-orders")
     private List<GroupSellersOrders> groupSellerOrders;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("customer-individual-orders")
+    private List<IndividualSellersOrders> individualSellersOrders;
 
     public Customer() {}
 
@@ -34,11 +35,11 @@ public class Customer extends BaseUser{
         return id;
     }
 
-    public List<CustomerOrders> getCustomerOrders() {
+    public List<CustomerOrdersForGroupSellers> getCustomerOrders() {
         return customerOrders;
     }
 
-    public void setCustomerOrders(List<CustomerOrders> customerOrders) {
+    public void setCustomerOrders(List<CustomerOrdersForGroupSellers> customerOrders) {
         this.customerOrders = customerOrders;
     }
 
@@ -48,6 +49,13 @@ public class Customer extends BaseUser{
 
     public void setGroupSellerOrders(List<GroupSellersOrders> groupSellerOrders) {
         this.groupSellerOrders = groupSellerOrders;
+    }
+
+    public List<IndividualSellersOrders> getIndividualSellersOrders() {
+        return individualSellersOrders;
+    }
+    public void setIndividualSellersOrders(List<IndividualSellersOrders> individualSellersOrders) {
+        this.individualSellersOrders = individualSellersOrders;
     }
 }
 

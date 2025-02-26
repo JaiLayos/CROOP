@@ -1,7 +1,7 @@
 package com.jai.croop.service;
 
 import com.jai.croop.model.Customer;
-import com.jai.croop.model.GroupSellerOrdersDTO;
+import com.jai.croop.model.SellerOrdersDTO;
 import com.jai.croop.model.GroupSellers;
 import com.jai.croop.model.GroupSellersOrders;
 
@@ -11,7 +11,7 @@ public interface IGroupSellersOrdersService {
     GroupSellersOrders addGroupSellerOrders(GroupSellersOrders groupSellersOrders, Customer customer, GroupSellers groupSellers);
     GroupSellersOrders getGroupSellerOrders(int id);
     List<GroupSellersOrders> getAllGroupSellerOrders();
-    List<GroupSellerOrdersDTO>  findByGroupSellerID(int id);
+    List<SellerOrdersDTO>  findByGroupSellerID(int id);
     GroupSellersOrders updateGroupSellerOrders(int id, GroupSellersOrders updatedGroupSellersOrders);
     void deleteGroupSellerOrders(int id);
 }

@@ -1,9 +1,12 @@
 package com.jai.croop.controller;
 
+import com.jai.croop.model.GroupSellerDiscount;
 import com.jai.croop.model.GroupSellers;
 import com.jai.croop.model.GroupSellersItemInventory;
 import com.jai.croop.model.GroupSellersProductsInventory;
+import com.jai.croop.service.IGroupSellersDiscountService;
 import com.jai.croop.service.IGroupSellersProductInventoryService;
+import com.jai.croop.service.IGroupSellersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +19,15 @@ public class GroupSellerProductsController {
     @Autowired
     public IGroupSellersProductInventoryService groupSellersProductsInventoryService;
 
+    @Autowired
+    public IGroupSellersDiscountService groupSellersDiscountService;
+
+    @Autowired
+    public IGroupSellersService groupSellersService;
+
     @PostMapping
     public ResponseEntity<GroupSellersProductsInventory> addItem(@RequestBody GroupSellersProductsInventory groupSellersProductsInventory){
-        GroupSellers groupSellers = groupSellersProductsInventory.getGroupSellers();
+        GroupSellers groupSellers = groupSellersService.getGroupSellers(groupSellersProductsInventory.getGroupSellers().getId());
         System.out.println("Receive Group Seller Item: " + groupSellersProductsInventory);
         return ResponseEntity.ok(groupSellersProductsInventoryService.addItems(groupSellersProductsInventory, groupSellers));
     }

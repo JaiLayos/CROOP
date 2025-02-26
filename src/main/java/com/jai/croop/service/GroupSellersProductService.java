@@ -1,8 +1,10 @@
 package com.jai.croop.service;
 
+import com.jai.croop.model.GroupSellerDiscount;
 import com.jai.croop.model.GroupSellers;
 import com.jai.croop.model.GroupSellersItemInventory;
 import com.jai.croop.model.GroupSellersProductsInventory;
+import com.jai.croop.repository.GroupSellersDiscountRepository;
 import com.jai.croop.repository.GroupSellersProductsRepository;
 import com.jai.croop.repository.GroupSellersRepository;
 import jakarta.transaction.Transactional;
@@ -18,15 +20,35 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
     private  GroupSellersProductsRepository groupSellersProductsRepository;
     @Autowired
     private GroupSellersRepository groupSellersRepository;
+    @Autowired
+    private GroupSellersDiscountRepository groupSellersDiscountRepository;
+    @Autowired
+    private GroupSellerDiscountService groupSellersDiscountService;
+
     @Override
     public GroupSellersProductsInventory addItems(GroupSellersProductsInventory groupSellersProductsInventory, GroupSellers groupSellers) {
+        // Validate that GroupSellers is not null
         if (groupSellersProductsInventory.getGroupSellers() == null) {
-            throw new IllegalArgumentException("GroupSeller cannot be null");
+            throw new IllegalArgumentException("GroupSeller cannot be null in products");
         }
+
         groupSellers = groupSellersRepository.findById(groupSellersProductsInventory.getGroupSellers().getId())
                 .orElseThrow(() -> new RuntimeException("GroupSeller does not exist!"));
+
         groupSellersProductsInventory.setGroupSellers(groupSellers);
-        return groupSellersProductsRepository.save(groupSellersProductsInventory);
+
+        groupSellersProductsInventory = groupSellersProductsRepository.save(groupSellersProductsInventory);
+
+        GroupSellerDiscount groupSellerDiscount = new GroupSellerDiscount();
+        groupSellerDiscount.setOriginalPrice(groupSellersProductsInventory.getPrice());
+        groupSellerDiscount.setDiscountPercent(0.0);
+        groupSellerDiscount.setSalePrice(groupSellersProductsInventory.getPrice());
+        groupSellerDiscount.setGroupSellers(groupSellers);
+        groupSellerDiscount.setGroupSellersProductsInventory(groupSellersProductsInventory); // Associate the persisted inventory
+
+        groupSellersDiscountService.addDiscounts(groupSellerDiscount, groupSellers, groupSellersProductsInventory);
+
+        return groupSellersProductsInventory;
     }
 
     @Override
@@ -68,6 +90,10 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
     @Transactional
     @Override
     public void deleteItems(int id) {
+        GroupSellersProductsInventory groupSellersProductsInventory = groupSellersProductsRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Product does not exist!")
+        );
+        groupSellersDiscountRepository.deleteById(groupSellersProductsInventory.getGroupSellerDiscounts().getId());
         groupSellersProductsRepository.deleteById(id);
     }
 }

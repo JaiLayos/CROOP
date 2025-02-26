@@ -1,22 +1,49 @@
 package com.jai.croop.model;
 
 public class DiscountDTO {
+    private int discountID;
+    private int sellerID;
+    private int productID;
     private String sellerName;
     private String itemName;
     private int originalPrice;
-    private long discountPercent;
+    private double discountPercent;
     private int salePrice;
 
     public DiscountDTO(){
 
     }
 
-    public DiscountDTO(String sellerName, String itemName, int originalPrice, int discountPercent, int salePrice){
+    public DiscountDTO(int discountID, int sellerID, int productID, String sellerName, String itemName, int originalPrice, double discountPercent, int salePrice){
+        this.discountID = discountID;
+        this.sellerID = sellerID;
+        this.productID = productID;
         this.sellerName = sellerName;
         this.itemName = itemName;
         this.originalPrice = originalPrice;
         this.discountPercent = discountPercent;
         this.salePrice = salePrice;
+    }
+
+    public int getDiscountID() {
+        return discountID;
+    }
+    public void setDiscountID(int discountID) {
+        this.discountID = discountID;
+    }
+
+    public int getProductID() {
+        return productID;
+    }
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+
+    public int getSellerID() {
+        return sellerID;
+    }
+    public void setSellerID(int sellerID) {
+        this.sellerID = sellerID;
     }
 
     public String getSellerName() {
@@ -40,10 +67,10 @@ public class DiscountDTO {
         this.originalPrice = originalPrice;
     }
 
-    public long getDiscountPercent() {
+    public double getDiscountPercent() {
         return discountPercent;
     }
-    public void setDiscountPercent(long discountPercent) {
+    public void setDiscountPercent(double discountPercent) {
         this.discountPercent = discountPercent;
     }
 

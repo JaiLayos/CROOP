@@ -1,7 +1,7 @@
 package com.jai.croop.service;
 
 import com.jai.croop.model.Customer;
-import com.jai.croop.model.GroupSellerOrdersDTO;
+import com.jai.croop.model.SellerOrdersDTO;
 import com.jai.croop.model.GroupSellers;
 import com.jai.croop.model.GroupSellersOrders;
 import com.jai.croop.repository.CustomerRepository;
@@ -46,7 +46,7 @@ public class GroupSellersOrdersService implements IGroupSellersOrdersService{
     }
 
     @Override
-    public List<GroupSellerOrdersDTO> findByGroupSellerID(int id) {
+    public List<SellerOrdersDTO> findByGroupSellerID(int id) {
         List<GroupSellersOrders> orders = groupSellersOrdersRepository.findByGroupSellerId(id);
 
         return orders.stream()
@@ -56,7 +56,7 @@ public class GroupSellersOrdersService implements IGroupSellersOrdersService{
                             .orElseThrow(() -> new RuntimeException("Customer not found"));
 
                     // Map to DTO
-                    return new GroupSellerOrdersDTO(
+                    return new SellerOrdersDTO(
                             order.getId(),
                             order.getOrderDate(),
                             order.getOrderList(),
@@ -82,6 +82,6 @@ public class GroupSellersOrdersService implements IGroupSellersOrdersService{
 
     @Override
     public void deleteGroupSellerOrders(int id) {
-        customerRepository.deleteById(id);
+        groupSellersOrdersRepository.deleteById(id);
     }
 }

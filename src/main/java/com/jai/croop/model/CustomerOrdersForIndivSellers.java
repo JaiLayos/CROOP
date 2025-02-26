@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import java.util.Map;
 
 @Entity
-@Table(name = "customer_orders")
-public class CustomerOrders extends BaseOrder{
+@Table(name = "customer_orders_individual")
+public class CustomerOrdersForIndivSellers extends BaseOrder{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -19,18 +19,19 @@ public class CustomerOrders extends BaseOrder{
 
     @ManyToOne
     @JoinColumn(name = "group_seller_id", referencedColumnName = "id", nullable = false)
-    @JsonBackReference("group-orders")
-    private GroupSellers groupSeller;
+    @JsonBackReference("individual-orders")
+    private IndividualSellers individualSellers;
 
-    public CustomerOrders() {
+
+    public CustomerOrdersForIndivSellers() {
         super();
     }
 
-    public CustomerOrders(Customer customer, GroupSellers groupSeller, Map<String, Integer> orderList,  int orderPrice, java.util.Date orderDate,
-                          String orderType, String orderStatus) {
+    public CustomerOrdersForIndivSellers(Customer customer, IndividualSellers individualSellers, Map<String, Integer> orderList, int orderPrice, java.util.Date orderDate,
+                                         String orderType, String orderStatus) {
         super(orderList, orderPrice, orderDate, orderType, orderStatus);
         this.customer = customer;
-        this.groupSeller = groupSeller;
+        this.individualSellers = individualSellers;
     }
 
     public int getId() {
@@ -45,11 +46,11 @@ public class CustomerOrders extends BaseOrder{
         this.customer = customer;
     }
 
-    public GroupSellers getGroupSeller() {
-        return groupSeller;
+    public IndividualSellers getIndividualSellers() {
+        return individualSellers;
     }
 
-    public void setGroupSeller(GroupSellers groupSeller) {
-        this.groupSeller = groupSeller;
+    public void setIndividualSellers(IndividualSellers individualSellers) {
+        this.individualSellers = individualSellers;
     }
 }

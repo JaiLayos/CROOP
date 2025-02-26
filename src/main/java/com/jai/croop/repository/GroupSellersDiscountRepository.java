@@ -1,6 +1,7 @@
 package com.jai.croop.repository;
 
 import com.jai.croop.model.GroupSellerDiscount;
+import com.jai.croop.model.GroupSellersItemInventory;
 import com.jai.croop.model.GroupSellersProductsInventory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,4 +13,5 @@ public interface GroupSellersDiscountRepository extends JpaRepository<GroupSelle
             "JOIN gsd.groupSellersProductsInventory gspi " +
             "WHERE gspi.itemName = :itemName")
     List<GroupSellerDiscount> findByItemName(String itemName);
+    List<GroupSellerDiscount> findByGroupSellersId(int groupSellerId);
 }

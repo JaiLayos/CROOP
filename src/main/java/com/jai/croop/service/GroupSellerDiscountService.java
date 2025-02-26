@@ -25,18 +25,17 @@ public class GroupSellerDiscountService implements IGroupSellersDiscountService 
                                             GroupSellers groupSellers,
                                             GroupSellersProductsInventory groupSellersProductsInventory) {
         if (groupSellerDiscount.getGroupSellers() == null) {
-            throw new IllegalArgumentException("GroupSeller cannot be null");
+            throw new IllegalArgumentException("GroupSeller cannot be null in discount");
         }
-        groupSellers = groupSellersRepository.findById(groupSellerDiscount.getGroupSellers().getId()).orElseThrow(()->
-                new RuntimeException("Group Seller Doesn't Exist"));
         if(groupSellerDiscount.getGroupSellersProductsInventory() == null){
-            throw new IllegalArgumentException("Product cannot be null");
+            throw new IllegalArgumentException("Product cannot be null in discount");
         }
-        groupSellersProductsInventory = groupSellersProductsRepository.findById(groupSellerDiscount.getGroupSellersProductsInventory().getId()).
-                orElseThrow(()-> new RuntimeException("Product Doesn't Exist"));
         groupSellerDiscount.setGroupSellers(groupSellers);
         groupSellerDiscount.setGroupSellersProductsInventory(groupSellersProductsInventory);
         groupSellerDiscount.setProductName(groupSellersProductsInventory.getItemName());
+        groupSellerDiscount.setOriginalPrice(groupSellersProductsInventory.getPrice());
+        groupSellerDiscount.setSalePrice((int) (groupSellersProductsInventory.getPrice() -(groupSellersProductsInventory.getPrice() * groupSellerDiscount.getDiscountPercent())));
+        groupSellersProductsInventory.setGroupSellerDiscounts(groupSellerDiscount);
         return groupSellersDiscountRepository.save(groupSellerDiscount);
     }
 
@@ -45,6 +44,11 @@ public class GroupSellerDiscountService implements IGroupSellersDiscountService 
         return groupSellersDiscountRepository.findById(id).orElseThrow(
                 ()-> new RuntimeException("Discount does not exist")
         );
+    }
+
+    @Override
+    public List<GroupSellerDiscount> getDiscountsByGroupSellerID(int id) {
+        return groupSellersDiscountRepository.findByGroupSellersId(id);
     }
 
     @Override
@@ -60,11 +64,10 @@ public class GroupSellerDiscountService implements IGroupSellersDiscountService 
     @Override
     public GroupSellerDiscount updateDiscounts(int id, GroupSellerDiscount newGroupSellerDiscount) {
         GroupSellerDiscount groupSellerDiscount = getDiscounts(id);
-        groupSellerDiscount.setGroupSellers(newGroupSellerDiscount.getGroupSellers());
-        groupSellerDiscount.setGroupSellersProductsInventory(newGroupSellerDiscount.getGroupSellersProductsInventory());
-        groupSellerDiscount.setOriginalPrice(newGroupSellerDiscount.getOriginalPrice());
+        GroupSellersProductsInventory groupSellersProductsInventory = groupSellerDiscount.getGroupSellersProductsInventory();
+        groupSellersProductsInventory.setGroupSellerDiscounts(groupSellerDiscount);
         groupSellerDiscount.setDiscountPercent(newGroupSellerDiscount.getDiscountPercent());
-        groupSellerDiscount.setSalePrice(newGroupSellerDiscount.getSalePrice());
+        groupSellerDiscount.setSalePrice((int) (groupSellerDiscount.getOriginalPrice() - (groupSellerDiscount.getOriginalPrice() * newGroupSellerDiscount.getDiscountPercent())));
         return groupSellersDiscountRepository.save(groupSellerDiscount);
     }
 
