@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM maven:3.8.6-openjdk-17 AS build
+FROM maven:3.9.5-openjdk-17 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package
@@ -7,5 +7,5 @@ RUN mvn clean package
 # Stage 2: Create the runtime image
 FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY --from=build /app/target/your-app.jar app.jar
+COPY --from=build /app/target/croop-0.0.1-SNAPSHOT.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
