@@ -41,7 +41,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignUp_Bulk_Activity_4 extends AppCompatActivity {
-    private EditText bulkMobileText, bulkEmailText;
+    private EditText bulkMobileText, bulkEmailText, bulkMessengerText;
     private FirebaseAuth mAuth;
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -58,11 +58,15 @@ public class SignUp_Bulk_Activity_4 extends AppCompatActivity {
     private void initializeComponents() {
         bulkMobileText = findViewById(R.id.bulkPhoneText);
         bulkEmailText = findViewById(R.id.bulkEmailText);
+        bulkMessengerText = findViewById(R.id.bulkMessengerText);
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
             String bulkMobile = bulkMobileText.getText().toString();
             String bulkEmail = bulkEmailText.getText().toString();
-            if(bulkMobile.isEmpty() || !phoneNumberValidation(bulkMobile)){
+            String messenger = bulkMessengerText.getText().toString();
+            if(messenger.isEmpty()) {
+                Toast.makeText(this, "Maglagay ng wastong messenger link.", Toast.LENGTH_SHORT).show();
+            } else if(bulkMobile.isEmpty() || !phoneNumberValidation(bulkMobile)){
                 Toast.makeText(this, "Maglagay ng wastong numero ng telepono.", Toast.LENGTH_SHORT).show();
             }else if(bulkEmail.isEmpty() || !validEmail(bulkEmail)){
                 Toast.makeText(this, "Mangyaring maglagay ng wastong email.", Toast.LENGTH_SHORT).show();
@@ -72,6 +76,7 @@ public class SignUp_Bulk_Activity_4 extends AppCompatActivity {
                 GroupCustomer groupCustomer = GroupCustomerSingleton.getInstance().getGroupCustomer();
                 groupCustomer.setPhoneNum(bulkMobile);
                 groupCustomer.setEmail(bulkEmail);
+                groupCustomer.setMessengerLink(messenger);
                 signUpUser(bulkEmail, groupCustomer.getPassword(), groupCustomer);
             }
         });

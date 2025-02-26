@@ -46,7 +46,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
-    private EditText assocMobileText, assocEmailText;
+    private EditText assocMobileText, assocEmailText, assocMessengerText;
     private FirebaseAuth mAuth;
     private RetrofitService RetrofitClient;
 
@@ -66,11 +66,15 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
     private void initializeComponents() {
         assocMobileText = findViewById(R.id.assocOtpText);
         assocEmailText = findViewById(R.id.assocEmailText);
+        assocMessengerText = findViewById(R.id.assocMessengerText);
         Button next = findViewById(R.id.nextButton_SFA);
         next.setOnClickListener(view -> {
             String assocMobile = assocMobileText.getText().toString();
             String assocEmail = assocEmailText.getText().toString();
-            if(assocMobile.isEmpty() || !phoneNumberValidation(assocMobile)){
+            String messenger = assocMessengerText.getText().toString();
+            if(messenger.isEmpty()) {
+                Toast.makeText(this, "Maglagay ng wastong messenger link.", Toast.LENGTH_SHORT).show();
+            } else if(assocMobile.isEmpty() || !phoneNumberValidation(assocMobile)){
                 Toast.makeText(this, "Maglagay ng wastong numero ng telepono.", Toast.LENGTH_SHORT).show();
             }else if(assocEmail.isEmpty() || !validEmail(assocEmail)){
                 Toast.makeText(this, "Mangyaring maglagay ng wastong email.", Toast.LENGTH_SHORT).show();
@@ -80,6 +84,7 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
                 GroupSellers groupSellers = GroupSellersSingleton.getInstance().getGroupSellers();
                 groupSellers.setPhoneNum(coopPhone);
                 groupSellers.setEmail(assocEmail);
+                groupSellers.setMessengerLink(messenger);
                 signUpUser(assocEmail, groupSellers.getPassword(), groupSellers);
             }
         });

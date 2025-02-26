@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SignUp_COOP_Activity_2 extends AppCompatActivity {
     EditText coopHouse, coopSubdivision, coopCity,
-            coopRegion, coopPostal, coopCountry;
+            coopRegion, coopPostal;
 
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean allowed = false;
@@ -65,12 +65,11 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
         coopPostal = findViewById(R.id.coopPostalText);
         coopPostal.setInputType(InputType.TYPE_CLASS_NUMBER);
         restrictPostInput(coopPostal);
-        coopCountry = findViewById(R.id.coopCountryText);
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
             if (coopHouse.getText().toString().isEmpty() || coopSubdivision.getText().toString().isEmpty() ||
                     coopCity.getText().toString().isEmpty() || coopRegion.getText().toString().isEmpty() ||
-                    coopPostal.getText().toString().isEmpty() || coopCountry.getText().toString().isEmpty()) {
+                    coopPostal.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Paki-fill up ang lahat ng boxes", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -83,11 +82,10 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
                 String city = coopCity.getText().toString();
                 String region = coopRegion.getText().toString();
                 String postal = coopPostal.getText().toString();
-                String country = coopCountry.getText().toString();
 
                 Map<String, String> addressMap = new HashMap<>();
                 addressMap.put("City", city);
-                addressMap.put("Country", country);
+                addressMap.put("Country", "Philippines");
                 addressMap.put("House_Street_Name", house);
                 addressMap.put("Postal_Code", postal);
                 addressMap.put("State_Province_Region", region);
@@ -109,7 +107,6 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
             if(addresses != null || !addresses.isEmpty()){
                 Address address = addresses.get(0);
                 String city_add = address.getLocality();
-                String country_add = address.getCountryName();
                 String houseNum_add = address.getSubThoroughfare();
                 String region_add = address.getSubAdminArea() + ", " + address.getAdminArea();
                 String baranggay_add = address.getSubThoroughfare() + " " + address.getThoroughfare();
@@ -118,18 +115,16 @@ public class SignUp_COOP_Activity_2 extends AppCompatActivity {
                 coopSubdivision.setText(baranggay_add != null ? baranggay_add : "");
                 coopCity.setText(city_add != null ? city_add : "");
                 coopRegion.setText(region_add != null ? region_add : "");
-                coopCountry.setText(country_add != null ? country_add : "");
 
                 String postal_permitted = String.valueOf(coopPostal.getText());
                 String house_permitted = String.valueOf(coopHouse.getText());
                 String subdivision_permitted = String.valueOf(coopSubdivision.getText());
                 String city_permitted = String.valueOf(coopCity.getText());
                 String region_permitted = String.valueOf(coopRegion.getText());
-                String country_permitted = String.valueOf(coopCountry.getText());
 
                 Map<String, String> addressMap = new HashMap<>();
                 addressMap.put("City", city_permitted);
-                addressMap.put("Country", country_permitted);
+                addressMap.put("Country", "Philippines");
                 addressMap.put("House_Street_Name", house_permitted);
                 addressMap.put("Postal_Code", postal_permitted);
                 addressMap.put("State_Province_Region", region_permitted);

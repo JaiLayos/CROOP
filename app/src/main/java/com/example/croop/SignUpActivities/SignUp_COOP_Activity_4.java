@@ -47,7 +47,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignUp_COOP_Activity_4 extends AppCompatActivity {
-    private EditText coopMobileText, coopEmailText;
+    private EditText coopMobileText, coopEmailText, coopMessengerText;
     private FirebaseAuth mAuth;
     private RetrofitService RetrofitClient;
 
@@ -68,11 +68,15 @@ public class SignUp_COOP_Activity_4 extends AppCompatActivity {
     private void initializeComponents() {
         coopMobileText = findViewById(R.id.coopMobileText);
         coopEmailText = findViewById(R.id.coopEmailText);
+        coopMessengerText = findViewById(R.id.coopMessengerText);
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
             String coopMobile = coopMobileText.getText().toString();
             String coopEmail = coopEmailText.getText().toString();
-            if(coopMobile.isEmpty() || !phoneNumberValidation(coopMobile)){
+            String messenger = coopMessengerText.getText().toString();
+            if(messenger.isEmpty()) {
+                Toast.makeText(this, "Maglagay ng wastong messenger link.", Toast.LENGTH_SHORT).show();
+            } else if(coopMobile.isEmpty() || !phoneNumberValidation(coopMobile)){
                 Toast.makeText(this, "Maglagay ng wastong numero ng telepono.", Toast.LENGTH_SHORT).show();
             }else if(coopEmail.isEmpty() || !validEmail(coopEmail)){
                 Toast.makeText(this, "Mangyaring maglagay ng wastong email..", Toast.LENGTH_SHORT).show();
@@ -82,6 +86,7 @@ public class SignUp_COOP_Activity_4 extends AppCompatActivity {
                 GroupSellers groupSellers = GroupSellersSingleton.getInstance().getGroupSellers();
                 groupSellers.setPhoneNum(coopPhone);
                 groupSellers.setEmail(coopEmail);
+                groupSellers.setMessengerLink(messenger);
                 signUpUser(coopEmail, groupSellers.getPassword(), groupSellers);
             }
         });

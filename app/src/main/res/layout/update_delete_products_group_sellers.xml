@@ -160,7 +160,7 @@
                         android:layout_marginEnd="20dp"
                         android:backgroundTint="@color/highlight_green"
                         android:fontFamily="@font/inter_semibold"
-                        android:text="UPDATE"
+                        android:text="I-UPDATE"
                         android:textSize="20sp" />
 
                     <Button
@@ -172,7 +172,7 @@
                         android:layout_marginEnd="20dp"
                         android:backgroundTint="@color/highlight_green"
                         android:fontFamily="@font/inter_semibold"
-                        android:text="DELETE"
+                        android:text="TANGGALIN"
                         android:textSize="20sp" />
 
                     <Button
@@ -185,7 +185,7 @@
                         android:layout_marginBottom="50dp"
                         android:backgroundTint="@color/highlight_green"
                         android:fontFamily="@font/inter_semibold"
-                        android:text="CHECK TABLE"
+                        android:text="BALIKAN ANG IMBENTARYO"
                         android:textSize="20sp" />
 
                 </LinearLayout>

@@ -199,40 +199,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bulkPostalLabel" />
 
-            <TextView
-                android:id="@+id/bulkCountryLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/mulish_medium"
-                android:text="@string/country"
-                android:textColor="@color/black_opaque_text"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bulkPostalText" />
-
-            <EditText
-                android:id="@+id/bulkCountryText"
-                android:layout_width="0dp"
-                android:layout_height="55dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/rounded_border_edit_text"
-                android:hint="@string/enter_country"
-                android:paddingStart="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bulkCountryLabel" />
-
             <!-- Already Have an Account -->
 
             <Button
                 android:id="@+id/nextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="60dp"
                 android:backgroundTint="@color/secondary_color"
                 android:fontFamily="@font/inter_semibold"
                 android:paddingLeft="100dp"
@@ -243,7 +216,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bulkCountryText" />
+                app:layout_constraintTop_toBottomOf="@+id/bulkPostalText" />
 
             <TextView
                 android:id="@+id/existingAcctLabel"

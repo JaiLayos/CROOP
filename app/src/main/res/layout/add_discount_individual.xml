@@ -36,7 +36,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="70dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Input here the percent of discount to be applied."
+                        android:text="Ipasok dito ang porsyento ng discount na ilalapat."
                         android:textAlignment="center"
                         android:textColor="@color/beige_brackground"
                         android:textSize="16sp" />
@@ -67,7 +67,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/rounded_border_edit_text"
                             android:ems="10"
-                            android:hint="Ex. 0.30"
+                            android:hint="Hal. 0.30"
                             android:inputType="numberDecimal"
                             android:paddingStart="10dp" />
                     </LinearLayout>
@@ -84,7 +84,7 @@
                         android:fontFamily="@font/inter_semibold"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:text="SAVE"
+                        android:text="I-SAVE"
                         android:textSize="20sp" />
 
                 </LinearLayout>

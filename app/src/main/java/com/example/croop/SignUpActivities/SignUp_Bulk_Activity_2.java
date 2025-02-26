@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
     EditText bulkHouse, bulkSubdivision, bulkCity, bulkRegion,
-    bulkPostal, bulkCountry;
+    bulkPostal;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean allowed = false;
     private double latitude;
@@ -62,12 +62,11 @@ public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
         bulkPostal = findViewById(R.id.bulkPostalText);
         bulkPostal.setInputType(InputType.TYPE_CLASS_NUMBER);
         restrictPostInput(bulkPostal);
-        bulkCountry = findViewById(R.id.bulkCountryText);
         Button next = findViewById(R.id.nextButton);
         next.setOnClickListener(view -> {
             if (bulkHouse.getText().toString().isEmpty() || bulkSubdivision.getText().toString().isEmpty() ||
                     bulkCity.getText().toString().isEmpty() || bulkRegion.getText().toString().isEmpty() ||
-                    bulkPostal.getText().toString().isEmpty() || bulkCountry.getText().toString().isEmpty()) {
+                    bulkPostal.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Paki-fill up ang lahat ng boxes", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -79,11 +78,10 @@ public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
                 String city = bulkCity.getText().toString();
                 String region = bulkRegion.getText().toString();
                 String postal = bulkPostal.getText().toString();
-                String country = bulkCountry.getText().toString();
 
                     Map<String, String> addressMap = new HashMap<>();
                     addressMap.put("City", city);
-                    addressMap.put("Country", country);
+                    addressMap.put("Country", "Philippines");
                     addressMap.put("House/Street Name", house);
                     addressMap.put("Postal Code", postal);
                     addressMap.put("State/Province/Region", region);
@@ -105,7 +103,6 @@ public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
             if(addresses != null || !addresses.isEmpty()){
                 Address address = addresses.get(0);
                 String city_add = address.getLocality();
-                String country_add = address.getCountryName();
                 String houseNum_add = address.getSubThoroughfare();
                 String region_add = address.getSubAdminArea() + ", " + address.getAdminArea();
                 String baranggay_add = address.getSubThoroughfare() + " " + address.getThoroughfare();
@@ -114,18 +111,16 @@ public class SignUp_Bulk_Activity_2 extends AppCompatActivity {
                 bulkSubdivision.setText(baranggay_add != null ? baranggay_add : "");
                 bulkCity.setText(city_add != null ? city_add : "");
                 bulkRegion.setText(region_add != null ? region_add : "");
-                bulkCountry.setText(country_add != null ? country_add : "");
 
                 String postal_permitted = String.valueOf(bulkPostal.getText());
                 String house_permitted = String.valueOf(bulkHouse.getText());
                 String subdivision_permitted = String.valueOf(bulkSubdivision.getText());
                 String city_permitted = String.valueOf(bulkCity.getText());
                 String region_permitted = String.valueOf(bulkRegion.getText());
-                String country_permitted = String.valueOf(bulkCountry.getText());
 
                 Map<String, String> addressMap = new HashMap<>();
                 addressMap.put("City", city_permitted);
-                addressMap.put("Country", country_permitted);
+                addressMap.put("Country", "Philippines");
                 addressMap.put("House/Street Name", house_permitted);
                 addressMap.put("Postal Code", postal_permitted);
                 addressMap.put("State/Province/Region", region_permitted);
