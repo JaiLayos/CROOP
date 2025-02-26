@@ -1,0 +1,12 @@
+FROM ubuntu:latest AS build
+RUN apt-get update
+RUN apt-get install openjdk-17-jdk -y
+COPY . .
+RUN ./gradlew bootJar --no-daemon
+
+FROM openjdk:17-jdk-slim
+EXPOSE 8081
+COPY --from-build /build/libs/CROOP-1_jar app_jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
