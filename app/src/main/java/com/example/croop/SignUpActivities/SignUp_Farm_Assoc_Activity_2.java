@@ -36,7 +36,7 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
     private double latitude;
     private double longitude;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    EditText assocHouse, assocBaranggay, assocCity, assocRegion, assocPostCode, assocCountry;
+    EditText assocHouse, assocBaranggay, assocCity, assocRegion, assocPostCode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,13 +62,12 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
         assocPostCode = findViewById(R.id.assocPostalText);
         assocPostCode.setInputType(InputType.TYPE_CLASS_NUMBER);
         restrictPostInput(assocPostCode);
-        assocCountry = findViewById(R.id.assocCountryText);
         Button nextButton = findViewById(R.id.nextButton);
 
         nextButton.setOnClickListener(view -> {
             if (assocHouse.getText().toString().isEmpty() || assocBaranggay.getText().toString().isEmpty() ||
                     assocCity.getText().toString().isEmpty() || assocRegion.getText().toString().isEmpty() ||
-                    assocPostCode.getText().toString().isEmpty() || assocCountry.getText().toString().isEmpty()) {
+                    assocPostCode.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Paki-fill up ang lahat ng boxes", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -80,11 +79,10 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
                 String city_customer = String.valueOf(assocCity.getText());
                 String region_customer = String.valueOf(assocRegion.getText());
                 String postal_customer = String.valueOf(assocPostCode.getText());
-                String country_customer = String.valueOf(assocCountry.getText());
 
                     Map<String, String> addressMap = new HashMap<>();
                     addressMap.put("City", city_customer);
-                    addressMap.put("Country", country_customer);
+                    addressMap.put("Country", "Philippines");
                     addressMap.put("House_Street_Name", house_customer);
                     addressMap.put("Postal_Code", postal_customer);
                     addressMap.put("State_Province_Region", region_customer);
@@ -105,7 +103,6 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
             if (addresses != null || !addresses.isEmpty()) {
                 Address address = addresses.get(0);
                 String city_add = address.getLocality();
-                String country_add = address.getCountryName();
                 String houseNum_add = address.getSubThoroughfare();
                 String region_add = address.getSubAdminArea() + ", " + address.getAdminArea();
                 String baranggay_add = address.getSubThoroughfare() + " " + address.getThoroughfare();
@@ -114,18 +111,16 @@ public class SignUp_Farm_Assoc_Activity_2 extends AppCompatActivity {
                 assocBaranggay.setText(baranggay_add != null ? baranggay_add : "");
                 assocCity.setText(city_add != null ? city_add : "");
                 assocRegion.setText(region_add != null ? region_add : "");
-                assocCountry.setText(country_add != null ? country_add : "");
 
                 String postal_permitted = String.valueOf(assocPostCode.getText());
                 String house_permitted = String.valueOf(assocHouse.getText());
                 String subdivision_permitted = String.valueOf(assocBaranggay.getText());
                 String city_permitted = String.valueOf(assocCity.getText());
                 String region_permitted = String.valueOf(assocRegion.getText());
-                String country_permitted = String.valueOf(assocCountry.getText());
 
                 Map<String, String> addressMap = new HashMap<>();
                 addressMap.put("City", city_permitted);
-                addressMap.put("Country", country_permitted);
+                addressMap.put("Country", "Philippines");
                 addressMap.put("House_Street_Name", house_permitted);
                 addressMap.put("Postal_Code", postal_permitted);
                 addressMap.put("State_Province_Region", region_permitted);
