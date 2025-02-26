@@ -6,7 +6,7 @@ RUN ./gradlew bootJar --no-daemon
 
 FROM openjdk:17-jdk-slim
 EXPOSE 8081
-COPY --from-build /build/libs/CROOP-1_jar app_jar
+COPY --from=build /build/libs/CROOP-1_jar app_jar
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
