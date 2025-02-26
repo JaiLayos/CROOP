@@ -94,7 +94,7 @@
                         android:fontFamily="@font/inter_semibold"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:text="@string/add_item_to_inventory"
+                        android:text="MAGDAGDAG NG GAMIT"
                         android:textSize="20sp" />
 
                     <TableLayout
