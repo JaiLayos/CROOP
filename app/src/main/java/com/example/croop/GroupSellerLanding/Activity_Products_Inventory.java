@@ -1,8 +1,12 @@
 package com.example.croop.GroupSellerLanding;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
@@ -15,8 +19,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.croop.R;
 import com.example.croop.model.GroupSellers;
@@ -28,6 +35,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageException;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -36,21 +46,65 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Activity_Products_Inventory extends AppCompatActivity {
+    private static final int RC_IMAGE_PICKER = 100;
+    private Uri imageUri;
     private TableLayout table;
     FirebaseAuth mAuth;
+    FirebaseUser user;
     RetrofitService RetrofitClient;
     UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
+
+    private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE = 1;
+
+    private void checkAndRequestPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_CODE_READ_EXTERNAL_STORAGE
+            );
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_READ_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission granted!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permission denied. Cannot access images.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.products_group_seller);
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        checkAndRequestPermissions();
         initializeComponents();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_IMAGE_PICKER && resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+            if (imageUri == null) {
+                Toast.makeText(this, "Failed to retrieve image URI!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Image selected: " + imageUri.toString(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "No image selected!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void initializeComponents() {
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
         table = findViewById(R.id.tableLayout);
 
         Call<List<GroupSellersProductsInventory>> call = apiService.getProductsByFirebaseID(user.getUid());
@@ -59,7 +113,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
             public void onResponse(Call<List<GroupSellersProductsInventory>> call, Response<List<GroupSellersProductsInventory>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<GroupSellersProductsInventory> products = response.body();
-                    Toast.makeText(Activity_Products_Inventory.this, "Bilang ng mga order na nakuha: " + products.size(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Products_Inventory.this, "Number of products fetched: " + products.size(), Toast.LENGTH_SHORT).show();
                     populateTableDefault(products,table);
                 }else{
                     try {
@@ -89,7 +143,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                 public void onResponse(Call<List<GroupSellersProductsInventory>> call, Response<List<GroupSellersProductsInventory>> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         List<GroupSellersProductsInventory> items = response.body();
-                        Toast.makeText(Activity_Products_Inventory.this, "Bilang ng mga order na natagpuan: " + items.size(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Products_Inventory.this, "Number of products found: " + items.size(), Toast.LENGTH_SHORT).show();
                         populateTableDefault(items,table);
                     }else{
                         try {
@@ -160,6 +214,11 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                 Button update = bottomSheetView.findViewById(R.id.updateButton);
                 Button check = bottomSheetView.findViewById(R.id.checkButton);
                 Button delete = bottomSheetView.findViewById(R.id.deleteButton);
+                Button picture = bottomSheetView.findViewById(R.id.uploadPicButton);
+                picture.setOnClickListener(v1 -> {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, RC_IMAGE_PICKER);
+                });
                 update.setOnClickListener(v -> {
                     String itemNameText = itemName.getText().toString().trim();
                     String price = priceTag.getText().toString().trim();
@@ -167,19 +226,19 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                     String left = leftText.getText().toString().trim();
 
                     if (itemNameText.isEmpty()) {
-                        Toast.makeText(Activity_Products_Inventory.this, "Dapat may pangalan ang produkto", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Products_Inventory.this, "Product name cannot be empty", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     if (price.isEmpty()) {
-                        Toast.makeText(Activity_Products_Inventory.this, "Dapat lagyan ng presyo ang produkto", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Products_Inventory.this, "Product price cannot be empty", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     try {
                         int priceValue = Integer.parseInt(price);
                         if (priceValue < 0) {
-                            Toast.makeText(Activity_Products_Inventory.this, "Ang presyo ng produkto ay dapat isang numero na hindi negatibo", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Activity_Products_Inventory.this, "Product price must be a non-negative number", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -194,7 +253,8 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<GroupSellersProductsInventory> call, Response<GroupSellersProductsInventory> response) {
                                 if (response.isSuccessful() && response.body() != null) {
-                                    Toast.makeText(Activity_Products_Inventory.this, "Na-update na ang produkto", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Activity_Products_Inventory.this, "Product Updated", Toast.LENGTH_SHORT).show();
+                                    statusPicture(imageUri, itemNameText);
                                     Intent intent = new Intent(Activity_Products_Inventory.this, Activity_Inventory_Category.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                     finish();
@@ -217,15 +277,46 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                         });
 
                     } catch (NumberFormatException e) {
-                        Toast.makeText(Activity_Products_Inventory.this, "Hindi valid na numero ang para sa ginamit na item", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Products_Inventory.this, "Invalid number for item used", Toast.LENGTH_SHORT).show();
                     }
                 });
                 delete.setOnClickListener(v -> {
+                    String itemNameText = itemName.getText().toString().trim();
+                    if (user == null) {
+                        Toast.makeText(this, "User not signed in!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    String userId = user.getUid();
+                    String fileName = itemNameText.trim();
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReference()
+                            .child("Products")
+                            .child(userId)
+                            .child(fileName);
+
+                    // Debug log
+                    System.out.println("Deleting image at: " + storageRef.getPath());
+
+                    // Delete the file
                     Call<GroupSellersProductsInventory> deleteItem = apiService.deleteProducts(product.getId());
                     deleteItem.enqueue(new Callback<GroupSellersProductsInventory>() {
                         @Override
                         public void onResponse(Call<GroupSellersProductsInventory> call, Response<GroupSellersProductsInventory> response) {
-                            Toast.makeText(Activity_Products_Inventory.this, "Nabura na ang produkto", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Activity_Products_Inventory.this, "Products Deleted", Toast.LENGTH_SHORT).show();
+                            storageRef.delete()
+                                    .addOnSuccessListener(aVoid -> {
+                                        System.out.println("File deleted successfully!");
+                                        Toast.makeText(Activity_Products_Inventory.this, "Picture deleted successfully!", Toast.LENGTH_SHORT).show();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        if (e instanceof StorageException && ((StorageException) e).getErrorCode() == StorageException.ERROR_OBJECT_NOT_FOUND) {
+                                            System.out.println("File does not exist. Cannot delete.");
+                                            Toast.makeText(Activity_Products_Inventory.this, "File does not exist. Nothing to delete.", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            System.err.println("Failed to delete file: " + e.getMessage());
+                                            Toast.makeText(Activity_Products_Inventory.this, "Failed to delete file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                             Intent intent = new Intent(Activity_Products_Inventory.this, Activity_Products_Inventory.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             finish();
@@ -319,4 +410,56 @@ public class Activity_Products_Inventory extends AppCompatActivity {
             table.addView(row);
         }
     }
+
+    private void statusPicture(Uri imageUri, String itemNameText) {
+        if (user == null) {
+            Toast.makeText(this, "User not signed in!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (imageUri == null) {
+            Toast.makeText(this, "Image URI is null!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = user.getUid();
+        String fileName = itemNameText.trim();
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference()
+                .child("Products")
+                .child(userId)
+                .child(fileName);
+        storageRef.getMetadata()
+                .addOnSuccessListener(storageMetadata -> {
+                    // File exists, proceed with updating
+                    System.out.println("File exists. Updating...");
+                    storageRef.putFile(imageUri)
+                            .addOnSuccessListener(taskSnapshot -> {
+                                System.out.println("Update successful!");
+                                storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                    System.out.println("Updated Download URL: " + uri.toString());
+                                    Toast.makeText(this, "Picture updated successfully!", Toast.LENGTH_SHORT).show();
+                                }).addOnFailureListener(e -> {
+                                    System.err.println("Failed to get download URL: " + e.getMessage());
+                                    Toast.makeText(this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                            })
+                            .addOnFailureListener(e -> {
+                                System.err.println("Failed to update image: " + e.getMessage());
+                                Toast.makeText(this, "Failed to update image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    // File does not exist, notify the user
+                    if (e instanceof StorageException && ((StorageException) e).getErrorCode() == StorageException.ERROR_OBJECT_NOT_FOUND) {
+                        System.out.println("File does not exist. Cannot update.");
+                        Toast.makeText(this, "File does not exist. Please upload a new picture.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Handle other errors
+                        System.err.println("Error checking file existence: " + e.getMessage());
+                        Toast.makeText(this, "Error checking file existence: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
 }

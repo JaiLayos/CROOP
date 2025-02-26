@@ -152,6 +152,17 @@
                     </TableLayout>
 
                     <Button
+                        android:id="@+id/uploadPicButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:backgroundTint="@color/highlight_green"
+                        android:text="UPDATE PICTURE"
+                        android:textSize="20sp" />
+
+                    <Button
                         android:id="@+id/updateButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

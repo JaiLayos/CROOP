@@ -55,7 +55,6 @@
         <activity android:name=".SignIn_Activity"/>
 
         <activity android:name=".Home_Group_Customer_Activity" />
-        <activity android:name=".Home_Individual_Customer_Activity"/>
 
 
         <activity android:name=".GroupSellerLanding.Sign_In_Success_Group_Seller"/>
@@ -94,5 +93,6 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 </manifest>

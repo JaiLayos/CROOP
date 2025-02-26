@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.croop.Customer.Sign_In_Success_Customer;
 import com.example.croop.GroupSellerLanding.Sign_In_Success_Group_Seller;
 import com.example.croop.IndividualSellerLanding.Sign_In_Success_Individual_Seller;
 import com.example.croop.model.CurrentUsage;
@@ -56,7 +57,7 @@ public class Landing_Activity extends AppCompatActivity {
                     break;
                 }
                 case "Individual Customer User": {
-                    Intent intent = new Intent(Landing_Activity.this, Home_Individual_Customer_Activity.class);
+                    Intent intent = new Intent(Landing_Activity.this, Sign_In_Success_Customer.class);
                     startActivity(intent);
                     finish();
                     break;
