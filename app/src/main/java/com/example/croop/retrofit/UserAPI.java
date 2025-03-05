@@ -2,6 +2,7 @@ package com.example.croop.retrofit;
 
 import com.example.croop.model.Customer;
 import com.example.croop.model.DiscountDTO;
+import com.example.croop.model.FeaturedSellersDTO;
 import com.example.croop.model.GroupSellers;
 import com.example.croop.model.GroupSellersDiscount;
 import com.example.croop.model.GroupSellersItemInventory;
@@ -10,6 +11,7 @@ import com.example.croop.model.IndividualSellers;
 import com.example.croop.model.IndividualSellersDiscount;
 import com.example.croop.model.IndividualSellersItemInventory;
 import com.example.croop.model.IndividualSellersProductsInventory;
+import com.example.croop.model.ProductDTO;
 import com.example.croop.model.SellerOrdersDTO;
 
 import java.util.List;
@@ -34,12 +36,23 @@ public interface UserAPI {
     Call<GroupSellers> getGroupSellers(@Path("id") int id);
     @GET("api/group-sellers/details/{firebaseID}")
     Call<GroupSellers> getGroupSellersbyFirebaseID(@Path("firebaseID") String firebaseID);
+    @GET("api/group-sellers/featured")
+    Call<List<FeaturedSellersDTO>> getFeaturedGroup();
 
     //CUSTOMERS
     @GET("api/customers/{id}")
     Call<Customer> getCustomer(@Path("id") int id);
     @GET("api/customers/name/{id}")
     Call<String> getCustomerName(@Path("id") int id);
+    @GET("api/customers")
+    Call<List<Customer>> getAllCustomers();
+    @POST("api/customers")
+    Call<Customer> addCustomer(@Body Customer customer);
+    @PUT("api/customers/{id}")
+    Call<Customer> updateCustomer(@Path("id") int id, @Body Customer customer);
+    @DELETE("api/customers/{id}")
+    Call<Void> deleteCustomer(@Path("id") int id);
+
     //ORDERS
     @GET("api/group-sellers/orders/{firebaseID}")
     Call<List<SellerOrdersDTO>> getGroupSellersOrders(@Path("firebaseID") String firebaseID);
@@ -72,6 +85,10 @@ public interface UserAPI {
     Call<GroupSellersProductsInventory> updateProducts(@Path("id") int id, @Body GroupSellersProductsInventory groupSellersProductsInventory);
     @DELETE("api/group-sellers-products/{id}")
     Call<GroupSellersProductsInventory> deleteProducts(@Path("id") int id);
+    @GET("api/group-sellers-products/in-season")
+    Call<List<ProductDTO>> getInSeasonGroupProducts();
+    @GET("api/group-sellers-products/in-demand")
+    Call<List<ProductDTO>> getInDemandGroupProducts();
 
     //Group Sellers Discount
     @POST("api/group-seller-discount")
@@ -84,6 +101,8 @@ public interface UserAPI {
     Call<DiscountDTO> getDiscount(@Path("id") int id);
     @PUT("api/group-seller-discount/{id}")
     Call<GroupSellersDiscount> updateDiscount(@Path("id") int id, @Body GroupSellersDiscount groupSellerDiscount);
+    @GET("api/group-seller-discount")
+    Call<List<DiscountDTO>> getAllDiscounts();
     //////
 
     //Individual Sellers Controller
@@ -138,6 +157,10 @@ public interface UserAPI {
     Call<IndividualSellersProductsInventory> updateIndividualProducts(@Path("id") int id, @Body IndividualSellersProductsInventory individualSellersProductsInventory);
     @DELETE("api/individual-sellers-products-inventory/{id}")
     Call<IndividualSellersProductsInventory> deleteIndividualProducts(@Path("id") int id);
+    @GET("api/individual-sellers-products-inventory/in-season")
+    Call<List<ProductDTO>> getInSeasonIndividualProducts();
+    @GET("api/individual-sellers-products-inventory/in-demand")
+    Call<List<ProductDTO>> getInDemandIndividualProducts();
 
     //Individual Sellers Discounts
     @POST("api/individual-seller-discount")
@@ -149,9 +172,10 @@ public interface UserAPI {
     @GET("api/individual-seller-discount/discount/{itemName}")
     Call<List<IndividualSellersDiscount>> getIndividualDiscountByName(@Path("itemName") String itemName);
     @GET("api/individual-seller-discount")
-    Call<List<IndividualSellersDiscount>> getAllIndividualDiscounts();
+    Call<List<DiscountDTO>> getAllIndividualDiscounts();
     @PUT("api/individual-seller-discount/{id}")
     Call<IndividualSellersDiscount> updateIndividualDiscount(@Path("id") int id, @Body IndividualSellersDiscount individualSellersDiscount);
     @DELETE("api/individual-seller-discount/{id}")
     Call<IndividualSellersDiscount> deleteIndividualDiscount(@Path("id") int id);
+
 }

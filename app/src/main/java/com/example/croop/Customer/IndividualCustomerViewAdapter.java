@@ -22,6 +22,10 @@ public class IndividualCustomerViewAdapter extends FragmentStateAdapter {
             case 1:
                 return new Fragment_Profile_Customer();
             case 2:
+                return new Fragment_Seller_Customer();
+            case 3:
+                return new Fragment_Cart_Customer();
+            case 4:
                 return new Fragment_Account_Customer();
             default:
                 return new Fragment();  // Default case
@@ -30,6 +34,6 @@ public class IndividualCustomerViewAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 5;
     }
 }

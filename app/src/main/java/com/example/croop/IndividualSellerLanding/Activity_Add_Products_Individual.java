@@ -1,7 +1,9 @@
 package com.example.croop.IndividualSellerLanding;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,14 +16,19 @@ import com.example.croop.model.IndividualSellers;
 import com.example.croop.model.IndividualSellersProductsInventory;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Activity_Add_Products_Individual extends AppCompatActivity {
+    private static final int RC_IMAGE_PICKER = 100;
+    private Uri imageUri;
     FirebaseAuth mAuth;
     RetrofitService RetrofitClient;
     @Override
@@ -31,8 +38,26 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         initializeComponents();
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_IMAGE_PICKER && resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+            if (imageUri == null) {
+                Toast.makeText(this, "Failed to retrieve image URI!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Image selected: " + imageUri.toString(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "No image selected!", Toast.LENGTH_SHORT).show();
+        }
+    }
     private void initializeComponents() {
+        Button picture = findViewById(R.id.uploadPicButton);
+        picture.setOnClickListener(v1 -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, RC_IMAGE_PICKER);
+        });
         Button add = findViewById(R.id.addButton);
         add.setOnClickListener(v -> {
             UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
@@ -52,6 +77,12 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
                     Toast.makeText(Activity_Add_Products_Individual.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+        });
+        FloatingActionButton back = findViewById(R.id.backFloat);
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Activity_Products_Inventory_Individual.class);
+            startActivity(intent);
+            recreate();
         });
     }
 
@@ -73,6 +104,7 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
             @Override
             public void onResponse(Call<IndividualSellersProductsInventory> call, Response<IndividualSellersProductsInventory> response) {
                 Toast.makeText(Activity_Add_Products_Individual.this, name.getText().toString() + " ay nadagdag.", Toast.LENGTH_SHORT).show();
+                addPictureProduct(imageUri, name.getText().toString().trim());
                 Intent intent = new Intent(Activity_Add_Products_Individual.this, Activity_Products_Inventory_Individual.class);
                 startActivity(intent);
                 finish();
@@ -83,5 +115,32 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
                 Toast.makeText(Activity_Add_Products_Individual.this, "Nagkaproblema: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void addPictureProduct(Uri imageUri, String fileName) {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null) {
+            Toast.makeText(this, "User not signed in!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = user.getUid();
+
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference()
+                .child("Products")
+                .child(userId)
+                .child(fileName);
+
+        storageRef.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        Toast.makeText(this, "Uploaded!", Toast.LENGTH_SHORT).show();
+                    }).addOnFailureListener(e -> {
+                        Toast.makeText(this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 }

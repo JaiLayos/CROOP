@@ -109,7 +109,7 @@ public class Activity_Products_Inventory_Individual extends AppCompatActivity {
                 }
             });
         });
-        add = findViewById(R.id.addItemButton);
+        add = findViewById(R.id.addProductButton);
         add.setOnClickListener(v -> {
             Intent intent = new Intent(this, Activity_Add_Products_Individual.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

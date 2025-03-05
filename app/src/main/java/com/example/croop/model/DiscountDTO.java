@@ -1,10 +1,11 @@
 package com.example.croop.model;
 
 public class DiscountDTO {
-    private int id;
+    private int discountID;
     private int sellerID;
     private int productID;
     private String sellerName;
+    private String firebaseID;
     private String itemName;
     private int originalPrice;
     private double discountPercent;
@@ -14,26 +15,23 @@ public class DiscountDTO {
 
     }
 
-    public DiscountDTO(int id, int sellerID, int productID, String sellerName, String itemName, int originalPrice, double discountPercent, int salePrice){
-        this.id = id;
+    public DiscountDTO(int discountID, int sellerID, int productID, String sellerName, String firebaseID, String itemName, int originalPrice, double discountPercent, int salePrice){
+        this.discountID = discountID;
         this.sellerID = sellerID;
         this.productID = productID;
         this.sellerName = sellerName;
+        this.firebaseID = firebaseID;
         this.itemName = itemName;
         this.originalPrice = originalPrice;
         this.discountPercent = discountPercent;
         this.salePrice = salePrice;
     }
 
-    public int getId() {
-        return id;
+    public int getDiscountID() {
+        return discountID;
     }
-
-    public int getSellerID() {
-        return sellerID;
-    }
-    public void setSellerID(int sellerID) {
-        this.sellerID = sellerID;
+    public void setDiscountID(int discountID) {
+        this.discountID = discountID;
     }
 
     public int getProductID() {
@@ -43,11 +41,25 @@ public class DiscountDTO {
         this.productID = productID;
     }
 
+    public int getSellerID() {
+        return sellerID;
+    }
+    public void setSellerID(int sellerID) {
+        this.sellerID = sellerID;
+    }
+
     public String getSellerName() {
         return sellerName;
     }
     public void setSellerName(String sellerName) {
         this.sellerName = sellerName;
+    }
+
+    public String getFirebaseID() {
+        return firebaseID;
+    }
+    public void setFirebaseID(String firebaseID) {
+        this.firebaseID = firebaseID;
     }
 
     public String getItemName() {

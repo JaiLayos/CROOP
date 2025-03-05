@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +17,8 @@ import com.example.croop.R;
 import com.example.croop.SignIn_Activity;
 import com.example.croop.model.CurrentRole;
 import com.example.croop.model.Customer;
+import com.example.croop.retrofit.RetrofitService;
+import com.example.croop.retrofit.UserAPI;
 import com.example.croop.singleton.CurrentUserSingleton;
 import com.example.croop.singleton.CustomerSingleton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,10 +40,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
 
     private EditText phoneNumberText, emailText;
     private FirebaseAuth mAuth;
+    private RetrofitService RetrofitClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -75,8 +82,6 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
                 customer.setPhoneNum(phoneNumber);
                 customer.setEmail(email);
                 customer.setBio("I'm new here!");
-                customer.setCreatedAt(new Date());
-                customer.setUpdatedAt(new Date());
                 signUpUser(email, customer.getPassword(), customer);
             }
         });
@@ -86,7 +91,8 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    private void submitToFirebase(Customer customer){
+    private void submitToFirebase(Customer customer, String userID){
+        Date date = new Date();
         CurrentRole cr = new CurrentRole();
         cr.setRole(customer.getRoles());
         CurrentUserSingleton.getInstance().setCurrentRole(cr);
@@ -95,23 +101,26 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
         userProfile.put("Address", customer.getAddress());
         userProfile.put("Age", customer.getAge());
         userProfile.put("Bio", customer.getBio());
-        userProfile.put("Created At", customer.getCreatedAt());
+        userProfile.put("Created At", date);
         userProfile.put("Email", customer.getEmail());
         userProfile.put("Messenger Link", customer.getMessengerLink());
         userProfile.put("Name", customer.getName());
         userProfile.put("Password", customer.getPassword());
-        userProfile.put("Updated At", customer.getUpdatedAt());
+        userProfile.put("Updated At", date);
         userProfile.put("Phone Number", customer.getPhoneNum());
-        userProfile.put("Role", cr.getRole());
+        customer.setRoles(cr.getRole());
+        userProfile.put("Role", customer.getRoles());
         CollectionReference userProfileRef = db.collection("Customers");
 
-        userProfileRef.add(userProfile).addOnSuccessListener(DocumentReference -> {
-            Toast.makeText(SignUp_Indiv_Cust_Activity_4.this,"Indibidwal na tagabenta ay nadagdag!", Toast.LENGTH_SHORT).show();
-            sendToPhone(customer);
-
-        }).addOnFailureListener(e -> {
-            Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Error!" + e, Toast.LENGTH_SHORT).show();
-        });
+        db.collection("Customers").document(userID)
+                .set(userProfile)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Matagumpay na naidagdag ang Customer!", Toast.LENGTH_SHORT).show();
+                    sendToPhone(customer, userID);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error! " + e, Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void signUpUser(String email, String password, Customer customer) {
@@ -122,7 +131,7 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            submitToFirebase(customer);
+                            submitToFirebase(customer, user.getUid());
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Hindi ka nakapag-authenticate..",
@@ -145,7 +154,7 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
         return (m.matches());
     }
 
-    private void sendToPhone(Customer customer){
+    private void sendToPhone(Customer customer, String userID){
         PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
@@ -160,6 +169,7 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
             }
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                sendToPostgres(customer, userID);
                 System.out.println("Code Sent: " + verificationId);;
                 Intent intent = new Intent(SignUp_Indiv_Cust_Activity_4.this, SignUp_MobPhone_valid.class);
                 intent.putExtra("V_ID", verificationId);
@@ -175,6 +185,32 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
                         .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
                         .build();
         PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+    private void sendToPostgres(Customer customer, String userID) {
+        try {
+            customer.setFirebaseID(userID);
+            UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
+            Call<Customer> call = userAPI.addCustomer(customer);
+            call.enqueue(new Callback<Customer>() {
+                @Override
+                public void onResponse(Call<Customer> call, Response<Customer> response) {
+                    if (response.isSuccessful()) {
+                        Log.d("RetrofitAPI", "Data stored successfully in PostgreSQL");
+                    } else {
+                        Log.e("RetrofitAPI", "Error storing data: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Customer> call, Throwable t) {
+                    Log.e("RetrofitAPI", "Failed to send data", t);
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e("RetrofitAPI", "Error building JSON", e);
+        }
     }
 
 }

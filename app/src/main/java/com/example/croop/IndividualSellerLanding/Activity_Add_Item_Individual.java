@@ -9,11 +9,13 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.croop.GroupSellerLanding.Activity_Item_Inventory;
 import com.example.croop.R;
 import com.example.croop.model.IndividualSellers;
 import com.example.croop.model.IndividualSellersItemInventory;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -27,7 +29,7 @@ public class Activity_Add_Item_Individual extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_item_group);
+        setContentView(R.layout.add_item_individual);
         mAuth = FirebaseAuth.getInstance();
         initializeComponents();
     }
@@ -52,6 +54,13 @@ public class Activity_Add_Item_Individual extends AppCompatActivity {
                     Toast.makeText(Activity_Add_Item_Individual.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+        });
+
+        FloatingActionButton back = findViewById(R.id.backFloat);
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Activity_Item_Inventory.class);
+            startActivity(intent);
+            recreate();
         });
     }
 

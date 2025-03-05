@@ -43,6 +43,10 @@ public class Customer {
         this.firebaseID = firebaseID;
     }
 
+    public String getFirebaseID() {
+        return firebaseID;
+    }
+
     public String getId() {
         return firebaseID;
     }

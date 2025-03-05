@@ -16,6 +16,7 @@ import com.example.croop.model.GroupSellers;
 import com.example.croop.model.GroupSellersProductsInventory;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
@@ -38,7 +39,6 @@ public class Activity_Add_Products extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         initializeComponents();
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -80,6 +80,12 @@ public class Activity_Add_Products extends AppCompatActivity {
                 }
             });
         });
+        FloatingActionButton back = findViewById(R.id.backFloat);
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Activity_Products_Inventory.class);
+            startActivity(intent);
+            recreate();
+        });
     }
 
     private void addPictureProduct(Uri imageUri, String fileName) {
@@ -107,7 +113,6 @@ public class Activity_Add_Products extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
-
     }
 
     private void addItemProcess(int id) {

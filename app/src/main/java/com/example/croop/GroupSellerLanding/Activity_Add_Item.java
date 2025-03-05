@@ -14,6 +14,7 @@ import com.example.croop.model.GroupSellers;
 import com.example.croop.model.GroupSellersItemInventory;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -52,6 +53,13 @@ public class Activity_Add_Item extends AppCompatActivity {
                     Toast.makeText(Activity_Add_Item.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+        });
+
+        FloatingActionButton back = findViewById(R.id.backFloat);
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(this, Activity_Item_Inventory.class);
+            startActivity(intent);
+            recreate();
         });
     }
 

@@ -121,7 +121,8 @@ public class SignUp_Bulk_Activity_4 extends AppCompatActivity {
         groupCustomerProfile.put("Password", groupCustomer.getPassword());
         groupCustomerProfile.put("Updated At", currentDate);
         groupCustomerProfile.put("Phone Number", groupCustomer.getPhoneNum());
-        groupCustomerProfile.put("Role", cr.getRole());
+        groupCustomer.setRoles(cr.getRole());
+        groupCustomerProfile.put("Role", groupCustomer.returnRole());
         CollectionReference groupSellerRef = db.collection("Group Customers");
         groupSellerRef.add(groupCustomerProfile).addOnSuccessListener(DocumentReference -> {
             Toast.makeText(this, "Matagumpay na naidagdag ang Group Customer!", Toast.LENGTH_SHORT).show();

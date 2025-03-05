@@ -15,7 +15,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -155,7 +155,21 @@
                             android:hint="Hal. 1205"
                             android:inputType="text"
                             android:paddingStart="10dp" />
+
                     </LinearLayout>
+
+                    <Button
+                        android:id="@+id/uploadPicButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/secondary_color"
+                        android:text="UPLOAD PICTURE"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
 
                     <Button
                         android:id="@+id/addButton"
@@ -164,6 +178,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="50dp"
                         android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="80dp"
                         android:backgroundTint="@color/secondary_color"
                         android:fontFamily="@font/inter_semibold"
                         android:paddingTop="10dp"

@@ -15,7 +15,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/secondary_color"
-            app:layout_scrollFlags="scroll|enterAlways"/>
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <TextView
+                android:id="@+id/greetingsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_semibold"
+                android:paddingTop="10dp"
+                android:text="WELCOME!"
+                android:textColor="@color/beige_brackground" />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"

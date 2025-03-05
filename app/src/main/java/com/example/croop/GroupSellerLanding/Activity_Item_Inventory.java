@@ -227,9 +227,7 @@ public class Activity_Item_Inventory extends AppCompatActivity {
                     }
                 });
                 check.setOnClickListener(v->{
-                    Intent intent = new Intent(Activity_Item_Inventory.this, Activity_Item_Inventory.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    finish();
+                    recreate();
                 });
 
                 // Set the view and show the dialog

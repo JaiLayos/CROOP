@@ -84,7 +84,7 @@
                         android:textSize="20sp" />
 
                     <Button
-                        android:id="@+id/addItemButton"
+                        android:id="@+id/addProductButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
