@@ -21,11 +21,11 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/sellerProfile"
-                android:layout_width="120dp"
+                android:id="@+id/cropProfile"
+                android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/dummy_profile" />
+                app:srcCompat="@drawable/logo" />
 
             <View
                 android:id="@+id/divider"
@@ -48,7 +48,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/sellerNameText"
+                        android:id="@+id/cropNameText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
@@ -56,7 +56,8 @@
                         android:fontFamily="@font/inter_medium"
                         android:maxLines="1"
                         android:paddingLeft="20dp"
-                        android:text="SELLERNAME"
+                        android:text="CROP NAME"
+                        android:textAlignment="textStart"
                         android:textColor="@color/beige_brackground"
                         android:textSize="20sp"
                         app:autoSizeMaxTextSize="20sp"
@@ -64,52 +65,11 @@
                         app:autoSizeStepGranularity="1sp"
                         app:autoSizeTextType="uniform" />
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        app:cardBackgroundColor="@color/secondary_color"
-                        app:cardCornerRadius="0dp"
-                        app:cardElevation="0dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
-                            <Button
-                                android:id="@+id/profileButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="2.5dp"
-                                android:layout_marginEnd="2.5dp"
-                                android:layout_weight="1"
-                                android:backgroundTint="@color/highlight_green"
-                                android:fontFamily="@font/mulish_medium"
-                                android:text="PROFILE"
-                                android:textSize="10sp" />
-
-                            <Button
-                                android:id="@+id/productsButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="2.5dp"
-                                android:layout_marginEnd="2.5dp"
-                                android:layout_weight="1"
-                                android:backgroundTint="@color/highlight_green"
-                                android:fontFamily="@font/mulish_medium"
-                                android:text="PRODUCTS"
-                                android:textSize="10sp" />
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
                     <TextView
-                        android:id="@+id/sellerRoleText"
+                        android:id="@+id/sellerNameText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="20dp"
                         android:ellipsize="end"
                         android:fontFamily="@font/inter_medium"
                         android:maxLines="1"
@@ -121,6 +81,25 @@
                         app:autoSizeMinTextSize="12sp"
                         app:autoSizeStepGranularity="1sp"
                         app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/sellerRoleText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="20dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/inter_semibold"
+                        android:maxLines="1"
+                        android:paddingLeft="20dp"
+                        android:text="SELLER ROLE"
+                        android:textColor="@color/beige_brackground"
+                        android:textSize="10sp"
+                        app:autoSizeMaxTextSize="20sp"
+                        app:autoSizeMinTextSize="10sp"
+                        app:autoSizeStepGranularity="1sp"
+                        app:autoSizeTextType="uniform" />
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

@@ -5,25 +5,28 @@ public class ProductDTO {
     private String productName;
     private int productPrice;
     private String productSeller;
-    private String productSellerType;
+    private String sellerRole;
     private String firebaseID;
     private double productDiscount;
     private int productFinalPrice;
+    private int remaining;
 
     public ProductDTO(){
 
     }
 
-    public ProductDTO(int productID, String productName, int productPrice, String productSeller,
-                      String productSellerType, String firebaseID, double productDiscount, int productFinalPrice){
+    public ProductDTO(int productID, String productName, String firebaseID,
+                      int productPrice, String productSeller, String sellerRole,
+                      double productDiscount, int productFinalPrice,
+                      int remaining){
         this.productID = productID;
         this.productName = productName;
+        this.firebaseID = firebaseID;
         this.productPrice = productPrice;
         this.productSeller = productSeller;
-        this.productSellerType = productSellerType;
-        this.firebaseID = firebaseID;
         this.productDiscount = productDiscount;
         this.productFinalPrice = productFinalPrice;
+        this.remaining = remaining;
     }
 
     public int getProductID() {
@@ -40,6 +43,13 @@ public class ProductDTO {
         this.productName = productName;
     }
 
+    public String getFirebaseID() {
+        return firebaseID;
+    }
+    public void setFirebaseID(String firebaseID) {
+        this.firebaseID = firebaseID;
+    }
+
     public String getProductSeller() {
         return productSeller;
     }
@@ -47,18 +57,11 @@ public class ProductDTO {
         this.productSeller = productSeller;
     }
 
-    public String getProductSellerType() {
-        return productSellerType;
+    public String getSellerRole() {
+        return sellerRole;
     }
-    public void setProductSellerType(String productSellerType) {
-        this.productSellerType = productSellerType;
-    }
-
-    public String getFirebaseID() {
-        return firebaseID;
-    }
-    public void setFirebaseID(String firebaseID) {
-        this.firebaseID = firebaseID;
+    public void setSellerRole(String sellerRole) {
+        this.sellerRole = sellerRole;
     }
 
     public int getProductPrice() {
@@ -80,5 +83,12 @@ public class ProductDTO {
     }
     public void setProductFinalPrice(int productFinalPrice) {
         this.productFinalPrice = productFinalPrice;
+    }
+
+    public int getRemaining() {
+        return remaining;
+    }
+    public void setRemaining(int remaining) {
+        this.remaining = remaining;
     }
 }

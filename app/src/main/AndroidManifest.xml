@@ -78,6 +78,7 @@
         <activity android:name=".IndividualSellerLanding.Activity_Discount_Inventory_Individual"/>
 
         <activity android:name=".Customer.Sign_In_Success_Customer"/>
+        <activity android:name=".Customer.Activity_Product_Profile"/>
 
         <activity android:name=".Authentication_Phone_Number"/>
         <activity android:name=".Authentication_Email_Password_Change_Email"/>

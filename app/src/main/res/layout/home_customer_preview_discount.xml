@@ -193,22 +193,10 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:backgroundTint="@color/highlight_green"
-                        android:fontFamily="@font/inter_semibold"
-                        android:text="SEE SELLER"
-                        android:textSize="20sp" />
-
-                    <Button
-                        android:id="@+id/closeButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
                         android:layout_marginBottom="60dp"
                         android:backgroundTint="@color/highlight_green"
                         android:fontFamily="@font/inter_semibold"
-                        android:text="CLOSE"
+                        android:text="SEE SELLER"
                         android:textSize="20sp" />
 
                 </LinearLayout>

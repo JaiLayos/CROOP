@@ -44,7 +44,7 @@ public class Sign_In_Success_Customer extends AppCompatActivity {
                     tab.setText("Home");
                     break;
                 case 1:
-                    tab.setText("Profile");
+                    tab.setText("Products");
                     break;
                 case 2:
                     tab.setText("Sellers");
@@ -53,6 +53,9 @@ public class Sign_In_Success_Customer extends AppCompatActivity {
                     tab.setText("Cart");
                     break;
                 case 4:
+                    tab.setText("Profile");
+                    break;
+                case 5:
                     tab.setText("Account");
                     break;
             }

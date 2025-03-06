@@ -1,7 +1,5 @@
 package com.example.croop.Customer;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -17,15 +15,16 @@ public class IndividualCustomerViewAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                Log.d(TAG, "Creating Fragment_Profile_Group_Seller");
                 return new Fragment_Home_Customer();
             case 1:
-                return new Fragment_Profile_Customer();
+                return new Fragment_Products_Customer();
             case 2:
                 return new Fragment_Seller_Customer();
             case 3:
                 return new Fragment_Cart_Customer();
             case 4:
+                return new Fragment_Profile_Customer();
+            case 5:
                 return new Fragment_Account_Customer();
             default:
                 return new Fragment();  // Default case
@@ -34,6 +33,6 @@ public class IndividualCustomerViewAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 6;
     }
 }

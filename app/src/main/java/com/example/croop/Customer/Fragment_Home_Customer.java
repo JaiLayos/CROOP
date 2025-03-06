@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -160,23 +161,10 @@ public class Fragment_Home_Customer extends Fragment {
                 if(response.isSuccessful()){
                     for(FeaturedSellersDTO sellers : response.body()){
                         FeaturedSellersDTO featuredSellersDTO = new FeaturedSellersDTO();
-                        featuredSellersDTO.setId(sellers.getId());
-                        featuredSellersDTO.setName(sellers.getName());
-                        featuredSellersDTO.setRole(sellers.getRole());
+                        featuredSellersDTO = addFeaturedSellers(featuredSellersDTO, sellers);
                         featuredSellers.add(featuredSellersDTO);
                     }
-                    FeaturedSellerAdapter adapter = new FeaturedSellerAdapter(getContext(), featuredSellers, new FeaturedSellerAdapter.OnItemClickListener() {
-                        @Override
-                        public void onViewProfileClick(FeaturedSellersDTO featuredSellersDTO) {
-                            Toast.makeText(getContext(), "View Profile: " + featuredSellersDTO.getName(), Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onViewProductsClick(FeaturedSellersDTO featuredSellersDTO) {
-                            Toast.makeText(getContext(), "View Products: " + featuredSellersDTO.getName(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    recyclerViewForFeaturedSellers.setAdapter(adapter);
+                    featuredIndividualSellers(featuredSellers);
                 }else{
                     Log.e("RetrofitAPI", "Error: " + response.code());
                 }
@@ -184,7 +172,7 @@ public class Fragment_Home_Customer extends Fragment {
 
             @Override
             public void onFailure(Call<List<FeaturedSellersDTO>> call, Throwable t) {
-
+                Log.e("RetrofitAPI", "Error: " + t.getMessage());
             }
         });
 
@@ -205,12 +193,53 @@ public class Fragment_Home_Customer extends Fragment {
         return view;
     }
 
+    private FeaturedSellersDTO addFeaturedSellers(FeaturedSellersDTO featuredSellersDTO, FeaturedSellersDTO sellers) {
+        featuredSellersDTO.setId(sellers.getId());
+        featuredSellersDTO.setName(sellers.getName());
+        featuredSellersDTO.setRole(sellers.getRole());
+        return featuredSellersDTO;
+    }
+
+    private void featuredIndividualSellers(List<FeaturedSellersDTO> featuredSellers) {
+        Call<List<FeaturedSellersDTO>> featuredIndividuals = userAPI.getFeaturedIndividual();
+        featuredIndividuals.enqueue(new Callback<List<FeaturedSellersDTO>>() {
+            @Override
+            public void onResponse(Call<List<FeaturedSellersDTO>> call, Response<List<FeaturedSellersDTO>> response) {
+                if(response.isSuccessful()){
+                    for(FeaturedSellersDTO sellers : response.body()){
+                        FeaturedSellersDTO featuredSellersDTO = new FeaturedSellersDTO();
+                        featuredSellersDTO = addFeaturedSellers(featuredSellersDTO, sellers);
+                        featuredSellers.add(featuredSellersDTO);
+                    }
+                    FeaturedSellerAdapter adapter = new FeaturedSellerAdapter(getContext(), featuredSellers, new FeaturedSellerAdapter.OnItemClickListener() {
+                        @Override
+                        public void onViewProfileClick(FeaturedSellersDTO featuredSellersDTO) {
+                            Toast.makeText(getContext(), "View Profile: " + featuredSellersDTO.getName(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onViewProductsClick(FeaturedSellersDTO featuredSellersDTO) {
+                            Toast.makeText(getContext(), "View Products: " + featuredSellersDTO.getName(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    recyclerViewForFeaturedSellers.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<FeaturedSellersDTO>> call, Throwable t) {
+                Log.e("RetrofitAPI", "Error: " + t.getMessage());
+            }
+        });
+
+    }
+
     private ProductDTO translateaToProductDTO(ProductDTO productDTO, DiscountDTO item) {
         productDTO.setProductID(item.getProductID());
         productDTO.setProductName(item.getItemName());
         productDTO.setProductPrice(item.getOriginalPrice());
         productDTO.setProductSeller(item.getSellerName());
-        productDTO.setProductSellerType("Individual Seller");
+        productDTO.setSellerRole(item.getSellerRole());
         productDTO.setProductDiscount(item.getDiscountPercent());
         productDTO.setProductFinalPrice(item.getSalePrice());
         return productDTO;
@@ -226,7 +255,7 @@ public class Fragment_Home_Customer extends Fragment {
                         inDemand.add(productDTO);
                     }
                     InDemandAdapter adapter = new InDemandAdapter(getContext(),inDemand, productDTO -> {
-                        Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                        showProduct(productDTO);
                     });
                     recyclerViewForInDemand.setAdapter(adapter);
                 }else{
@@ -251,7 +280,7 @@ public class Fragment_Home_Customer extends Fragment {
                         inSeason.add(products);
                     }
                     InSeasonAdapter adapter = new InSeasonAdapter(getContext(), inSeason, productDTO -> {
-                        Toast.makeText(getActivity(),"Wait", Toast.LENGTH_SHORT).show();
+                        showProduct(productDTO);
                     });
                     recyclerViewForInSeason.setAdapter(adapter);
                 }else{
@@ -274,16 +303,9 @@ public class Fragment_Home_Customer extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     for (DiscountDTO item : response.body()) {
                         if (item.getDiscountPercent() > 0.0) {
-                            System.out.println(item);
                             forCustomers.add(item);
                             ProductDTO productDTO = new ProductDTO();
-                            productDTO.setProductID(item.getProductID());
-                            productDTO.setProductName(item.getItemName());
-                            productDTO.setProductPrice(item.getOriginalPrice());
-                            productDTO.setProductSeller(item.getSellerName());
-                            productDTO.setProductSellerType("Individual Seller");
-                            productDTO.setProductDiscount(item.getDiscountPercent());
-                            productDTO.setProductFinalPrice(item.getSalePrice());
+                            productDTO = translateaToProductDTO(productDTO,item);
                             productProfile.add(productDTO);
                         }
                     }
@@ -345,6 +367,11 @@ public class Fragment_Home_Customer extends Fragment {
         TextView finalPrice = bottomSheetView.findViewById(R.id.saleText);
         TextView seller = bottomSheetView.findViewById(R.id.sellerText);
 
+        Button seeProduct = bottomSheetView.findViewById(R.id.seeProductButton);
+        seeProduct.setOnClickListener(v -> {
+            showProduct(productDTO);
+        });
+
         // Set data to views
         itemName.setText(productDTO.getProductName());
         originalPrice.setText(String.valueOf(productDTO.getProductPrice()));
@@ -356,6 +383,16 @@ public class Fragment_Home_Customer extends Fragment {
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
     }
+
+    private void showProduct(ProductDTO productDTO) {
+        int id = productDTO.getProductID();
+        String kindOfSeller = productDTO.getSellerRole();
+        Intent intent = new Intent(getActivity(), Activity_Product_Profile.class);
+        intent.putExtra("product_id", id);
+        intent.putExtra("seller", kindOfSeller);
+        startActivity(intent);
+    }
+
     private void openMessenger(String userId) {
         try {
             // Try to open Messenger app using its URI scheme

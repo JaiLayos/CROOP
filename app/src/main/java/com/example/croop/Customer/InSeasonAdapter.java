@@ -55,6 +55,11 @@ public class InSeasonAdapter extends RecyclerView.Adapter<InSeasonAdapter.InSeas
                 .child(fileName);
 
         loadImage(storageRef, holder);
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(product);
+            }
+        });
     }
 
     private void loadImage(StorageReference storageRef, InSeasonViewHolder holder) {
