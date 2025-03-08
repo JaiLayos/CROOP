@@ -3,6 +3,7 @@ package com.jai.croop.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,9 @@ public class GroupSellers extends BaseUser{
     @OneToMany(mappedBy = "groupSellers", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference("group-discounts")
     private List<GroupSellerDiscount> groupSellerDiscounts;
+    @OneToMany(mappedBy = "groupSellers", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("cart-group-seller")
+    private List<Cart> carts;
 
     public GroupSellers() {}
 
@@ -77,5 +81,19 @@ public class GroupSellers extends BaseUser{
 
     public void setGroupSellerItem(List<GroupSellersItemInventory> groupSellersItemInventoryList) {
         this.groupSellersItemInventoryList = groupSellersItemInventoryList;
+    }
+
+    public List<GroupSellersProductsInventory> getGroupSellersProductsInventoryList() {
+        return groupSellersProductsInventoryList;
+    }
+    public void setGroupSellersProductsInventoryList(List<GroupSellersProductsInventory> groupSellersProductsInventoryList) {
+        this.groupSellersProductsInventoryList = groupSellersProductsInventoryList;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
     }
 }

@@ -30,6 +30,11 @@ public class CustomerService implements ICustomerService{
        return customerRep.findById(id).orElseThrow(() -> new RuntimeException("Customer Not Found."));
     }
 
+    @Override
+    public Customer findByFirebaseID(String firebaseID) {
+        return customerRep.findByFirebaseID(firebaseID);
+    }
+
     @Transactional
     @Override
     public Customer updateCustomer(int id, Customer updatedCustomer){

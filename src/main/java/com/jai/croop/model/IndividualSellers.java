@@ -29,6 +29,9 @@ public class IndividualSellers extends BaseUser{
     @OneToMany(mappedBy = "individualSellers", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference("individual-discounts")
     private List<IndividualSellersDiscount> individualSellersDiscount;
+    @OneToMany(mappedBy = "individualSellers", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("cart-individual-seller")
+    private List<Cart> carts;
 
     public IndividualSellers() {}
 
@@ -70,5 +73,12 @@ public class IndividualSellers extends BaseUser{
 
     public void setIndividualSellersDiscount(List<IndividualSellersDiscount> individualSellersDiscount) {
         this.individualSellersDiscount = individualSellersDiscount;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
     }
 }

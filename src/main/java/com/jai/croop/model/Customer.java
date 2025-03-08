@@ -23,6 +23,9 @@ public class Customer extends BaseUser{
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("customer-individual-orders")
     private List<IndividualSellersOrders> individualSellersOrders;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("cart-customer") // Matches @JsonBackReference in Cart
+    private List<Cart> carts;
 
     public Customer() {}
 
@@ -56,6 +59,13 @@ public class Customer extends BaseUser{
     }
     public void setIndividualSellersOrders(List<IndividualSellersOrders> individualSellersOrders) {
         this.individualSellersOrders = individualSellersOrders;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
     }
 }
 

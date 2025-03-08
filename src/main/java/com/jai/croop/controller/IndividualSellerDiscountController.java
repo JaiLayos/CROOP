@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -55,8 +56,24 @@ public class IndividualSellerDiscountController {
     }
 
     @GetMapping
-    public ResponseEntity<List<IndividualSellersDiscount>> getAllDiscounts(){
-        return ResponseEntity.ok(individualSellersDiscountService.getAllDiscounts());
+    public ResponseEntity<List<DiscountDTO>> getAllDiscounts(){
+        List<IndividualSellersDiscount> individualSellerDiscounts = individualSellersDiscountService.getAllDiscounts();
+        List<DiscountDTO> dtoList = new ArrayList<>();
+        for(IndividualSellersDiscount individualSellerDiscount : individualSellerDiscounts){
+            DiscountDTO dto = new DiscountDTO();
+            dto.setDiscountID(individualSellerDiscount.getId());
+            dto.setSellerID(individualSellerDiscount.getIndividualSellers().getId());
+            dto.setSellerName(individualSellerDiscount.getIndividualSellers().getName());
+            dto.setSellerRole(individualSellerDiscount.getIndividualSellers().getRoles());
+            dto.setFirebaseID(individualSellerDiscount.getIndividualSellers().getFirebaseID());
+            dto.setProductID(individualSellerDiscount.getIndividualSellersProductsInventory().getId());
+            dto.setItemName(individualSellerDiscount.getIndividualSellersProductsInventory().getItemName());
+            dto.setOriginalPrice(individualSellerDiscount.getOriginalPrice());
+            dto.setDiscountPercent(individualSellerDiscount.getDiscountPercent());
+            dto.setSalePrice(individualSellerDiscount.getSalePrice());
+            dtoList.add(dto);
+        }
+        return ResponseEntity.ok(dtoList);
     }
 
     @PutMapping("/{id}")

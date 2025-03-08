@@ -5,6 +5,8 @@ public class DiscountDTO {
     private int sellerID;
     private int productID;
     private String sellerName;
+    private String sellerRole;
+    private String firebaseID;
     private String itemName;
     private int originalPrice;
     private double discountPercent;
@@ -14,11 +16,14 @@ public class DiscountDTO {
 
     }
 
-    public DiscountDTO(int discountID, int sellerID, int productID, String sellerName, String itemName, int originalPrice, double discountPercent, int salePrice){
+    public DiscountDTO(int discountID, int sellerID, int productID, String sellerName,
+                       String sellerRole, String firebaseID, String itemName, int originalPrice, double discountPercent, int salePrice){
         this.discountID = discountID;
         this.sellerID = sellerID;
         this.productID = productID;
         this.sellerName = sellerName;
+        this.sellerRole = sellerRole;
+        this.firebaseID = firebaseID;
         this.itemName = itemName;
         this.originalPrice = originalPrice;
         this.discountPercent = discountPercent;
@@ -51,6 +56,20 @@ public class DiscountDTO {
     }
     public void setSellerName(String sellerName) {
         this.sellerName = sellerName;
+    }
+
+    public String getSellerRole() {
+        return sellerRole;
+    }
+    public void setSellerRole(String sellerRole) {
+        this.sellerRole = sellerRole;
+    }
+
+    public String getFirebaseID() {
+        return firebaseID;
+    }
+    public void setFirebaseID(String firebaseID) {
+        this.firebaseID = firebaseID;
     }
 
     public String getItemName() {

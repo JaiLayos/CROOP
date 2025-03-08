@@ -7,6 +7,8 @@ import com.jai.croop.repository.GroupSellersOrdersRepository;
 import com.jai.croop.repository.GroupSellersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -79,6 +81,17 @@ public class GroupSellersService implements IGroupSellersService{
         groupSellers.setRoles(updatedGroupSellers.getRoles());
         groupSellers.setUpdatedAt(date);
         return groupSellersRepository.save(groupSellers);
+    }
+
+    @Override
+    public List<GroupSellers> findTop3ByTotalItemStart() {
+        PageRequest pageRequest = PageRequest.of(0, 3);
+        return groupSellersRepository.findTop3ByTotalItemStart(pageRequest);
+    }
+
+    @Override
+    public List<GroupSellers> findByGroupName(String groupName) {
+        return groupSellersRepository.findByGroupName(groupName);
     }
 
     @Transactional

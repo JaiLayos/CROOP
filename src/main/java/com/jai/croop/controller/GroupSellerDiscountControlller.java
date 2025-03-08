@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -56,8 +57,24 @@ public class GroupSellerDiscountControlller {
     }
 
     @GetMapping
-    public ResponseEntity<List<GroupSellerDiscount>> getAllDiscounts(){
-        return ResponseEntity.ok(groupSellersDiscountService.getAllDiscounts());
+    public ResponseEntity<List<DiscountDTO>> getAllDiscounts(){
+        List<GroupSellerDiscount> groupSellerDiscounts = groupSellersDiscountService.getAllDiscounts();
+        List<DiscountDTO> dtoList = new ArrayList<>();
+        for(GroupSellerDiscount groupSellerDiscount : groupSellerDiscounts){
+            DiscountDTO dto = new DiscountDTO();
+            dto.setDiscountID(groupSellerDiscount.getId());
+            dto.setSellerID(groupSellerDiscount.getGroupSellers().getId());
+            dto.setSellerName(groupSellerDiscount.getGroupSellers().getGroupName());
+            dto.setSellerRole(groupSellerDiscount.getGroupSellers().getRoles());
+            dto.setFirebaseID(groupSellerDiscount.getGroupSellers().getFirebaseID());
+            dto.setProductID(groupSellerDiscount.getGroupSellersProductsInventory().getId());
+            dto.setItemName(groupSellerDiscount.getGroupSellersProductsInventory().getItemName());
+            dto.setOriginalPrice(groupSellerDiscount.getOriginalPrice());
+            dto.setDiscountPercent(groupSellerDiscount.getDiscountPercent());
+            dto.setSalePrice(groupSellerDiscount.getSalePrice());
+            dtoList.add(dto);
+        }
+        return ResponseEntity.ok(dtoList);
     }
 
     @PutMapping("/{id}")

@@ -1,9 +1,6 @@
 package com.jai.croop.controller;
 
-import com.jai.croop.model.GroupSellers;
-import com.jai.croop.model.IndividualSellers;
-import com.jai.croop.model.IndividualSellersOrders;
-import com.jai.croop.model.SellerOrdersDTO;
+import com.jai.croop.model.*;
 import com.jai.croop.service.GroupSellersOrdersService;
 import com.jai.croop.service.IGroupSellersService;
 import com.jai.croop.service.IIndividualSellersService;
@@ -12,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -38,7 +36,50 @@ public class IndividualSellerController {
     public ResponseEntity<Integer> getIndividualSellerID(@PathVariable String firebaseID){
         return ResponseEntity.ok(individualSellersService.findIDByFirebaseID(firebaseID));
     }
+    @GetMapping("/featured")
+    public ResponseEntity<List<FeaturedSellersDTO>> getFeaturedIndividual(){
+        List<IndividualSellers> individualSellers = individualSellersService.findTop3ByTotalItemStart();
+        List<FeaturedSellersDTO> featured = new ArrayList<>();
+        for(IndividualSellers individualSeller: individualSellers){
+            FeaturedSellersDTO featuredSellersDTO = new FeaturedSellersDTO();
+            featuredSellersDTO.setId(individualSeller.getId());
+            featuredSellersDTO.setName(individualSeller.getName());
+            featuredSellersDTO.setRole(individualSeller.getRoles());
+            featuredSellersDTO.setFirebaseID(individualSeller.getFirebaseID());
+            featured.add(featuredSellersDTO);
+        }
+        return ResponseEntity.ok(featured);
+    }
 
+    @GetMapping("/dto")
+    public ResponseEntity<List<FeaturedSellersDTO>> getAllIndividualSellersDTO(){
+        List<IndividualSellers> individualSellers = individualSellersService.getAllIndividualSellers();
+        List<FeaturedSellersDTO> featured = new ArrayList<>();
+        for(IndividualSellers individualSeller: individualSellers){
+            FeaturedSellersDTO featuredSellersDTO = new FeaturedSellersDTO();
+            featuredSellersDTO.setId(individualSeller.getId());
+            featuredSellersDTO.setName(individualSeller.getName());
+            featuredSellersDTO.setRole(individualSeller.getRoles());
+            featuredSellersDTO.setFirebaseID(individualSeller.getFirebaseID());
+            featured.add(featuredSellersDTO);
+        }
+        return ResponseEntity.ok(featured);
+    }
+
+    @GetMapping("individual-seller/{name}")
+    public ResponseEntity<List<FeaturedSellersDTO>> findIndividualSellerByName(String name){
+        List<IndividualSellers> individualSellers = individualSellersService.findByName(name);
+        List<FeaturedSellersDTO> featured = new ArrayList<>();
+        for(IndividualSellers individualSeller: individualSellers){
+            FeaturedSellersDTO featuredSellersDTO = new FeaturedSellersDTO();
+            featuredSellersDTO.setId(individualSeller.getId());
+            featuredSellersDTO.setName(individualSeller.getName());
+            featuredSellersDTO.setRole(individualSeller.getRoles());
+            featuredSellersDTO.setFirebaseID(individualSeller.getFirebaseID());
+            featured.add(featuredSellersDTO);
+        }
+        return ResponseEntity.ok(featured);
+    }
     @GetMapping("/orders/{firebaseID}")
     public ResponseEntity<List<SellerOrdersDTO>> getIndividualSellersbyFirebase(@PathVariable String firebaseID){
         int id = individualSellersService.getIndividualSellerIdByFirebaseID(firebaseID);

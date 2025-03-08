@@ -6,6 +6,8 @@ import com.jai.croop.repository.IndividualSellersOrdersRepository;
 import com.jai.croop.repository.IndividualSellersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -37,6 +39,11 @@ public class IndividualSellersService implements IIndividualSellersService{
     @Override
     public IndividualSellers getIndividualSellers(int id) {
         return individualSellersRepository.findById(id).orElseThrow(() -> new RuntimeException("Individual Seller Not Found!"));
+    }
+
+    @Override
+    public List<IndividualSellers> findByName(String name) {
+        return individualSellersRepository.findByName(name);
     }
 
     @Override
@@ -73,6 +80,12 @@ public class IndividualSellersService implements IIndividualSellersService{
         individualSellers.setRoles(updated.getRoles());
         individualSellers.setUpdatedAt(date);
         return individualSellersRepository.save(individualSellers);
+    }
+
+    @Override
+    public List<IndividualSellers> findTop3ByTotalItemStart() {
+        PageRequest pageRequest = PageRequest.of(0, 3);
+        return individualSellersRepository.findTop3ByTotalItemStart(pageRequest);
     }
 
     @Override

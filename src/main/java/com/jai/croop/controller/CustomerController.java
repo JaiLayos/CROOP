@@ -25,6 +25,11 @@ public class CustomerController {
     public ResponseEntity<Customer> getCustomer(@PathVariable int id) {
         return ResponseEntity.ok(customerService.getCustomer(id));
     }
+
+    @GetMapping("/firebase/{firebaseID}")
+    public ResponseEntity<Customer> getCustomerByFirebaseID(@PathVariable String firebaseID) {
+        return ResponseEntity.ok(customerService.findByFirebaseID(firebaseID));
+    }
     @GetMapping("/name/{id}")
     public ResponseEntity<String> getCustomerName(@PathVariable int id) {
         Customer customer = customerService.getCustomer(id);

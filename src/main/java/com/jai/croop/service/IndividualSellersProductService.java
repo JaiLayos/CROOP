@@ -6,6 +6,8 @@ import com.jai.croop.repository.IndividualSellersProductsRepository;
 import com.jai.croop.repository.IndividualSellersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +33,8 @@ public class IndividualSellersProductService implements IIndividualSellersProduc
                 .orElseThrow(() -> new RuntimeException("GroupSeller does not exist!"));
 
         individualSellersProductsInventory.setIndividualSellers(individualSellers);
-
+        int remaining = individualSellersProductsInventory.getItemStart() - individualSellersProductsInventory.getItemUsed();
+        individualSellersProductsInventory.setItemRemaining(remaining);
         individualSellersProductsInventory = individualSellersProductsRepository.save(individualSellersProductsInventory);
 
         IndividualSellersDiscount individualSellersDiscount = new IndividualSellersDiscount();
@@ -68,6 +71,18 @@ public class IndividualSellersProductService implements IIndividualSellersProduc
     @Override
     public List<IndividualSellersProductsInventory> getAllItems() {
         return individualSellersProductsRepository.findAll();
+    }
+
+    @Override
+    public List<IndividualSellersProductsInventory> findTop3ByItemStart() {
+        PageRequest pageRequest = PageRequest.of(0, 3); // Limit to 3 items
+        return individualSellersProductsRepository.findTop3ByItemStart(pageRequest);
+    }
+
+    @Override
+    public List<IndividualSellersProductsInventory> findTop3ByLowestItemRemaining() {
+        PageRequest pageRequest = PageRequest.of(0, 3); // Limit to 3 items
+        return individualSellersProductsRepository.findTop3ByLowestItemRemaining(pageRequest);
     }
 
     @Transactional
