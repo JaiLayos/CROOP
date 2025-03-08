@@ -102,14 +102,8 @@ public class SignIn_Activity extends AppCompatActivity {
                 finish();
                 break;
             }
-            case "Individual Customer User": {
+            case "Customer User": {
                 Intent intent = new Intent(SignIn_Activity.this, Sign_In_Success_Customer.class);
-                startActivity(intent);
-                finish();
-                break;
-            }
-            case "Group Customer User": {
-                Intent intent = new Intent(SignIn_Activity.this, Home_Group_Customer_Activity.class);
                 startActivity(intent);
                 finish();
                 break;
@@ -128,10 +122,8 @@ public class SignIn_Activity extends AppCompatActivity {
                 return "Farming Cooperatives";
             case "Individual Business User":
                 return "Individual Sellers";
-            case "Individual Customer User":
+            case "Customer User":
                 return "Customers";
-            case "Group Customer User":
-                return "Group Customers";
             default:
                 return "Unknown";
         }

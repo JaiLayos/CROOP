@@ -63,12 +63,15 @@ public class InDemandAdapter extends RecyclerView.Adapter<InDemandAdapter.InDema
     }
 
     private void loadImage(StorageReference storageRef, InDemandViewHolder holder) {
+        Context appContext = holder.itemView.getContext().getApplicationContext();
         storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            Glide.with(holder.itemView.getContext())
-                    .load(uri.toString())
-                    .placeholder(R.drawable.logo)
-                    .error(R.drawable.sun)
-                    .into(holder.productProfile);
+            if (holder.itemView.isAttachedToWindow()) {
+                Glide.with(appContext)
+                        .load(uri.toString())
+                        .placeholder(R.drawable.logo)
+                        .error(R.drawable.sun)
+                        .into(holder.productProfile);
+            }
         }).addOnFailureListener(e -> {
             Log.e("FirebaseImageError", "Failed to get download URL: " + e.getMessage());
             holder.productProfile.setImageResource(R.drawable.logo);

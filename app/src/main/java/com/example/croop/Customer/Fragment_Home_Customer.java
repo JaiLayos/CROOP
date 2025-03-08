@@ -37,6 +37,7 @@ import retrofit2.Response;
 public class Fragment_Home_Customer extends Fragment {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
+    private String userID;
     private RetrofitService RetrofitClient;
     private AtomicInteger apiCounter;
     private RecyclerView recyclerViewForPromos,recyclerViewForInSeason, recyclerViewForInDemand,
@@ -45,6 +46,7 @@ public class Fragment_Home_Customer extends Fragment {
     private List<DiscountDTO> forCustomers;
     private List<ProductDTO> productProfile, inSeason, inDemand;
     private List<FeaturedSellersDTO> featuredSellers;
+
 
     public Fragment_Home_Customer() {
 
@@ -62,6 +64,7 @@ public class Fragment_Home_Customer extends Fragment {
         String role = prefs.getString("user_role", null);
 
         FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
         String collection = getCollection(role);
 
         recyclerViewForPromos = view.findViewById(R.id.promoList);
@@ -197,6 +200,7 @@ public class Fragment_Home_Customer extends Fragment {
         featuredSellersDTO.setId(sellers.getId());
         featuredSellersDTO.setName(sellers.getName());
         featuredSellersDTO.setRole(sellers.getRole());
+        featuredSellersDTO.setFirebaseID(sellers.getFirebaseID());
         return featuredSellersDTO;
     }
 
@@ -211,10 +215,18 @@ public class Fragment_Home_Customer extends Fragment {
                         featuredSellersDTO = addFeaturedSellers(featuredSellersDTO, sellers);
                         featuredSellers.add(featuredSellersDTO);
                     }
+
                     FeaturedSellerAdapter adapter = new FeaturedSellerAdapter(getContext(), featuredSellers, new FeaturedSellerAdapter.OnItemClickListener() {
                         @Override
                         public void onViewProfileClick(FeaturedSellersDTO featuredSellersDTO) {
-                            Toast.makeText(getContext(), "View Profile: " + featuredSellersDTO.getName(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getActivity(),Activity_Seller_Profile.class);
+                            String kindOfSeller = featuredSellersDTO.getRole();
+                            String firebaseID = featuredSellersDTO.getFirebaseID();
+                            int id = featuredSellersDTO.getId();
+                            intent.putExtra("seller", kindOfSeller);
+                            intent.putExtra("seller_id", id);
+                            intent.putExtra("firebase_id", firebaseID);
+                            startActivity(intent);
                         }
 
                         @Override
@@ -231,7 +243,6 @@ public class Fragment_Home_Customer extends Fragment {
                 Log.e("RetrofitAPI", "Error: " + t.getMessage());
             }
         });
-
     }
 
     private ProductDTO translateaToProductDTO(ProductDTO productDTO, DiscountDTO item) {
@@ -239,6 +250,7 @@ public class Fragment_Home_Customer extends Fragment {
         productDTO.setProductName(item.getItemName());
         productDTO.setProductPrice(item.getOriginalPrice());
         productDTO.setProductSeller(item.getSellerName());
+        productDTO.setFirebaseID(item.getFirebaseID());
         productDTO.setSellerRole(item.getSellerRole());
         productDTO.setProductDiscount(item.getDiscountPercent());
         productDTO.setProductFinalPrice(item.getSalePrice());
@@ -387,8 +399,10 @@ public class Fragment_Home_Customer extends Fragment {
     private void showProduct(ProductDTO productDTO) {
         int id = productDTO.getProductID();
         String kindOfSeller = productDTO.getSellerRole();
+        String firebase_id = productDTO.getFirebaseID();
         Intent intent = new Intent(getActivity(), Activity_Product_Profile.class);
         intent.putExtra("product_id", id);
+        intent.putExtra("firebase_id",firebase_id);
         intent.putExtra("seller", kindOfSeller);
         startActivity(intent);
     }

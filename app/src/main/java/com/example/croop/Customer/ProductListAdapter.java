@@ -67,13 +67,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         loadImage(storageRef, holder);
     }
 
+
+
     private void loadImage(StorageReference storageRef, ProductListViewHolder holder) {
+        Context appContext = holder.itemView.getContext().getApplicationContext();
         storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            Glide.with(holder.itemView.getContext())
-                    .load(uri.toString())
-                    .placeholder(R.drawable.logo)
-                    .error(R.drawable.sun)
-                    .into(holder.cropProfile);
+            if (holder.itemView.isAttachedToWindow()) {
+                Glide.with(appContext)
+                        .load(uri.toString())
+                        .placeholder(R.drawable.logo)
+                        .error(R.drawable.sun)
+                        .into(holder.cropProfile);
+            }
         }).addOnFailureListener(e -> {
             Log.e("FirebaseImageError", "Failed to get download URL: " + e.getMessage());
             holder.cropProfile.setImageResource(R.drawable.logo);
@@ -95,5 +100,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             sellerRole = itemView.findViewById(R.id.sellerRoleText);
             cropProfile = itemView.findViewById(R.id.cropProfile);
         }
+
     }
 }

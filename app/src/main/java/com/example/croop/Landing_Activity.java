@@ -56,14 +56,8 @@ public class Landing_Activity extends AppCompatActivity {
                     finish();
                     break;
                 }
-                case "Individual Customer User": {
+                case "Customer User": {
                     Intent intent = new Intent(Landing_Activity.this, Sign_In_Success_Customer.class);
-                    startActivity(intent);
-                    finish();
-                    break;
-                }
-                case "Group Customer User": {
-                    Intent intent = new Intent(Landing_Activity.this, Home_Group_Customer_Activity.class);
                     startActivity(intent);
                     finish();
                     break;

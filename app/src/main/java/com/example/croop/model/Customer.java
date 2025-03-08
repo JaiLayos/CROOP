@@ -123,7 +123,7 @@ public class Customer {
     }
 
     public String getRoles(){
-        return "Individual Customer User";
+        return "Customer User";
     }
 
     public void setRoles(String roles) {

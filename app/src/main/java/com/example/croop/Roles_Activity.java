@@ -6,8 +6,13 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.croop.SignUpActivities.Population_Customer_Activity;
 import com.example.croop.SignUpActivities.Population_Seller_Activity;
+import com.example.croop.SignUpActivities.SignUp_Customer_Activity;
+import com.example.croop.model.CurrentRole;
+import com.example.croop.model.CurrentUsage;
+import com.example.croop.model.Customer;
+import com.example.croop.singleton.CurrentUsageSingleton;
+import com.example.croop.singleton.CurrentUserSingleton;
 
 public class Roles_Activity extends AppCompatActivity {
     @Override
@@ -18,15 +23,27 @@ public class Roles_Activity extends AppCompatActivity {
     }
 
     private void initializeComponents() {
-        Button seller = findViewById(R.id.sellerButton);
-        Button customer = findViewById(R.id.customerButton);
-        seller.setOnClickListener(view -> {
+        CurrentUsage currentUsage = CurrentUsageSingleton.getInstance().getCurrentUsageSingleton();
+        Customer customer = new Customer();
+        CurrentRole currentRole = new CurrentRole();
+        currentRole.setRole(customer.getRoles());
+        String usage = currentUsage.getCurrentUsage();
+        Button forSeller = findViewById(R.id.sellerButton);
+        Button forCustomer = findViewById(R.id.customerButton);
+        forSeller.setOnClickListener(view -> {
             Intent intent = new Intent(Roles_Activity.this, Population_Seller_Activity.class);
             startActivity(intent);
         });
-        customer.setOnClickListener(view -> {
-            Intent intent = new Intent(Roles_Activity.this, Population_Customer_Activity.class);
-            startActivity(intent);
+        forCustomer.setOnClickListener(view -> {
+            CurrentUserSingleton.getInstance().setCurrentRole(currentRole);
+            if(usage == "Sign In"){
+                Intent intent = new Intent(Roles_Activity.this, SignIn_Activity.class);
+                startActivity(intent);
+            }else{
+                Intent intent = new Intent(Roles_Activity.this, SignUp_Customer_Activity.class);
+                startActivity(intent);
+            }
+
         });
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -94,6 +95,10 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
         name = findViewById(R.id.nameText);
         quantity = findViewById(R.id.initialText);
         price = findViewById(R.id.priceText);
+
+        quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
+        price.setInputType(InputType.TYPE_CLASS_NUMBER);
+
         IndividualSellersProductsInventory individualSellersProductsInventory = new IndividualSellersProductsInventory();
         individualSellersProductsInventory.setItemName(name.getText().toString());
         individualSellersProductsInventory.setItemStart(Integer.parseInt(quantity.getText().toString()));

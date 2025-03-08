@@ -36,8 +36,6 @@ public class Fragment_Products_Customer extends Fragment {
     private List<ProductDTO> productDTOList, searchList;
     private RetrofitService RetrofitClient;
     private UserAPI userAPI;
-    private int id;
-    private String seller;
 
 
     public Fragment_Products_Customer() {
@@ -47,7 +45,7 @@ public class Fragment_Products_Customer extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.products_customer_list, container, false);
+        View view = inflater.inflate(R.layout.customer_products_list, container, false);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -72,6 +70,7 @@ public class Fragment_Products_Customer extends Fragment {
                         }
                     }
                     addIndividualProducts(productDTOList, role);
+                    addToList();
                 }else{
                     Log.e("RetrofitAPI", "Error fetching group discounts: " + response.code());
                 }
@@ -86,11 +85,10 @@ public class Fragment_Products_Customer extends Fragment {
         EditText searchText;
         searchText = view.findViewById(R.id.searchText);
 
-        searchList = new ArrayList<>();
-
         Button search = view.findViewById(R.id.searchButton);
         search.setOnClickListener(v -> {
-            String searched = searchText.getText().toString();
+            searchList = new ArrayList<>();
+            String searched = searchText.getText().toString().trim();
             if(searchText == null){
                 addToList();
             }else{
@@ -150,8 +148,10 @@ public class Fragment_Products_Customer extends Fragment {
     private void showProduct(ProductDTO productDTO) {
         int id = productDTO.getProductID();
         String kindOfSeller = productDTO.getSellerRole();
+        String firebase_id = productDTO.getFirebaseID();
         Intent intent = new Intent(getActivity(), Activity_Product_Profile.class);
         intent.putExtra("product_id", id);
+        intent.putExtra("firebase_id",firebase_id);
         intent.putExtra("seller", kindOfSeller);
         startActivity(intent);
     }
@@ -167,12 +167,7 @@ public class Fragment_Products_Customer extends Fragment {
                 ProductListAdapter adapter = new ProductListAdapter(getContext(), searchList, new ProductListAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(ProductDTO productDTO) {
-                        int id = productDTO.getProductID();
-                        String kindOfSeller = productDTO.getSellerRole();
-                        Intent intent = new Intent(getActivity(), Activity_Product_Profile.class);
-                        intent.putExtra("product_id", id);
-                        intent.putExtra("seller", kindOfSeller);
-                        startActivity(intent);
+                        showProduct(productDTO);
                     }
                 });
                 recyclerView.setAdapter(adapter);
@@ -183,37 +178,5 @@ public class Fragment_Products_Customer extends Fragment {
                 Log.e("RetrofitAPI", "Error fetching group discounts: " + t.getMessage());
             }
         });
-    }
-
-
-
-    private String getCollection(String role) {
-        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", getContext().MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        String collection;
-
-        switch (role) {
-            case "Group Business User (Association)":
-                collection = "Farming Association";
-                break;
-            case "Group Business User (Cooperative)":
-                collection = "Farming Cooperatives";
-                break;
-            case "Individual Business User":
-                collection = "Individual Sellers";
-                break;
-            case "Individual Customer User":
-                collection = "Customers";
-                break;
-            case "Group Customer User":
-                collection = "Group Customers";
-                break;
-            default:
-                collection = "Unknown";
-                break;
-        }
-
-        editor.putString("user_collection", collection).apply();
-        return collection;
     }
 }

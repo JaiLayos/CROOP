@@ -28,12 +28,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
 
-public class Fragment_Profile_Customer extends Fragment {
+public class Fragment_Orders_Customer extends Fragment {
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     TextView userName, userRole, userBio, userEmail, userPhone, userAddress, userGroup;
 
-    public Fragment_Profile_Customer(){
+    public Fragment_Orders_Customer(){
 
     }
 

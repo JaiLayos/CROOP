@@ -44,7 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
+public class SignUp_Customer_Activity_4 extends AppCompatActivity {
 
     private EditText phoneNumberText, emailText;
     private FirebaseAuth mAuth;
@@ -59,7 +59,7 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
         initializeComponents();
         TextView signInHyperlink = findViewById(R.id.signInHyperlink);
         signInHyperlink.setOnClickListener(view -> {
-            Intent intent = new Intent(SignUp_Indiv_Cust_Activity_4.this, SignIn_Activity.class);
+            Intent intent = new Intent(SignUp_Customer_Activity_4.this, SignIn_Activity.class);
             startActivity(intent);
         });
     }
@@ -74,7 +74,7 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
             if(!validEmail(email) || email.isEmpty()){
                 Toast.makeText(this, "Mangyaring maglagay ng wastong email.", Toast.LENGTH_SHORT).show();
             }else if(!phoneNumberValidation(mobilePhone)){
-                Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Maglagay ng wastong numero ng telepono.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Customer_Activity_4.this, "Maglagay ng wastong numero ng telepono.", Toast.LENGTH_SHORT).show();
             }else{
                 mobilePhone = mobilePhone.trim();
                 String phoneNumber = formatPhone(mobilePhone);
@@ -134,7 +134,7 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
                             submitToFirebase(customer, user.getUid());
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Hindi ka nakapag-authenticate..",
+                            Toast.makeText(SignUp_Customer_Activity_4.this, "Hindi ka nakapag-authenticate..",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -159,19 +159,19 @@ public class SignUp_Indiv_Cust_Activity_4 extends AppCompatActivity {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
                 System.out.println("Verification Completed!");
-                Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Kumpleto na ang beripikasyon!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Customer_Activity_4.this, "Kumpleto na ang beripikasyon!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
                 System.out.println("Verification Failed: " + e);
-                Toast.makeText(SignUp_Indiv_Cust_Activity_4.this, "Hindi matagumpay ang beripikasyon: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUp_Customer_Activity_4.this, "Hindi matagumpay ang beripikasyon: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
                 sendToPostgres(customer, userID);
                 System.out.println("Code Sent: " + verificationId);;
-                Intent intent = new Intent(SignUp_Indiv_Cust_Activity_4.this, SignUp_MobPhone_valid.class);
+                Intent intent = new Intent(SignUp_Customer_Activity_4.this, SignUp_MobPhone_valid.class);
                 intent.putExtra("V_ID", verificationId);
                 startActivity(intent);
             }

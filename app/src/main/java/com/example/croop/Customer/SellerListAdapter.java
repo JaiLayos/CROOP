@@ -21,33 +21,30 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
-public class FeaturedSellerAdapter extends RecyclerView.Adapter<FeaturedSellerAdapter.FeaturedSellerAdapterHolder> {
+public class SellerListAdapter extends RecyclerView.Adapter<SellerListAdapter.SellerListAdapterHolder> {
     private Context context;
     private List<FeaturedSellersDTO> inventory;
-    private OnItemClickListener listener;
+    private FeaturedSellerAdapter.OnItemClickListener listener;
     private StorageReference storageRef;
     private FirebaseAuth mAuth;
-
     public interface OnItemClickListener{
         void onViewProfileClick(FeaturedSellersDTO featuredSellersDTO);
         void onViewProductsClick(FeaturedSellersDTO featuredSellersDTO);
     }
-
-    public FeaturedSellerAdapter(Context context, List<FeaturedSellersDTO> inventory, OnItemClickListener listener){
+    public SellerListAdapter(Context context, List<FeaturedSellersDTO> inventory, FeaturedSellerAdapter.OnItemClickListener listener){
         this.context = context;
         this.inventory = inventory;
         this.listener = listener;
     }
-
     @NonNull
     @Override
-    public FeaturedSellerAdapter.FeaturedSellerAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SellerListAdapter.SellerListAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_home_customer_featured_sellers,parent,false);
-        return new FeaturedSellerAdapterHolder(view);
+        return new SellerListAdapter.SellerListAdapterHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FeaturedSellerAdapter.FeaturedSellerAdapterHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SellerListAdapter.SellerListAdapterHolder holder, int position) {
         FeaturedSellersDTO featuredSellersDTO = inventory.get(position);
 
         String userID = featuredSellersDTO.getFirebaseID();
@@ -87,11 +84,11 @@ public class FeaturedSellerAdapter extends RecyclerView.Adapter<FeaturedSellerAd
         return inventory.size();
     }
 
-    public static class FeaturedSellerAdapterHolder extends RecyclerView.ViewHolder{
+    public static class SellerListAdapterHolder extends RecyclerView.ViewHolder{
         TextView name, role;
         ImageView display;
         Button profile, products;
-        public FeaturedSellerAdapterHolder(@NonNull View itemView) {
+        public SellerListAdapterHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.sellerNameText);
             role = itemView.findViewById(R.id.sellerRoleText);

@@ -1,5 +1,7 @@
 package com.example.croop.retrofit;
 
+import com.example.croop.model.Cart;
+import com.example.croop.model.CartDTO;
 import com.example.croop.model.Customer;
 import com.example.croop.model.DiscountDTO;
 import com.example.croop.model.FeaturedSellersDTO;
@@ -34,10 +36,14 @@ public interface UserAPI {
     Call<Integer> getGroupSellersID(@Path("firebaseID") String firebaseID);
     @GET("api/group-sellers/{id}")
     Call<GroupSellers> getGroupSellers(@Path("id") int id);
+    @GET("api/group-sellers/group-name/{groupName}")
+    Call<List<FeaturedSellersDTO>> getGroupSellerByGroupName(@Path("groupName") String groupName);
     @GET("api/group-sellers/details/{firebaseID}")
     Call<GroupSellers> getGroupSellersbyFirebaseID(@Path("firebaseID") String firebaseID);
     @GET("api/group-sellers/featured")
     Call<List<FeaturedSellersDTO>> getFeaturedGroup();
+    @GET("api/group-sellers/dto")
+    Call<List<FeaturedSellersDTO>> getAllGroupSellers();
 
     //CUSTOMERS
     @GET("api/customers/{id}")
@@ -46,6 +52,8 @@ public interface UserAPI {
     Call<String> getCustomerName(@Path("id") int id);
     @GET("api/customers")
     Call<List<Customer>> getAllCustomers();
+    @GET("api/customers/firebase/{firebaseID}")
+    Call<Customer> getCustomerByFirebaseID(@Path("firebaseID") String firebaseID);
     @POST("api/customers")
     Call<Customer> addCustomer(@Body Customer customer);
     @PUT("api/customers/{id}")
@@ -85,6 +93,8 @@ public interface UserAPI {
     Call<List<GroupSellersProductsInventory>> getProductsByFirebaseID(@Path("firebaseID") String firebaseID);
     @GET("api/group-sellers-products")
     Call<List<ProductDTO>> getAllProducts();
+    @GET("api/group-sellers-products/productsDTO/firebase/{firebaseID}")
+    Call<List<ProductDTO>> getGroupProductsDTOsByFirebaseID(@Path("firebaseID") String firebaseID);
     @PUT("api/group-sellers-products/{id}")
     Call<GroupSellersProductsInventory> updateProducts(@Path("id") int id, @Body GroupSellersProductsInventory groupSellersProductsInventory);
     @DELETE("api/group-sellers-products/{id}")
@@ -122,6 +132,10 @@ public interface UserAPI {
     Call<IndividualSellers> getIndividualSellersbyFirebaseID(@Path("firebaseID") String firebaseID);
     @GET("api/individual-sellers")
     Call<List<IndividualSellers>> getAllIndividualSellers();
+    @GET("api/individual-sellers/individual-seller/{name}")
+    Call<List<FeaturedSellersDTO>> findIndividualSellerByName(@Path("name") String name);
+    @GET("api/individual-sellers/dto")
+    Call<List<FeaturedSellersDTO>> getAllIndividualSellersDTO();
     @GET("api/individual-sellers/featured")
     Call<List<FeaturedSellersDTO>> getFeaturedIndividual();
     @PUT("api/individual-sellers/{id}")
@@ -159,6 +173,8 @@ public interface UserAPI {
     Call<List<IndividualSellersProductsInventory>> getIndividualProductsByName(@Path("itemName") String itemName);
     @GET("api/individual-sellers-products-inventory/productDTO/{itemName}")
     Call<List<ProductDTO>> getIndividualProductDTOByName(@Path("itemName") String itemName);
+    @GET("api/individual-sellers-products-inventory/products/firebase/{firebaseID}")
+    Call<List<ProductDTO>> getIndividualProductDTOsByFirebaseID(@Path("firebaseID") String firebaseID);
     @GET("api/individual-sellers-products-inventory/items/firebase/{firebaseID}")
     Call<List<IndividualSellersProductsInventory>> getIndividualProductsByFirebaseID(@Path("firebaseID") String firebaseID);
     @GET("api/individual-sellers-products-inventory")
@@ -188,4 +204,31 @@ public interface UserAPI {
     @DELETE("api/individual-seller-discount/{id}")
     Call<IndividualSellersDiscount> deleteIndividualDiscount(@Path("id") int id);
 
+    ///Cart
+    @POST("api/cart")
+    Call<Cart> addCart(@Body Cart cart);
+
+    @GET("api/cart/from-group")
+    Call<List<CartDTO>> getAllCartFromGroup();
+
+    @GET("api/cart/from-individual")
+    Call<List<CartDTO>> getAllCartFromIndividual();
+
+    @GET("api/cart/from-group/{id}")
+    Call<CartDTO> getCartFromGroup(@Path("id") int id);
+
+    @GET("api/cart/from-individual/{id}")
+    Call<CartDTO> getCartFromIndividual(@Path("id") int id);
+
+    @GET("api/cart/from-group/seller/{id}")
+    Call<List<CartDTO>> getGroupCartBySellerID(@Path("id") int sellerId);
+
+    @GET("api/cart/from-individual/seller/{id}")
+    Call<List<CartDTO>> getIndividualCartBySellerID(@Path("id") int sellerId);
+
+    @PUT("api/cart/{id}")
+    Call<Cart> updateCart(@Path("id") int id, @Body Cart cart);
+
+    @DELETE("api/cart/{id}")
+    Call<Void> deleteCart(@Path("id") int id);
 }

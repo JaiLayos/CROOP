@@ -4,14 +4,16 @@ public class FeaturedSellersDTO {
     private int id;
     private String name;
     private String role;
+    private String firebaseID;
 
     public FeaturedSellersDTO(){
 
     }
-    public FeaturedSellersDTO(int id, String name, String role){
+    public FeaturedSellersDTO(int id, String name, String role, String firebaseID){
         this.id = id;
         this.name = name;
         this.role = role;
+        this.firebaseID = firebaseID;
     }
 
     public int getId() {
@@ -33,5 +35,12 @@ public class FeaturedSellersDTO {
     }
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getFirebaseID() {
+        return firebaseID;
+    }
+    public void setFirebaseID(String firebaseID) {
+        this.firebaseID = firebaseID;
     }
 }

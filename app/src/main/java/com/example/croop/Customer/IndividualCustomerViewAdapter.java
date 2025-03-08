@@ -23,7 +23,7 @@ public class IndividualCustomerViewAdapter extends FragmentStateAdapter {
             case 3:
                 return new Fragment_Cart_Customer();
             case 4:
-                return new Fragment_Profile_Customer();
+                return new Fragment_Orders_Customer();
             case 5:
                 return new Fragment_Account_Customer();
             default:

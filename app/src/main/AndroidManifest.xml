@@ -28,16 +28,12 @@
         </activity>
         <activity android:name=".Roles_Activity" />
         <activity android:name=".SignUpActivities.Population_Seller_Activity" />
-        <activity android:name=".SignUpActivities.Population_Customer_Activity"/>
         <activity android:name=".Group_Seller_Activity" />
-        <activity android:name=".SignUpActivities.SignUp_Bulk_Activity" />
-        <activity android:name=".SignUpActivities.SignUp_Bulk_Activity_2" />
-        <activity android:name=".SignUpActivities.SignUp_Bulk_Activity_3" />
-        <activity android:name=".SignUpActivities.SignUp_Bulk_Activity_4" />
-        <activity android:name=".SignUpActivities.SignUp_Indiv_Cust_Activity" />
-        <activity android:name=".SignUpActivities.SignUp_Indiv_Cust_Activity_2" />
-        <activity android:name=".SignUpActivities.SignUp_Indiv_Cust_Activity_3" />
-        <activity android:name=".SignUpActivities.SignUp_Indiv_Cust_Activity_4" />
+
+        <activity android:name=".SignUpActivities.SignUp_Customer_Activity" />
+        <activity android:name=".SignUpActivities.SignUp_Customer_Activity_2" />
+        <activity android:name=".SignUpActivities.SignUp_Customer_Activity_3" />
+        <activity android:name=".SignUpActivities.SignUp_Customer_Activity_4" />
         <activity android:name=".SignUpActivities.SignUp_Farm_Assoc_Activity" />
         <activity android:name=".SignUpActivities.SignUp_Farm_Assoc_Activity_2" />
         <activity android:name=".SignUpActivities.SignUp_Farm_Assoc_Activity_3" />
@@ -79,6 +75,7 @@
 
         <activity android:name=".Customer.Sign_In_Success_Customer"/>
         <activity android:name=".Customer.Activity_Product_Profile"/>
+        <activity android:name=".Customer.Activity_Seller_Profile"/>
 
         <activity android:name=".Authentication_Phone_Number"/>
         <activity android:name=".Authentication_Email_Password_Change_Email"/>

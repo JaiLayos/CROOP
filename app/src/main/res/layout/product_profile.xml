@@ -17,6 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/beige_brackground"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -167,6 +168,7 @@
                                     android:id="@+id/sellerProfile"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
+                                    android:scaleType="centerCrop"
                                     app:srcCompat="@drawable/dummy_profile" />
                             </androidx.cardview.widget.CardView>
 
@@ -191,6 +193,7 @@
                                         android:layout_marginTop="10dp"
                                         android:fontFamily="@font/inter_medium"
                                         android:text="Seller Name"
+                                        android:textColor="@color/highlight_green"
                                         android:textSize="14sp" />
 
                                     <TextView
@@ -221,14 +224,14 @@
                         app:cardElevation="0dp">
 
                         <Button
-                            android:id="@+id/button3"
+                            android:id="@+id/cartButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginEnd="20dp"
                             android:layout_marginBottom="30dp"
-                            android:backgroundTint="@color/highlight_green"
+                            android:backgroundTint="@color/secondary_color"
                             android:text="ADD TO CART" />
                     </androidx.cardview.widget.CardView>
 
@@ -236,7 +239,18 @@
 
             </androidx.cardview.widget.CardView>
 
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="OTHER PRODUCTS FROM SAME SELLER"
+                android:textColor="@color/secondary_color" />
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/suggestionList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/secondary_color" />

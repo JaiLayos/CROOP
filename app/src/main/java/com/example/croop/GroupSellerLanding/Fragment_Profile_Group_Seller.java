@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.croop.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,14 +26,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Map;
 
 public class Fragment_Profile_Group_Seller extends Fragment {
 
-    FirebaseFirestore db;
-    FirebaseAuth mAuth;
-    TextView userName, userRole, userBio, userEmail, userPhone, userAddress, userGroup;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private TextView userName, userRole, userBio, userEmail, userPhone, userAddress, userGroup;
+    private StorageReference storageRef;
 
     public Fragment_Profile_Group_Seller(){
 
@@ -58,12 +63,32 @@ public class Fragment_Profile_Group_Seller extends Fragment {
         userAddress = rootView.findViewById(R.id.userCityText);
         userGroup = rootView.findViewById(R.id.userGroupText);
 
+        ImageView displayPicture = rootView.findViewById(R.id.profilePicture);
+
         initializeComponents(collection);
 
         Button edit = rootView.findViewById(R.id.profileEditButton);
         edit.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_Edit_Profile.class);
             startActivity(intent);
+        });
+        FirebaseUser user = mAuth.getCurrentUser();
+        String userId = user.getUid();
+
+        storageRef = FirebaseStorage.getInstance().getReference()
+                .child("Profile Picture")
+                .child(userId)
+                .child("Display");
+
+        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            Glide.with(this)
+                    .load(uri.toString())
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.sun)
+                    .into(displayPicture);
+        }).addOnFailureListener(e -> {
+            Log.e("FirebaseImageError", "Failed to get download URL: " + e.getMessage());
+            displayPicture.setImageResource(R.drawable.logo);
         });
 
         return rootView;

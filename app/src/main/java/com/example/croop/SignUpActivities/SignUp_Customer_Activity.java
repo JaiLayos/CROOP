@@ -15,7 +15,7 @@ import com.example.croop.SignIn_Activity;
 import com.example.croop.model.Customer;
 import com.example.croop.singleton.CustomerSingleton;
 
-public class SignUp_Indiv_Cust_Activity extends AppCompatActivity {
+public class SignUp_Customer_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class SignUp_Indiv_Cust_Activity extends AppCompatActivity {
         initializeComponents();
         TextView signInHyperlink = findViewById(R.id.signInHyperlink);
         signInHyperlink.setOnClickListener(view -> {
-            Intent intent = new Intent(SignUp_Indiv_Cust_Activity.this, SignIn_Activity.class);
+            Intent intent = new Intent(SignUp_Customer_Activity.this, SignIn_Activity.class);
             startActivity(intent);
         });
     }
@@ -63,7 +63,7 @@ public class SignUp_Indiv_Cust_Activity extends AppCompatActivity {
             customer.setAge(age_customer);
             CustomerSingleton.getInstance().setCustomer(customer);
 
-            Intent intent = new Intent(SignUp_Indiv_Cust_Activity.this, SignUp_Indiv_Cust_Activity_2.class);
+            Intent intent = new Intent(SignUp_Customer_Activity.this, SignUp_Customer_Activity_2.class);
             startActivity(intent);
         });
     }

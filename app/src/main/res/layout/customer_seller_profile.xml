@@ -4,16 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:background="@color/beige_brackground">
+    android:background="@color/beige_brackground"
+    android:translationZ="1dp">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
+
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -26,18 +32,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/backButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:clickable="true"
+                        android:contentDescription="back"
+                        app:backgroundTint="@color/highlight_green"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/back" />
+
                     <ImageView
                         android:id="@+id/profilePicture"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
-                        android:layout_marginTop="50dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="50dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/dummy_profile"
+                        android:src="@drawable/logo"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@+id/backButton" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -76,7 +95,6 @@
                         android:id="@+id/userBioText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="30dp"
                         android:fontFamily="@font/mulish_medium"
                         android:text="Bio hehehehe"
                         android:textAlignment="center"
@@ -88,9 +106,7 @@
                 android:id="@+id/profileDetailsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/beige_brackground"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="0dp">
+                app:cardBackgroundColor="@color/beige_brackground">
 
                 <TableLayout
                     android:layout_width="match_parent"
@@ -182,97 +198,36 @@
                 </TableLayout>
             </androidx.cardview.widget.CardView>
 
-            <Button
-                android:id="@+id/changeEmailButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="70dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/secondary_color"
-                android:fontFamily="@font/inter_medium"
-                android:text="PALITAN ANG PROFILE"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/logOutButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/highlight_green"
-                android:fontFamily="@font/inter_medium"
-                android:text="@string/logout"
-                android:textSize="20sp" />
-
-            <TableLayout
+            <androidx.cardview.widget.CardView
+                android:id="@+id/profileEditContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="100dp"
-                android:stretchColumns="1">
+                app:cardBackgroundColor="@color/beige_brackground">
 
-                <TableRow
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/textView11"
-                        android:layout_width="wrap_content"
+                    <Button
+                        android:id="@+id/contactButton"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_marginStart="80dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="80dp"
+                        android:layout_marginBottom="70dp"
+                        android:backgroundTint="@color/secondary_color"
                         android:fontFamily="@font/inter_semibold"
-                        android:text="@string/contact_us"
-                        android:textAlignment="center"
-                        android:textSize="16sp" />
-                </TableRow>
+                        android:text="KONTAKIN"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textView12"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/mulish_medium"
-                        android:text="@string/Click_which_one_would_you_like_to_reach_out_to"
-                        android:textAlignment="center"
-                        android:textSize="14sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/daText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/inter_medium"
-                        android:text="Department of Agriculture"
-                        android:textAlignment="center"
-                        android:textColor="@color/highlight_green"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/cdaText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/inter_medium"
-                        android:text="Cooperative Development Authority"
-                        android:textAlignment="center"
-                        android:textColor="@color/highlight_green"
-                        android:textSize="14sp" />
-
-                </TableRow>
-
-            </TableLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

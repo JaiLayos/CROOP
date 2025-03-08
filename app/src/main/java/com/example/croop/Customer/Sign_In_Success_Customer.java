@@ -53,7 +53,7 @@ public class Sign_In_Success_Customer extends AppCompatActivity {
                     tab.setText("Cart");
                     break;
                 case 4:
-                    tab.setText("Profile");
+                    tab.setText("Orders");
                     break;
                 case 5:
                     tab.setText("Account");
@@ -104,7 +104,7 @@ public class Sign_In_Success_Customer extends AppCompatActivity {
             case "Individual Business User":
                 collection = "Individual Sellers";
                 break;
-            case "Individual Customer User":
+            case "Customer User":
                 collection = "Customers";
                 break;
             case "Group Customer User":

@@ -108,7 +108,8 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
         indivSellerProfile.put("Name", individualSellers.getName());
         indivSellerProfile.put("Password", individualSellers.getPassword());
         indivSellerProfile.put("Phone Number", individualSellers.getPhoneNum());
-        indivSellerProfile.put("Role", cr.getRole());
+        individualSellers.setRoles(cr.getRole());
+        indivSellerProfile.put("Role", individualSellers.getRoles());
 
         db.collection("Individual Sellers").document(userId)
                 .set(indivSellerProfile)

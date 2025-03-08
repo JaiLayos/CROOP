@@ -19,35 +19,35 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
-public class InSeasonAdapter extends RecyclerView.Adapter<InSeasonAdapter.InSeasonViewHolder> {
+public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.SuggestionsViewHolder> {
     private Context context;
-    private List<ProductDTO> products;
+    private List<ProductDTO> suggestionList;
     private OnItemClickListener listener;
 
-    public interface OnItemClickListener {
+    public interface OnItemClickListener{
         void onItemClick(ProductDTO productDTO);
     }
 
-    public InSeasonAdapter(Context context, List<ProductDTO> products, OnItemClickListener listener){
+    public SuggestionsAdapter(Context context, List<ProductDTO> productDTOList, OnItemClickListener listener){
         this.context = context;
-        this.products = products;
+        this.suggestionList = productDTOList;
         this.listener = listener;
     }
 
     @NonNull
     @Override
-    public InSeasonAdapter.InSeasonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_home_customer_inseason, parent, false);
-        return new InSeasonViewHolder(view);
+    public SuggestionsAdapter.SuggestionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_home_customer_indemand, parent, false);
+        return new SuggestionsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull InSeasonAdapter.InSeasonViewHolder holder, int position) {
-        ProductDTO product = products.get(position);
-        holder.productName.setText(product.getProductName());
+    public void onBindViewHolder(@NonNull SuggestionsAdapter.SuggestionsViewHolder holder, int position) {
+        ProductDTO productDTO = suggestionList.get(position);
+        holder.productName.setText(productDTO.getProductName());
 
-        String firebaseID = product.getFirebaseID();
-        String fileName = product.getProductName();
+        String firebaseID = productDTO.getFirebaseID();
+        String fileName = productDTO.getProductName();
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference()
                 .child("Products")
@@ -57,12 +57,12 @@ public class InSeasonAdapter extends RecyclerView.Adapter<InSeasonAdapter.InSeas
         loadImage(storageRef, holder);
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onItemClick(product);
+                listener.onItemClick(productDTO);
             }
         });
     }
 
-    private void loadImage(StorageReference storageRef, InSeasonViewHolder holder) {
+    private void loadImage(StorageReference storageRef, SuggestionsViewHolder holder) {
         Context appContext = holder.itemView.getContext().getApplicationContext();
         storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
             if (holder.itemView.isAttachedToWindow()) {
@@ -70,26 +70,26 @@ public class InSeasonAdapter extends RecyclerView.Adapter<InSeasonAdapter.InSeas
                         .load(uri.toString())
                         .placeholder(R.drawable.logo)
                         .error(R.drawable.sun)
-                        .into(holder.productPhoto);
+                        .into(holder.productProfile);
             }
         }).addOnFailureListener(e -> {
             Log.e("FirebaseImageError", "Failed to get download URL: " + e.getMessage());
-            holder.productPhoto.setImageResource(R.drawable.logo);
+            holder.productProfile.setImageResource(R.drawable.logo);
         });
     }
 
     @Override
     public int getItemCount() {
-        return products.size();
+        return suggestionList.size();
     }
 
-    public static class InSeasonViewHolder extends RecyclerView.ViewHolder {
+    public class SuggestionsViewHolder extends RecyclerView.ViewHolder{
+        ImageView productProfile;
         TextView productName;
-        ImageView productPhoto;
-        public InSeasonViewHolder(@NonNull View itemView) {
+        public SuggestionsViewHolder(@NonNull View itemView) {
             super(itemView);
+            productProfile = itemView.findViewById(R.id.productProfile);
             productName = itemView.findViewById(R.id.productNameText);
-            productPhoto = itemView.findViewById(R.id.productProfile);
         }
     }
 }

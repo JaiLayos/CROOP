@@ -1,7 +1,5 @@
 package com.example.croop.Customer;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,101 +8,189 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.croop.GroupSellerLanding.Activity_Edit_Profile;
 import com.example.croop.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.croop.model.FeaturedSellersDTO;
+import com.example.croop.retrofit.RetrofitService;
+import com.example.croop.retrofit.UserAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Fragment_Seller_Customer extends Fragment {
-    FirebaseFirestore db;
-    FirebaseAuth mAuth;
-    TextView userName, userRole, userBio, userEmail, userPhone, userAddress, userGroup;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private RecyclerView recyclerView;
+    private List<FeaturedSellersDTO> featuredSellers;
+    private RetrofitService RetrofitClient;
+    private UserAPI userAPI;
 
-    public Fragment_Seller_Customer(){
 
+    public Fragment_Seller_Customer() {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.profile_individual_seller, container, false);
-
-        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", getContext().MODE_PRIVATE);
-        String collection = prefs.getString("user_collection", null);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.customer_seller_list, container, false);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", getContext().MODE_PRIVATE);
+        String role = prefs.getString("user_role", null);
 
-        userName = rootView.findViewById(R.id.userNameText);
-        userRole = rootView.findViewById(R.id.userPositionText);
-        userBio = rootView.findViewById(R.id.userBioText);
-        userEmail = rootView.findViewById(R.id.userEmailText);
-        userPhone = rootView.findViewById(R.id.userPhoneNumberText);
-        userAddress = rootView.findViewById(R.id.userCityText);
+        recyclerView = view.findViewById(R.id.sellerList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
 
-        initializeComponents(collection);
+        userAPI = RetrofitClient.getClient().create(UserAPI.class);
+        featuredSellers = new ArrayList<>();
+        Call<List<FeaturedSellersDTO>> groupSellersCall = userAPI.getAllGroupSellers();
+        groupSellersCall.enqueue(new Callback<List<FeaturedSellersDTO>>() {
+            @Override
+            public void onResponse(Call<List<FeaturedSellersDTO>> call, Response<List<FeaturedSellersDTO>> response) {
+                if(response.isSuccessful()){
+                    for(FeaturedSellersDTO sellers : response.body()){
+                        FeaturedSellersDTO featuredSellersDTO = new FeaturedSellersDTO();
+                        featuredSellersDTO = addFeaturedSellers(featuredSellersDTO, sellers);
+                        featuredSellers.add(featuredSellersDTO);
+                    }
+                    featuredIndividualSellers(featuredSellers);
+                }else{
+                    Log.e("RetrofitAPI", "Error: " + response.code());
+                }
+            }
 
-        Button edit = rootView.findViewById(R.id.profileEditButton);
-        edit.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Activity_Edit_Profile.class);
-            startActivity(intent);
+            @Override
+            public void onFailure(Call<List<FeaturedSellersDTO>> call, Throwable t) {
+                Log.e("RetrofitAPI", "Error: " + t.getMessage());
+            }
         });
 
-        return rootView;
+
+        EditText searchText;
+        searchText = view.findViewById(R.id.searchText);
+
+        List<FeaturedSellersDTO> searchList = new ArrayList<>();
+        Button search = view.findViewById(R.id.searchButton);
+        search.setOnClickListener(v -> {
+            featuredSellers = new ArrayList<>();
+            String searched = searchText.getText().toString().trim();
+            if(searchText == null){
+                addToList();
+            }else{
+                Call<List<FeaturedSellersDTO>> group = userAPI.getGroupSellerByGroupName(searched);
+                group.enqueue(new Callback<List<FeaturedSellersDTO>>() {
+                    @Override
+                    public void onResponse(Call<List<FeaturedSellersDTO>> call, Response<List<FeaturedSellersDTO>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            for(FeaturedSellersDTO sellers : response.body()){
+                                FeaturedSellersDTO featuredSellersDTO = new FeaturedSellersDTO();
+                                featuredSellersDTO = addFeaturedSellers(featuredSellersDTO, sellers);
+                                featuredSellers.add(featuredSellersDTO);
+                            }
+                            findIndividualSellers(featuredSellers, searched);
+                        } else {
+                            addToList();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<FeaturedSellersDTO>> call, Throwable t) {
+                        Log.e("RetrofitAPI", "Error fetching group discounts: " + t.getMessage());
+                    }
+                });
+            }
+        });
+
+        return view;
     }
 
-    private void initializeComponents(String collection) {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            DocumentReference docRef = db.collection(collection).document(user.getUid());
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Map<String, Object> address_map = (Map<String, Object>) document.get("Address");
-
-                            // Access individual fields
-                            String city = (String) address_map.get("City");
-                            String country = (String) address_map.get("Country");
-                            String streetName = (String) address_map.get("House_Street_Name");
-                            String postalCode = (String) address_map.get("Postal_Code");
-                            String state = (String) address_map.get("State_Province_Region");
-                            String subdivision = (String) address_map.get("Subdivision_Baranggay");
-
-                            String name_user = document.getString("Name");
-                            userName.setText(name_user);
-                            String role_user = document.getString("Position");
-                            userRole.setText(role_user);
-                            String bio_user = document.getString("Bio");
-                            userBio.setText(bio_user);
-                            String email_user = document.getString("Email");
-                            userEmail.setText(email_user);
-                            String phone_user = document.getString("Phone Number");
-                            userPhone.setText(phone_user);
-                            userAddress.setText(streetName + ", " + subdivision + ", " + city + ", " + state + ", " + postalCode + ", " + country);
-                        } else {
-                            Log.d(TAG, "No such document");
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
+    private void findIndividualSellers(List<FeaturedSellersDTO> featuredSellers, String searched) {
+        Call<List<FeaturedSellersDTO>> featuredIndividuals = userAPI.findIndividualSellerByName(searched);
+        featuredIndividuals.enqueue(new Callback<List<FeaturedSellersDTO>>() {
+            @Override
+            public void onResponse(Call<List<FeaturedSellersDTO>> call, Response<List<FeaturedSellersDTO>> response) {
+                if(response.isSuccessful()){
+                    for(FeaturedSellersDTO sellers : response.body()){
+                        FeaturedSellersDTO featuredSellersDTO = new FeaturedSellersDTO();
+                        featuredSellersDTO = addFeaturedSellers(featuredSellersDTO, sellers);
+                        featuredSellers.add(featuredSellersDTO);
                     }
+                    addToList();
                 }
-            });
-        }
+            }
+
+            @Override
+            public void onFailure(Call<List<FeaturedSellersDTO>> call, Throwable t) {
+                Log.e("RetrofitAPI", "Error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void addToList() {
+        SellerListAdapter adapter = new SellerListAdapter(getContext(), featuredSellers, new FeaturedSellerAdapter.OnItemClickListener() {
+            @Override
+            public void onViewProfileClick(FeaturedSellersDTO featuredSellersDTO) {
+                Intent intent = new Intent(getActivity(),Activity_Seller_Profile.class);
+                String kindOfSeller = featuredSellersDTO.getRole();
+                String firebaseID = featuredSellersDTO.getFirebaseID();
+                int id = featuredSellersDTO.getId();
+                intent.putExtra("seller", kindOfSeller);
+                intent.putExtra("seller_id", id);
+                intent.putExtra("firebase_id", firebaseID);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onViewProductsClick(FeaturedSellersDTO featuredSellersDTO) {
+                Toast.makeText(getContext(), "View Products: " + featuredSellersDTO.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void featuredIndividualSellers(List<FeaturedSellersDTO> featuredSellers) {
+        Call<List<FeaturedSellersDTO>> featuredIndividuals = userAPI.getAllIndividualSellersDTO();
+        featuredIndividuals.enqueue(new Callback<List<FeaturedSellersDTO>>() {
+            @Override
+            public void onResponse(Call<List<FeaturedSellersDTO>> call, Response<List<FeaturedSellersDTO>> response) {
+                if(response.isSuccessful()){
+                    for(FeaturedSellersDTO sellers : response.body()){
+                        FeaturedSellersDTO featuredSellersDTO = new FeaturedSellersDTO();
+                        featuredSellersDTO = addFeaturedSellers(featuredSellersDTO, sellers);
+                        featuredSellers.add(featuredSellersDTO);
+                    }
+                    addToList();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<FeaturedSellersDTO>> call, Throwable t) {
+                Log.e("RetrofitAPI", "Error: " + t.getMessage());
+            }
+        });
+    }
+
+    private FeaturedSellersDTO addFeaturedSellers(FeaturedSellersDTO featuredSellersDTO, FeaturedSellersDTO sellers) {
+        featuredSellersDTO.setId(sellers.getId());
+        featuredSellersDTO.setName(sellers.getName());
+        featuredSellersDTO.setRole(sellers.getRole());
+        featuredSellersDTO.setFirebaseID(sellers.getFirebaseID());
+        return featuredSellersDTO;
     }
 }

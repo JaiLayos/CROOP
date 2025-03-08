@@ -54,7 +54,7 @@ public class PromoAdapter extends RecyclerView.Adapter<PromoAdapter.PromoViewHol
         // Bind data to the views
         DiscountDTO currentItem = promoList.get(position);
         holder.productName.setText(currentItem.getItemName());
-        holder.productDiscount.setText(String.valueOf(currentItem.getDiscountPercent() * 10) + "%");
+        holder.productDiscount.setText(String.valueOf(currentItem.getDiscountPercent() * 100) + "%");
         holder.off.setText(currentItem.getSellerName());
 
         String firebaseID = currentItem.getFirebaseID();

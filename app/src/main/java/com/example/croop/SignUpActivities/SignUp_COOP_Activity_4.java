@@ -193,6 +193,7 @@ public class SignUp_COOP_Activity_4 extends AppCompatActivity {
     private void sendToPostgres(GroupSellers groupSellers, String userID) {
         try {
             groupSellers.setFirebaseID(userID);
+            groupSellers.setBio("Hi! I'm new here.");
             UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
             Call<Void> call = userAPI.sendGroupSellers(groupSellers);
             call.enqueue(new Callback<Void>() {
