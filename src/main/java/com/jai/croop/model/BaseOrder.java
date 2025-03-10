@@ -1,5 +1,6 @@
 package com.jai.croop.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jai.croop.AddressConverter;
 import jakarta.persistence.Convert;
 import jakarta.persistence.MappedSuperclass;
@@ -12,7 +13,8 @@ public class BaseOrder {
     @Convert(converter = AddressConverter.class)
     private Map<String, Integer> orderList;
     private int orderPrice;
-    private final Date orderDate;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Date orderDate;
     private String orderType;
     private String orderStatus;
 

@@ -1,10 +1,7 @@
 package com.jai.croop.controller;
 
 import com.jai.croop.model.*;
-import com.jai.croop.service.GroupSellersOrdersService;
-import com.jai.croop.service.IGroupSellersService;
 import com.jai.croop.service.IIndividualSellersService;
-import com.jai.croop.service.IndividualSellersOrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +15,6 @@ public class IndividualSellerController {
     @Autowired
     public IIndividualSellersService individualSellersService;
 
-    @Autowired
-    public IndividualSellersOrdersService individualSellersOrdersService;
 
     @PostMapping
     public ResponseEntity<IndividualSellers> addIndividualSellers(@RequestBody IndividualSellers individualSellers){
@@ -80,11 +75,13 @@ public class IndividualSellerController {
         }
         return ResponseEntity.ok(featured);
     }
+
+    /**
     @GetMapping("/orders/{firebaseID}")
     public ResponseEntity<List<SellerOrdersDTO>> getIndividualSellersbyFirebase(@PathVariable String firebaseID){
         int id = individualSellersService.getIndividualSellerIdByFirebaseID(firebaseID);
         return ResponseEntity.ok(individualSellersOrdersService.findByIndividualSellerID(id));
-    }
+    }*/
 
     @GetMapping("/details/{firebaseID}")
     public ResponseEntity<IndividualSellers> getIndividualSellersbyFirebaseID(@PathVariable String firebaseID){

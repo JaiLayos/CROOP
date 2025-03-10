@@ -61,9 +61,13 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
 
     @Override
     public List<GroupSellersProductsInventory> findByItemName(String itemName) {
-        //List<GroupSellersProductsInventory> selection = groupSellersProductsRepository.findByFirebaseID(firebaseID);
         List<GroupSellersProductsInventory> products = groupSellersProductsRepository.findByItemName(itemName);
         return products;
+    }
+
+    @Override
+    public List<GroupSellersProductsInventory> findByItemNameAndGroupSellers_Id(String itemName, int sellerId) {
+        return groupSellersProductsRepository.findByItemNameAndGroupSellers_Id(itemName, sellerId);
     }
 
     @Override

@@ -2,9 +2,11 @@ package com.jai.croop.controller;
 
 import com.jai.croop.model.Cart;
 import com.jai.croop.model.CartDTO;
+import com.jai.croop.model.CartGroupedResponseDTO;
 import com.jai.croop.service.ICartService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,21 @@ public class CartController {
     private ICartService cartService;
 
     @PostMapping
-    public ResponseEntity<Cart> addCart(@RequestBody Cart cart) {
-        return ResponseEntity.ok(cartService.addCart(cart));
+    public ResponseEntity<?> addCart(@RequestBody Cart cart) {
+        try {
+            Cart savedCart = cartService.addCart(cart);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedCart);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/grouped/{customerId}")
+    public ResponseEntity<CartGroupedResponseDTO> getGroupedCart(
+            @PathVariable int customerId) {
+        CartGroupedResponseDTO response = cartService.getGroupedCartByCustomer(customerId);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/from-group")
@@ -36,6 +51,7 @@ public class CartController {
             cartDTO.setCustomerName(cart.getCustomer().getName());
             cartDTO.setSellerID(cart.getGroupSellers().getId());
             cartDTO.setSellerName(cart.getGroupSellers().getGroupName());
+            cartDTO.setFirebaseID(cart.getGroupSellers().getFirebaseID());
             cartDTOS.add(cartDTO);
         }
         return ResponseEntity.ok(cartDTOS);
@@ -55,6 +71,7 @@ public class CartController {
             cartDTO.setCustomerName(cart.getCustomer().getName());
             cartDTO.setSellerID(cart.getIndividualSellers().getId());
             cartDTO.setSellerName(cart.getIndividualSellers().getName());
+            cartDTO.setFirebaseID(cart.getIndividualSellers().getFirebaseID());
             cartDTOS.add(cartDTO);
         }
         return ResponseEntity.ok(cartDTOS);
@@ -70,6 +87,7 @@ public class CartController {
         cartDTO.setPrice(cart.getPrice());
         cartDTO.setSellerID(cart.getGroupSellers().getId());
         cartDTO.setSellerName(cart.getGroupSellers().getGroupName());
+        cartDTO.setFirebaseID(cart.getGroupSellers().getFirebaseID());
         cartDTO.setCustomerID(cart.getCustomer().getId());
         cartDTO.setCustomerName(cart.getCustomer().getName());
         return ResponseEntity.ok(cartDTO);
@@ -85,6 +103,7 @@ public class CartController {
         cartDTO.setPrice(cart.getPrice());
         cartDTO.setSellerID(cart.getIndividualSellers().getId());
         cartDTO.setSellerName(cart.getIndividualSellers().getName());
+        cartDTO.setFirebaseID(cart.getIndividualSellers().getFirebaseID());
         cartDTO.setCustomerID(cart.getCustomer().getId());
         cartDTO.setCustomerName(cart.getCustomer().getName());
         return ResponseEntity.ok(cartDTO);
@@ -104,6 +123,7 @@ public class CartController {
             cartDTO.setCustomerName(cart.getCustomer().getName());
             cartDTO.setSellerID(cart.getGroupSellers().getId());
             cartDTO.setSellerName(cart.getGroupSellers().getGroupName());
+            cartDTO.setFirebaseID(cart.getGroupSellers().getFirebaseID());
             cartDTOS.add(cartDTO);
         }
         return ResponseEntity.ok(cartDTOS);
@@ -123,6 +143,7 @@ public class CartController {
             cartDTO.setCustomerName(cart.getCustomer().getName());
             cartDTO.setSellerID(cart.getIndividualSellers().getId());
             cartDTO.setSellerName(cart.getIndividualSellers().getName());
+            cartDTO.setFirebaseID(cart.getIndividualSellers().getFirebaseID());
             cartDTOS.add(cartDTO);
         }
         return ResponseEntity.ok(cartDTOS);

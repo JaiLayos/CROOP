@@ -3,7 +3,6 @@ package com.jai.croop.controller;
 import com.jai.croop.model.FeaturedSellersDTO;
 import com.jai.croop.model.SellerOrdersDTO;
 import com.jai.croop.model.GroupSellers;
-import com.jai.croop.service.GroupSellersOrdersService;
 import com.jai.croop.service.IGroupSellersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +18,7 @@ public class GroupSellerController {
     @Autowired
     public IGroupSellersService groupSellersService;
 
-    @Autowired
-    public GroupSellersOrdersService groupSellersOrdersService;
+
 
     @PostMapping
     public ResponseEntity<GroupSellers> addGroupSellers(@RequestBody GroupSellers groupSellers){
@@ -38,11 +36,12 @@ public class GroupSellerController {
         return ResponseEntity.ok(groupSellersService.findIDByFirebaseID(firebaseID));
     }
 
+    /**
     @GetMapping("/orders/{firebaseID}")
     public ResponseEntity<List<SellerOrdersDTO>> getGroupSellersbyFirebase(@PathVariable String firebaseID){
         int id = groupSellersService.getGroupSellerIdByFirebaseID(firebaseID);
         return ResponseEntity.ok(groupSellersOrdersService.findByGroupSellerID(id));
-    }
+    }*/
 
     @GetMapping("/details/{firebaseID}")
     public ResponseEntity<GroupSellers> getGroupSellersbyFirebaseID(@PathVariable String firebaseID){

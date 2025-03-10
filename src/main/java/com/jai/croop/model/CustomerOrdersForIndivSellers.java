@@ -1,6 +1,7 @@
 package com.jai.croop.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.Map;
@@ -52,5 +53,15 @@ public class CustomerOrdersForIndivSellers extends BaseOrder{
 
     public void setIndividualSellers(IndividualSellers individualSellers) {
         this.individualSellers = individualSellers;
+    }
+
+    @JsonProperty("customerId")
+    public int getCustomerId() {
+        return customer.getId();
+    }
+
+    @JsonProperty("groupSellerId")
+    public int getGroupSellerId() {
+        return individualSellers.getId();
     }
 }

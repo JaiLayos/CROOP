@@ -10,6 +10,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface GroupSellersProductsRepository extends JpaRepository<GroupSellersProductsInventory, Integer> {
+    List<GroupSellersProductsInventory> findByItemNameAndGroupSellers_Id(
+            String itemName,
+            int sellerId
+    );
     List<GroupSellersProductsInventory> findByItemName(String itemName);
     List<GroupSellersProductsInventory> findByGroupSellersId(int groupSellerId);
     @Query("SELECT g FROM GroupSellersProductsInventory g ORDER BY g.itemStart DESC")

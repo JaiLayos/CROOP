@@ -1,8 +1,6 @@
 package com.jai.croop.service;
 
 import com.jai.croop.model.GroupSellers;
-import com.jai.croop.model.GroupSellersOrders;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 

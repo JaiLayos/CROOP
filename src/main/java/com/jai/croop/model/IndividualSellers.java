@@ -15,10 +15,6 @@ public class IndividualSellers extends BaseUser{
     private int id;
 
     @OneToMany(mappedBy = "individualSellers", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonManagedReference("individual-orders")
-    private List<IndividualSellersOrders> individualSellersOrders;
-
-    @OneToMany(mappedBy = "individualSellers", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference("individual-inventory")
     private List<IndividualSellersItemInventory> individualSellersItemInventory;
 
@@ -44,13 +40,6 @@ public class IndividualSellers extends BaseUser{
         return id;
     }
 
-    public List<IndividualSellersOrders> getIndividualSellerOrders() {
-        return individualSellersOrders;
-    }
-
-    public void setIndividualSellerOrders(List<IndividualSellersOrders> individualSellersOrders) {
-        this.individualSellersOrders = individualSellersOrders;
-    }
 
     public List<IndividualSellersItemInventory> getIndividualSellerItems() {
         return individualSellersItemInventory;

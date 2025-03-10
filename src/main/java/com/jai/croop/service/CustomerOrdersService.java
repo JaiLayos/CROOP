@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class CustomerOrdersService implements ICustomerOrdersService{
     @Autowired
-    private CustomerOrdersForGroupRepository customerOrdersRepository;
+    private CustomerOrdersForGroupRepository customerOrdersForGroupRepository;
     @Autowired
     private CustomerOrdersForIndividualRepository customerOrdersForIndividualRepository;
     @Autowired
@@ -19,80 +19,110 @@ public class CustomerOrdersService implements ICustomerOrdersService{
     @Autowired
     private GroupSellersRepository groupSellersRepository;
     @Autowired
-    private GroupSellersOrdersService groupSellersOrdersService;
-    @Autowired
     private IndividualSellersRepository individualSellersRepository;
-    @Autowired
-    private IndividualSellersOrdersService individualSellersOrdersService;
+
 
 
     @Override
-    public CustomerOrdersForGroupSellers addCustomerOrdersToGroupOrders(CustomerOrdersForGroupSellers customerOrders, Customer customer, GroupSellers groupSellers){
-        customer = customerRepository.findById(customerOrders.getCustomer().getId())
+    public CustomerOrdersForGroupSellers addCustomerOrdersToGroupOrders(CustomerOrdersForGroupSellers customerOrders, int customerID, int groupSellerID){
+        Customer customer = customerRepository.findById(customerID)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
-        groupSellers = groupSellersRepository.findById(customerOrders.getGroupSeller().getId())
+        GroupSellers groupSellers = groupSellersRepository.findById(groupSellerID)
                 .orElseThrow(() -> new RuntimeException("Group Seller not found"));
 
         customerOrders.setCustomer(customer);
         customerOrders.setGroupSeller(groupSellers);
-        CustomerOrdersForGroupSellers saved = customerOrdersRepository.save(customerOrders);
-        GroupSellersOrders groupSellersOrders = new GroupSellersOrders();
-        groupSellersOrders.setOrderList(saved.getOrderList());
-        groupSellersOrders.setOrderPrice(saved.getOrderPrice());
-        groupSellersOrders.setOrderType(saved.getOrderType());
-        groupSellersOrders.setOrderStatus(saved.getOrderStatus());
-        groupSellersOrders.setCustomer(customer);
-        groupSellersOrders.setGroupSeller(groupSellers);
-        groupSellersOrdersService.addGroupSellerOrders(groupSellersOrders,customer,groupSellers);
+        CustomerOrdersForGroupSellers saved = customerOrdersForGroupRepository.save(customerOrders);
         return saved;
     }
 
     @Override
-    public CustomerOrdersForIndivSellers addCustomerOrdersToIndividualOrders(CustomerOrdersForIndivSellers customerOrders, Customer customer, IndividualSellers individualSellers){
-        customer = customerRepository.findById(customerOrders.getCustomer().getId())
+    public CustomerOrdersForIndivSellers addCustomerOrdersToIndividualOrders(CustomerOrdersForIndivSellers customerOrders, int customerID, int individualSellersID){
+        Customer customer = customerRepository.findById(customerID)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
-        individualSellers = individualSellersRepository.findById(customerOrders.getIndividualSellers().getId())
+        IndividualSellers individualSellers = individualSellersRepository.findById(individualSellersID)
                 .orElseThrow(() -> new RuntimeException("Individual Seller not found"));
 
         customerOrders.setCustomer(customer);
         customerOrders.setIndividualSellers(individualSellers);
         CustomerOrdersForIndivSellers saved = customerOrdersForIndividualRepository.save(customerOrders);
-        IndividualSellersOrders individualSellersOrders = new IndividualSellersOrders();
-        individualSellersOrders.setOrderList(saved.getOrderList());
-        individualSellersOrders.setOrderPrice(saved.getOrderPrice());
-        individualSellersOrders.setOrderType(saved.getOrderType());
-        individualSellersOrders.setOrderStatus(saved.getOrderStatus());
-        individualSellersOrders.setCustomer(customer);
-        individualSellersOrders.setIndividualSellers(individualSellers);
-        individualSellersOrdersService.addIndividualSellerOrders(individualSellersOrders,customer,individualSellers);
         return saved;
     }
 
     @Override
-    public CustomerOrdersForGroupSellers getCustomerOrders(int id) {
-        return customerOrdersRepository.findById(id).orElseThrow(() -> new RuntimeException("Order doesn't exist."));
+    public CustomerOrdersForGroupSellers getCustomerOrdersFromGroup(int id) {
+        return customerOrdersForGroupRepository.findById(id).orElseThrow(() -> new RuntimeException("Order doesn't exist."));
     }
 
     @Override
-    public List<CustomerOrdersForGroupSellers> getAllCustomerOrders() {
-        return customerOrdersRepository.findAll();
+    public CustomerOrdersForIndivSellers getCustomerOrdersFromIndividual(int id) {
+        return customerOrdersForIndividualRepository.findById(id).orElseThrow(() -> new RuntimeException("Order doesn't exist."));
+    }
+
+    @Override
+    public List<CustomerOrdersForGroupSellers> getAllCustomerOrdersFromGroup() {
+        return customerOrdersForGroupRepository.findAll();
+    }
+
+    @Override
+    public List<CustomerOrdersForGroupSellers> groupSellersFindByCustomerId(int id) {
+        return customerOrdersForGroupRepository.findByCustomer_Id(id);
+    }
+
+    @Override
+    public List<CustomerOrdersForGroupSellers> findByGroupSellerId(int id) {
+        return customerOrdersForGroupRepository.findByGroupSeller_Id(id);
+    }
+
+    @Override
+    public List<CustomerOrdersForIndivSellers> individualSellersFindByCustomerId(int id) {
+        return customerOrdersForIndividualRepository.findByCustomer_Id(id);
+    }
+
+    @Override
+    public List<CustomerOrdersForIndivSellers> findByindividualSellerId(int id) {
+        return customerOrdersForIndividualRepository.findByIndividualSellers_Id(id);
+    }
+
+
+    @Override
+    public List<CustomerOrdersForIndivSellers> getAllCustomerOrdersFromIndividual() {
+        return null;
     }
 
     @Transactional
     @Override
-    public CustomerOrdersForGroupSellers updateCustomerOrders(int id, CustomerOrdersForGroupSellers updatedCustomerOrders) {
-        CustomerOrdersForGroupSellers customerOrders = getCustomerOrders(id);
+    public CustomerOrdersForGroupSellers updateCustomerOrdersFromGroup(int id, CustomerOrdersForGroupSellers updatedCustomerOrders) {
+        CustomerOrdersForGroupSellers customerOrders = getCustomerOrdersFromGroup(id);
         customerOrders.setOrderList(updatedCustomerOrders.getOrderList());
         customerOrders.setOrderPrice(updatedCustomerOrders.getOrderPrice());
         customerOrders.setOrderStatus(updatedCustomerOrders.getOrderStatus());
-        return customerOrdersRepository.save(customerOrders);
+        return customerOrdersForGroupRepository.save(customerOrders);
     }
+
+    @Override
+    public CustomerOrdersForIndivSellers updateCustomerOrdersFromIndividual(int id, CustomerOrdersForIndivSellers updatedCustomerOrders) {
+        CustomerOrdersForIndivSellers customerOrders = getCustomerOrdersFromIndividual(id);
+        customerOrders.setOrderList(updatedCustomerOrders.getOrderList());
+        customerOrders.setOrderPrice(updatedCustomerOrders.getOrderPrice());
+        customerOrders.setOrderStatus(updatedCustomerOrders.getOrderStatus());
+        return customerOrdersForIndividualRepository.save(customerOrders);    }
 
     @Transactional
     @Override
-    public void deleteCustomerOrders(int id) {
-        customerOrdersRepository.deleteById(id);
+    public void deleteGroupCustomerOrders(int id) {
+        customerOrdersForGroupRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteIndividualCustomerOrders(int id) {
+        customerOrdersForIndividualRepository.deleteById(id);
+    }
+
+    @Override
+    public List<DailySalesDTO> getDailySalesForGroupSeller(int sellerId) {
+        return customerOrdersForGroupRepository.findDailySalesByGroupSellerId(sellerId);
     }
 }

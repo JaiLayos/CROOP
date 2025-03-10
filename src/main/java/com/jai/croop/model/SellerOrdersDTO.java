@@ -13,7 +13,9 @@ public class SellerOrdersDTO {
     private int customerId; // Include the customer ID
     private String customerName; // Optionally include the customer name
 
-    // Constructor, getters, setters...
+    public SellerOrdersDTO(){
+
+    }
     public SellerOrdersDTO(int id, Date orderDate, Map<String, Integer> orderList,
                            int orderPrice, String orderType, String orderStatus, int customerId, String customerName) {
         this.id = id;
@@ -32,8 +34,12 @@ public class SellerOrdersDTO {
     public int getId() {
         return id;
     }
-    public Date getOrderDate(){
-        return new Date(orderDate.getTime());
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
     public void setOrderList(Map<String, Integer> orderList){

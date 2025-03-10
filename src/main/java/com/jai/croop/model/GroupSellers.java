@@ -19,10 +19,6 @@ public class GroupSellers extends BaseUser{
     private String position;
 
     @OneToMany(mappedBy = "groupSeller", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonManagedReference("group-orders")
-    private List<GroupSellersOrders> groupSellerOrders;
-
-    @OneToMany(mappedBy = "groupSeller", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference("group-inventory")
     private List<GroupSellersItemInventory> groupSellersItemInventoryList;
 
@@ -65,14 +61,6 @@ public class GroupSellers extends BaseUser{
 
     public void setPosition(String position) {
         this.position = position;
-    }
-
-    public List<GroupSellersOrders> getGroupSellerOrders() {
-        return groupSellerOrders;
-    }
-
-    public void setGroupSellerOrders(List<GroupSellersOrders> groupSellerOrders) {
-        this.groupSellerOrders = groupSellerOrders;
     }
 
     public List<GroupSellersItemInventory> getGroupSellerItems() {

@@ -1,13 +1,10 @@
 package com.jai.croop.service;
 
-import com.jai.croop.model.GroupSellers;
 import com.jai.croop.model.IndividualSellers;
-import com.jai.croop.repository.IndividualSellersOrdersRepository;
 import com.jai.croop.repository.IndividualSellersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,8 +14,6 @@ import java.util.List;
 public class IndividualSellersService implements IIndividualSellersService{
     @Autowired
     IndividualSellersRepository individualSellersRepository;
-    @Autowired
-    IndividualSellersOrdersRepository individualSellersOrdersRepository;
     @Override
     public IndividualSellers addIndividualSellers(IndividualSellers individualSellers) {
         return individualSellersRepository.save(individualSellers);

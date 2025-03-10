@@ -41,7 +41,7 @@ public class GroupSellerProductsController {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setProductID(groupSellersProductsInventory.getId());
         productDTO.setProductName(groupSellersProductsInventory.getItemName());
-        productDTO.setSellerID(groupSellersProductsInventory.getGroupSellerDiscounts().getId());
+        productDTO.setSellerID(groupSellersProductsInventory.getGroupSellers().getId());
         productDTO.setProductPrice(groupSellersProductsInventory.getGroupSellerDiscounts().getOriginalPrice());
         productDTO.setProductDiscount(groupSellersProductsInventory.getGroupSellerDiscounts().getDiscountPercent());
         productDTO.setProductFinalPrice(groupSellersProductsInventory.getGroupSellerDiscounts().getSalePrice());
@@ -55,6 +55,12 @@ public class GroupSellerProductsController {
     @GetMapping("/products/{itemName}")
     public ResponseEntity<List<GroupSellersProductsInventory>> getItemByName(@PathVariable String itemName){
         return ResponseEntity.ok(groupSellersProductsInventoryService.findByItemName(itemName));
+    }
+
+    @GetMapping("/products/{itemName}/{id}")
+    public ResponseEntity<List<GroupSellersProductsInventory>> getItemByNameByGroupID(@PathVariable String itemName,
+                                                                                      @PathVariable int id){
+        return ResponseEntity.ok(groupSellersProductsInventoryService.findByItemNameAndGroupSellers_Id(itemName, id));
     }
 
     @GetMapping("/productDTO/{itemName}")

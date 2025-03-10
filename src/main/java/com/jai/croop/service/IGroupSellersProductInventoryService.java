@@ -11,6 +11,10 @@ public interface IGroupSellersProductInventoryService {
     GroupSellersProductsInventory addItems(GroupSellersProductsInventory groupSellersProductsInventory, GroupSellers groupSellers);
     GroupSellersProductsInventory getItem(int id);
     List<GroupSellersProductsInventory> findByItemName(String itemName);
+    List<GroupSellersProductsInventory> findByItemNameAndGroupSellers_Id(
+            String itemName,
+            int sellerId
+    );
     List<GroupSellersProductsInventory> findByFirebaseID(String firebaseID);
     List<GroupSellersProductsInventory> getAllItems();
     List<GroupSellersProductsInventory> getTop3ProductsByItemStart();
