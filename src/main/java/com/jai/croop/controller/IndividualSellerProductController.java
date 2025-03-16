@@ -76,6 +76,16 @@ public class IndividualSellerProductController {
         return ResponseEntity.ok(individualSellersProductService.getItem(id));
     }
 
+    @GetMapping("checkSC/{id}")
+    public ResponseEntity<Boolean> checkIndividualSellerSC(@PathVariable int id){
+        return ResponseEntity.ok(individualSellersProductService.findIfSCIsSet(id));
+    }
+
+    @GetMapping("checkMC/{id}")
+    public ResponseEntity<Boolean> checkIndividualSellerMC(@PathVariable int id){
+        return ResponseEntity.ok(individualSellersProductService.findIfMCIsSet(id));
+    }
+
     @GetMapping("product/{id}")
     public ResponseEntity<ProductDTO> getIndividualProductDTO(@PathVariable int id){
         IndividualSellersProductsInventory individualSellersProductsInventory = individualSellersProductService.getItem(id);

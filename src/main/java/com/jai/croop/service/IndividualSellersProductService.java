@@ -85,6 +85,26 @@ public class IndividualSellersProductService implements IIndividualSellersProduc
         return individualSellersProductsRepository.findTop3ByLowestItemRemaining(pageRequest);
     }
 
+    @Override
+    public boolean findIfSCIsSet(int id) {
+        IndividualSellers individualSellers = individualSellersRepository.findById(id).orElseThrow(()-> new RuntimeException("Individual Seller does not exist!"));
+        boolean exist = false;
+        if(individualSellers.getProduct_inventory_SC() != 0) {
+            exist = true;
+        }
+        return exist;
+    }
+
+    @Override
+    public boolean findIfMCIsSet(int id) {
+        IndividualSellers individualSellers = individualSellersRepository.findById(id).orElseThrow(()-> new RuntimeException("Individual Seller does not exist!"));
+        boolean exist = false;
+        if(individualSellers.getProduct_inventory_MC() != 0) {
+            exist = true;
+        }
+        return exist;
+    }
+
     @Transactional
     @Override
     public IndividualSellersProductsInventory updateItems(int id, IndividualSellersProductsInventory newIndividualSellersProductsInventory) {

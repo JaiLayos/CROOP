@@ -105,6 +105,16 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
         return exist;
     }
 
+    @Override
+    public boolean findIfMCIsSet(int id) {
+        boolean exist = false;
+        GroupSellers groupSellers = groupSellersRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("GroupSeller does not exist!"));
+        if(groupSellers.getProduct_inventory_MC() != 0) {
+            exist = true;
+        }
+        return exist;    }
+
     @Transactional
     @Override
     public GroupSellersProductsInventory updateItems(int id, GroupSellersProductsInventory newGroupSellersProductsInventory) {
