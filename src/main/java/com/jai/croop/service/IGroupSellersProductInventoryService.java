@@ -19,6 +19,7 @@ public interface IGroupSellersProductInventoryService {
     List<GroupSellersProductsInventory> getAllItems();
     List<GroupSellersProductsInventory> getTop3ProductsByItemStart();
     List<GroupSellersProductsInventory> findTop3ByLowestItemRemaining();
+    boolean findIfSCIsSet(int id);
     GroupSellersProductsInventory updateItems(int id, GroupSellersProductsInventory groupSellersProductsInventory);
     void deleteItems(int id);
 }

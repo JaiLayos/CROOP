@@ -19,13 +19,16 @@ public class BaseUser {
     private Date createdAt;
     private Date updatedAt;
     private String roles;
+    private int product_inventory_SC; //setup cost
+    private int product_inventory_MC; //managing cost
 
     public BaseUser(){
 
     }
 
     public BaseUser(String firebaseID, String name, Map<String, String> address, String phoneNumber,
-                    String email, String bio, Date createdAt, Date updatedAt, String roles) {
+                    String email, String bio, Date createdAt, Date updatedAt, String roles,
+                    int product_inventory_SC, int product_inventory_MC) {
         this.firebaseID = firebaseID;
         this.name =  name;
         this.address = address;
@@ -35,6 +38,8 @@ public class BaseUser {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.roles = roles;
+        this.product_inventory_SC = product_inventory_SC;
+        this.product_inventory_MC = product_inventory_MC;
     }
 
     public void setFirebaseID(String firebaseID){this.firebaseID= firebaseID;}
@@ -98,4 +103,17 @@ public class BaseUser {
         this.roles = roles;
     }
 
+    public int getProduct_inventory_MC() {
+        return product_inventory_MC;
+    }
+    public void setProduct_inventory_MC(int product_inventory_MC) {
+        this.product_inventory_MC = product_inventory_MC;
+    }
+
+    public int getProduct_inventory_SC() {
+        return product_inventory_SC;
+    }
+    public void setProduct_inventory_SC(int product_inventory_SC) {
+        this.product_inventory_SC = product_inventory_SC;
+    }
 }

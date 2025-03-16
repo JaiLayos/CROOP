@@ -37,8 +37,10 @@ public class GroupSellers extends BaseUser{
 
     public GroupSellers(String firebaseID, String name, Map<String, String> address, String phoneNumber,
                         String email, String bio, Date createdAt, Date updatedAt, String roles,
+                        int product_inventory_SC, int product_inventory_MC,
                         String groupName, String position) {
-        super(firebaseID, name, address, phoneNumber, email, bio, createdAt, updatedAt, roles);
+        super(firebaseID, name, address, phoneNumber, email, bio, createdAt, updatedAt, roles,
+                product_inventory_SC, product_inventory_MC);
         this.groupName = groupName;
         this.position = position;
     }

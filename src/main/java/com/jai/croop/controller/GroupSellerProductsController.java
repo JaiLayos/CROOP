@@ -35,6 +35,12 @@ public class GroupSellerProductsController {
         return ResponseEntity.ok(groupSellersProductsInventoryService.getItem(id));
     }
 
+    //check if product SC is set
+    @GetMapping("checkSC/{id}")
+    public ResponseEntity<Boolean> checkGroupSellerSC(@PathVariable int id){
+        return ResponseEntity.ok(groupSellersProductsInventoryService.findIfSCIsSet(id));
+    }
+
     @GetMapping("product/{id}")
     public ResponseEntity<ProductDTO> getGroupProductDTO(@PathVariable int id){
         GroupSellersProductsInventory groupSellersProductsInventory = groupSellersProductsInventoryService.getItem(id);

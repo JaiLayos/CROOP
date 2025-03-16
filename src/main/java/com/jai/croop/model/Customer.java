@@ -21,8 +21,10 @@ public class Customer extends BaseUser{
     public Customer() {}
 
     public Customer(String firebaseID, String name, Map<String, String> address, String phoneNumber,
-                    String email, String bio, Date createdAt, Date updatedAt, String roles) {
-        super(firebaseID, name, address, phoneNumber, email, bio, createdAt, updatedAt, roles);
+                    String email, String bio, Date createdAt, Date updatedAt, String roles,
+                    int product_inventory_SC, int product_inventory_MC) {
+        super(firebaseID, name, address, phoneNumber, email, bio, createdAt, updatedAt, roles,
+                0, 0);
     }
 
     public int getId() {
