@@ -59,6 +59,8 @@ public class IndividualSellersService implements IIndividualSellersService{
         individualSellers.setBio(updated.getBio());
         individualSellers.setRoles(updated.getRoles());
         individualSellers.setUpdatedAt(date);
+        individualSellers.setProduct_inventory_SC(updated.getProduct_inventory_SC());
+        individualSellers.setProduct_inventory_MC(updated.getProduct_inventory_MC());
         return individualSellersRepository.save(individualSellers);
     }
 
@@ -74,6 +76,8 @@ public class IndividualSellersService implements IIndividualSellersService{
         individualSellers.setBio(updated.getBio());
         individualSellers.setRoles(updated.getRoles());
         individualSellers.setUpdatedAt(date);
+        individualSellers.setProduct_inventory_SC(updated.getProduct_inventory_SC());
+        individualSellers.setProduct_inventory_MC(updated.getProduct_inventory_MC());
         return individualSellersRepository.save(individualSellers);
     }
 

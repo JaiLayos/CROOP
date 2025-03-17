@@ -57,6 +57,8 @@ public class GroupSellersService implements IGroupSellersService{
         groupSellers.setGroupName(updatedGroupSellers.getGroupName());
         groupSellers.setRoles(updatedGroupSellers.getRoles());
         groupSellers.setUpdatedAt(date);
+        groupSellers.setProduct_inventory_SC(updatedGroupSellers.getProduct_inventory_SC());
+        groupSellers.setProduct_inventory_MC(updatedGroupSellers.getProduct_inventory_MC());
         return groupSellersRepository.save(groupSellers);
     }
 
@@ -74,6 +76,8 @@ public class GroupSellersService implements IGroupSellersService{
         groupSellers.setGroupName(updatedGroupSellers.getGroupName());
         groupSellers.setRoles(updatedGroupSellers.getRoles());
         groupSellers.setUpdatedAt(date);
+        groupSellers.setProduct_inventory_SC(updatedGroupSellers.getProduct_inventory_SC());
+        groupSellers.setProduct_inventory_MC(updatedGroupSellers.getProduct_inventory_MC());
         return groupSellersRepository.save(groupSellers);
     }
 
