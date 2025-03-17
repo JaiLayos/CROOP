@@ -42,7 +42,12 @@ public class CustomerOrdersController {
                 List<GroupSellersProductsInventory> productsInventories = groupSellersProductInventoryService.findByItemName(productName);
                 for(GroupSellersProductsInventory productsInventory:productsInventories){
                     int productID = productsInventory.getId();
-                    productsInventory.setItemUsed(quantity);
+                    int initialUsed = productsInventory.getItemUsed();
+                    int used = quantity + initialUsed;
+                    int currentStock = productsInventory.getItemStart();
+                    int remaining = currentStock - used;
+                    productsInventory.setItemUsed(used);
+                    productsInventory.setItemRemaining(remaining);
                     groupSellersProductInventoryService.updateItems(productID, productsInventory);
                 }
             }
