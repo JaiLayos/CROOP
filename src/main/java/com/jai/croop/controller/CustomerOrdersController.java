@@ -20,7 +20,9 @@ import java.util.Map;
 public class CustomerOrdersController {
     @Autowired
     private ICustomerOrdersService customerOrdersService;
+    @Autowired
     private ICartService cartService;
+    @Autowired
     private IGroupSellersProductInventoryService groupSellersProductInventoryService;
 
     // Group Order Endpoints
