@@ -19,8 +19,8 @@ public class BaseUser {
     private Date createdAt;
     private Date updatedAt;
     private String roles;
-    private int product_inventory_SC; //setup cost
-    private int product_inventory_MC; //managing cost
+    private int product_inventory_SC = 0; //setup cost
+    private int product_inventory_MC = 0; //managing cost
 
     public BaseUser(){
 

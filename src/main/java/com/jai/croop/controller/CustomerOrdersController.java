@@ -3,12 +3,17 @@ package com.jai.croop.controller;
 import com.jai.croop.model.*;
 import com.jai.croop.service.ICartService;
 import com.jai.croop.service.ICustomerOrdersService;
+import com.jai.croop.service.IGroupSellersProductInventoryService;
+import com.jai.croop.utility.OrderUtils;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/customer-orders")
@@ -16,6 +21,7 @@ public class CustomerOrdersController {
     @Autowired
     private ICustomerOrdersService customerOrdersService;
     private ICartService cartService;
+    private IGroupSellersProductInventoryService groupSellersProductInventoryService;
 
     // Group Order Endpoints
     @PostMapping("/group/{customerId}/{groupSellerId}")
@@ -26,6 +32,19 @@ public class CustomerOrdersController {
 
         CustomerOrdersForGroupSellers savedOrder = customerOrdersService.addCustomerOrdersToGroupOrders(
                 order, customerId, groupSellerId);
+        Map<String, Integer> orderList = savedOrder.getOrderList();
+        if (orderList != null && !orderList.isEmpty()) {
+            for (Map.Entry<String, Integer> entry : orderList.entrySet()) {
+                String productName = entry.getKey(); // Product name
+                int quantity = entry.getValue();     // Quantity
+                List<GroupSellersProductsInventory> productsInventories = groupSellersProductInventoryService.findByItemName(productName);
+                for(GroupSellersProductsInventory productsInventory:productsInventories){
+                    int productID = productsInventory.getId();
+                    productsInventory.setItemUsed(quantity);
+                    groupSellersProductInventoryService.updateItems(productID, productsInventory);
+                }
+            }
+        }
         return ResponseEntity.ok(savedOrder);
     }
 
