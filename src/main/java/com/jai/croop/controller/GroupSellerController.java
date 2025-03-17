@@ -36,12 +36,6 @@ public class GroupSellerController {
         return ResponseEntity.ok(groupSellersService.findIDByFirebaseID(firebaseID));
     }
 
-    /**
-    @GetMapping("/orders/{firebaseID}")
-    public ResponseEntity<List<SellerOrdersDTO>> getGroupSellersbyFirebase(@PathVariable String firebaseID){
-        int id = groupSellersService.getGroupSellerIdByFirebaseID(firebaseID);
-        return ResponseEntity.ok(groupSellersOrdersService.findByGroupSellerID(id));
-    }*/
 
     @GetMapping("/details/{firebaseID}")
     public ResponseEntity<GroupSellers> getGroupSellersbyFirebaseID(@PathVariable String firebaseID){

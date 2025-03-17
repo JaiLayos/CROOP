@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/individual-sellers-products-inventory")
+@RequestMapping("/api/individual-sellers-products")
 public class IndividualSellerProductController {
     @Autowired
     public IIndividualSellersProductService individualSellersProductService;
