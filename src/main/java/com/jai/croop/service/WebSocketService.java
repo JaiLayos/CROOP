@@ -1,6 +1,7 @@
 package com.jai.croop.service;
 
 import com.jai.croop.model.GroupSellersProductsInventory;
+import com.jai.croop.repository.GroupSellersProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
@@ -13,7 +14,7 @@ import java.util.Set;
 @Service
 public class WebSocketService {
     @Autowired
-    private IGroupSellersProductInventoryService groupSellersProductInventoryService;
+    private GroupSellersProductsRepository groupSellersProductInventoryService;
 
     private final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
 
@@ -26,7 +27,8 @@ public class WebSocketService {
     }
 
     public void notifyRestockBasedOnDemand(int productId, int groupSellerId) {
-        GroupSellersProductsInventory productsInventory = groupSellersProductInventoryService.getItem(productId);
+        GroupSellersProductsInventory productsInventory = groupSellersProductInventoryService.findById(productId).orElseThrow(
+                ()-> new RuntimeException("Notification couldn't find the product."));
         String name = productsInventory.getItemName();
         String message = "Restock needed for Product: " +name + " based on demand. ";
         broadcast(message);
