@@ -1,5 +1,7 @@
 package com.jai.croop.service;
 
+import ch.qos.logback.classic.Logger;
+import com.jai.croop.controller.CustomerOrdersController;
 import com.jai.croop.model.GroupSellerDiscount;
 import com.jai.croop.model.GroupSellers;
 import com.jai.croop.model.GroupSellersItemInventory;
@@ -8,6 +10,7 @@ import com.jai.croop.repository.GroupSellersDiscountRepository;
 import com.jai.croop.repository.GroupSellersProductsRepository;
 import com.jai.croop.repository.GroupSellersRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,7 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
     private GroupSellersDiscountRepository groupSellersDiscountRepository;
     @Autowired
     private GroupSellerDiscountService groupSellersDiscountService;
+    private static final Logger log = (Logger) LoggerFactory.getLogger(GroupSellersProductService.class);
 
     @Override
     public GroupSellersProductsInventory addItems(GroupSellersProductsInventory groupSellersProductsInventory, GroupSellers groupSellers) {
@@ -117,13 +121,21 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
 
     @Override
     public boolean shouldRestock(List<Integer> demandForecast, int id, int remaining) {
-        GroupSellers groupSellers = groupSellersRepository.findById(id).orElseThrow(()-> new RuntimeException("Group Seller Doesn't Exist"));
-        int setupCost = groupSellers.getProduct_inventory_SC(); // Cost per restock order
-        int holdingCost = groupSellers.getProduct_inventory_MC(); // Cost per unit stored
+        log.info("Checking restock necessity for sellerId: {}, remaining stock: {}", id, remaining);
+
+        GroupSellers groupSellers = groupSellersRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Group Seller Doesn't Exist"));
+
+        int setupCost = groupSellers.getProduct_inventory_SC();
+        int holdingCost = groupSellers.getProduct_inventory_MC();
+
         int reorderPoint = calculateOptimalReorderPoint(demandForecast, setupCost, holdingCost, remaining);
+
+        log.info("Calculated reorder point: {}. Remaining stock: {}.", reorderPoint, remaining);
 
         return remaining <= reorderPoint;
     }
+
 
     private int calculateOptimalReorderPoint(List<Integer> demandForecast, int setupCost, int holdingCost, int currentStock) {
         int periods = demandForecast.size();

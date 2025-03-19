@@ -1,5 +1,6 @@
 package com.jai.croop.controller;
 
+import ch.qos.logback.classic.Logger;
 import com.jai.croop.WebSocketConfig;
 import com.jai.croop.model.*;
 import com.jai.croop.repository.GroupSellersProductsRepository;
@@ -9,6 +10,7 @@ import com.jai.croop.service.IGroupSellersProductInventoryService;
 import com.jai.croop.service.WebSocketService;
 import com.jai.croop.utility.OrderUtils;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,8 @@ public class CustomerOrdersController {
     private WebSocketService webSocketService;
     @Autowired
     private GroupSellersProductsRepository groupSellersProductsRepository;
+    private static final Logger log = (Logger) LoggerFactory.getLogger(CustomerOrdersController.class);
+
 
     // Group Order Endpoints
     @PostMapping("/group/{customerId}/{groupSellerId}")
@@ -66,20 +70,24 @@ public class CustomerOrdersController {
 
     @GetMapping("group/demand-threshold/{groupSellerId}/{productId}")
     public void checkStockBasedOnDemand(@PathVariable int groupSellerId, @PathVariable int productId, int remaining) {
-        GroupSellersProductsInventory productInventory = groupSellersProductsRepository.findById(productId).orElseThrow(
-                ()-> new RuntimeException("Cannot find the product to check the stock.")
-        );
-        if (productInventory == null) {
-            return;
-        }
+        log.info("Checking stock for groupSellerId: {}, productId: {}, remaining: {}", groupSellerId, productId, remaining);
+
+        GroupSellersProductsInventory productInventory = groupSellersProductsRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Cannot find the product to check the stock."));
 
         List<Integer> demandForecast = customerOrdersService.getPastOrderQuantities(groupSellerId, productId);
+        log.info("Demand forecast for productId {}: {}", productId, demandForecast);
+
         boolean needsRestock = groupSellersProductInventoryService.shouldRestock(demandForecast, groupSellerId, remaining);
 
         if (needsRestock) {
-            webSocketService.notifyRestockBasedOnDemand(productId, groupSellerId); // Trigger WebSocket event
+            log.warn("Stock low for productId: {}. Triggering restock notification.", productId);
+            webSocketService.notifyRestockBasedOnDemand(productId, groupSellerId);
+        } else {
+            log.info("Stock level sufficient for productId: {}.", productId);
         }
     }
+
 
 
     @GetMapping("/group/{id}")

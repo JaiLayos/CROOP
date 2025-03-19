@@ -1,8 +1,11 @@
 package com.jai.croop.service;
 
+import ch.qos.logback.classic.Logger;
+import com.jai.croop.controller.CustomerOrdersController;
 import com.jai.croop.model.*;
 import com.jai.croop.repository.*;
 import jakarta.transaction.Transactional;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +27,7 @@ public class CustomerOrdersService implements ICustomerOrdersService{
     private IndividualSellersRepository individualSellersRepository;
     @Autowired
     private GroupSellersProductService groupSellersProductInventoryService;
-
-
+    private static final Logger log = (Logger) LoggerFactory.getLogger(CustomerOrdersService.class);
 
 
     @Override
@@ -133,9 +135,11 @@ public class CustomerOrdersService implements ICustomerOrdersService{
 
     @Override
     public List<Integer> getPastOrderQuantities(int groupSellerId, int productId) {
-        List<CustomerOrdersForGroupSellers> pastOrders = customerOrdersForGroupRepository.findByGroupSeller_Id(groupSellerId);
+        log.info("Fetching past order quantities for groupSellerId: {}, productId: {}", groupSellerId, productId);
 
+        List<CustomerOrdersForGroupSellers> pastOrders = customerOrdersForGroupRepository.findByGroupSeller_Id(groupSellerId);
         List<Integer> demand = new ArrayList<>();
+
         for (CustomerOrdersForGroupSellers order : pastOrders) {
             Map<String, Integer> orderList = order.getOrderList();
             if (orderList != null) {
@@ -147,6 +151,9 @@ public class CustomerOrdersService implements ICustomerOrdersService{
                 }
             }
         }
+
+        log.info("Retrieved demand history: {}", demand);
         return demand;
     }
+
 }

@@ -1,7 +1,10 @@
 package com.jai.croop.service;
 
+import ch.qos.logback.classic.Logger;
+import com.jai.croop.controller.CustomerOrdersController;
 import com.jai.croop.model.GroupSellersProductsInventory;
 import com.jai.croop.repository.GroupSellersProductsRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
@@ -15,6 +18,8 @@ import java.util.Set;
 public class WebSocketService {
     @Autowired
     private GroupSellersProductsRepository groupSellersProductsRepository;
+    private static final Logger log = (Logger) LoggerFactory.getLogger(WebSocketService.class);
+
 
     private final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
 
@@ -27,12 +32,18 @@ public class WebSocketService {
     }
 
     public void notifyRestockBasedOnDemand(int productId, int groupSellerId) {
-        GroupSellersProductsInventory productsInventory = groupSellersProductsRepository.findById(productId).orElseThrow(
-                ()-> new RuntimeException("Notification couldn't find the product."));
+        log.info("Preparing to send WebSocket notification for productId: {}", productId);
+
+        GroupSellersProductsInventory productsInventory = groupSellersProductsRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Notification couldn't find the product."));
+
         String name = productsInventory.getItemName();
-        String message = "Restock needed for Product: " +name + " based on demand. ";
+        String message = "Restock needed for Product: " + name + " based on demand.";
+
+        log.warn("Sending WebSocket notification: {}", message);
         broadcast(message);
     }
+
 
     private void broadcast(String message) {
         for (WebSocketSession session : sessions) {
