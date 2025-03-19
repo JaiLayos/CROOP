@@ -115,6 +115,39 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
         }
         return exist;    }
 
+    @Override
+    public boolean shouldRestock(List<Integer> demandForecast, int id, GroupSellersProductsInventory inventory) {
+        GroupSellers groupSellers = groupSellersRepository.findById(id).orElseThrow(()-> new RuntimeException("Group Seller Doesn't Exist"));
+        int setupCost = groupSellers.getProduct_inventory_SC(); // Cost per restock order
+        int holdingCost = groupSellers.getProduct_inventory_MC(); // Cost per unit stored
+        int currentStock = inventory.getItemRemaining();
+        int reorderPoint = calculateOptimalReorderPoint(demandForecast, setupCost, holdingCost, currentStock);
+
+        return currentStock <= reorderPoint;
+    }
+
+    private int calculateOptimalReorderPoint(List<Integer> demandForecast, int setupCost, int holdingCost, int currentStock) {
+        int periods = demandForecast.size();
+        int[] cost = new int[periods + 1];
+        int[] orderQty = new int[periods + 1];
+        for (int i = 0; i <= periods; i++) {
+            cost[i] = Integer.MAX_VALUE;
+        }
+        cost[0] = 0;
+        for (int t = 1; t <= periods; t++) {
+            int totalDemand = 0;
+            for (int j = t; j >= 1; j--) {
+                totalDemand += demandForecast.get(j - 1); // Sum demand from j to t
+                int totalCost = (j > 1 ? cost[j - 1] : 0) + setupCost + (holdingCost * totalDemand);
+                if (totalCost < cost[t]) {
+                    cost[t] = totalCost;
+                    orderQty[t] = totalDemand;
+                }
+            }
+        }
+        return orderQty[periods] > currentStock ? orderQty[periods] : 0;
+    }
+
     @Transactional
     @Override
     public GroupSellersProductsInventory updateItems(int id, GroupSellersProductsInventory newGroupSellersProductsInventory) {

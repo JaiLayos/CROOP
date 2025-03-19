@@ -6,7 +6,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CustomerOrdersService implements ICustomerOrdersService{
@@ -20,6 +22,8 @@ public class CustomerOrdersService implements ICustomerOrdersService{
     private GroupSellersRepository groupSellersRepository;
     @Autowired
     private IndividualSellersRepository individualSellersRepository;
+    private GroupSellersProductService groupSellersProductInventoryService;
+
 
 
 
@@ -124,5 +128,24 @@ public class CustomerOrdersService implements ICustomerOrdersService{
     @Override
     public List<DailySalesDTO> getDailySalesForGroupSeller(int sellerId) {
         return customerOrdersForGroupRepository.findDailySalesByGroupSellerId(sellerId);
+    }
+
+    @Override
+    public List<Integer> getPastOrderQuantities(int groupSellerId, int productId) {
+        List<CustomerOrdersForGroupSellers> pastOrders = customerOrdersForGroupRepository.findByGroupSeller_Id(groupSellerId);
+
+        List<Integer> demand = new ArrayList<>();
+        for (CustomerOrdersForGroupSellers order : pastOrders) {
+            Map<String, Integer> orderList = order.getOrderList();
+            if (orderList != null) {
+                for (Map.Entry<String, Integer> entry : orderList.entrySet()) {
+                    if (groupSellersProductInventoryService.findByItemName(entry.getKey())
+                            .stream().anyMatch(p -> p.getId() == productId)) {
+                        demand.add(entry.getValue());
+                    }
+                }
+            }
+        }
+        return demand;
     }
 }

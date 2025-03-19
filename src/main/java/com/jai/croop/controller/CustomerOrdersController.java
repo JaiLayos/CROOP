@@ -1,9 +1,11 @@
 package com.jai.croop.controller;
 
+import com.jai.croop.WebSocketConfig;
 import com.jai.croop.model.*;
 import com.jai.croop.service.ICartService;
 import com.jai.croop.service.ICustomerOrdersService;
 import com.jai.croop.service.IGroupSellersProductInventoryService;
+import com.jai.croop.service.WebSocketService;
 import com.jai.croop.utility.OrderUtils;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class CustomerOrdersController {
     private ICartService cartService;
     @Autowired
     private IGroupSellersProductInventoryService groupSellersProductInventoryService;
+    @Autowired
+    private WebSocketService webSocketService;
 
     // Group Order Endpoints
     @PostMapping("/group/{customerId}/{groupSellerId}")
@@ -49,11 +53,29 @@ public class CustomerOrdersController {
                     productsInventory.setItemUsed(used);
                     productsInventory.setItemRemaining(remaining);
                     groupSellersProductInventoryService.updateItems(productID, productsInventory);
+                    checkStockBasedOnDemand(groupSellerId,order.getId());
+
                 }
             }
         }
         return ResponseEntity.ok(savedOrder);
     }
+
+    @GetMapping("group/demand-threshold/{groupSellerId}/{productId}")
+    public void checkStockBasedOnDemand(@PathVariable int groupSellerId, @PathVariable int productId) {
+        GroupSellersProductsInventory productInventory = groupSellersProductInventoryService.getItem(productId);
+        if (productInventory == null) {
+            return;
+        }
+
+        List<Integer> demandForecast = customerOrdersService.getPastOrderQuantities(groupSellerId, productId);
+        boolean needsRestock = groupSellersProductInventoryService.shouldRestock(demandForecast, groupSellerId, productInventory);
+
+        if (needsRestock) {
+            webSocketService.notifyRestockBasedOnDemand(productId, groupSellerId); // Trigger WebSocket event
+        }
+    }
+
 
     @GetMapping("/group/{id}")
     public ResponseEntity<CustomerOrdersForGroupSellers> getGroupOrder(@PathVariable int id) {

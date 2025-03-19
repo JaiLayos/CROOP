@@ -20,6 +20,6 @@ public interface ICustomerOrdersService {
     CustomerOrdersForIndivSellers updateCustomerOrdersFromIndividual(int id, CustomerOrdersForIndivSellers updatedCustomerOrders);
     void deleteGroupCustomerOrders(int id);
     void deleteIndividualCustomerOrders(int id);
-
     List<DailySalesDTO> getDailySalesForGroupSeller(int sellerId);
+    List<Integer> getPastOrderQuantities(int groupSellerId, int productId);
 }

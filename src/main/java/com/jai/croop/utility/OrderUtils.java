@@ -9,7 +9,6 @@ public class OrderUtils {
             return 0; // Return 0 if the order list is empty or null
         }
 
-        // Sum up all the quantities in the order list
         return orderList.values().stream()
                 .mapToInt(Integer::intValue)
                 .sum();
