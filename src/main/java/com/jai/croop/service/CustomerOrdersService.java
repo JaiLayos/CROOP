@@ -22,6 +22,7 @@ public class CustomerOrdersService implements ICustomerOrdersService{
     private GroupSellersRepository groupSellersRepository;
     @Autowired
     private IndividualSellersRepository individualSellersRepository;
+    @Autowired
     private GroupSellersProductService groupSellersProductInventoryService;
 
 

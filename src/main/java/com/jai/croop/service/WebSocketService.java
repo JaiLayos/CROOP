@@ -14,7 +14,7 @@ import java.util.Set;
 @Service
 public class WebSocketService {
     @Autowired
-    private GroupSellersProductsRepository groupSellersProductInventoryService;
+    private GroupSellersProductsRepository groupSellersProductsRepository;
 
     private final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
 
@@ -27,7 +27,7 @@ public class WebSocketService {
     }
 
     public void notifyRestockBasedOnDemand(int productId, int groupSellerId) {
-        GroupSellersProductsInventory productsInventory = groupSellersProductInventoryService.findById(productId).orElseThrow(
+        GroupSellersProductsInventory productsInventory = groupSellersProductsRepository.findById(productId).orElseThrow(
                 ()-> new RuntimeException("Notification couldn't find the product."));
         String name = productsInventory.getItemName();
         String message = "Restock needed for Product: " +name + " based on demand. ";

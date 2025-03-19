@@ -116,14 +116,13 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
         return exist;    }
 
     @Override
-    public boolean shouldRestock(List<Integer> demandForecast, int id, GroupSellersProductsInventory inventory) {
+    public boolean shouldRestock(List<Integer> demandForecast, int id, int remaining) {
         GroupSellers groupSellers = groupSellersRepository.findById(id).orElseThrow(()-> new RuntimeException("Group Seller Doesn't Exist"));
         int setupCost = groupSellers.getProduct_inventory_SC(); // Cost per restock order
         int holdingCost = groupSellers.getProduct_inventory_MC(); // Cost per unit stored
-        int currentStock = inventory.getItemRemaining();
-        int reorderPoint = calculateOptimalReorderPoint(demandForecast, setupCost, holdingCost, currentStock);
+        int reorderPoint = calculateOptimalReorderPoint(demandForecast, setupCost, holdingCost, remaining);
 
-        return currentStock <= reorderPoint;
+        return remaining <= reorderPoint;
     }
 
     private int calculateOptimalReorderPoint(List<Integer> demandForecast, int setupCost, int holdingCost, int currentStock) {

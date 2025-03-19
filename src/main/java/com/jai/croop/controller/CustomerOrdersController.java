@@ -2,6 +2,7 @@ package com.jai.croop.controller;
 
 import com.jai.croop.WebSocketConfig;
 import com.jai.croop.model.*;
+import com.jai.croop.repository.GroupSellersProductsRepository;
 import com.jai.croop.service.ICartService;
 import com.jai.croop.service.ICustomerOrdersService;
 import com.jai.croop.service.IGroupSellersProductInventoryService;
@@ -28,6 +29,8 @@ public class CustomerOrdersController {
     private IGroupSellersProductInventoryService groupSellersProductInventoryService;
     @Autowired
     private WebSocketService webSocketService;
+    @Autowired
+    private GroupSellersProductsRepository groupSellersProductsRepository;
 
     // Group Order Endpoints
     @PostMapping("/group/{customerId}/{groupSellerId}")
@@ -53,7 +56,7 @@ public class CustomerOrdersController {
                     productsInventory.setItemUsed(used);
                     productsInventory.setItemRemaining(remaining);
                     groupSellersProductInventoryService.updateItems(productID, productsInventory);
-                    checkStockBasedOnDemand(groupSellerId,order.getId());
+                    checkStockBasedOnDemand(groupSellerId,productID, remaining);
 
                 }
             }
@@ -62,14 +65,16 @@ public class CustomerOrdersController {
     }
 
     @GetMapping("group/demand-threshold/{groupSellerId}/{productId}")
-    public void checkStockBasedOnDemand(@PathVariable int groupSellerId, @PathVariable int productId) {
-        GroupSellersProductsInventory productInventory = groupSellersProductInventoryService.getItem(productId);
+    public void checkStockBasedOnDemand(@PathVariable int groupSellerId, @PathVariable int productId, int remaining) {
+        GroupSellersProductsInventory productInventory = groupSellersProductsRepository.findById(productId).orElseThrow(
+                ()-> new RuntimeException("Cannot find the product to check the stock.")
+        );
         if (productInventory == null) {
             return;
         }
 
         List<Integer> demandForecast = customerOrdersService.getPastOrderQuantities(groupSellerId, productId);
-        boolean needsRestock = groupSellersProductInventoryService.shouldRestock(demandForecast, groupSellerId, productInventory);
+        boolean needsRestock = groupSellersProductInventoryService.shouldRestock(demandForecast, groupSellerId, remaining);
 
         if (needsRestock) {
             webSocketService.notifyRestockBasedOnDemand(productId, groupSellerId); // Trigger WebSocket event

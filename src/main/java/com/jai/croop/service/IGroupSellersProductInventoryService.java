@@ -21,7 +21,7 @@ public interface IGroupSellersProductInventoryService {
     List<GroupSellersProductsInventory> findTop3ByLowestItemRemaining();
     boolean findIfSCIsSet(int id);
     boolean findIfMCIsSet(int id);
-    boolean shouldRestock(List<Integer> demandForecast, int id, GroupSellersProductsInventory inventory);
+    boolean shouldRestock(List<Integer> demandForecast, int id, int remaining);
     GroupSellersProductsInventory updateItems(int id, GroupSellersProductsInventory groupSellersProductsInventory);
     void deleteItems(int id);
 }
