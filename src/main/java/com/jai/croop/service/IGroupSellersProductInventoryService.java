@@ -22,6 +22,7 @@ public interface IGroupSellersProductInventoryService {
     boolean findIfSCIsSet(int id);
     boolean findIfMCIsSet(int id);
     boolean shouldRestock(List<Integer> demandForecast, int id, int remaining);
+    boolean shouldDiscount(int id, int shelfLifeDays);
     GroupSellersProductsInventory updateItems(int id, GroupSellersProductsInventory groupSellersProductsInventory);
     void deleteItems(int id);
 }

@@ -1,22 +1,17 @@
 package com.jai.croop.controller;
 
 import ch.qos.logback.classic.Logger;
-import com.jai.croop.WebSocketConfig;
 import com.jai.croop.model.*;
 import com.jai.croop.repository.GroupSellersProductsRepository;
-import com.jai.croop.service.ICartService;
-import com.jai.croop.service.ICustomerOrdersService;
-import com.jai.croop.service.IGroupSellersProductInventoryService;
-import com.jai.croop.service.WebSocketService;
-import com.jai.croop.utility.OrderUtils;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import com.jai.croop.service.*;
+import org.aspectj.weaver.ast.Not;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,11 +25,12 @@ public class CustomerOrdersController {
     @Autowired
     private IGroupSellersProductInventoryService groupSellersProductInventoryService;
     @Autowired
-    private WebSocketService webSocketService;
-    @Autowired
     private GroupSellersProductsRepository groupSellersProductsRepository;
+    @Autowired
+    private IGroupSellersService groupSellersService;
+    @Autowired
+    private INotificationsService notificationsService;
     private static final Logger log = (Logger) LoggerFactory.getLogger(CustomerOrdersController.class);
-
 
     // Group Order Endpoints
     @PostMapping("/group/{customerId}/{groupSellerId}")
@@ -79,16 +75,26 @@ public class CustomerOrdersController {
         log.info("Demand forecast for productId {}: {}", productId, demandForecast);
 
         boolean needsRestock = groupSellersProductInventoryService.shouldRestock(demandForecast, groupSellerId, remaining);
+        GroupSellersProductsInventory product = groupSellersProductInventoryService.getItem(productId);
+        String productName = product.getItemName();
+
+        GroupSellers groupSellers = groupSellersService.getGroupSellers(groupSellerId);
+        String userName = groupSellers.getGroupName();
 
         if (needsRestock) {
-            log.warn("Stock low for productId: {}. Triggering restock notification.", productId);
-            webSocketService.notifyRestockBasedOnDemand(productId, groupSellerId);
+            Notifications notifications = new Notifications();
+            notifications.setUserID(groupSellerId);
+            notifications.setUserName(userName);
+            notifications.setUserType("Group Seller");
+            notifications.setMessage("Product: "+productName+ " hit the demand threshold for its inventory. " +
+                    "Consider restocking the product.");
+            notifications.setDate(new java.sql.Date(System.currentTimeMillis()));
+            notifications.setAbout("Inventory");
+            notificationsService.addNotification(notifications);
         } else {
-            log.info("Stock level sufficient for productId: {}.", productId);
+            log.info("Restock Error");
         }
     }
-
-
 
     @GetMapping("/group/{id}")
     public ResponseEntity<CustomerOrdersForGroupSellers> getGroupOrder(@PathVariable int id) {

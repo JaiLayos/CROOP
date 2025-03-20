@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
+
 
 @Service
 public class GroupSellersProductService implements IGroupSellersProductInventoryService{
@@ -32,7 +34,6 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
 
     @Override
     public GroupSellersProductsInventory addItems(GroupSellersProductsInventory groupSellersProductsInventory, GroupSellers groupSellers) {
-        // Validate that GroupSellers is not null
         if (groupSellersProductsInventory.getGroupSellers() == null) {
             throw new IllegalArgumentException("GroupSeller cannot be null in products");
         }
@@ -136,6 +137,16 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
         return remaining <= reorderPoint;
     }
 
+    @Override
+    public boolean shouldDiscount(int id, int shelfLifeDays) {
+        GroupSellersProductsInventory groupSellersProductsInventory = getItem(id);
+        LocalDate setDate = groupSellersProductsInventory.getLocalDate();
+        LocalDate shelfLifeThreshold = setDate.plusDays(shelfLifeDays);
+        LocalDate triggerThreshold = shelfLifeThreshold.minusDays(7);
+        LocalDate now = LocalDate.now();
+        return now.isAfter(triggerThreshold);
+    }
+
 
     private int calculateOptimalReorderPoint(List<Integer> demandForecast, int setupCost, int holdingCost, int currentStock) {
         int periods = demandForecast.size();
@@ -167,6 +178,8 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
         groupSellersProductsInventory.setItemName(newGroupSellersProductsInventory.getItemName());
         groupSellersProductsInventory.setItemStart(newGroupSellersProductsInventory.getItemStart());
         groupSellersProductsInventory.setItemUsed(newGroupSellersProductsInventory.getItemUsed());
+        groupSellersProductsInventory.setUnit(newGroupSellersProductsInventory.getUnit());
+        groupSellersProductsInventory.setShelfLifeDays(newGroupSellersProductsInventory.getShelfLifeDays());
         return groupSellersProductsRepository.save(groupSellersProductsInventory);
     }
 

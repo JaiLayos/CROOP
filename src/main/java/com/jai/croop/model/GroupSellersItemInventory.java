@@ -22,8 +22,8 @@ public class GroupSellersItemInventory extends BaseInventory{
     }
 
     public GroupSellersItemInventory(GroupSellers groupSeller, String itemName, int itemStart, int itemUsed,
-                                     int itemRemaining){
-        super(itemName, itemStart, itemUsed,itemRemaining);
+                                     int itemRemaining, String unit){
+        super(itemName, itemStart, itemUsed,itemRemaining, unit);
         this.groupSeller = groupSeller;
     }
 

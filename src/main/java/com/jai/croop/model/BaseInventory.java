@@ -8,17 +8,19 @@ public class BaseInventory {
     private int itemStart;
     private int itemUsed;
     private int itemRemaining;
+    private String unit;
 
     public BaseInventory(){
 
     }
 
     public BaseInventory(String itemName, int itemStart, int itemUsed,
-                         int itemRemaining){
+                         int itemRemaining, String unit){
         this.itemName = itemName;
         this.itemStart = itemStart;
         this.itemUsed = itemUsed;
         this.itemRemaining = itemStart - itemUsed;
+        this.unit = unit;
     }
 
     public String getItemName() {
@@ -47,5 +49,12 @@ public class BaseInventory {
     }
     public void setItemRemaining(int itemRemaining) {
         this.itemRemaining = itemRemaining;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

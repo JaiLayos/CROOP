@@ -19,8 +19,8 @@ public class IndividualSellersItemInventory extends BaseInventory{
     }
 
     public IndividualSellersItemInventory(IndividualSellers individualSellers, String itemName, int itemStart, int itemUsed,
-                                     int itemRemaining){
-        super(itemName, itemStart, itemUsed,itemRemaining);
+                                     int itemRemaining, String unit){
+        super(itemName, itemStart, itemUsed,itemRemaining, unit);
         this.individualSellers = individualSellers;
     }
 
