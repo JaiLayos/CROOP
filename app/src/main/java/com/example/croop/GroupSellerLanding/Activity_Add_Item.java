@@ -57,9 +57,7 @@ public class Activity_Add_Item extends AppCompatActivity {
 
         FloatingActionButton back = findViewById(R.id.backFloat);
         back.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Activity_Item_Inventory.class);
-            startActivity(intent);
-            recreate();
+            onBackPressed();
         });
     }
 

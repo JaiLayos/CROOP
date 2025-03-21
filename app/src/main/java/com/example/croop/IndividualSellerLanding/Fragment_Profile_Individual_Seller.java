@@ -40,7 +40,7 @@ public class Fragment_Profile_Individual_Seller extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.profile_individual_seller, container, false);
+        View rootView = inflater.inflate(R.layout.account_email_edit_individual_seller, container, false);
 
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", getContext().MODE_PRIVATE);
         String collection = prefs.getString("user_collection", null);
@@ -57,7 +57,7 @@ public class Fragment_Profile_Individual_Seller extends Fragment {
 
         initializeComponents(collection);
 
-        Button edit = rootView.findViewById(R.id.profileEditButton);
+        Button edit = rootView.findViewById(R.id.changeEmailButton);
         edit.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_Edit_Profile.class);
             startActivity(intent);

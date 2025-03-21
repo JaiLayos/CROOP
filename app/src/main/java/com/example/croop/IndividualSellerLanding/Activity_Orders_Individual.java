@@ -2,16 +2,22 @@ package com.example.croop.IndividualSellerLanding;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.GroupSellerLanding.Sign_In_Success_Group_Seller;
 import com.example.croop.R;
+import com.example.croop.model.CustomerOrdersForGroupSellers;
+import com.example.croop.model.IndividualSellers;
 import com.example.croop.model.SellerOrdersDTO;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
@@ -42,7 +48,30 @@ public class Activity_Orders_Individual extends AppCompatActivity {
 
         // Fetch data from the API
         String firebaseID = user.getUid(); // Replace with the actual Firebase
-        Call<List<SellerOrdersDTO>> call = apiService.getGroupSellersOrders(firebaseID);
+        Call<IndividualSellers> groupSellersCall = apiService.getIndividualSellersbyFirebaseID(user.getUid());
+        groupSellersCall.enqueue(new Callback<IndividualSellers>() {
+            @Override
+            public void onResponse(Call<IndividualSellers> call, Response<IndividualSellers> response) {
+                IndividualSellers groupSellers = response.body();
+                int id = groupSellers.getId();
+                getGroupOrdersBySellerID(id);
+            }
+
+            @Override
+            public void onFailure(Call<IndividualSellers> call, Throwable t) {
+
+            }
+        });
+
+
+        FloatingActionButton back = findViewById(R.id.backFloat);
+        back.setOnClickListener(v -> {
+            onBackPressed();
+        });
+    }
+
+    private void getGroupOrdersBySellerID(int id) {
+        Call<List<SellerOrdersDTO>> call = apiService.getIndividualOrderByGroupSellerId(id);
         call.enqueue(new Callback<List<SellerOrdersDTO>>() {
             @Override
             public void onResponse(Call<List<SellerOrdersDTO>> call, Response<List<SellerOrdersDTO>> response) {
@@ -61,12 +90,6 @@ public class Activity_Orders_Individual extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
-
-        FloatingActionButton back = findViewById(R.id.backFloat);
-        back.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Sign_In_Success_Group_Seller.class);
-            startActivity(intent);
-        });
     }
 
     private void initializeComponents() {
@@ -80,19 +103,10 @@ public class Activity_Orders_Individual extends AppCompatActivity {
         for (SellerOrdersDTO order : orders) {
             TableRow row = new TableRow(this);
             TableRow.LayoutParams params = new TableRow.LayoutParams(
-                    0, // Width: 0 means the width will be determined by the weight
-                    TableRow.LayoutParams.WRAP_CONTENT, // Height: Wrap content
-                    1.0f // Weight: 1 means equal distribution of space
+                    0,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    1.0f
             );
-
-            TextView idTextView = new TextView(this);
-            idTextView.setText(String.valueOf(order.getId()));
-            idTextView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-            idTextView.setLayoutParams(params);
-            idTextView.setOnClickListener(view -> {
-
-            });
-            row.addView(idTextView);
 
             TextView dateTextView = new TextView(this);
             dateTextView.setText(order.getOrderDate().toString());
@@ -124,6 +138,10 @@ public class Activity_Orders_Individual extends AppCompatActivity {
             statusTextView.setText(order.getOrderStatus());
             statusTextView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
             statusTextView.setLayoutParams(params);
+            statusTextView.setTextColor(getResources().getColor(R.color.highlight_green));
+            statusTextView.setOnClickListener(v -> {
+                radioButton(order);
+            });
             row.addView(statusTextView);
 
             table.addView(row);
@@ -131,12 +149,85 @@ public class Activity_Orders_Individual extends AppCompatActivity {
         // Add a new row for each order
     }
 
+    private void radioButton(SellerOrdersDTO order) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Update Order Status");
+
+        // Inflate custom layout with RadioGroup
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_status_options, null);
+        RadioGroup radioGroup = dialogView.findViewById(R.id.statusRadioGroup);
+
+        // Set current status as checked
+        String currentStatus = order.getOrderStatus();
+        if ("Pending".equals(currentStatus)) {
+            radioGroup.check(R.id.pendingRadio);
+        } else if ("Processing".equals(currentStatus)) {
+            radioGroup.check(R.id.processingRadio);
+        } else if ("Completed".equals(currentStatus)) {
+            radioGroup.check(R.id.completedRadio);
+        }
+
+        // Set view and buttons
+        builder.setView(dialogView)
+                .setPositiveButton("Save", (dialog, which) -> {
+                    int selectedId = radioGroup.getCheckedRadioButtonId();
+                    String newStatus = "Pending"; // Default
+
+                    if (selectedId == R.id.pendingRadio) {
+                        newStatus = "Pending";
+                    } else if (selectedId == R.id.processingRadio) {
+                        newStatus = "In Transit";
+                    } else if (selectedId == R.id.completedRadio) {
+                        newStatus = "Completed";
+                    }
+
+                    // Update the order status
+                    updateOrderStatus(order, newStatus);
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void updateOrderStatus(SellerOrdersDTO order, String newStatus) {
+        order.setOrderStatus(newStatus);
+        Call<CustomerOrdersForGroupSellers> getOrder = apiService.getGroupOrder(order.getId());
+        getOrder.enqueue(new Callback<CustomerOrdersForGroupSellers>() {
+            @Override
+            public void onResponse(Call<CustomerOrdersForGroupSellers> call, Response<CustomerOrdersForGroupSellers> response) {
+                CustomerOrdersForGroupSellers customerOrders = response.body();
+                customerOrders.setOrderList(order.getOrderList());
+                customerOrders.setOrderPrice(order.getOrderPrice());
+                customerOrders.setOrderStatus(newStatus);
+                Call<CustomerOrdersForGroupSellers> updateCall = apiService.updateGroupOrder(order.getId(),customerOrders);
+                updateCall.enqueue(new Callback<CustomerOrdersForGroupSellers>() {
+                    @Override
+                    public void onResponse(Call<CustomerOrdersForGroupSellers> call, Response<CustomerOrdersForGroupSellers> response) {
+                        Toast.makeText(Activity_Orders_Individual.this, "Updated", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Activity_Orders_Individual.this, Sign_In_Success_Group_Seller.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<CustomerOrdersForGroupSellers> call, Throwable t) {
+                        Log.e("Updating order error: ", t.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<CustomerOrdersForGroupSellers> call, Throwable t) {
+                Log.e("Getting order error: ", t.getMessage());
+            }
+        });
+    }
+
     private String formatOrderList(Map<String, Integer> orderList) {
         try {
             StringBuilder formattedList = new StringBuilder();
             for (Map.Entry<String, Integer> entry : orderList.entrySet()) {
                 formattedList.append(entry.getKey()) // Item name
-                        .append(" - P")
+                        .append(" - ")
                         .append(entry.getValue()) // Quantity
                         .append("\n"); // Add a newline for readability
             }

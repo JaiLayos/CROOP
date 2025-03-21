@@ -80,8 +80,7 @@ public class Activity_Edit_Profile extends AppCompatActivity {
         String collection = prefs.getString("user_collection", null);
         FloatingActionButton back = findViewById(R.id.backButton);
         back.setOnClickListener(view -> {
-            Intent intent = new Intent(this, Sign_In_Success_Group_Seller.class);
-            startActivity(intent);
+            onBackPressed();
         });
 
         userName = findViewById(R.id.userNameText);

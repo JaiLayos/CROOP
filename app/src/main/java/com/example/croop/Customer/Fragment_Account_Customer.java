@@ -1,5 +1,7 @@
 package com.example.croop.Customer;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,29 +10,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.croop.Authentication_Phone_Number;
+import com.bumptech.glide.Glide;
 import com.example.croop.Landing_Activity;
 import com.example.croop.R;
-import com.google.firebase.FirebaseException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthOptions;
-import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
 
 public class Fragment_Account_Customer extends Fragment {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
+    private TextView userName, userRole, userBio, userEmail, userPhone, userAddress, userGroup;
+    private StorageReference storageRef;
     public Fragment_Account_Customer() {
     }
 
@@ -47,28 +52,10 @@ public class Fragment_Account_Customer extends Fragment {
 
         String collection = getCollection(role);
 
-        Button logOut, changeEmail, changePassword, changePhone;
+        Button logOut;
 
-        changeEmail = view.findViewById(R.id.changeEmailButton);
         logOut = view.findViewById(R.id.logOutButton);
 
-        changeEmail.setOnClickListener(v -> {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            DocumentReference userRef = db.collection(collection).document(user.getUid());
-            userRef.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        String userPhoneNumber = document.getString("Phone Number"); // Assuming "phoneNumber" is the field name
-                        initiatePhoneVerification(userPhoneNumber); // Start the OTP verification process
-                    } else {
-                        Log.e("Firestore", "User document does not exist.");
-                    }
-                } else {
-                    Log.e("Firestore", "Error fetching user data.", task.getException());
-                }
-            });
-        });
 
         logOut.setOnClickListener(v -> {
             new androidx.appcompat.app.AlertDialog.Builder(getActivity())
@@ -86,50 +73,55 @@ public class Fragment_Account_Customer extends Fragment {
                     .show();
         });
 
+        userName = view.findViewById(R.id.userNameText);
+        userRole = view.findViewById(R.id.userPositionText);
+        userBio = view.findViewById(R.id.userBioText);
+        userEmail = view.findViewById(R.id.userEmailText);
+        userPhone = view.findViewById(R.id.userPhoneNumberText);
+        userAddress = view.findViewById(R.id.userCityText);
+
+        ImageView displayPicture = view.findViewById(R.id.profilePicture);
+
+        initializeComponents(collection);
+
+        Button edit = view.findViewById(R.id.changeEmailButton);
+        edit.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), Activity_Edit_User_Profile.class);
+            startActivity(intent);
+        });
+        String userId = user.getUid();
+
+        storageRef = FirebaseStorage.getInstance().getReference()
+                .child("Profile Picture")
+                .child(userId)
+                .child("Display");
+
+        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            Glide.with(this)
+                    .load(uri.toString())
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.sun)
+                    .into(displayPicture);
+        }).addOnFailureListener(e -> {
+            Log.e("FirebaseImageError", "Failed to get download URL: " + e.getMessage());
+            displayPicture.setImageResource(R.drawable.logo);
+        });
+
         TextView da, cda;
 
         da = view.findViewById(R.id.daText);
         da.setOnClickListener(v -> {
-            String userId = "521426187938826"; // Replace with the actual user ID
-            openMessenger(userId);
+            String messengerId = "521426187938826"; // Replace with the actual user ID
+            openMessenger(messengerId);
         });
 
         cda = view.findViewById(R.id.cdaText);
         cda.setOnClickListener(v -> {
-            String userId = "406419702548229"; // Replace with the actual user ID
-            openMessenger(userId);
+            String messengerId = "406419702548229"; // Replace with the actual user ID
+            openMessenger(messengerId);
         });
 
         return view;
-    }
-    private void initiatePhoneVerification(String userPhoneNumber) {
-        PhoneAuthProvider.verifyPhoneNumber(
-                PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber(userPhoneNumber) // Use the retrieved phone number
-                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout for OTP
-                        .setActivity(getActivity()) // Activity for callback binding
-                        .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                            @Override
-                            public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
-                                // Auto-retrieval or instant verification completed
-                            }
-
-                            @Override
-                            public void onVerificationFailed(@NonNull FirebaseException e) {
-                                Log.w("PhoneVerification", "Verification failed.", e);
-                            }
-
-                            @Override
-                            public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                                // Save the verification ID and prompt the user to enter the OTP
-                                String storedVerificationId = verificationId;
-                                Intent intent = new Intent(getActivity(), Authentication_Phone_Number.class);
-                                intent.putExtra("storedVerificationId", storedVerificationId);
-                                startActivity(intent);
-                            }
-                        })
-                        .build()
-        );
     }
 
     private void openMessenger(String userId) {
@@ -160,11 +152,8 @@ public class Fragment_Account_Customer extends Fragment {
             case "Individual Business User":
                 collection = "Individual Sellers";
                 break;
-            case "Individual Customer User":
+            case "Customer User":
                 collection = "Customers";
-                break;
-            case "Group Customer User":
-                collection = "Group Customers";
                 break;
             default:
                 collection = "Unknown";
@@ -173,5 +162,46 @@ public class Fragment_Account_Customer extends Fragment {
 
         editor.putString("user_collection", collection).apply();
         return collection;
+    }
+    private void initializeComponents(String collection) {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            DocumentReference docRef = db.collection(collection).document(user.getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Map<String, Object> address_map = (Map<String, Object>) document.get("Address");
+
+                            // Access individual fields
+                            String city = (String) address_map.get("City");
+                            String country = (String) address_map.get("Country");
+                            String streetName = (String) address_map.get("House_Street_Name");
+                            String postalCode = (String) address_map.get("Postal_Code");
+                            String state = (String) address_map.get("State_Province_Region");
+                            String subdivision = (String) address_map.get("Subdivision_Baranggay");
+
+                            String name_user = document.getString("Name");
+                            userName.setText(name_user);
+                            String role_user = document.getString("Position");
+                            userRole.setText(role_user);
+                            String bio_user = document.getString("Bio");
+                            userBio.setText(bio_user);
+                            String email_user = document.getString("Email");
+                            userEmail.setText(email_user);
+                            String phone_user = document.getString("Phone Number");
+                            userPhone.setText(phone_user);
+                            userAddress.setText(streetName + ", " + subdivision + ", " + city + ", " + state + ", " + postalCode + ", " + country);
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
     }
 }

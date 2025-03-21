@@ -6,6 +6,7 @@ public class CartDTO {
     private int quantity;
     private int price;
     private int sellerID;
+    private String firebaseID;
     private String sellerName;
     private int customerID;
     private String customerName;
@@ -14,13 +15,14 @@ public class CartDTO {
 
     }
 
-    public CartDTO(int id, String cropName, int quantity, int price, int sellerID, String sellerName,
-                   int customerID, String customerName){
+    public CartDTO(int id, String cropName, int quantity, int price, int sellerID, String firebaseID,
+                   String sellerName, int customerID, String customerName){
         this.id = id;
         this.cropName = cropName;
         this.quantity = quantity;
         this.price = price;
         this.sellerID = sellerID;
+        this.firebaseID = firebaseID;
         this.sellerName = sellerName;
         this.customerID = customerID;
         this.customerName = customerName;
@@ -59,6 +61,13 @@ public class CartDTO {
     }
     public void setSellerID(int sellerID) {
         this.sellerID = sellerID;
+    }
+
+    public String getFirebaseID() {
+        return firebaseID;
+    }
+    public void setFirebaseID(String firebaseID) {
+        this.firebaseID = firebaseID;
     }
 
     public String getSellerName() {

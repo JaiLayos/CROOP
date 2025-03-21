@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/resto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beige_brackground">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/headerCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/beige_brackground"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/backFloat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="80dp"
+                    android:layout_marginBottom="5dp"
+                    android:clickable="true"
+                    android:contentDescription="back"
+                    app:backgroundTint="@color/highlight_green"
+                    app:srcCompat="@drawable/back" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/setupCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/beige_brackground"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/setupLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Mga Salik sa Pagkumpuni ng Produkto"
+                        android:textAlignment="center"
+                        android:textColor="@color/secondary_color"
+                        android:textSize="16sp" />
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp">
+
+                            <TextView
+                                android:id="@+id/laborLabel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/mulish_medium"
+                                android:paddingStart="20dp"
+                                android:text="Budjet sa Labor"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/laborText"
+                                android:layout_width="0dp"
+                                android:layout_height="55dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/rounded_border_edit_text"
+                                android:ems="10"
+                                android:hint="Hal. 500"
+                                android:inputType="text"
+                                android:paddingStart="10dp" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp">
+
+                            <TextView
+                                android:id="@+id/processLabel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/mulish_medium"
+                                android:paddingStart="20dp"
+                                android:text="Budjet sa Pagproseso"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/processText"
+                                android:layout_width="0dp"
+                                android:layout_height="55dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/rounded_border_edit_text"
+                                android:ems="10"
+                                android:hint="Hal. 500"
+                                android:inputType="text"
+                                android:paddingStart="10dp" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp">
+
+                            <TextView
+                                android:id="@+id/packagingLabel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/mulish_medium"
+                                android:paddingStart="20dp"
+                                android:text="Budjet sa Packaging"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/packagingText"
+                                android:layout_width="0dp"
+                                android:layout_height="55dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/rounded_border_edit_text"
+                                android:ems="10"
+                                android:hint="Hal. 500"
+                                android:inputType="text"
+                                android:paddingStart="10dp" />
+                        </TableRow>
+
+                    </TableLayout>
+
+                    <TextView
+                        android:id="@+id/setupHelpLink"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="Ano ang mga ito?"
+                        android:textAlignment="center"
+                        android:textColor="@color/highlight_green" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/holdingCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/beige_brackground"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/holdingLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Mga Salik sa Paghawak ng Produkto"
+                        android:textAlignment="center"
+                        android:textColor="@color/secondary_color"
+                        android:textSize="16sp" />
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp">
+
+                            <TextView
+                                android:id="@+id/refLabel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/mulish_medium"
+                                android:paddingStart="20dp"
+                                android:text="Budjet sa Refrigeration"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/refText"
+                                android:layout_width="0dp"
+                                android:layout_height="55dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/rounded_border_edit_text"
+                                android:ems="10"
+                                android:hint="Hal. 500"
+                                android:inputType="text"
+                                android:paddingStart="10dp" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp">
+
+                            <TextView
+                                android:id="@+id/storageLabel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/mulish_medium"
+                                android:paddingStart="20dp"
+                                android:text="Budjet sa Pagtambak"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/storageText"
+                                android:layout_width="0dp"
+                                android:layout_height="55dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/rounded_border_edit_text"
+                                android:ems="10"
+                                android:hint="Hal. 500"
+                                android:inputType="text"
+                                android:paddingStart="10dp" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp">
+
+                            <TextView
+                                android:id="@+id/insuranceLabel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/mulish_medium"
+                                android:paddingStart="20dp"
+                                android:text="Budjet sa Insurance"
+                                android:textSize="14sp" />
+
+                            <EditText
+                                android:id="@+id/insuranceText"
+                                android:layout_width="0dp"
+                                android:layout_height="55dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/rounded_border_edit_text"
+                                android:ems="10"
+                                android:hint="Hal. 500"
+                                android:inputType="text"
+                                android:paddingStart="10dp" />
+                        </TableRow>
+
+                    </TableLayout>
+
+                    <TextView
+                        android:id="@+id/holdingHelpLink"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="Ano ang mga ito?"
+                        android:textAlignment="center"
+                        android:textColor="@color/highlight_green" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/nextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="60dp"
+                android:backgroundTint="@color/secondary_color"
+                android:text="SUMUNOD"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

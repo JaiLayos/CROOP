@@ -34,10 +34,9 @@ public class Fragment_Seller_Customer extends Fragment {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private RecyclerView recyclerView;
-    private List<FeaturedSellersDTO> featuredSellers;
+    private List<FeaturedSellersDTO> featuredSellers, allSellers;
     private RetrofitService RetrofitClient;
     private UserAPI userAPI;
-
 
     public Fragment_Seller_Customer() {
     }
@@ -58,41 +57,19 @@ public class Fragment_Seller_Customer extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         userAPI = RetrofitClient.getClient().create(UserAPI.class);
-        featuredSellers = new ArrayList<>();
-        Call<List<FeaturedSellersDTO>> groupSellersCall = userAPI.getAllGroupSellers();
-        groupSellersCall.enqueue(new Callback<List<FeaturedSellersDTO>>() {
-            @Override
-            public void onResponse(Call<List<FeaturedSellersDTO>> call, Response<List<FeaturedSellersDTO>> response) {
-                if(response.isSuccessful()){
-                    for(FeaturedSellersDTO sellers : response.body()){
-                        FeaturedSellersDTO featuredSellersDTO = new FeaturedSellersDTO();
-                        featuredSellersDTO = addFeaturedSellers(featuredSellersDTO, sellers);
-                        featuredSellers.add(featuredSellersDTO);
-                    }
-                    featuredIndividualSellers(featuredSellers);
-                }else{
-                    Log.e("RetrofitAPI", "Error: " + response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<FeaturedSellersDTO>> call, Throwable t) {
-                Log.e("RetrofitAPI", "Error: " + t.getMessage());
-            }
-        });
-
+        showTable();
 
         EditText searchText;
         searchText = view.findViewById(R.id.searchText);
 
-        List<FeaturedSellersDTO> searchList = new ArrayList<>();
         Button search = view.findViewById(R.id.searchButton);
         search.setOnClickListener(v -> {
             featuredSellers = new ArrayList<>();
             String searched = searchText.getText().toString().trim();
-            if(searchText == null){
-                addToList();
+            if(searched.isEmpty()){
+                showTable();
             }else{
+                featuredSellers = new ArrayList<>();
                 Call<List<FeaturedSellersDTO>> group = userAPI.getGroupSellerByGroupName(searched);
                 group.enqueue(new Callback<List<FeaturedSellersDTO>>() {
                     @Override
@@ -118,6 +95,31 @@ public class Fragment_Seller_Customer extends Fragment {
         });
 
         return view;
+    }
+
+    private void showTable() {
+        featuredSellers = new ArrayList<>();
+        Call<List<FeaturedSellersDTO>> groupSellersCall = userAPI.getAllGroupSellers();
+        groupSellersCall.enqueue(new Callback<List<FeaturedSellersDTO>>() {
+            @Override
+            public void onResponse(Call<List<FeaturedSellersDTO>> call, Response<List<FeaturedSellersDTO>> response) {
+                if(response.isSuccessful()){
+                    for(FeaturedSellersDTO sellers : response.body()){
+                        FeaturedSellersDTO featuredSellersDTO = new FeaturedSellersDTO();
+                        featuredSellersDTO = addFeaturedSellers(featuredSellersDTO, sellers);
+                        featuredSellers.add(featuredSellersDTO);
+                    }
+                    featuredIndividualSellers(featuredSellers);
+                }else{
+                    Log.e("RetrofitAPI", "Error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<FeaturedSellersDTO>> call, Throwable t) {
+                Log.e("RetrofitAPI", "Error: " + t.getMessage());
+            }
+        });
     }
 
     private void findIndividualSellers(List<FeaturedSellersDTO> featuredSellers, String searched) {

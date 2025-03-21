@@ -25,7 +25,7 @@ public class GroupSellerViewAdapter extends FragmentStateAdapter {
             case 1:
                 return new Fragment_Profile_Group_Seller();
             case 2:
-                return new Fragment_Account_Group_Seller();
+                return new Fragment_Notifications_Group_Seller();
             default:
                 return new Fragment();  // Default case
         }

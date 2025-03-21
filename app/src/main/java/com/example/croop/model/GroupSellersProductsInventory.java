@@ -1,18 +1,24 @@
 package com.example.croop.model;
 
+import java.time.LocalDate;
+
 public class GroupSellersProductsInventory extends BaseInventory{
     private int id;
     private GroupSellers groupSellers;
     private GroupSellersDiscount groupSellerDiscounts;
     private int price;
+    private int shelfLifeDays;
+    private LocalDate localDate;
     public GroupSellersProductsInventory(){
 
     }
 
     public GroupSellersProductsInventory(GroupSellers groupSellers, String itemName, int itemStart, int itemUsed,
-                                         int itemRemaining){
-        super(itemName, itemStart, itemUsed,itemRemaining);
+                                         int itemRemaining, String unit, int shelfLifeDays, LocalDate localDate){
+        super(itemName, itemStart, itemUsed,itemRemaining, unit);
         this.groupSellers = groupSellers;
+        this.shelfLifeDays = shelfLifeDays;
+        this.localDate = localDate;
     }
 
     public int getId() {

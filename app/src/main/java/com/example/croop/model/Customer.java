@@ -17,13 +17,16 @@ public class Customer {
     private Date updatedAt;
     private String messengerLink;
     private String roles;
+    private int product_inventory_SC; //setup cost
+    private int product_inventory_MC; //managing cost
 
     public Customer(){
 
     }
 
     public Customer(int id, String firebaseID, String name, String password, int age, Map<String, String> address, String phoneNumber,
-     String email, String bio, Date createdAt, Date updatedAt, String messengerLink, String roles){
+     String email, String bio, Date createdAt, Date updatedAt, String messengerLink, String roles,
+                    int product_inventory_SC, int product_inventory_MC){
         this.id = id;
         this.age = age;
         this.firebaseID = firebaseID;
@@ -37,6 +40,8 @@ public class Customer {
         this.updatedAt = updatedAt;
         this.messengerLink = messengerLink;
         this.roles = roles;
+        this.product_inventory_SC = product_inventory_SC;
+        this.product_inventory_MC = product_inventory_MC;
     }
 
     public void setFirebaseID(String firebaseID) {
@@ -47,8 +52,8 @@ public class Customer {
         return firebaseID;
     }
 
-    public String getId() {
-        return firebaseID;
+    public int getId() {
+        return id;
     }
     public void setID(int id){
         this.id = id;
@@ -125,8 +130,21 @@ public class Customer {
     public String getRoles(){
         return "Customer User";
     }
-
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    public int getProduct_inventory_SC() {
+        return product_inventory_SC;
+    }
+    public void setProduct_inventory_SC(int product_inventory_SC) {
+        this.product_inventory_SC = product_inventory_SC;
+    }
+
+    public int getProduct_inventory_MC() {
+        return product_inventory_MC;
+    }
+    public void setProduct_inventory_MC(int product_inventory_MC) {
+        this.product_inventory_MC = product_inventory_MC;
     }
 }

@@ -1,177 +1,251 @@
 package com.example.croop.Customer;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.croop.Authentication_Phone_Number;
-import com.example.croop.Landing_Activity;
 import com.example.croop.R;
-import com.google.firebase.FirebaseException;
+import com.example.croop.model.CartDTO;
+import com.example.croop.model.CartGroupedResponseDTO;
+import com.example.croop.model.Customer;
+import com.example.croop.model.CustomerOrdersForGroupSellers;
+import com.example.croop.model.CustomerOrdersForIndivSellers;
+import com.example.croop.model.GroupSellerCartDTO;
+import com.example.croop.model.GroupSellers;
+import com.example.croop.model.IndividualSellerCartDTO;
+import com.example.croop.retrofit.RetrofitService;
+import com.example.croop.retrofit.UserAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthOptions;
-import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Fragment_Cart_Customer extends Fragment {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
+    private RetrofitService RetrofitClient;
+    private RecyclerView recyclerView;
+    private int priceOverall, returnCustomer;
+    private Map<String, Integer> orderList;
+    private CustomerOrdersForGroupSellers customerOrdersForGroupSellers;
+    private CustomerOrdersForIndivSellers customerOrdersForIndivSellers;
+    private Customer getCustomer;
+    private GroupSellers getGroupSeller;
+    private UserAPI userAPI;
+
     public Fragment_Cart_Customer() {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchCartData(); // This will refresh data every time fragment becomes visible
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.account_email_edit_individual_seller, container, false);
+        View view = inflater.inflate(R.layout.customer_cart, container, false);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", getContext().MODE_PRIVATE);
         String role = prefs.getString("user_role", null);
 
-        String collection = getCollection(role);
+        recyclerView = view.findViewById(R.id.holderOfGroupedItem);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
 
-        Button logOut, changeEmail, changePassword, changePhone;
-
-        changeEmail = view.findViewById(R.id.changeEmailButton);
-        logOut = view.findViewById(R.id.logOutButton);
-
-        changeEmail.setOnClickListener(v -> {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            DocumentReference userRef = db.collection(collection).document(user.getUid());
-            userRef.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        String userPhoneNumber = document.getString("Phone Number"); // Assuming "phoneNumber" is the field name
-                        initiatePhoneVerification(userPhoneNumber); // Start the OTP verification process
-                    } else {
-                        Log.e("Firestore", "User document does not exist.");
-                    }
-                } else {
-                    Log.e("Firestore", "Error fetching user data.", task.getException());
-                }
-            });
-        });
-
-        logOut.setOnClickListener(v -> {
-            new androidx.appcompat.app.AlertDialog.Builder(getActivity())
-                    .setTitle("Log Out")
-                    .setMessage("Are you sure you want to log out?")
-                    .setPositiveButton("Yes", (dialog, which) -> {
-                        mAuth.signOut();
-                        if (getActivity() != null) {
-                            Intent intent = new Intent(getActivity(), Landing_Activity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        }
-                    })
-                    .setNegativeButton("No", null)
-                    .show();
-        });
-
-        TextView da, cda;
-
-        da = view.findViewById(R.id.daText);
-        da.setOnClickListener(v -> {
-            String userId = "521426187938826"; // Replace with the actual user ID
-            openMessenger(userId);
-        });
-
-        cda = view.findViewById(R.id.cdaText);
-        cda.setOnClickListener(v -> {
-            String userId = "406419702548229"; // Replace with the actual user ID
-            openMessenger(userId);
-        });
+        userAPI = RetrofitClient.getClient().create(UserAPI.class);
 
         return view;
     }
-    private void initiatePhoneVerification(String userPhoneNumber) {
-        PhoneAuthProvider.verifyPhoneNumber(
-                PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber(userPhoneNumber) // Use the retrieved phone number
-                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout for OTP
-                        .setActivity(getActivity()) // Activity for callback binding
-                        .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                            @Override
-                            public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
-                                // Auto-retrieval or instant verification completed
-                            }
 
-                            @Override
-                            public void onVerificationFailed(@NonNull FirebaseException e) {
-                                Log.w("PhoneVerification", "Verification failed.", e);
-                            }
+    private void fetchCartData() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null) return;
 
-                            @Override
-                            public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                                // Save the verification ID and prompt the user to enter the OTP
-                                String storedVerificationId = verificationId;
-                                Intent intent = new Intent(getActivity(), Authentication_Phone_Number.class);
-                                intent.putExtra("storedVerificationId", storedVerificationId);
-                                startActivity(intent);
-                            }
-                        })
-                        .build()
-        );
+        Call<Customer> customerIDcall = userAPI.getCustomerByFirebaseID(user.getUid());
+        customerIDcall.enqueue(new Callback<Customer>() {
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+                Customer customer = response.body();
+                int id = customer.getId();
+                getGroupedCart(id);
+            }
+
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
+                Log.e("Getting Customer Error: ", t.getMessage());
+            }
+        });
+
     }
 
-    private void openMessenger(String userId) {
-        try {
-            // Try to open Messenger app using its URI scheme
-            String messengerUri = "fb-messenger://user-thread/" + userId;
-            Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(messengerUri));
-            startActivity(intent);
-        } catch (Exception e) {
-            // Fallback to web URL if Messenger app is not installed
-            String fallbackUrl = "https://www.facebook.com/messages/t/" + userId;
-            Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(fallbackUrl));
-            startActivity(intent);
-        }
+    private void getGroupedCart(int id) {
+        Call<CartGroupedResponseDTO> getGroupedCartCall = userAPI.getGroupedCart(id);
+        getGroupedCartCall.enqueue(new Callback<CartGroupedResponseDTO>() {
+            @Override
+            public void onResponse(Call<CartGroupedResponseDTO> call, Response<CartGroupedResponseDTO> response) {
+                if(response.isSuccessful() && response != null){
+                    priceOverall = 0;
+                    orderList = new HashMap<>();
+                    CartGroupedResponseDTO cartGroupedResponseDTO = response.body();
+                    CartGroupedAdapter adapter = new CartGroupedAdapter(
+                            requireContext(),
+                            cartGroupedResponseDTO,
+                            (sellerId, isGroup) -> {
+                                if (isGroup) {
+                                    cartForGroup(cartGroupedResponseDTO, id, sellerId);
+                                } else {
+                                    cartForIndividual(cartGroupedResponseDTO, id, sellerId);
+                                }
+                            }
+                    );
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CartGroupedResponseDTO> call, Throwable t) {
+                Log.e("Getting Grouped Cart Error: ", t.getMessage());
+            }
+        });
     }
-    private String getCollection(String role) {
-        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", getContext().MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        String collection;
 
-        switch (role) {
-            case "Group Business User (Association)":
-                collection = "Farming Association";
-                break;
-            case "Group Business User (Cooperative)":
-                collection = "Farming Cooperatives";
-                break;
-            case "Individual Business User":
-                collection = "Individual Sellers";
-                break;
-            case "Individual Customer User":
-                collection = "Customers";
-                break;
-            case "Group Customer User":
-                collection = "Group Customers";
-                break;
-            default:
-                collection = "Unknown";
-                break;
+    private void cartForIndividual(CartGroupedResponseDTO cartGroupedResponseDTO, int id, int sellerId) {
+        List<IndividualSellerCartDTO> individualSellers = cartGroupedResponseDTO.getIndividualSellers();
+        for(IndividualSellerCartDTO individualSeller : individualSellers){
+            if(individualSeller.getId() == sellerId){
+                List<CartDTO> carts = individualSeller.getCartItems();
+                for(CartDTO cart : carts){
+                    customerOrdersForIndivSellers = new CustomerOrdersForIndivSellers();
+                    orderList.put(cart.getCropName(),cart.getQuantity());
+                    priceOverall = priceOverall + cart.getPrice();
+                    customerOrdersForIndivSellers.setOrderList(orderList);
+                    customerOrdersForIndivSellers.setOrderPrice(priceOverall);
+                    customerOrdersForIndivSellers.setOrderStatus("Pending");
+                    customerOrdersForIndivSellers.setOrderType("Cash-On-Delivery");
+                    deleteCart(cart.getId());
+                }
+            }
         }
+        Call<CustomerOrdersForIndivSellers> createIndividualOrder = userAPI.createIndividualOrder(id,
+                sellerId,customerOrdersForIndivSellers);
+        createIndividualOrder.enqueue(new Callback<CustomerOrdersForIndivSellers>() {
+            @Override
+            public void onResponse(Call<CustomerOrdersForIndivSellers> call, Response<CustomerOrdersForIndivSellers> response) {
+                if(response.isSuccessful() && response!= null){
 
-        editor.putString("user_collection", collection).apply();
-        return collection;
+                    Toast.makeText(getActivity(), "Order Added to the Group", Toast.LENGTH_SHORT).show();
+                    Log.e("Add Order to Group", "Success" + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CustomerOrdersForIndivSellers> call, Throwable t) {
+                Log.e("Add Order to Group", "Error" + t.getMessage());
+            }
+        });
+    }
+
+    private void cartForGroup(CartGroupedResponseDTO cartGroupedResponseDTO, int id, int sellerId) {
+        List<GroupSellerCartDTO> groupSellers = cartGroupedResponseDTO.getGroupSellers();
+        for(GroupSellerCartDTO groupSeller : groupSellers){
+            if(groupSeller.getId() == sellerId){
+                List<CartDTO> carts = groupSeller.getCartItems();
+                for(CartDTO cart : carts){
+                    customerOrdersForGroupSellers = new CustomerOrdersForGroupSellers();
+                    orderList.put(cart.getCropName(),cart.getQuantity());
+                    priceOverall = priceOverall + cart.getPrice();
+                    customerOrdersForGroupSellers.setOrderList(orderList);
+                    customerOrdersForGroupSellers.setOrderPrice(priceOverall);
+                    customerOrdersForGroupSellers.setOrderStatus("Pending");
+                    customerOrdersForGroupSellers.setOrderType("Cash-On-Delivery");
+                    deleteCart(cart.getId());
+                }
+            }
+        }
+        Call<CustomerOrdersForGroupSellers> createGroupOrder = userAPI.createGroupOrder(id,
+                sellerId,customerOrdersForGroupSellers);
+        createGroupOrder.enqueue(new Callback<CustomerOrdersForGroupSellers>() {
+            @Override
+            public void onResponse(Call<CustomerOrdersForGroupSellers> call, Response<CustomerOrdersForGroupSellers> response) {
+                if(response.isSuccessful() && response!= null){
+
+                    Toast.makeText(getActivity(), "Order Added to the Group", Toast.LENGTH_SHORT).show();
+                    Log.e("Add Order to Group", "Success" + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CustomerOrdersForGroupSellers> call, Throwable t) {
+                Log.e("Add Order to Group", "Error" + t.getMessage());
+            }
+        });
+    }
+
+    private void deleteCart(int id) {
+        Call<Void> deleteCall = userAPI.deleteCart(id);
+        deleteCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Toast.makeText(getActivity(), "Processed!", Toast.LENGTH_SHORT).show();
+                fetchCartData();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("Delete Call Error: ", t.getMessage());
+            }
+        });
+    }
+
+    private GroupSellers getGroupSeller(int sellerId) {
+        Call<GroupSellers> groupSellersCall = userAPI.getGroupSellers(sellerId);
+        groupSellersCall.enqueue(new Callback<GroupSellers>() {
+            @Override
+            public void onResponse(Call<GroupSellers> call, Response<GroupSellers> response) {
+                getGroupSeller = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<GroupSellers> call, Throwable t) {
+                getGroupSeller = null;
+            }
+        });
+        return getGroupSeller;
+    }
+
+    private Customer getCustomer(int id) {
+        Call<Customer> customerCall = userAPI.getCustomer(id);
+        customerCall.enqueue(new Callback<Customer>() {
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+                getCustomer = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
+                getCustomer = null;
+            }
+        });
+        return getCustomer;
     }
 }

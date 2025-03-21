@@ -15,42 +15,6 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/changeEmailButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="70dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/secondary_color"
-                android:fontFamily="@font/inter_medium"
-                android:text="@string/change_email"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/changePasswordButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/secondary_color"
-                android:fontFamily="@font/inter_medium"
-                android:text="@string/change_password"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/changePhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="@color/secondary_color"
-                android:fontFamily="@font/inter_medium"
-                android:text="@string/change_phone_num"
-                android:textSize="16sp" />
-
-            <Button
                 android:id="@+id/logOutButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

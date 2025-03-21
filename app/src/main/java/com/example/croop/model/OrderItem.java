@@ -1,23 +1,29 @@
 package com.example.croop.model;
 
 public class OrderItem {
-    private String item;
-    private int price;
+    private String cropName;
+    private int quantity;
 
-    // Getters and setters
-    public String getItem() {
-        return item;
+    public OrderItem(){
+
     }
 
-    public void setItem(String item) {
-        this.item = item;
+    public OrderItem(String cropName, int quantity){
+        this.cropName = cropName;
+        this.quantity = quantity;
+    }
+    // Getters and setters
+    public String getItem() {
+        return cropName;
+    }
+    public void setItem(String cropName) {
+        this.cropName = cropName;
     }
 
     public int getQuantity() {
-        return price;
+        return quantity;
     }
-
-    public void setQuantity(int price) {
-        this.price = price;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

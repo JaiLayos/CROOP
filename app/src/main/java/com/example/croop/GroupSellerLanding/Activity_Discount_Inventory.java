@@ -1,6 +1,5 @@
 package com.example.croop.GroupSellerLanding;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -102,10 +101,7 @@ public class Activity_Discount_Inventory extends AppCompatActivity {
         });
         FloatingActionButton back = findViewById(R.id.backFloat);
         back.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Sign_In_Success_Group_Seller.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            finish();
+            onBackPressed();
         });
     }
 

@@ -31,9 +31,6 @@ public class Sign_In_Success_Individual_Seller extends AppCompatActivity {
                 case 1:
                     tab.setText("Profile");
                     break;
-                case 2:
-                    tab.setText("Account");
-                    break;
             }
         }).attach();
     }

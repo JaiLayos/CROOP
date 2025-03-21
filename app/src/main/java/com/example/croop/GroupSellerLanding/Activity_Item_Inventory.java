@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.R;
+import com.example.croop.model.GroupSellers;
 import com.example.croop.model.GroupSellersItemInventory;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
@@ -35,6 +36,8 @@ public class Activity_Item_Inventory extends AppCompatActivity {
     private TableLayout table;
     FirebaseAuth mAuth;
     RetrofitService RetrofitClient;
+    int pgID;
+    UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +47,6 @@ public class Activity_Item_Inventory extends AppCompatActivity {
     }
 
     private void initializeComponents() {
-        UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         table = findViewById(R.id.tableLayout);
@@ -79,13 +81,14 @@ public class Activity_Item_Inventory extends AppCompatActivity {
         find.setOnClickListener(v -> {
             EditText itemNameFind = findViewById(R.id.itemNameFindText);
             String itemName = itemNameFind.getText().toString();
-            Call<List<GroupSellersItemInventory>> searchItem = apiService.getItemByName(itemName);
+            pgID = getSellerID(user.getUid());
+            Call<List<GroupSellersItemInventory>> searchItem = apiService.getItemByNameByIndividualID(itemName, pgID);
             searchItem.enqueue(new Callback<List<GroupSellersItemInventory>>() {
                 @Override
                 public void onResponse(Call<List<GroupSellersItemInventory>> call, Response<List<GroupSellersItemInventory>> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         List<GroupSellersItemInventory> items = response.body();
-                        Toast.makeText(Activity_Item_Inventory.this, "Bilang ng mga order na natagpuan: " + items.size(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(Activity_Item_Inventory.this, "Bilang ng mga order na natagpuan: " + items.size(), Toast.LENGTH_SHORT).show();
                         populateTableDefault(items,table);
                     }else{
                         try {
@@ -113,15 +116,29 @@ public class Activity_Item_Inventory extends AppCompatActivity {
         });
         FloatingActionButton back = findViewById(R.id.backFloat);
         back.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Activity_Inventory_Category.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            finish();
+            onBackPressed();
         });
     }
 
+    private int getSellerID(String uid) {
+        Call<GroupSellers> groupSellersCall = apiService.getGroupSellersbyFirebaseID(uid);
+        groupSellersCall.enqueue(new Callback<GroupSellers>() {
+            @Override
+            public void onResponse(Call<GroupSellers> call, Response<GroupSellers> response) {
+                GroupSellers groupSellers = response.body();
+                pgID = groupSellers.getId();
+            }
+
+            @Override
+            public void onFailure(Call<GroupSellers> call, Throwable t) {
+
+            }
+        });
+        return pgID;
+    }
+
     private void populateTableDefault(List<GroupSellersItemInventory> items, TableLayout table){
-        UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
+
         table.removeViews(1, table.getChildCount() - 1);
 
         for (GroupSellersItemInventory item : items) {

@@ -34,7 +34,7 @@ public class Sign_In_Success_Group_Seller extends AppCompatActivity {
                     tab.setText("Profile");
                     break;
                 case 2:
-                    tab.setText("Account");
+                    tab.setText("Notifications");
                     break;
             }
         }).attach();

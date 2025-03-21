@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputType;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.croop.R;
 import com.example.croop.model.GroupSellers;
 import com.example.croop.model.GroupSellersProductsInventory;
@@ -30,24 +35,31 @@ import retrofit2.Response;
 public class Activity_Add_Products extends AppCompatActivity {
     private static final int RC_IMAGE_PICKER = 100;
     private Uri imageUri;
-    FirebaseAuth mAuth;
-    RetrofitService RetrofitClient;
+    private FirebaseAuth mAuth;
+    private RetrofitService RetrofitClient;
+    private ImageView product;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_products_group);
+        setContentView(R.layout.add_products);
         mAuth = FirebaseAuth.getInstance();
         initializeComponents();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        product = findViewById(R.id.addProductProfile);
         if (requestCode == RC_IMAGE_PICKER && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
             if (imageUri == null) {
                 Toast.makeText(this, "Failed to retrieve image URI!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Image selected: " + imageUri.toString(), Toast.LENGTH_SHORT).show();
+                Glide.with(this)
+                        .load(imageUri.toString())
+                        .placeholder(R.drawable.logo)
+                        .error(R.drawable.sun)
+                        .into(product);
             }
         } else {
             Toast.makeText(this, "No image selected!", Toast.LENGTH_SHORT).show();
@@ -82,9 +94,7 @@ public class Activity_Add_Products extends AppCompatActivity {
         });
         FloatingActionButton back = findViewById(R.id.backFloat);
         back.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Activity_Products_Inventory.class);
-            startActivity(intent);
-            recreate();
+            onBackPressed();
         });
     }
 
@@ -94,6 +104,8 @@ public class Activity_Add_Products extends AppCompatActivity {
             Toast.makeText(this, "User not signed in!", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        product = findViewById(R.id.addProductProfile);
 
         String userId = user.getUid();
 
@@ -105,7 +117,11 @@ public class Activity_Add_Products extends AppCompatActivity {
         storageRef.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> {
                     storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        Toast.makeText(this, "Uploaded!", Toast.LENGTH_SHORT).show();
+                        Glide.with(this)
+                                .load(uri.toString())
+                                .placeholder(R.drawable.logo)
+                                .error(R.drawable.sun)
+                                .into(product);
                     }).addOnFailureListener(e -> {
                         Toast.makeText(this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
@@ -119,21 +135,37 @@ public class Activity_Add_Products extends AppCompatActivity {
         UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
         GroupSellers groupSellers = new GroupSellers();
         groupSellers.setID(id);
-        EditText name, quantity, price;
+        EditText name, quantity, price, freshness, growth;
+
+        Spinner unit;
+        unit = findViewById(R.id.unitOptions);
+        String[] units = {"Kilo/s", "Sako", "Tumpok", "Piraso"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, units);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        unit.setAdapter(adapter);
+
         name = findViewById(R.id.nameText);
         quantity = findViewById(R.id.initialText);
         price = findViewById(R.id.priceText);
+        freshness = findViewById(R.id.freshnessText);
+        growth = findViewById(R.id.restockText);
+
+        quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
+        price.setInputType(InputType.TYPE_CLASS_NUMBER);
+        freshness.setInputType(InputType.TYPE_CLASS_NUMBER);
+        growth.setInputType(InputType.TYPE_CLASS_NUMBER);
+
         GroupSellersProductsInventory groupSellersProductsInventory = new GroupSellersProductsInventory();
         groupSellersProductsInventory.setItemName(name.getText().toString());
         groupSellersProductsInventory.setItemStart(Integer.parseInt(quantity.getText().toString()));
         groupSellersProductsInventory.setPrice(Integer.parseInt(price.getText().toString()));
         groupSellersProductsInventory.setGroupSellers(groupSellers);
+        groupSellersProductsInventory.setUnit(unit.getSelectedItem().toString());
         Call<GroupSellersProductsInventory> call = userAPI.addProduct(groupSellersProductsInventory);
         call.enqueue(new Callback<GroupSellersProductsInventory>() {
             @Override
             public void onResponse(Call<GroupSellersProductsInventory> call, Response<GroupSellersProductsInventory> response) {
                 Toast.makeText(Activity_Add_Products.this, name.getText().toString() + " is added.", Toast.LENGTH_SHORT).show();
-                addPictureProduct(imageUri, name.getText().toString().trim());
                 Intent intent = new Intent(Activity_Add_Products.this, Activity_Products_Inventory.class);
                 startActivity(intent);
                 finish();

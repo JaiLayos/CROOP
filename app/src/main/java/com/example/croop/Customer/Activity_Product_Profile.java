@@ -3,7 +3,9 @@ package com.example.croop.Customer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,12 +24,14 @@ import com.example.croop.model.IndividualSellers;
 import com.example.croop.model.ProductDTO;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +54,7 @@ public class Activity_Product_Profile extends AppCompatActivity {
     private ProductDTO store;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
+    private int count;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -155,11 +160,11 @@ public class Activity_Product_Profile extends AppCompatActivity {
     }
 
     private void showProduct(ProductDTO productDTO) {
-        int id = productDTO.getProductID();
+        int productID = productDTO.getProductID();
         String kindOfSeller = productDTO.getSellerRole();
         String firebase_id = productDTO.getFirebaseID();
         Intent intent = new Intent(this, Activity_Product_Profile.class);
-        intent.putExtra("product_id", id);
+        intent.putExtra("product_id", productID);
         intent.putExtra("firebase_id",firebase_id);
         intent.putExtra("seller", kindOfSeller);
         startActivity(intent);
@@ -230,14 +235,14 @@ public class Activity_Product_Profile extends AppCompatActivity {
         });
         sellerRoleText.setText(products.getSellerRole());
         sellerProfile.setOnClickListener(v -> {
-            Intent openThruProfile = new Intent(this,Activity_Seller_Profile.class);
+            Intent openThruName = new Intent(this,Activity_Seller_Profile.class);
             String kindOfSeller = products.getSellerRole();
             String firebaseID = products.getFirebaseID();
             int id = products.getSellerID();
-            openThruProfile.putExtra("seller", kindOfSeller);
-            openThruProfile.putExtra("seller_id", id);
-            openThruProfile.putExtra("firebase_id", firebaseID);
-            startActivity(openThruProfile);
+            openThruName.putExtra("seller", kindOfSeller);
+            openThruName.putExtra("seller_id", id);
+            openThruName.putExtra("firebase_id", firebaseID);
+            startActivity(openThruName);
         });
         StorageReference storageRef = FirebaseStorage.getInstance().getReference()
                 .child("Products")
@@ -262,6 +267,18 @@ public class Activity_Product_Profile extends AppCompatActivity {
 
         addToCart = findViewById(R.id.cartButton);
         addToCart.setOnClickListener(v -> {
+            openBottomView(products);
+        });
+    }
+
+    private void openBottomView(ProductDTO products) {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        View bottomSheetView = getLayoutInflater().inflate(R.layout.customer_products_quantity, null);
+
+        EditText quantity = bottomSheetView.findViewById(R.id.quantityText);
+        Button finalize = bottomSheetView.findViewById(R.id.cartButton);
+        finalize.setOnClickListener(v -> {
+            count = Integer.parseInt(quantity.getText().toString());
             cart = new Cart();
             if(seller != null){
                 switch(seller){
@@ -305,9 +322,12 @@ public class Activity_Product_Profile extends AppCompatActivity {
 
             cart.setCropID(products.getProductID());
             cart.setCropName(products.getProductName());
-            cart.setQuantity(1);
+            cart.setQuantity(count);
             cart.setPrice(cart.getQuantity() * products.getProductPrice());
         });
+        // Show the bottom sheet dialog
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
     }
 
     private void findCustomer() {
@@ -331,12 +351,35 @@ public class Activity_Product_Profile extends AppCompatActivity {
         cartCall.enqueue(new Callback<Cart>() {
             @Override
             public void onResponse(Call<Cart> call, Response<Cart> response) {
-                Toast.makeText(Activity_Product_Profile.this, "Added to Cart!", Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful()) {
+                    Toast.makeText(Activity_Product_Profile.this,
+                            "Added to Cart!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        String errorBody = response.errorBody().string();
+                        if (response.code() == 409) {
+                            Toast.makeText(Activity_Product_Profile.this,
+                                    "Item already in cart",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(Activity_Product_Profile.this,
+                                    "Error: " + errorBody,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    } catch (IOException e) {
+                        Toast.makeText(Activity_Product_Profile.this,
+                                "Failed to read server response",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
 
             @Override
             public void onFailure(Call<Cart> call, Throwable t) {
-
+                Toast.makeText(Activity_Product_Profile.this,
+                        "Network error: " + t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

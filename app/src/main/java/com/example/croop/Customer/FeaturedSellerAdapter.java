@@ -60,11 +60,6 @@ public class FeaturedSellerAdapter extends RecyclerView.Adapter<FeaturedSellerAd
         });
 
         // Handle "View Products" button click
-        holder.products.setOnClickListener(v2 -> {
-            if (listener != null) {
-                listener.onViewProductsClick(featuredSellersDTO);
-            }
-        });
         storageRef = FirebaseStorage.getInstance().getReference()
                 .child("Profile Picture")
                 .child(userID)
@@ -97,7 +92,6 @@ public class FeaturedSellerAdapter extends RecyclerView.Adapter<FeaturedSellerAd
             role = itemView.findViewById(R.id.sellerRoleText);
             display = itemView.findViewById(R.id.sellerProfile);
             profile = itemView.findViewById(R.id.profileButton);
-            products = itemView.findViewById(R.id.productsButton);
         }
     }
 }

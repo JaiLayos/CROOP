@@ -53,6 +53,8 @@ public class Activity_Products_Inventory extends AppCompatActivity {
     FirebaseUser user;
     RetrofitService RetrofitClient;
     UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
+    private int pgID;
+
 
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE = 1;
 
@@ -107,43 +109,24 @@ public class Activity_Products_Inventory extends AppCompatActivity {
     private void initializeComponents() {
         table = findViewById(R.id.tableLayout);
 
-        Call<List<GroupSellersProductsInventory>> call = apiService.getProductsByFirebaseID(user.getUid());
-        call.enqueue(new Callback<List<GroupSellersProductsInventory>>() {
-            @Override
-            public void onResponse(Call<List<GroupSellersProductsInventory>> call, Response<List<GroupSellersProductsInventory>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<GroupSellersProductsInventory> products = response.body();
-                    Toast.makeText(Activity_Products_Inventory.this, "Number of products fetched: " + products.size(), Toast.LENGTH_SHORT).show();
-                    populateTableDefault(products,table);
-                }else{
-                    try {
-                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
-                        Log.e("API_ERROR", "Code: " + response.code() + ", Message: " + errorBody);
-                        Toast.makeText(Activity_Products_Inventory.this, "API_ERROR: Code " + response.code(), Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+        showProducts(table);
 
-            @Override
-            public void onFailure(Call<List<GroupSellersProductsInventory>> call, Throwable t) {
-                Toast.makeText(Activity_Products_Inventory.this, "API_ERROR"+ t.toString(), Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
-            }
-        });
         Button find, add;
         find = findViewById(R.id.findItemButton);
+        EditText itemNameFind = findViewById(R.id.productNameFindText);
         find.setOnClickListener(v -> {
-            EditText itemNameFind = findViewById(R.id.productNameFindText);
             String itemName = itemNameFind.getText().toString().trim();
-            Call<List<GroupSellersProductsInventory>> searchItem = apiService.getProductsByName(itemName);
+            if(itemName.isEmpty()){
+                showProducts(table);
+            }
+            pgID = returnPGID(user.getUid());
+            Call<List<GroupSellersProductsInventory>> searchItem = apiService.getItemByNameByGroupID(itemName, pgID);
             searchItem.enqueue(new Callback<List<GroupSellersProductsInventory>>() {
                 @Override
                 public void onResponse(Call<List<GroupSellersProductsInventory>> call, Response<List<GroupSellersProductsInventory>> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         List<GroupSellersProductsInventory> items = response.body();
-                        Toast.makeText(Activity_Products_Inventory.this, "Number of products found: " + items.size(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(Activity_Products_Inventory.this, "Number of products found: " + items.size(), Toast.LENGTH_SHORT).show();
                         populateTableDefault(items,table);
                     }else{
                         try {
@@ -171,11 +154,53 @@ public class Activity_Products_Inventory extends AppCompatActivity {
         });
         FloatingActionButton back = findViewById(R.id.backFloat);
         back.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Activity_Inventory_Category.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            finish();
+            onBackPressed();
         });
+    }
+
+    private void showProducts(TableLayout table) {
+        Call<List<GroupSellersProductsInventory>> call = apiService.getProductsByFirebaseID(user.getUid());
+        call.enqueue(new Callback<List<GroupSellersProductsInventory>>() {
+            @Override
+            public void onResponse(Call<List<GroupSellersProductsInventory>> call, Response<List<GroupSellersProductsInventory>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<GroupSellersProductsInventory> products = response.body();
+                    Toast.makeText(Activity_Products_Inventory.this, "Number of products fetched: " + products.size(), Toast.LENGTH_SHORT).show();
+                    populateTableDefault(products,table);
+                }else{
+                    try {
+                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
+                        Log.e("API_ERROR", "Code: " + response.code() + ", Message: " + errorBody);
+                        Toast.makeText(Activity_Products_Inventory.this, "API_ERROR: Code " + response.code(), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GroupSellersProductsInventory>> call, Throwable t) {
+                Toast.makeText(Activity_Products_Inventory.this, "API_ERROR"+ t.toString(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private int returnPGID(String uid) {
+        Call<GroupSellers> groupSellersCall = apiService.getGroupSellersbyFirebaseID(uid);
+        groupSellersCall.enqueue(new Callback<GroupSellers>() {
+            @Override
+            public void onResponse(Call<GroupSellers> call, Response<GroupSellers> response) {
+                GroupSellers groupSellers = response.body();
+                pgID = groupSellers.getId();
+            }
+
+            @Override
+            public void onFailure(Call<GroupSellers> call, Throwable t) {
+
+            }
+        });
+        return pgID;
     }
 
     private void populateTableDefault(List<GroupSellersProductsInventory> products, TableLayout table) {

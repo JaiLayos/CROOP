@@ -63,6 +63,7 @@
         <activity android:name=".GroupSellerLanding.Activity_Products_Inventory"/>
         <activity android:name=".GroupSellerLanding.Activity_Add_Products"/>
         <activity android:name=".GroupSellerLanding.Activity_Discount_Inventory"/>
+        <activity android:name=".GroupSellerLanding.Activity_Add_Setup_Holding_Cost"/>
 
         <activity android:name=".IndividualSellerLanding.Sign_In_Success_Individual_Seller"/>
         <activity android:name=".IndividualSellerLanding.Activity_Inventory_Category_Individual"/>
@@ -76,6 +77,7 @@
         <activity android:name=".Customer.Sign_In_Success_Customer"/>
         <activity android:name=".Customer.Activity_Product_Profile"/>
         <activity android:name=".Customer.Activity_Seller_Profile"/>
+        <activity android:name=".Customer.Activity_Edit_User_Profile"/>
 
         <activity android:name=".Authentication_Phone_Number"/>
         <activity android:name=".Authentication_Email_Password_Change_Email"/>

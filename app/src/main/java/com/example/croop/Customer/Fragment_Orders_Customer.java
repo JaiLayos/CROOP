@@ -1,46 +1,74 @@
 package com.example.croop.Customer;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.croop.GroupSellerLanding.Activity_Edit_Profile;
 import com.example.croop.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.croop.model.Customer;
+import com.example.croop.model.SellerOrdersDTO;
+import com.example.croop.retrofit.RetrofitService;
+import com.example.croop.retrofit.UserAPI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Fragment_Orders_Customer extends Fragment {
-    FirebaseFirestore db;
-    FirebaseAuth mAuth;
-    TextView userName, userRole, userBio, userEmail, userPhone, userAddress, userGroup;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private RetrofitService RetrofitClient;
+    private UserAPI userAPI;
+    private FirebaseUser user;
+    private List<SellerOrdersDTO> orders;
+    private TableLayout tableLayout;
 
-    public Fragment_Orders_Customer(){
+    private ProgressBar progressBar; // Reference to the ProgressBar
+    private TextView loadingText;   // Reference to the loading text
 
+    int customerID;
+
+    public Fragment_Orders_Customer() {}
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshOrders(); // Reload data every time the fragment is shown
+    }
+
+    private void refreshOrders() {
+        orders = new ArrayList<>();
+        showLoading(true); // Show loading indicator
+        loadTable();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.profile_individual_seller, container, false);
+        View rootView = inflater.inflate(R.layout.customer_order_list, container, false);
 
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", getContext().MODE_PRIVATE);
         String collection = prefs.getString("user_collection", null);
@@ -48,63 +76,169 @@ public class Fragment_Orders_Customer extends Fragment {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        userName = rootView.findViewById(R.id.userNameText);
-        userRole = rootView.findViewById(R.id.userPositionText);
-        userBio = rootView.findViewById(R.id.userBioText);
-        userEmail = rootView.findViewById(R.id.userEmailText);
-        userPhone = rootView.findViewById(R.id.userPhoneNumberText);
-        userAddress = rootView.findViewById(R.id.userCityText);
+        user = mAuth.getCurrentUser();
 
-        initializeComponents(collection);
+        userAPI = RetrofitClient.getClient().create(UserAPI.class);
 
-        Button edit = rootView.findViewById(R.id.profileEditButton);
-        edit.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Activity_Edit_Profile.class);
-            startActivity(intent);
-        });
+        // Initialize views
+        tableLayout = rootView.findViewById(R.id.orderTable);
+        progressBar = rootView.findViewById(R.id.progressBar);
+        loadingText = rootView.findViewById(R.id.loadingText);
 
         return rootView;
     }
 
-    private void initializeComponents(String collection) {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            DocumentReference docRef = db.collection(collection).document(user.getUid());
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Map<String, Object> address_map = (Map<String, Object>) document.get("Address");
-
-                            // Access individual fields
-                            String city = (String) address_map.get("City");
-                            String country = (String) address_map.get("Country");
-                            String streetName = (String) address_map.get("House_Street_Name");
-                            String postalCode = (String) address_map.get("Postal_Code");
-                            String state = (String) address_map.get("State_Province_Region");
-                            String subdivision = (String) address_map.get("Subdivision_Baranggay");
-
-                            String name_user = document.getString("Name");
-                            userName.setText(name_user);
-                            String role_user = document.getString("Position");
-                            userRole.setText(role_user);
-                            String bio_user = document.getString("Bio");
-                            userBio.setText(bio_user);
-                            String email_user = document.getString("Email");
-                            userEmail.setText(email_user);
-                            String phone_user = document.getString("Phone Number");
-                            userPhone.setText(phone_user);
-                            userAddress.setText(streetName + ", " + subdivision + ", " + city + ", " + state + ", " + postalCode + ", " + country);
-                        } else {
-                            Log.d(TAG, "No such document");
+    private void loadTable() {
+        Call<Customer> customerIDcall = userAPI.getCustomerByFirebaseID(user.getUid());
+        customerIDcall.enqueue(new Callback<Customer>() {
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+                Customer customer = response.body();
+                if (customer != null) {
+                    customerID = customer.getId();
+                    Call<List<SellerOrdersDTO>> getGroupOrderByCustomer = userAPI.getGroupOrderByCustomer(customerID);
+                    getGroupOrderByCustomer.enqueue(new Callback<List<SellerOrdersDTO>>() {
+                        @Override
+                        public void onResponse(Call<List<SellerOrdersDTO>> call, Response<List<SellerOrdersDTO>> response) {
+                            orders = response.body();
+                            getIndividualOrders(customerID, tableLayout, orders);
                         }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                    }
+
+                        @Override
+                        public void onFailure(Call<List<SellerOrdersDTO>> call, Throwable t) {
+                            showLoading(false); // Hide loading indicator on failure
+                        }
+                    });
+                } else {
+                    showLoading(false); // Hide loading indicator if customer ID is null
                 }
-            });
+            }
+
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
+                showLoading(false); // Hide loading indicator on failure
+            }
+        });
+    }
+
+    private void getIndividualOrders(int customerID, TableLayout tableLayout, List<SellerOrdersDTO> orders) {
+        Call<List<SellerOrdersDTO>> individualOrdersCall = userAPI.getIndividualOrderByCustomer(customerID);
+        individualOrdersCall.enqueue(new Callback<List<SellerOrdersDTO>>() {
+            @Override
+            public void onResponse(Call<List<SellerOrdersDTO>> call, Response<List<SellerOrdersDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    for (SellerOrdersDTO indivOrders : response.body()) {
+                        orders.add(indivOrders);
+                    }
+                    populateTable(tableLayout, orders);
+                }
+                showLoading(false); // Hide loading indicator after data is loaded
+            }
+
+            @Override
+            public void onFailure(Call<List<SellerOrdersDTO>> call, Throwable t) {
+                showLoading(false); // Hide loading indicator on failure
+            }
+        });
+    }
+
+    private void populateTable(TableLayout tableLayout, List<SellerOrdersDTO> orders) {
+        tableLayout.post(() -> {
+            tableLayout.removeViews(1, tableLayout.getChildCount() - 1);
+
+            if (!orders.isEmpty()) {
+                for (SellerOrdersDTO order : orders) {
+                    TableRow row = createTableRow(order);
+                    tableLayout.addView(row);
+                }
+            } else {
+                showNoDataMessage(tableLayout);
+            }
+            showLoading(false); // Hide loading indicator after populating the table
+        });
+    }
+
+    private TableRow createTableRow(SellerOrdersDTO order) {
+        TableRow row = new TableRow(getContext());
+        TableRow.LayoutParams params = new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT
+        );
+        int marginInPixels = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                8,
+                getResources().getDisplayMetrics()
+        );
+        params.setMargins(0, 0, 0, marginInPixels);
+        row.setLayoutParams(params);
+
+        String formattedDate = formatDate(order.getOrderDate());
+        String formattedOrderList = formatOrderList(order.getOrderList());
+        addTextViewToRow(row, formattedDate, 1f);
+        addTextViewToRow(row, formattedOrderList, 1f);
+        addTextViewToRow(row, String.valueOf(order.getOrderPrice()), 1f);
+        addTextViewToRow(row, order.getOrderStatus(), 1f);
+
+        return row;
+    }
+
+    private String formatDate(Date date) {
+        if (date == null) return "N/A";
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+        return sdf.format(date);
+    }
+
+    private String formatOrderList(Map<String, Integer> orderList) {
+        if (orderList == null || orderList.isEmpty()) {
+            return "No items";
+        }
+
+        List<String> items = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : orderList.entrySet()) {
+            items.add(String.format("%s (%d)", entry.getKey(), entry.getValue()));
+        }
+        return TextUtils.join(", ", items);
+    }
+
+    private void addTextViewToRow(TableRow row, String text, float weight) {
+        TextView tv = new TextView(getContext());
+        tv.setText(text);
+        tv.setGravity(Gravity.CENTER);
+        tv.setLayoutParams(new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, weight));
+        row.addView(tv);
+    }
+
+    private void showNoDataMessage(TableLayout tableLayout) {
+        TableRow row = new TableRow(getContext());
+        TextView tv = new TextView(getContext());
+        tv.setText("No orders found");
+        tv.setGravity(Gravity.CENTER);
+
+        TableRow.LayoutParams params = new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT
+        );
+
+        int marginInPixels = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                8,
+                getResources().getDisplayMetrics()
+        );
+        params.setMargins(marginInPixels, marginInPixels, marginInPixels, marginInPixels);
+        tv.setLayoutParams(params);
+        row.addView(tv);
+        tableLayout.addView(row);
+    }
+
+    private void showLoading(boolean isLoading) {
+        if (isLoading) {
+            progressBar.setVisibility(View.VISIBLE);
+            loadingText.setVisibility(View.VISIBLE);
+            tableLayout.setVisibility(View.GONE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            loadingText.setVisibility(View.GONE);
+            tableLayout.setVisibility(View.VISIBLE);
         }
     }
 }

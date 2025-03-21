@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.croop.Landing_Activity;
 import com.example.croop.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -91,7 +92,56 @@ public class Fragment_Profile_Group_Seller extends Fragment {
             displayPicture.setImageResource(R.drawable.logo);
         });
 
+        Button logOut;
+        logOut = rootView.findViewById(R.id.logOutButton);
+
+
+        logOut.setOnClickListener(v -> {
+            new androidx.appcompat.app.AlertDialog.Builder(getActivity())
+                    .setTitle("Log Out")
+                    .setMessage("Are you sure you want to log out?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        mAuth.signOut();
+                        if (getActivity() != null) {
+                            Intent intent = new Intent(getActivity(), Landing_Activity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        });
+
+        TextView da, cda;
+
+        da = rootView.findViewById(R.id.daText);
+        da.setOnClickListener(v -> {
+            String uid = "521426187938826"; // Replace with the actual user ID
+            openMessenger(uid);
+        });
+
+        cda = rootView.findViewById(R.id.cdaText);
+        cda.setOnClickListener(v -> {
+            String uid = "406419702548229"; // Replace with the actual user ID
+            openMessenger(uid);
+        });
+
+
         return rootView;
+    }
+
+    private void openMessenger(String userId) {
+        try {
+            // Try to open Messenger app using its URI scheme
+            String messengerUri = "fb-messenger://user-thread/" + userId;
+            Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(messengerUri));
+            startActivity(intent);
+        } catch (Exception e) {
+            // Fallback to web URL if Messenger app is not installed
+            String fallbackUrl = "https://www.facebook.com/messages/t/" + userId;
+            Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(fallbackUrl));
+            startActivity(intent);
+        }
     }
 
     private void initializeComponents(String collection) {

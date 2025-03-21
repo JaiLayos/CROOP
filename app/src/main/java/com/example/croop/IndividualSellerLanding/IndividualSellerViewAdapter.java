@@ -21,8 +21,6 @@ public class IndividualSellerViewAdapter extends FragmentStateAdapter {
                 return new Fragment_Home_Individual_Seller();
             case 1:
                 return new Fragment_Profile_Individual_Seller();
-            case 2:
-                return new Fragment_Account_Individual_Seller();
             default:
                 return new Fragment();  // Default case
         }

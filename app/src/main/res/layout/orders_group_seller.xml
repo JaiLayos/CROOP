@@ -73,16 +73,6 @@
                                 android:layout_height="match_parent">
 
                                 <TextView
-                                    android:id="@+id/orderIDLabel"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/mulish_medium"
-                                    android:text="ID"
-                                    android:textAlignment="center"
-                                    android:textStyle="bold" />
-
-                                <TextView
                                     android:id="@+id/orderDateLabel"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -133,19 +123,6 @@
                                     android:textStyle="bold" />
                             </TableRow>
 
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-
-                            </TableRow>
-
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
-
-                            <TableRow
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
                         </TableLayout>
                     </LinearLayout>
 

@@ -19,8 +19,10 @@ public class GroupSellers extends Customer{
                         String roles, String groupName, String position, List<String> permitUrls,
                         List<GroupSellersOrders> groupSellerOrders, List<GroupSellersItemInventory> groupSellersItemInventoryList,
                         List<GroupSellersProductsInventory> groupSellersProductsInventoryList,
-                        List<GroupSellersDiscount> groupSellerDiscounts){
-        super(id, firebaseID, name, password, age, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, roles);
+                        List<GroupSellersDiscount> groupSellerDiscounts,
+                        int product_inventory_SC, int product_inventory_MC){
+        super(id, firebaseID, name, password, age, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, roles,
+                product_inventory_SC, product_inventory_MC);
         this.groupName = groupName;
         this.position = position;
         this.permitUrls = new ArrayList<>(permitUrls);

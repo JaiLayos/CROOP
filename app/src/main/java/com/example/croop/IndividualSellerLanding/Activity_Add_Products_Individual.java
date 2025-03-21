@@ -5,13 +5,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.croop.R;
 import com.example.croop.model.IndividualSellers;
 import com.example.croop.model.IndividualSellersProductsInventory;
@@ -30,12 +33,14 @@ import retrofit2.Response;
 public class Activity_Add_Products_Individual extends AppCompatActivity {
     private static final int RC_IMAGE_PICKER = 100;
     private Uri imageUri;
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
+    private ImageView product;
+
     RetrofitService RetrofitClient;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_products_individual);
+        setContentView(R.layout.add_products);
         mAuth = FirebaseAuth.getInstance();
         initializeComponents();
     }
@@ -95,6 +100,7 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
         name = findViewById(R.id.nameText);
         quantity = findViewById(R.id.initialText);
         price = findViewById(R.id.priceText);
+        product = findViewById(R.id.addProductProfile);
 
         quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
         price.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -140,6 +146,16 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> {
                     storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         Toast.makeText(this, "Uploaded!", Toast.LENGTH_SHORT).show();
+                        storageRef.getDownloadUrl().addOnSuccessListener(uri1 -> {
+                            Glide.with(this)
+                                    .load(uri1.toString())
+                                    .placeholder(R.drawable.logo)
+                                    .error(R.drawable.sun)
+                                    .into(product);
+                        }).addOnFailureListener(e -> {
+                            Log.e("FirebaseImageError", "Failed to get download URL: " + e.getMessage());
+                            product.setImageResource(R.drawable.logo);
+                        });
                     }).addOnFailureListener(e -> {
                         Toast.makeText(this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
