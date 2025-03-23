@@ -159,7 +159,7 @@ public class GroupSellersProductService implements IGroupSellersProductInventory
         for (int t = 1; t <= periods; t++) {
             int totalDemand = 0;
             for (int j = t; j >= 1; j--) {
-                totalDemand += demandForecast.get(j - 1); // Sum demand from j to t
+                totalDemand += demandForecast.get(j - 1);
                 int totalCost = (j > 1 ? cost[j - 1] : 0) + setupCost + (holdingCost * totalDemand);
                 if (totalCost < cost[t]) {
                     cost[t] = totalCost;

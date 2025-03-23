@@ -18,6 +18,8 @@ public interface IIndividualSellersProductService {
     List<IndividualSellersProductsInventory> findTop3ByLowestItemRemaining();
     boolean findIfSCIsSet(int id);
     boolean findIfMCIsSet(int id);
+    boolean shouldRestock(List<Integer> demandForecast, int id, int remaining);
+    boolean shouldDiscount(int id, int shelfLifeDays);
     IndividualSellersProductsInventory updateItems(int id, IndividualSellersProductsInventory individualSellersProductsInventory);
     void deleteItems(int id);
 }

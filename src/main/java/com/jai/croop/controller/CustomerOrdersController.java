@@ -3,6 +3,8 @@ package com.jai.croop.controller;
 import ch.qos.logback.classic.Logger;
 import com.jai.croop.model.*;
 import com.jai.croop.repository.GroupSellersProductsRepository;
+import com.jai.croop.repository.IndividualSellersProductsRepository;
+import com.jai.croop.repository.IndividualSellersRepository;
 import com.jai.croop.service.*;
 import org.aspectj.weaver.ast.Not;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,12 @@ public class CustomerOrdersController {
     private IGroupSellersProductInventoryService groupSellersProductInventoryService;
     @Autowired
     private GroupSellersProductsRepository groupSellersProductsRepository;
+    @Autowired
+    private IIndividualSellersProductService individualSellersProductService;
+    @Autowired
+    private IndividualSellersProductsRepository individualSellersProductsRepository;
+    @Autowired
+    private IIndividualSellersService individualSellersService;
     @Autowired
     private IGroupSellersService groupSellersService;
     @Autowired
@@ -56,7 +64,7 @@ public class CustomerOrdersController {
                     productsInventory.setItemUsed(used);
                     productsInventory.setItemRemaining(remaining);
                     groupSellersProductInventoryService.updateItems(productID, productsInventory);
-                    checkStockBasedOnDemand(groupSellerId,productID, remaining);
+                    checkGroupStockBasedOnDemand(groupSellerId,productID, remaining);
 
                 }
             }
@@ -65,7 +73,7 @@ public class CustomerOrdersController {
     }
 
     @GetMapping("group/demand-threshold/{groupSellerId}/{productId}")
-    public void checkStockBasedOnDemand(@PathVariable int groupSellerId, @PathVariable int productId, int remaining) {
+    public void checkGroupStockBasedOnDemand(@PathVariable int groupSellerId, @PathVariable int productId, int remaining) {
         log.info("Checking stock for groupSellerId: {}, productId: {}, remaining: {}", groupSellerId, productId, remaining);
 
         GroupSellersProductsInventory productInventory = groupSellersProductsRepository.findById(productId)
@@ -185,7 +193,59 @@ public class CustomerOrdersController {
 
         CustomerOrdersForIndivSellers savedOrder = customerOrdersService.addCustomerOrdersToIndividualOrders(
                 order, customerId, sellerId);
+        Map<String, Integer> orderList = savedOrder.getOrderList();
+        if (orderList != null && !orderList.isEmpty()) {
+            for (Map.Entry<String, Integer> entry : orderList.entrySet()) {
+                String productName = entry.getKey(); // Product name
+                int quantity = entry.getValue();     // Quantity
+                List<IndividualSellersProductsInventory> productsInventories = individualSellersProductsRepository.findByItemName(productName);
+                for(IndividualSellersProductsInventory productsInventory:productsInventories){
+                    int productID = productsInventory.getId();
+                    int initialUsed = productsInventory.getItemUsed();
+                    int used = quantity + initialUsed;
+                    int currentStock = productsInventory.getItemStart();
+                    int remaining = currentStock - used;
+                    productsInventory.setItemUsed(used);
+                    productsInventory.setItemRemaining(remaining);
+                    individualSellersProductService.updateItems(productID, productsInventory);
+                    checkIndividualStockBasedOnDemand(sellerId, productID, remaining);
+
+                }
+            }
+        }
         return ResponseEntity.ok(savedOrder);
+    }
+
+    @GetMapping("individual/demand-threshold/{individualID}/{productId}")
+    public void checkIndividualStockBasedOnDemand(@PathVariable int individualID, @PathVariable int productId, int remaining) {
+        log.info("Checking stock for individual seller ID: {}, productId: {}, remaining: {}", individualID, productId, remaining);
+
+        IndividualSellersProductsInventory productInventory = individualSellersProductsRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Cannot find the product to check the stock."));
+
+        List<Integer> demandForecast = customerOrdersService.getPastOrderQuantities(individualID, productId);
+        log.info("Demand forecast for productId {}: {}", productId, demandForecast);
+
+        boolean needsRestock = individualSellersProductService.shouldRestock(demandForecast, individualID, remaining);
+        IndividualSellersProductsInventory product = individualSellersProductService.getItem(productId);
+        String productName = product.getItemName();
+
+        IndividualSellers individualSellers = individualSellersService.getIndividualSellers(individualID);
+        String userName = individualSellers.getName();
+
+        if (needsRestock) {
+            Notifications notifications = new Notifications();
+            notifications.setUserID(individualID);
+            notifications.setUserName(userName);
+            notifications.setUserType("Individual Seller");
+            notifications.setMessage("Product: "+productName+ " hit the demand threshold for its inventory. " +
+                    "Consider restocking the product.");
+            notifications.setDate(new java.sql.Date(System.currentTimeMillis()));
+            notifications.setAbout("Inventory");
+            notificationsService.addNotification(notifications);
+        } else {
+            log.info("Restock Error");
+        }
     }
 
     @GetMapping("/individual/{id}")

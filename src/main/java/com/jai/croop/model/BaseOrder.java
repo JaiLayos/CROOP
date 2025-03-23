@@ -17,17 +17,19 @@ public class BaseOrder {
     private Date orderDate;
     private String orderType;
     private String orderStatus;
+    private String location;
 
     public BaseOrder(){
         this.orderDate = new Date();
     }
     public BaseOrder(Map<String, Integer> orderList, int orderPrice, Date orderDate,
-                     String orderType,String orderStatus){
+                     String orderType,String orderStatus, String location){
         this.orderList = orderList;
         this.orderPrice = orderPrice;
         this.orderDate = (orderDate != null) ? new Date(orderDate.getTime()) : new Date();
         this.orderType = orderType;
         this.orderStatus = orderStatus;
+        this.location = location;
     }
 
     public void setOrderList(Map<String, Integer> orderList){

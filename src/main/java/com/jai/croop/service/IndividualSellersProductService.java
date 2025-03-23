@@ -1,15 +1,18 @@
 package com.jai.croop.service;
 
+import ch.qos.logback.classic.Logger;
 import com.jai.croop.model.*;
 import com.jai.croop.repository.IndividualSellersDiscountRepository;
 import com.jai.croop.repository.IndividualSellersProductsRepository;
 import com.jai.croop.repository.IndividualSellersRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,6 +25,8 @@ public class IndividualSellersProductService implements IIndividualSellersProduc
     private IndividualSellersDiscountService individualSellersDiscountService;
     @Autowired
     private IndividualSellersDiscountRepository individualSellersDiscountRepository;
+    private static final Logger log = (Logger) LoggerFactory.getLogger(GroupSellersProductService.class);
+
 
     @Override
     public IndividualSellersProductsInventory addItems(IndividualSellersProductsInventory individualSellersProductsInventory, IndividualSellers individualSellers) {
@@ -103,6 +108,55 @@ public class IndividualSellersProductService implements IIndividualSellersProduc
             exist = true;
         }
         return exist;
+    }
+
+    @Override
+    public boolean shouldRestock(List<Integer> demandForecast, int id, int remaining) {
+        log.info("Checking restock necessity for sellerId: {}, remaining stock: {}", id, remaining);
+
+        IndividualSellers individualSellers = individualSellersRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Group Seller Doesn't Exist"));
+
+        int setupCost = individualSellers.getProduct_inventory_SC();
+        int holdingCost = individualSellers.getProduct_inventory_MC();
+
+        int reorderPoint = calculateOptimalReorderPoint(demandForecast, setupCost, holdingCost, remaining);
+
+        log.info("Calculated reorder point: {}. Remaining stock: {}.", reorderPoint, remaining);
+
+        return remaining <= reorderPoint;
+    }
+
+    @Override
+    public boolean shouldDiscount(int id, int shelfLifeDays) {
+        IndividualSellersProductsInventory individualSellersProductsInventory = getItem(id);
+        LocalDate setDate = individualSellersProductsInventory.getLocalDate();
+        LocalDate shelfLifeThreshold = setDate.plusDays(shelfLifeDays);
+        LocalDate triggerThreshold = shelfLifeThreshold.minusDays(7);
+        LocalDate now = LocalDate.now();
+        return now.isAfter(triggerThreshold);
+    }
+
+    private int calculateOptimalReorderPoint(List<Integer> demandForecast, int setupCost, int holdingCost, int currentStock) {
+        int periods = demandForecast.size();
+        int[] cost = new int[periods + 1];
+        int[] orderQty = new int[periods + 1];
+        for (int i = 0; i <= periods; i++) {
+            cost[i] = Integer.MAX_VALUE;
+        }
+        cost[0] = 0;
+        for (int t = 1; t <= periods; t++) {
+            int totalDemand = 0;
+            for (int j = t; j >= 1; j--) {
+                totalDemand += demandForecast.get(j - 1);
+                int totalCost = (j > 1 ? cost[j - 1] : 0) + setupCost + (holdingCost * totalDemand);
+                if (totalCost < cost[t]) {
+                    cost[t] = totalCost;
+                    orderQty[t] = totalDemand;
+                }
+            }
+        }
+        return orderQty[periods] > currentStock ? orderQty[periods] : 0;
     }
 
     @Transactional

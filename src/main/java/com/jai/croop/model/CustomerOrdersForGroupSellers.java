@@ -29,8 +29,8 @@ public class CustomerOrdersForGroupSellers extends BaseOrder{
     }
 
     public CustomerOrdersForGroupSellers(Customer customer, GroupSellers groupSeller, IndividualSellers individualSellers, Map<String, Integer> orderList, int orderPrice, java.util.Date orderDate,
-                                         String orderType, String orderStatus) {
-        super(orderList, orderPrice, orderDate, orderType, orderStatus);
+                                         String orderType, String orderStatus, String location) {
+        super(orderList, orderPrice, orderDate, orderType, orderStatus, location);
         this.customer = customer;
         this.groupSeller = groupSeller;
     }
