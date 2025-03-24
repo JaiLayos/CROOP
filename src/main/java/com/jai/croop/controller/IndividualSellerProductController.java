@@ -4,6 +4,7 @@ import com.jai.croop.model.*;
 import com.jai.croop.service.IIndividualSellersItemService;
 import com.jai.croop.service.IIndividualSellersProductService;
 import com.jai.croop.service.IIndividualSellersService;
+import com.jai.croop.service.INotificationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,10 @@ import java.util.List;
 public class IndividualSellerProductController {
     @Autowired
     public IIndividualSellersProductService individualSellersProductService;
-
     @Autowired
     public IIndividualSellersService individualSellersService;
+    @Autowired
+    public INotificationsService notificationsService;
 
     //Add Items
     @PostMapping("/add-item")
@@ -84,6 +86,28 @@ public class IndividualSellerProductController {
     @GetMapping("checkMC/{id}")
     public ResponseEntity<Boolean> checkIndividualSellerMC(@PathVariable int id){
         return ResponseEntity.ok(individualSellersProductService.findIfMCIsSet(id));
+    }
+
+    @PostMapping("notification/shelf-life-threshold/{id}")
+    public ResponseEntity<String> checkShelfLife(@PathVariable int id) {
+        IndividualSellersProductsInventory productsInventory = individualSellersProductService.getItem(id);
+        int shelfLifeDays = productsInventory.getShelfLifeDays();
+        boolean triggerShelfLife = individualSellersProductService.shouldDiscount(id, shelfLifeDays);
+
+        if (triggerShelfLife) {
+            Notifications notifications = new Notifications();
+            notifications.setUserID(productsInventory.getIndividualSellers().getId());
+            notifications.setUserName(productsInventory.getIndividualSellers().getName());
+            notifications.setUserType("Individual Seller");
+            notifications.setDate(new java.sql.Date(System.currentTimeMillis()));
+            notifications.setMessage("Product: " + productsInventory.getItemName() + " is almost at the end of its shelf life. " +
+                    "Consider putting the product for promos.");
+            notifications.setAbout("Discount");
+            notificationsService.addNotification(notifications);
+            return ResponseEntity.ok("Notification created successfully.");
+        } else {
+            return ResponseEntity.ok("No notification triggered.");
+        }
     }
 
     @GetMapping("product/{id}")
