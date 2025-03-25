@@ -12,7 +12,6 @@ public class CustomerOrdersForGroupSellers extends BaseOrder{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference("customer-orders")
@@ -28,9 +27,9 @@ public class CustomerOrdersForGroupSellers extends BaseOrder{
         super();
     }
 
-    public CustomerOrdersForGroupSellers(Customer customer, GroupSellers groupSeller, IndividualSellers individualSellers, Map<String, Integer> orderList, int orderPrice, java.util.Date orderDate,
-                                         String orderType, String orderStatus, String location) {
-        super(orderList, orderPrice, orderDate, orderType, orderStatus, location);
+    public CustomerOrdersForGroupSellers(Customer customer, GroupSellers groupSeller, Map<String, Integer> orderList, int orderPrice, java.util.Date orderDate,
+                                         String orderType, String orderStatus, String buyerLocation, String sellerLocation) {
+        super(orderList, orderPrice, orderDate, orderType, orderStatus, buyerLocation, sellerLocation);
         this.customer = customer;
         this.groupSeller = groupSeller;
     }

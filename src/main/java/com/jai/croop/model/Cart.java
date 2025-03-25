@@ -13,6 +13,7 @@ public class Cart {
     private String cropName;
     private int quantity;
     private int price;
+    private String buyerLocation;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "group_sellers_id", nullable = true)
