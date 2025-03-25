@@ -42,6 +42,7 @@ public class IndividualSellerProductController {
             productDTO.setSellerID(individualSellersProductsInventory.getIndividualSellers().getId());
             productDTO.setProductSeller(individualSellersProductsInventory.getIndividualSellers().getName());
             productDTO.setSellerRole(individualSellersProductsInventory.getIndividualSellers().getRoles());
+            productDTO.setUnit(individualSellersProductsInventory.getUnit());
             productDTO.setFirebaseID(individualSellersProductsInventory.getIndividualSellers().getFirebaseID());
             productDTO.setProductPrice(individualSellersProductsInventory.getIndividualSellersDiscount().getOriginalPrice());
             productDTO.setProductDiscount(individualSellersProductsInventory.getIndividualSellersDiscount().getDiscountPercent());
@@ -62,6 +63,7 @@ public class IndividualSellerProductController {
             productDTO.setSellerID(individualSellersProductsInventory.getIndividualSellers().getId());
             productDTO.setProductSeller(individualSellersProductsInventory.getIndividualSellers().getName());
             productDTO.setSellerRole(individualSellersProductsInventory.getIndividualSellers().getRoles());
+            productDTO.setUnit(individualSellersProductsInventory.getUnit());
             productDTO.setFirebaseID(individualSellersProductsInventory.getIndividualSellers().getFirebaseID());
             productDTO.setProductPrice(individualSellersProductsInventory.getIndividualSellersDiscount().getOriginalPrice());
             productDTO.setProductDiscount(individualSellersProductsInventory.getIndividualSellersDiscount().getDiscountPercent());
@@ -120,6 +122,7 @@ public class IndividualSellerProductController {
         productDTO.setProductSeller(individualSellersProductsInventory.getIndividualSellers().getName());
         productDTO.setSellerRole(individualSellersProductsInventory.getIndividualSellers().getRoles());
         productDTO.setFirebaseID(individualSellersProductsInventory.getIndividualSellers().getFirebaseID());
+        productDTO.setUnit(individualSellersProductsInventory.getUnit());
         productDTO.setProductPrice(individualSellersProductsInventory.getIndividualSellersDiscount().getOriginalPrice());
         productDTO.setProductDiscount(individualSellersProductsInventory.getIndividualSellersDiscount().getDiscountPercent());
         productDTO.setProductFinalPrice(individualSellersProductsInventory.getIndividualSellersDiscount().getSalePrice());
@@ -143,6 +146,7 @@ public class IndividualSellerProductController {
             productDTO.setSellerID(individualSellersProductsInventory.getIndividualSellers().getId());
             productDTO.setProductSeller(individualSellersProductsInventory.getIndividualSellers().getName());
             productDTO.setFirebaseID(individualSellersProductsInventory.getIndividualSellers().getFirebaseID());
+            productDTO.setUnit(individualSellersProductsInventory.getUnit());
             productDTO.setProductPrice(individualSellersProductsInventory.getIndividualSellersDiscount().getOriginalPrice());
             productDTO.setProductDiscount(individualSellersProductsInventory.getIndividualSellersDiscount().getDiscountPercent());
             productDTO.setProductFinalPrice(individualSellersProductsInventory.getIndividualSellersDiscount().getSalePrice());
@@ -169,6 +173,7 @@ public class IndividualSellerProductController {
             productDTO.setProductDiscount(individualSellersProductsInventory.getIndividualSellersDiscount().getDiscountPercent());
             productDTO.setProductFinalPrice(individualSellersProductsInventory.getIndividualSellersDiscount().getSalePrice());
             productDTO.setProductSeller(individualSellersProductsInventory.getIndividualSellers().getName());
+            productDTO.setUnit(individualSellersProductsInventory.getUnit());
             productDTO.setSellerRole(individualSellersProductsInventory.getIndividualSellers().getRoles());
             productDTO.setFirebaseID(individualSellersProductsInventory.getIndividualSellers().getFirebaseID());
             productDTO.setRemaining(individualSellersProductsInventory.getItemRemaining());
@@ -191,6 +196,7 @@ public class IndividualSellerProductController {
             productDTO.setSellerID(individualSellersProductsInventory.getIndividualSellers().getId());
             productDTO.setProductSeller(individualSellersProductsInventory.getIndividualSellers().getName());
             productDTO.setSellerRole(individualSellersProductsInventory.getIndividualSellers().getRoles());
+            productDTO.setUnit(individualSellersProductsInventory.getUnit());
             productDTO.setFirebaseID(individualSellersProductsInventory.getIndividualSellers().getFirebaseID());
             productDTO.setRemaining(individualSellersProductsInventory.getItemRemaining());
             productDTOS.add(productDTO);

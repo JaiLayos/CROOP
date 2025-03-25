@@ -78,6 +78,7 @@ public class GroupSellerProductsController {
         productDTO.setProductDiscount(groupSellersProductsInventory.getGroupSellerDiscounts().getDiscountPercent());
         productDTO.setProductFinalPrice(groupSellersProductsInventory.getGroupSellerDiscounts().getSalePrice());
         productDTO.setProductSeller(groupSellersProductsInventory.getGroupSellers().getGroupName());
+        productDTO.setUnit(groupSellersProductsInventory.getUnit());
         productDTO.setSellerRole(groupSellersProductsInventory.getGroupSellers().getRoles());
         productDTO.setFirebaseID(groupSellersProductsInventory.getGroupSellers().getFirebaseID());
         productDTO.setRemaining(groupSellersProductsInventory.getItemRemaining());
@@ -108,6 +109,7 @@ public class GroupSellerProductsController {
             productDTO.setProductDiscount(groupSellersProductsInventory.getGroupSellerDiscounts().getDiscountPercent());
             productDTO.setProductFinalPrice(groupSellersProductsInventory.getGroupSellerDiscounts().getSalePrice());
             productDTO.setProductSeller(groupSellersProductsInventory.getGroupSellers().getGroupName());
+            productDTO.setUnit(groupSellersProductsInventory.getUnit());
             productDTO.setSellerRole(groupSellersProductsInventory.getGroupSellers().getRoles());
             productDTO.setFirebaseID(groupSellersProductsInventory.getGroupSellers().getFirebaseID());
             productDTO.setRemaining(groupSellersProductsInventory.getItemRemaining());
@@ -134,6 +136,7 @@ public class GroupSellerProductsController {
             productDTO.setProductFinalPrice(groupSellersProductsInventory.getGroupSellerDiscounts().getSalePrice());
             productDTO.setSellerID(groupSellersProductsInventory.getGroupSellers().getId());
             productDTO.setProductSeller(groupSellersProductsInventory.getGroupSellers().getGroupName());
+            productDTO.setUnit(groupSellersProductsInventory.getUnit());
             productDTO.setSellerRole(groupSellersProductsInventory.getGroupSellers().getRoles());
             productDTO.setFirebaseID(groupSellersProductsInventory.getGroupSellers().getFirebaseID());
             productDTO.setRemaining(groupSellersProductsInventory.getItemRemaining());
@@ -154,6 +157,7 @@ public class GroupSellerProductsController {
             productDTO.setProductDiscount(groupSellersProductsInventory.getGroupSellerDiscounts().getDiscountPercent());
             productDTO.setProductFinalPrice(groupSellersProductsInventory.getGroupSellerDiscounts().getSalePrice());
             productDTO.setSellerID(groupSellersProductsInventory.getGroupSellers().getId());
+            productDTO.setUnit(groupSellersProductsInventory.getUnit());
             productDTO.setProductSeller(groupSellersProductsInventory.getGroupSellers().getGroupName());
             productDTO.setSellerRole(groupSellersProductsInventory.getGroupSellers().getRoles());
             productDTO.setFirebaseID(groupSellersProductsInventory.getGroupSellers().getFirebaseID());
@@ -174,6 +178,7 @@ public class GroupSellerProductsController {
                productDTO.setSellerID(groupSellersProductsInventory.getGroupSellers().getId());
                productDTO.setProductSeller(groupSellersProductsInventory.getGroupSellers().getGroupName());
                productDTO.setSellerRole(groupSellersProductsInventory.getGroupSellers().getRoles());
+               productDTO.setUnit(groupSellersProductsInventory.getUnit());
                productDTO.setFirebaseID(groupSellersProductsInventory.getGroupSellers().getFirebaseID());
                productDTO.setProductPrice(groupSellersProductsInventory.getGroupSellerDiscounts().getOriginalPrice());
                productDTO.setProductDiscount(groupSellersProductsInventory.getGroupSellerDiscounts().getDiscountPercent());
