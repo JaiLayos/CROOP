@@ -95,7 +95,6 @@ public class Fragment_Profile_Group_Seller extends Fragment {
         Button logOut;
         logOut = rootView.findViewById(R.id.logOutButton);
 
-
         logOut.setOnClickListener(v -> {
             new androidx.appcompat.app.AlertDialog.Builder(getActivity())
                     .setTitle("Log Out")
@@ -106,6 +105,7 @@ public class Fragment_Profile_Group_Seller extends Fragment {
                             Intent intent = new Intent(getActivity(), Landing_Activity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                            getActivity().finish();
                         }
                     })
                     .setNegativeButton("No", null)

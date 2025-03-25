@@ -10,13 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.croop.GroupSellerLanding.Activity_Edit_Profile;
+import com.bumptech.glide.Glide;
+import com.example.croop.Landing_Activity;
 import com.example.croop.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Map;
 
@@ -32,6 +36,7 @@ public class Fragment_Profile_Individual_Seller extends Fragment {
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     TextView userName, userRole, userBio, userEmail, userPhone, userAddress, userGroup;
+    private StorageReference storageRef;
 
     public Fragment_Profile_Individual_Seller(){
 
@@ -59,8 +64,47 @@ public class Fragment_Profile_Individual_Seller extends Fragment {
 
         Button edit = rootView.findViewById(R.id.changeEmailButton);
         edit.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), Activity_Edit_Profile.class);
+            Intent intent = new Intent(getActivity(), Activity_Edit_Profile_Individual.class);
             startActivity(intent);
+        });
+        ImageView displayPicture = rootView.findViewById(R.id.profilePicture);
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        String userId = user.getUid();
+
+        storageRef = FirebaseStorage.getInstance().getReference()
+                .child("Profile Picture")
+                .child(userId)
+                .child("Display");
+
+        storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            Glide.with(this)
+                    .load(uri.toString())
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.sun)
+                    .into(displayPicture);
+        }).addOnFailureListener(e -> {
+            Log.e("FirebaseImageError", "Failed to get download URL: " + e.getMessage());
+            displayPicture.setImageResource(R.drawable.logo);
+        });
+        Button logOut;
+        logOut = rootView.findViewById(R.id.logOutButton);
+
+        logOut.setOnClickListener(v -> {
+            new androidx.appcompat.app.AlertDialog.Builder(getActivity())
+                    .setTitle("Log Out")
+                    .setMessage("Are you sure you want to log out?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        mAuth.signOut();
+                        if (getActivity() != null) {
+                            Intent intent = new Intent(getActivity(), Landing_Activity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
         });
 
         return rootView;
@@ -106,5 +150,6 @@ public class Fragment_Profile_Individual_Seller extends Fragment {
                 }
             });
         }
+
     }
 }

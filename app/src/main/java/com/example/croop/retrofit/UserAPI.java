@@ -209,6 +209,7 @@ public interface UserAPI {
     @DELETE("api/individual-sellers/{id}")
     Call<IndividualSellers> deleteIndividualSellers(@Path("id") int id);
 
+
     //Individual Sellers Item
     @POST("api/individual-sellers-item-inventory/add-item")
     Call<IndividualSellersItemInventory> addIndividualItem(@Body IndividualSellersItemInventory individualSellersItemInventory);
@@ -251,9 +252,9 @@ public interface UserAPI {
     Call<List<ProductDTO>> getInSeasonIndividualProducts();
     @GET("api/individual-sellers-products/in-demand")
     Call<List<ProductDTO>> getInDemandIndividualProducts();
-    @GET("checkSC/{id}")
+    @GET("api/individual-sellers-products/checkSC/{id}")
     Call<Boolean> checkIndividualSellerSC(@Path("id") int id);
-    @GET("checkMC/{id}")
+    @GET("api/individual-sellers-products/checkMC/{id}")
     Call<Boolean> checkIndividualSellerMC(@Path("id") int id);
 
 
@@ -297,7 +298,10 @@ public interface UserAPI {
 
     ///Notifications
     @POST("api/group-sellers-products/notification/shelf-life-threshold/{id}")
-    Call<String> checkShelfLife(@Path("id") int id);
+    Call<String> checkGroupSellerShelfLife(@Path("id") int id);
     @GET("api/notifications/{userID}/{userType}")
     Call<List<Notifications>> getNotificationOfUser(@Path("userID") int userID, @Path("userType") String userType);
+    @POST("api/individual-sellers-products/notification/shelf-life-threshold/{id}")
+    Call<String> checkIndividualSellerShelfLife(@Path("id") int id);
+
 }

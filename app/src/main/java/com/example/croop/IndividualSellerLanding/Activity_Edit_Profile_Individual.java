@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -13,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.GroupSellerLanding.Sign_In_Success_Group_Seller;
 import com.example.croop.R;
-import com.example.croop.model.GroupSellers;
+import com.example.croop.model.IndividualSellers;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,9 +32,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Activity_Edit_Profile_Individual extends AppCompatActivity {
-    EditText userName, userBio, userPosition,
+    EditText userName, userBio,
             userStreet, userSubdivision, userCity,
             userRegion, userPostal;
+
+    TextView userPosition;
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
@@ -44,7 +47,7 @@ public class Activity_Edit_Profile_Individual extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_group_seller);
+        setContentView(R.layout.edit_individual_seller);
 
         initializeComponents();
 
@@ -61,7 +64,6 @@ public class Activity_Edit_Profile_Individual extends AppCompatActivity {
 
         userName = findViewById(R.id.userNameText);
         userBio = findViewById(R.id.userBioText);
-        userPosition = findViewById(R.id.userPositionText);
         userStreet = findViewById(R.id.userStreetText);
         userSubdivision = findViewById(R.id.userSubdivisionText);
         userCity = findViewById(R.id.userCityText);
@@ -107,10 +109,9 @@ public class Activity_Edit_Profile_Individual extends AppCompatActivity {
             String city = userCity.getText().toString().trim();
             String region = userRegion.getText().toString().trim();
             String postal = userPostal.getText().toString().trim();
-            GroupSellers groupSellers = new GroupSellers();
-            groupSellers.setName(name);
-            groupSellers.setBio(bio);
-            groupSellers.setPersonPosition(position);
+            IndividualSellers individualSellers = new IndividualSellers();
+            individualSellers.setName(name);
+            individualSellers.setBio(bio);
             Map<String, String> addressMap = new HashMap<>();
             addressMap.put("City", city);
             addressMap.put("Country", "Philippines");
@@ -118,7 +119,7 @@ public class Activity_Edit_Profile_Individual extends AppCompatActivity {
             addressMap.put("Postal_Code", postal);
             addressMap.put("State_Province_Region", region);
             addressMap.put("Subdivision_Barangay", subdivision);
-            groupSellers.setAddress(addressMap);
+            individualSellers.setAddress(addressMap);
             docRef.update(
                     "Address.City", city,
                     "Address.House_Street_Name", street,
@@ -133,7 +134,7 @@ public class Activity_Edit_Profile_Individual extends AppCompatActivity {
                     Toast.makeText(this, "Na-update na ang user!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this, Sign_In_Success_Group_Seller.class);
                     startActivity(intent);
-                    sendToPG(groupSellers);
+                    sendToPG(individualSellers);
                 }
             ).addOnFailureListener( e-> {
                 Toast.makeText(this, "Hindi na-update ang profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -144,12 +145,12 @@ public class Activity_Edit_Profile_Individual extends AppCompatActivity {
 
     }
 
-    private void sendToPG(GroupSellers groupSellers) {
+    private void sendToPG(IndividualSellers individualSellers) {
         UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
-        Call<GroupSellers> call = userAPI.updateGroupSellersByFirebaseID(user.getUid(), groupSellers);
-        call.enqueue(new Callback<GroupSellers>() {
+        Call<IndividualSellers> call = userAPI.updateIndividualSellersByFirebaseID(user.getUid(), individualSellers);
+        call.enqueue(new Callback<IndividualSellers>() {
             @Override
-            public void onResponse(Call<GroupSellers> call, Response<GroupSellers> response) {
+            public void onResponse(Call<IndividualSellers> call, Response<IndividualSellers> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(Activity_Edit_Profile_Individual.this, "Na-update ang profile sa PostgreSQL!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -158,7 +159,7 @@ public class Activity_Edit_Profile_Individual extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<GroupSellers> call, Throwable t) {
+            public void onFailure(Call<IndividualSellers> call, Throwable t) {
                 Toast.makeText(Activity_Edit_Profile_Individual.this, "Nagkaproblema: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

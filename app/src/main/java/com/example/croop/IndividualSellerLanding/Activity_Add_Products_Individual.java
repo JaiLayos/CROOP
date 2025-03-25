@@ -2,17 +2,23 @@ package com.example.croop.IndividualSellerLanding;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
-import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.croop.R;
@@ -26,6 +32,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.time.LocalDate;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,9 +42,10 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
     private static final int RC_IMAGE_PICKER = 100;
     private Uri imageUri;
     private FirebaseAuth mAuth;
+    private RetrofitService RetrofitClient;
     private ImageView product;
+    private Spinner unit;
 
-    RetrofitService RetrofitClient;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,23 +56,51 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        product = findViewById(R.id.addProductProfile);
         if (requestCode == RC_IMAGE_PICKER && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
             if (imageUri == null) {
                 Toast.makeText(this, "Failed to retrieve image URI!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Image selected: " + imageUri.toString(), Toast.LENGTH_SHORT).show();
+                Glide.with(this)
+                        .load(imageUri.toString())
+                        .placeholder(R.drawable.logo)
+                        .error(R.drawable.sun)
+                        .into(product);
             }
         } else {
             Toast.makeText(this, "No image selected!", Toast.LENGTH_SHORT).show();
         }
     }
     private void initializeComponents() {
+        unit = findViewById(R.id.unitOptions);
+        String[] units = {"Kilo", "Sako", "Tumpok", "Piraso"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, units){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView textView = view.findViewById(android.R.id.text1);
+                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.secondary_color));
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textView = view.findViewById(android.R.id.text1);
+                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.secondary_color));
+                return view;
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        unit.setAdapter(adapter);
         Button picture = findViewById(R.id.uploadPicButton);
         picture.setOnClickListener(v1 -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, RC_IMAGE_PICKER);
         });
+
         Button add = findViewById(R.id.addButton);
         add.setOnClickListener(v -> {
             UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
@@ -86,45 +123,7 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
         });
         FloatingActionButton back = findViewById(R.id.backFloat);
         back.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Activity_Products_Inventory_Individual.class);
-            startActivity(intent);
-            recreate();
-        });
-    }
-
-    private void addItemProcess(int id) {
-        UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
-        IndividualSellers individualSellers = new IndividualSellers();
-        individualSellers.setID(id);
-        EditText name, quantity, price;
-        name = findViewById(R.id.nameText);
-        quantity = findViewById(R.id.initialText);
-        price = findViewById(R.id.priceText);
-        product = findViewById(R.id.addProductProfile);
-
-        quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
-        price.setInputType(InputType.TYPE_CLASS_NUMBER);
-
-        IndividualSellersProductsInventory individualSellersProductsInventory = new IndividualSellersProductsInventory();
-        individualSellersProductsInventory.setItemName(name.getText().toString());
-        individualSellersProductsInventory.setItemStart(Integer.parseInt(quantity.getText().toString()));
-        individualSellersProductsInventory.setPrice(Integer.parseInt(price.getText().toString()));
-        individualSellersProductsInventory.setIndividualSellers(individualSellers);
-        Call<IndividualSellersProductsInventory> call = userAPI.addIndividualProducts(individualSellersProductsInventory);
-        call.enqueue(new Callback<IndividualSellersProductsInventory>() {
-            @Override
-            public void onResponse(Call<IndividualSellersProductsInventory> call, Response<IndividualSellersProductsInventory> response) {
-                Toast.makeText(Activity_Add_Products_Individual.this, name.getText().toString() + " ay nadagdag.", Toast.LENGTH_SHORT).show();
-                addPictureProduct(imageUri, name.getText().toString().trim());
-                Intent intent = new Intent(Activity_Add_Products_Individual.this, Activity_Products_Inventory_Individual.class);
-                startActivity(intent);
-                finish();
-            }
-
-            @Override
-            public void onFailure(Call<IndividualSellersProductsInventory> call, Throwable t) {
-                Toast.makeText(Activity_Add_Products_Individual.this, "Nagkaproblema: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+            onBackPressed();
         });
     }
 
@@ -134,6 +133,8 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
             Toast.makeText(this, "User not signed in!", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        product = findViewById(R.id.addProductProfile);
 
         String userId = user.getUid();
 
@@ -145,17 +146,7 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
         storageRef.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> {
                     storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        Toast.makeText(this, "Uploaded!", Toast.LENGTH_SHORT).show();
-                        storageRef.getDownloadUrl().addOnSuccessListener(uri1 -> {
-                            Glide.with(this)
-                                    .load(uri1.toString())
-                                    .placeholder(R.drawable.logo)
-                                    .error(R.drawable.sun)
-                                    .into(product);
-                        }).addOnFailureListener(e -> {
-                            Log.e("FirebaseImageError", "Failed to get download URL: " + e.getMessage());
-                            product.setImageResource(R.drawable.logo);
-                        });
+                        Toast.makeText(this, "Picture uploaded!", Toast.LENGTH_SHORT).show();
                     }).addOnFailureListener(e -> {
                         Toast.makeText(this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
@@ -163,5 +154,48 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private void addItemProcess(int id) {
+        UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
+        IndividualSellers individualSellers = new IndividualSellers();
+        individualSellers.setID(id);
+        EditText name, quantity, price, freshness;
+
+        name = findViewById(R.id.nameText);
+        quantity = findViewById(R.id.initialText);
+        price = findViewById(R.id.priceText);
+        freshness = findViewById(R.id.freshnessText);
+
+        quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
+        price.setInputType(InputType.TYPE_CLASS_NUMBER);
+        freshness.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        IndividualSellersProductsInventory individualSellersProductsInventory = new IndividualSellersProductsInventory();
+        individualSellersProductsInventory.setItemName(name.getText().toString());
+        individualSellersProductsInventory.setItemStart(Integer.parseInt(quantity.getText().toString()));
+        individualSellersProductsInventory.setPrice(Integer.parseInt(price.getText().toString()));
+        individualSellersProductsInventory.setIndividualSellers(individualSellers);
+        individualSellersProductsInventory.setUnit(unit.getSelectedItem().toString());
+        individualSellersProductsInventory.setShelfLifeDays(Integer.parseInt(freshness.getText().toString()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            individualSellersProductsInventory.setLocalDate(LocalDate.now());
+        }
+        Call<IndividualSellersProductsInventory> call = userAPI.addIndividualProducts(individualSellersProductsInventory);
+        call.enqueue(new Callback<IndividualSellersProductsInventory>() {
+            @Override
+            public void onResponse(Call<IndividualSellersProductsInventory> call, Response<IndividualSellersProductsInventory> response) {
+                addPictureProduct(imageUri,name.getText().toString());
+                Toast.makeText(Activity_Add_Products_Individual.this, name.getText().toString() + " is added.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Activity_Add_Products_Individual.this, Activity_Products_Inventory_Individual.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<IndividualSellersProductsInventory> call, Throwable t) {
+                Toast.makeText(Activity_Add_Products_Individual.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

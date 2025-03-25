@@ -12,8 +12,12 @@ import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -25,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.croop.R;
 import com.example.croop.model.GroupSellers;
 import com.example.croop.model.GroupSellersDiscount;
@@ -49,11 +54,15 @@ public class Activity_Products_Inventory extends AppCompatActivity {
     private static final int RC_IMAGE_PICKER = 100;
     private Uri imageUri;
     private TableLayout table;
-    FirebaseAuth mAuth;
-    FirebaseUser user;
-    RetrofitService RetrofitClient;
-    UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private RetrofitService RetrofitClient;
+    private UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
     private int pgID;
+    private String userID;
+    @Nullable
+    private Intent data;
+    private StorageReference storageRef;
 
 
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE = 1;
@@ -87,6 +96,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
         setContentView(R.layout.products_group_seller);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+        userID = user.getUid();
         checkAndRequestPermissions();
         initializeComponents();
     }
@@ -119,7 +129,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
             if(itemName.isEmpty()){
                 showProducts(table);
             }
-            pgID = returnPGID(user.getUid());
+            pgID = returnPGID(userID);
             Call<List<GroupSellersProductsInventory>> searchItem = apiService.getItemByNameByGroupID(itemName, pgID);
             searchItem.enqueue(new Callback<List<GroupSellersProductsInventory>>() {
                 @Override
@@ -227,7 +237,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
             itemTextView.setOnClickListener(view -> {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(Activity_Products_Inventory.this);
                 View bottomSheetView = getLayoutInflater().inflate(R.layout.update_delete_products_group_sellers, null);
-
+                ImageView productPic;
                 EditText itemName = bottomSheetView.findViewById(R.id.nameText);
                 itemName.setText(product.getItemName());
                 EditText priceTag = bottomSheetView.findViewById(R.id.priceText);
@@ -236,6 +246,25 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                 orderText.setText(String.valueOf(used));
                 TextView leftText = bottomSheetView.findViewById(R.id.remainingText);
                 leftText.setText(String.valueOf(remaining));
+                String itemNameText = itemName.getText().toString().trim();
+
+                productPic = bottomSheetView.findViewById(R.id.addProductProfile);
+                storageRef = FirebaseStorage.getInstance().getReference()
+                        .child("Products")
+                        .child(userID)
+                        .child(itemNameText);
+                storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    Glide.with(this)
+                            .load(uri.toString())
+                            .placeholder(R.drawable.logo)
+                            .error(R.drawable.sun)
+                            .into(productPic);
+                }).addOnFailureListener(exception -> {
+                    Log.e("FirebaseStorage", "Error getting download URL: " + exception.getMessage());
+                    Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
+                });
+
+
                 Button update = bottomSheetView.findViewById(R.id.updateButton);
                 Button check = bottomSheetView.findViewById(R.id.checkButton);
                 Button delete = bottomSheetView.findViewById(R.id.deleteButton);
@@ -243,12 +272,49 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                 picture.setOnClickListener(v1 -> {
                     Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, RC_IMAGE_PICKER);
+                    Glide.with(this)
+                            .load(imageUri.toString())
+                            .placeholder(R.drawable.logo)
+                            .error(R.drawable.sun)
+                            .into(productPic);
                 });
+                Spinner unit;
+                unit = bottomSheetView.findViewById(R.id.unitOptions);
+                String[] units = {"Kilo", "Sako", "Tumpok", "Piraso"};
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, units){
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        TextView textView = view.findViewById(android.R.id.text1);
+                        textView.setTextColor(ContextCompat.getColor(getContext(), R.color.beige_brackground));
+                        return view;
+                    }
+
+                    @Override
+                    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView textView = view.findViewById(android.R.id.text1);
+                        textView.setTextColor(ContextCompat.getColor(getContext(), R.color.secondary_color));
+                        return view;
+                    }
+                };
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                unit.setAdapter(adapter);
+                if (product.getUnit() != null) {
+                    int position = adapter.getPosition(product.getUnit());
+                    if (position >= 0) {
+                        unit.setSelection(position);
+                    } else {
+                        Log.e("SpinnerError", "Unit not found in adapter: " + product.getUnit());
+                        unit.setSelection(0);
+                    }
+                } else {
+                    unit.setSelection(0);
+                }
+
                 update.setOnClickListener(v -> {
-                    String itemNameText = itemName.getText().toString().trim();
                     String price = priceTag.getText().toString().trim();
                     String order = orderText.getText().toString().trim();
-                    String left = leftText.getText().toString().trim();
 
                     if (itemNameText.isEmpty()) {
                         Toast.makeText(Activity_Products_Inventory.this, "Product name cannot be empty", Toast.LENGTH_SHORT).show();
@@ -272,6 +338,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                         groupSellersProductsInventory.setItemStart(product.getItemStart());
                         groupSellersProductsInventory.setPrice(priceValue);
                         groupSellersProductsInventory.setItemUsed(Integer.parseInt(order));
+                        groupSellersProductsInventory.setUnit(unit.getSelectedItem().toString());
 
                         Call<GroupSellersProductsInventory> updateItem = apiService.updateProducts(product.getId(), groupSellersProductsInventory);
                         updateItem.enqueue(new Callback<GroupSellersProductsInventory>() {
@@ -306,7 +373,6 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                     }
                 });
                 delete.setOnClickListener(v -> {
-                    String itemNameText = itemName.getText().toString().trim();
                     if (user == null) {
                         Toast.makeText(this, "User not signed in!", Toast.LENGTH_SHORT).show();
                         return;
@@ -314,15 +380,13 @@ public class Activity_Products_Inventory extends AppCompatActivity {
 
                     String userId = user.getUid();
                     String fileName = itemNameText.trim();
-                    StorageReference storageRef = FirebaseStorage.getInstance().getReference()
+                    storageRef = FirebaseStorage.getInstance().getReference()
                             .child("Products")
                             .child(userId)
                             .child(fileName);
 
-                    // Debug log
                     System.out.println("Deleting image at: " + storageRef.getPath());
 
-                    // Delete the file
                     Call<GroupSellersProductsInventory> deleteItem = apiService.deleteProducts(product.getId());
                     deleteItem.enqueue(new Callback<GroupSellersProductsInventory>() {
                         @Override

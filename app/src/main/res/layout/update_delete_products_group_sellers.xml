@@ -30,6 +30,26 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+                    <ImageView
+                        android:id="@+id/addProductProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_marginTop="20dp"
+                        android:scaleType="centerCrop"
+                        app:srcCompat="@drawable/logo" />
+
+                    <Button
+                        android:id="@+id/uploadPicButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="40dp"
+                        android:backgroundTint="@color/highlight_green"
+                        android:text="UPDATE PICTURE"
+                        android:textSize="20sp" />
+
                     <TableLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -99,8 +119,32 @@
                             android:layout_height="match_parent" >
 
                             <TextView
-                                android:id="@+id/boughtLabel"
+                                android:id="@+id/unitLabel2"
                                 android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/mulish_medium"
+                                android:paddingStart="10dp"
+                                android:text="Yunit"
+                                android:textAlignment="textEnd"
+                                android:textColor="@color/beige_brackground"
+                                android:textSize="20sp" />
+
+                            <Spinner
+                                android:id="@+id/unitOptions"
+                                android:layout_width="wrap_content"
+                                android:layout_height="55dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_weight="1"
+                                android:spinnerMode="dropdown" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" >
+
+                            <TextView
+                                android:id="@+id/boughtLabel"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="@font/mulish_medium"
@@ -150,17 +194,6 @@
                         </TableRow>
 
                     </TableLayout>
-
-                    <Button
-                        android:id="@+id/uploadPicButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
-                        android:backgroundTint="@color/highlight_green"
-                        android:text="UPDATE PICTURE"
-                        android:textSize="20sp" />
 
                     <Button
                         android:id="@+id/updateButton"

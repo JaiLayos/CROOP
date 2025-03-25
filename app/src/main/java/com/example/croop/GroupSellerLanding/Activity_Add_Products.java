@@ -2,6 +2,7 @@ package com.example.croop.GroupSellerLanding;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
@@ -27,6 +28,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.time.LocalDate;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,6 +41,8 @@ public class Activity_Add_Products extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private RetrofitService RetrofitClient;
     private ImageView product;
+    private Spinner unit;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +77,12 @@ public class Activity_Add_Products extends AppCompatActivity {
             startActivityForResult(intent, RC_IMAGE_PICKER);
         });
 
+        unit = findViewById(R.id.unitOptions);
+        String[] units = {"Kilo", "Sako", "Tumpok", "Piraso"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, units);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        unit.setAdapter(adapter);
+
         Button add = findViewById(R.id.addButton);
         add.setOnClickListener(v -> {
             UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
@@ -92,6 +103,7 @@ public class Activity_Add_Products extends AppCompatActivity {
                 }
             });
         });
+
         FloatingActionButton back = findViewById(R.id.backFloat);
         back.setOnClickListener(v -> {
             onBackPressed();
@@ -117,11 +129,7 @@ public class Activity_Add_Products extends AppCompatActivity {
         storageRef.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> {
                     storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        Glide.with(this)
-                                .load(uri.toString())
-                                .placeholder(R.drawable.logo)
-                                .error(R.drawable.sun)
-                                .into(product);
+                        Toast.makeText(this, "Picture successfully uploaded", Toast.LENGTH_SHORT).show();
                     }).addOnFailureListener(e -> {
                         Toast.makeText(this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
@@ -135,25 +143,18 @@ public class Activity_Add_Products extends AppCompatActivity {
         UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
         GroupSellers groupSellers = new GroupSellers();
         groupSellers.setID(id);
-        EditText name, quantity, price, freshness, growth;
+        EditText name, quantity, price, freshness;
 
-        Spinner unit;
-        unit = findViewById(R.id.unitOptions);
-        String[] units = {"Kilo/s", "Sako", "Tumpok", "Piraso"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, units);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        unit.setAdapter(adapter);
+
 
         name = findViewById(R.id.nameText);
         quantity = findViewById(R.id.initialText);
         price = findViewById(R.id.priceText);
         freshness = findViewById(R.id.freshnessText);
-        growth = findViewById(R.id.restockText);
 
         quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
         price.setInputType(InputType.TYPE_CLASS_NUMBER);
         freshness.setInputType(InputType.TYPE_CLASS_NUMBER);
-        growth.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         GroupSellersProductsInventory groupSellersProductsInventory = new GroupSellersProductsInventory();
         groupSellersProductsInventory.setItemName(name.getText().toString());
@@ -161,10 +162,15 @@ public class Activity_Add_Products extends AppCompatActivity {
         groupSellersProductsInventory.setPrice(Integer.parseInt(price.getText().toString()));
         groupSellersProductsInventory.setGroupSellers(groupSellers);
         groupSellersProductsInventory.setUnit(unit.getSelectedItem().toString());
+        groupSellersProductsInventory.setShelfLifeDays(Integer.parseInt(freshness.getText().toString()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            groupSellersProductsInventory.setLocalDate(LocalDate.now());
+        }
         Call<GroupSellersProductsInventory> call = userAPI.addProduct(groupSellersProductsInventory);
         call.enqueue(new Callback<GroupSellersProductsInventory>() {
             @Override
             public void onResponse(Call<GroupSellersProductsInventory> call, Response<GroupSellersProductsInventory> response) {
+                addPictureProduct(imageUri,name.getText().toString());
                 Toast.makeText(Activity_Add_Products.this, name.getText().toString() + " is added.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Activity_Add_Products.this, Activity_Products_Inventory.class);
                 startActivity(intent);

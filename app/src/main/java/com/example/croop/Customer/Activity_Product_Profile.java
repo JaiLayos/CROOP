@@ -2,6 +2,7 @@ package com.example.croop.Customer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +21,9 @@ import com.example.croop.R;
 import com.example.croop.model.Cart;
 import com.example.croop.model.Customer;
 import com.example.croop.model.GroupSellers;
+import com.example.croop.model.GroupSellersProductsInventory;
 import com.example.croop.model.IndividualSellers;
+import com.example.croop.model.IndividualSellersProductsInventory;
 import com.example.croop.model.ProductDTO;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
@@ -276,10 +279,15 @@ public class Activity_Product_Profile extends AppCompatActivity {
         View bottomSheetView = getLayoutInflater().inflate(R.layout.customer_products_quantity, null);
 
         EditText quantity = bottomSheetView.findViewById(R.id.quantityText);
+        quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
         Button finalize = bottomSheetView.findViewById(R.id.cartButton);
         finalize.setOnClickListener(v -> {
             count = Integer.parseInt(quantity.getText().toString());
             cart = new Cart();
+            cart.setCropID(products.getProductID());
+            cart.setCropName(products.getProductName());
+            cart.setQuantity(count);
+            cart.setPrice(cart.getQuantity() * products.getProductPrice());
             if(seller != null){
                 switch(seller){
                     case "Group Business User (Association)":
@@ -320,10 +328,7 @@ public class Activity_Product_Profile extends AppCompatActivity {
                 Log.e("RetrofitAPI", "Seller doesn't exist");
             }
 
-            cart.setCropID(products.getProductID());
-            cart.setCropName(products.getProductName());
-            cart.setQuantity(count);
-            cart.setPrice(cart.getQuantity() * products.getProductPrice());
+
         });
         // Show the bottom sheet dialog
         bottomSheetDialog.setContentView(bottomSheetView);
@@ -390,8 +395,30 @@ public class Activity_Product_Profile extends AppCompatActivity {
             @Override
             public void onResponse(Call<IndividualSellers> call, Response<IndividualSellers> response) {
                 if(response.isSuccessful() && response != null){
-                    cart.setIndividualSellers(response.body());
-                    findCustomer();
+                    IndividualSellers individualSellers = response.body();
+                    Call<List<IndividualSellersProductsInventory>> productsInventoryCall = userAPI.getIndividualProductsByName(cart.getCropName());
+                    productsInventoryCall.enqueue(new Callback<List<IndividualSellersProductsInventory>>() {
+                        @Override
+                        public void onResponse(Call<List<IndividualSellersProductsInventory>> call, Response<List<IndividualSellersProductsInventory>> response) {
+                            if(response.isSuccessful()){
+                                List<IndividualSellersProductsInventory> productsInventories = response.body();
+                                for(IndividualSellersProductsInventory productsInventory : productsInventories){
+                                    if(cart.getQuantity()< productsInventory.getItemRemaining()-(productsInventory.getItemRemaining()*0.25)){
+                                        cart.setIndividualSellers(individualSellers);
+                                        findCustomer();
+                                    }else{
+                                        Toast.makeText(Activity_Product_Profile.this, "Quantity exceeded the threshold", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<IndividualSellersProductsInventory>> call, Throwable t) {
+                            Log.e("Finding Group Seller Error for Quantity Compatison: ", t.getMessage());
+                        }
+                    });
                 }
             }
 
@@ -408,8 +435,30 @@ public class Activity_Product_Profile extends AppCompatActivity {
             @Override
             public void onResponse(Call<GroupSellers> call, Response<GroupSellers> response) {
                 if(response.isSuccessful() && response != null){
-                    cart.setGroupSellers(response.body());
-                    findCustomer();
+                    GroupSellers groupSellers = response.body();
+                    Call<List<GroupSellersProductsInventory>> productsInventoryCall = userAPI.getProductsByName(cart.getCropName());
+                    productsInventoryCall.enqueue(new Callback<List<GroupSellersProductsInventory>>() {
+                        @Override
+                        public void onResponse(Call<List<GroupSellersProductsInventory>> call, Response<List<GroupSellersProductsInventory>> response) {
+                            if(response.isSuccessful()){
+                                List<GroupSellersProductsInventory> productsInventories = response.body();
+                                for(GroupSellersProductsInventory productsInventory : productsInventories){
+                                    if(cart.getQuantity()< productsInventory.getItemRemaining()-(productsInventory.getItemRemaining()*0.25)){
+                                        cart.setGroupSellers(groupSellers);
+                                        findCustomer();
+                                    }else{
+                                        Toast.makeText(Activity_Product_Profile.this, "Quantity exceeded the threshold", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<GroupSellersProductsInventory>> call, Throwable t) {
+                            Log.e("Finding Group Seller Error for Quantity Compatison: ", t.getMessage());
+                        }
+                    });
                 }
             }
 

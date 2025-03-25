@@ -46,4 +46,18 @@ public class GroupSellersProductsInventory extends BaseInventory{
     public void setGroupSellerDiscounts(GroupSellersDiscount groupSellerDiscounts) {
         this.groupSellerDiscounts = groupSellerDiscounts;
     }
+
+    public int getShelfLifeDays() {
+        return shelfLifeDays;
+    }
+    public void setShelfLifeDays(int shelfLifeDays) {
+        this.shelfLifeDays = shelfLifeDays;
+    }
+
+    public LocalDate getLocalDate() {
+        return localDate;
+    }
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
+    }
 }

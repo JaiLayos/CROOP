@@ -73,6 +73,7 @@
         <activity android:name=".IndividualSellerLanding.Activity_Add_Products_Individual"/>
         <activity android:name=".IndividualSellerLanding.Activity_Orders_Individual"/>
         <activity android:name=".IndividualSellerLanding.Activity_Discount_Inventory_Individual"/>
+        <activity android:name=".IndividualSellerLanding.Activity_Add_Setup_Holding_Cost_Indiv"/>
 
         <activity android:name=".Customer.Sign_In_Success_Customer"/>
         <activity android:name=".Customer.Activity_Product_Profile"/>
