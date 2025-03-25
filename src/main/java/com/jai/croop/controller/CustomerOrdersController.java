@@ -123,6 +123,7 @@ public class CustomerOrdersController {
             ordersDTO.setOrderStatus(groupSeller.getOrderStatus());
             ordersDTO.setOrderType(groupSeller.getOrderType());
             ordersDTO.setOrderDate(groupSeller.getOrderDate());
+            ordersDTO.setDeliveryDetails(groupSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
         return ResponseEntity.ok(ordersDTOS);
@@ -142,6 +143,7 @@ public class CustomerOrdersController {
             ordersDTO.setOrderStatus(groupSeller.getOrderStatus());
             ordersDTO.setOrderType(groupSeller.getOrderType());
             ordersDTO.setOrderDate(groupSeller.getOrderDate());
+            ordersDTO.setDeliveryDetails(groupSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
         return ResponseEntity.ok(ordersDTOS);
@@ -161,6 +163,7 @@ public class CustomerOrdersController {
             ordersDTO.setOrderStatus(groupSeller.getOrderStatus());
             ordersDTO.setOrderType(groupSeller.getOrderType());
             ordersDTO.setOrderDate(groupSeller.getOrderDate());
+            ordersDTO.setDeliveryDetails(groupSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
         return ResponseEntity.ok(ordersDTOS);
@@ -267,6 +270,7 @@ public class CustomerOrdersController {
             ordersDTO.setOrderStatus(indivSeller.getOrderStatus());
             ordersDTO.setOrderType(indivSeller.getOrderType());
             ordersDTO.setOrderDate(indivSeller.getOrderDate());
+            ordersDTO.setDeliveryDetails(indivSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
         return ResponseEntity.ok(ordersDTOS);
