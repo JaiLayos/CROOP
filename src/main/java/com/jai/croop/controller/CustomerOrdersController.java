@@ -104,40 +104,21 @@ public class CustomerOrdersController {
         }
     }
 
-    @PutMapping("/group/{id}")
-    public ResponseEntity<SellerOrdersDTO> updateGroupOrder(
-            @PathVariable int id,
-            @RequestBody SellerOrdersDTO updatedOrderDTO) {
-
-        CustomerOrdersForGroupSellers existingOrder = customerOrdersService.getCustomerOrdersFromGroup(id);
-
-        if (updatedOrderDTO.getOrderList() != null) {
-            existingOrder.setOrderList(updatedOrderDTO.getOrderList());
-        }
-        if (updatedOrderDTO.getOrderPrice() > 0) {
-            existingOrder.setOrderPrice(updatedOrderDTO.getOrderPrice());
-        }
-        if (updatedOrderDTO.getOrderStatus() != null) {
-            existingOrder.setOrderStatus(updatedOrderDTO.getOrderStatus());
-        }
-        if (updatedOrderDTO.getDeliveryDetails() != null) {
-            existingOrder.setDeliveryDetails(updatedOrderDTO.getDeliveryDetails());
-        }
-
-        CustomerOrdersForGroupSellers updatedOrder = customerOrdersService.updateCustomerOrdersFromGroup(id, existingOrder);
-        SellerOrdersDTO responseDTO = new SellerOrdersDTO();
-        responseDTO.setId(updatedOrder.getId());
-        responseDTO.setCustomerId(updatedOrder.getCustomerId());
-        responseDTO.setCustomerName(updatedOrder.getCustomer().getName());
-        responseDTO.setOrderList(updatedOrder.getOrderList());
-        responseDTO.setOrderPrice(updatedOrder.getOrderPrice());
-        responseDTO.setOrderStatus(updatedOrder.getOrderStatus());
-        responseDTO.setOrderType(updatedOrder.getOrderType());
-        responseDTO.setOrderDate(updatedOrder.getOrderDate());
-        responseDTO.setAddress(updatedOrder.getCustomer().getAddress());
-        responseDTO.setDeliveryDetails(updatedOrder.getDeliveryDetails());
-
-        return ResponseEntity.ok(responseDTO);
+    @GetMapping("/group/{id}")
+    public ResponseEntity<SellerOrdersDTO> getGroupOrder(@PathVariable int id) {
+        CustomerOrdersForGroupSellers customerOrdersForGroupSellers = customerOrdersService.getCustomerOrdersFromGroup(id);
+        SellerOrdersDTO ordersDTO = new SellerOrdersDTO();
+        ordersDTO.setId(customerOrdersForGroupSellers.getId());
+        ordersDTO.setCustomerId(customerOrdersForGroupSellers.getCustomerId());
+        ordersDTO.setCustomerName(customerOrdersForGroupSellers.getCustomer().getName());
+        ordersDTO.setOrderList(customerOrdersForGroupSellers.getOrderList());
+        ordersDTO.setOrderPrice(customerOrdersForGroupSellers.getOrderPrice());
+        ordersDTO.setOrderStatus(customerOrdersForGroupSellers.getOrderStatus());
+        ordersDTO.setOrderType(customerOrdersForGroupSellers.getOrderType());
+        ordersDTO.setOrderDate(customerOrdersForGroupSellers.getOrderDate());
+        ordersDTO.setAddress(customerOrdersForGroupSellers.getCustomer().getAddress());
+        ordersDTO.setDeliveryDetails(customerOrdersForGroupSellers.getDeliveryDetails());
+        return ResponseEntity.ok(ordersDTO);
     }
 
     @GetMapping("/group/customer/{id}")
@@ -209,10 +190,44 @@ public class CustomerOrdersController {
     }
 
     @PutMapping("/group/{id}")
-    public ResponseEntity<CustomerOrdersForGroupSellers> updateGroupOrder(
+    public ResponseEntity<SellerOrdersDTO> updateGroupOrder(
             @PathVariable int id,
-            @RequestBody CustomerOrdersForGroupSellers updatedOrder) {
-        return ResponseEntity.ok(customerOrdersService.updateCustomerOrdersFromGroup(id, updatedOrder));
+            @RequestBody SellerOrdersDTO updatedOrderDTO) {
+
+        // Fetch the existing order from the service
+        CustomerOrdersForGroupSellers existingOrder = customerOrdersService.getCustomerOrdersFromGroup(id);
+
+        // Map the DTO fields to the existing entity
+        if (updatedOrderDTO.getOrderList() != null) {
+            existingOrder.setOrderList(updatedOrderDTO.getOrderList());
+        }
+        if (updatedOrderDTO.getOrderPrice() > 0) {
+            existingOrder.setOrderPrice(updatedOrderDTO.getOrderPrice());
+        }
+        if (updatedOrderDTO.getOrderStatus() != null) {
+            existingOrder.setOrderStatus(updatedOrderDTO.getOrderStatus());
+        }
+        if (updatedOrderDTO.getDeliveryDetails() != null) {
+            existingOrder.setDeliveryDetails(updatedOrderDTO.getDeliveryDetails());
+        }
+
+        // Save the updated entity using the service
+        CustomerOrdersForGroupSellers updatedOrder = customerOrdersService.updateCustomerOrdersFromGroup(id, existingOrder);
+
+        // Convert the updated entity back to a SellerOrdersDTO for the response
+        SellerOrdersDTO responseDTO = new SellerOrdersDTO();
+        responseDTO.setId(updatedOrder.getId());
+        responseDTO.setCustomerId(updatedOrder.getCustomerId());
+        responseDTO.setCustomerName(updatedOrder.getCustomer().getName());
+        responseDTO.setOrderList(updatedOrder.getOrderList());
+        responseDTO.setOrderPrice(updatedOrder.getOrderPrice());
+        responseDTO.setOrderStatus(updatedOrder.getOrderStatus());
+        responseDTO.setOrderType(updatedOrder.getOrderType());
+        responseDTO.setOrderDate(updatedOrder.getOrderDate());
+        responseDTO.setAddress(updatedOrder.getCustomer().getAddress());
+        responseDTO.setDeliveryDetails(updatedOrder.getDeliveryDetails());
+
+        return ResponseEntity.ok(responseDTO);
     }
 
     @DeleteMapping("/group/{id}")
@@ -285,41 +300,21 @@ public class CustomerOrdersController {
         }
     }
 
-    @PutMapping("/individual/{id}")
-    public ResponseEntity<SellerOrdersDTO> updateIndividualOrder(
-            @PathVariable int id,
-            @RequestBody SellerOrdersDTO updatedOrderDTO) {
-
-        CustomerOrdersForIndivSellers existingOrder = customerOrdersService.getCustomerOrdersFromIndividual(id);
-
-        if (updatedOrderDTO.getOrderList() != null) {
-            existingOrder.setOrderList(updatedOrderDTO.getOrderList());
-        }
-        if (updatedOrderDTO.getOrderPrice() > 0) {
-            existingOrder.setOrderPrice(updatedOrderDTO.getOrderPrice());
-        }
-        if (updatedOrderDTO.getOrderStatus() != null) {
-            existingOrder.setOrderStatus(updatedOrderDTO.getOrderStatus());
-        }
-        if (updatedOrderDTO.getDeliveryDetails() != null) {
-            existingOrder.setDeliveryDetails(updatedOrderDTO.getDeliveryDetails());
-        }
-
-        CustomerOrdersForIndivSellers updatedOrder = customerOrdersService.updateCustomerOrdersFromIndividual(id, existingOrder);
-
-        SellerOrdersDTO responseDTO = new SellerOrdersDTO();
-        responseDTO.setId(updatedOrder.getId());
-        responseDTO.setCustomerId(updatedOrder.getCustomerId());
-        responseDTO.setCustomerName(updatedOrder.getCustomer().getName());
-        responseDTO.setOrderList(updatedOrder.getOrderList());
-        responseDTO.setOrderPrice(updatedOrder.getOrderPrice());
-        responseDTO.setOrderStatus(updatedOrder.getOrderStatus());
-        responseDTO.setOrderType(updatedOrder.getOrderType());
-        responseDTO.setOrderDate(updatedOrder.getOrderDate());
-        responseDTO.setAddress(updatedOrder.getCustomer().getAddress());
-        responseDTO.setDeliveryDetails(updatedOrder.getDeliveryDetails());
-
-        return ResponseEntity.ok(responseDTO);
+    @GetMapping("/individual/{id}")
+    public ResponseEntity<SellerOrdersDTO> getIndividualOrder(@PathVariable int id) {
+        CustomerOrdersForIndivSellers customerOrdersForIndivSellers = customerOrdersService.getCustomerOrdersFromIndividual(id);
+        SellerOrdersDTO ordersDTO = new SellerOrdersDTO();
+        ordersDTO.setId(customerOrdersForIndivSellers.getId());
+        ordersDTO.setCustomerId(customerOrdersForIndivSellers.getCustomerId());
+        ordersDTO.setCustomerName(customerOrdersForIndivSellers.getCustomer().getName());
+        ordersDTO.setOrderList(customerOrdersForIndivSellers.getOrderList());
+        ordersDTO.setOrderPrice(customerOrdersForIndivSellers.getOrderPrice());
+        ordersDTO.setOrderStatus(customerOrdersForIndivSellers.getOrderStatus());
+        ordersDTO.setOrderType(customerOrdersForIndivSellers.getOrderType());
+        ordersDTO.setOrderDate(customerOrdersForIndivSellers.getOrderDate());
+        ordersDTO.setAddress(customerOrdersForIndivSellers.getCustomer().getAddress());
+        ordersDTO.setDeliveryDetails(customerOrdersForIndivSellers.getDeliveryDetails());
+        return ResponseEntity.ok(ordersDTO);
     }
 
     @GetMapping("/individual/customer/{id}")
@@ -349,10 +344,44 @@ public class CustomerOrdersController {
     }
 
     @PutMapping("/individual/{id}")
-    public ResponseEntity<CustomerOrdersForIndivSellers> updateIndividualOrder(
+    public ResponseEntity<SellerOrdersDTO> updateIndividualOrder(
             @PathVariable int id,
-            @RequestBody CustomerOrdersForIndivSellers updatedOrder) {
-        return ResponseEntity.ok(customerOrdersService.updateCustomerOrdersFromIndividual(id, updatedOrder));
+            @RequestBody SellerOrdersDTO updatedOrderDTO) {
+
+        // Fetch the existing order from the service
+        CustomerOrdersForIndivSellers existingOrder = customerOrdersService.getCustomerOrdersFromIndividual(id);
+
+        // Map the DTO fields to the existing entity
+        if (updatedOrderDTO.getOrderList() != null) {
+            existingOrder.setOrderList(updatedOrderDTO.getOrderList());
+        }
+        if (updatedOrderDTO.getOrderPrice() > 0) {
+            existingOrder.setOrderPrice(updatedOrderDTO.getOrderPrice());
+        }
+        if (updatedOrderDTO.getOrderStatus() != null) {
+            existingOrder.setOrderStatus(updatedOrderDTO.getOrderStatus());
+        }
+        if (updatedOrderDTO.getDeliveryDetails() != null) {
+            existingOrder.setDeliveryDetails(updatedOrderDTO.getDeliveryDetails());
+        }
+
+        // Save the updated entity using the service
+        CustomerOrdersForIndivSellers updatedOrder = customerOrdersService.updateCustomerOrdersFromIndividual(id, existingOrder);
+
+        // Convert the updated entity back to a SellerOrdersDTO for the response
+        SellerOrdersDTO responseDTO = new SellerOrdersDTO();
+        responseDTO.setId(updatedOrder.getId());
+        responseDTO.setCustomerId(updatedOrder.getCustomerId());
+        responseDTO.setCustomerName(updatedOrder.getCustomer().getName());
+        responseDTO.setOrderList(updatedOrder.getOrderList());
+        responseDTO.setOrderPrice(updatedOrder.getOrderPrice());
+        responseDTO.setOrderStatus(updatedOrder.getOrderStatus());
+        responseDTO.setOrderType(updatedOrder.getOrderType());
+        responseDTO.setOrderDate(updatedOrder.getOrderDate());
+        responseDTO.setAddress(updatedOrder.getCustomer().getAddress());
+        responseDTO.setDeliveryDetails(updatedOrder.getDeliveryDetails());
+
+        return ResponseEntity.ok(responseDTO);
     }
 
     @DeleteMapping("/individual/{id}")
