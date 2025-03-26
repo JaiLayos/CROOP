@@ -12,6 +12,7 @@ public class SellerOrdersDTO {
     private String orderStatus;
     private int customerId; // Include the customer ID
     private String customerName; // Optionally include the customer name
+    private Map<String, String> address;
     private String deliveryDetails;
 
     public SellerOrdersDTO(){
@@ -19,7 +20,7 @@ public class SellerOrdersDTO {
     }
     public SellerOrdersDTO(int id, Date orderDate, Map<String, Integer> orderList,
                            int orderPrice, String orderType, String orderStatus, int customerId, String customerName,
-                           String deliveryDetails) {
+                           Map<String, String> address, String deliveryDetails) {
         this.id = id;
         this.orderDate = orderDate;
         this.orderList = orderList;
@@ -28,6 +29,7 @@ public class SellerOrdersDTO {
         this.orderStatus = orderStatus;
         this.customerId = customerId;
         this.customerName = customerName;
+        this.address = address;
         this.deliveryDetails = deliveryDetails;
     }
 
@@ -92,5 +94,12 @@ public class SellerOrdersDTO {
     }
     public String getDeliveryDetails() {
         return deliveryDetails;
+    }
+
+    public void setAddress(Map<String, String> address) {
+        this.address = address;
+    }
+    public Map<String, String> getAddress() {
+        return address;
     }
 }

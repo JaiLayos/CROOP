@@ -105,8 +105,20 @@ public class CustomerOrdersController {
     }
 
     @GetMapping("/group/{id}")
-    public ResponseEntity<CustomerOrdersForGroupSellers> getGroupOrder(@PathVariable int id) {
-        return ResponseEntity.ok(customerOrdersService.getCustomerOrdersFromGroup(id));
+    public ResponseEntity<SellerOrdersDTO> getGroupOrder(@PathVariable int id) {
+        CustomerOrdersForGroupSellers customerOrdersForGroupSellers = customerOrdersService.getCustomerOrdersFromGroup(id);
+        SellerOrdersDTO ordersDTO = new SellerOrdersDTO();
+        ordersDTO.setId(customerOrdersForGroupSellers.getId());
+        ordersDTO.setCustomerId(customerOrdersForGroupSellers.getCustomerId());
+        ordersDTO.setCustomerName(customerOrdersForGroupSellers.getCustomer().getName());
+        ordersDTO.setOrderList(customerOrdersForGroupSellers.getOrderList());
+        ordersDTO.setOrderPrice(customerOrdersForGroupSellers.getOrderPrice());
+        ordersDTO.setOrderStatus(customerOrdersForGroupSellers.getOrderStatus());
+        ordersDTO.setOrderType(customerOrdersForGroupSellers.getOrderType());
+        ordersDTO.setOrderDate(customerOrdersForGroupSellers.getOrderDate());
+        ordersDTO.setAddress(customerOrdersForGroupSellers.getCustomer().getAddress());
+        ordersDTO.setDeliveryDetails(customerOrdersForGroupSellers.getDeliveryDetails());
+        return ResponseEntity.ok(ordersDTO);
     }
 
     @GetMapping("/group/customer/{id}")
@@ -123,6 +135,7 @@ public class CustomerOrdersController {
             ordersDTO.setOrderStatus(groupSeller.getOrderStatus());
             ordersDTO.setOrderType(groupSeller.getOrderType());
             ordersDTO.setOrderDate(groupSeller.getOrderDate());
+            ordersDTO.setAddress(groupSeller.getCustomer().getAddress());
             ordersDTO.setDeliveryDetails(groupSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
@@ -143,6 +156,7 @@ public class CustomerOrdersController {
             ordersDTO.setOrderStatus(groupSeller.getOrderStatus());
             ordersDTO.setOrderType(groupSeller.getOrderType());
             ordersDTO.setOrderDate(groupSeller.getOrderDate());
+            ordersDTO.setAddress(groupSeller.getCustomer().getAddress());
             ordersDTO.setDeliveryDetails(groupSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
@@ -163,6 +177,7 @@ public class CustomerOrdersController {
             ordersDTO.setOrderStatus(groupSeller.getOrderStatus());
             ordersDTO.setOrderType(groupSeller.getOrderType());
             ordersDTO.setOrderDate(groupSeller.getOrderDate());
+            ordersDTO.setAddress(groupSeller.getCustomer().getAddress());
             ordersDTO.setDeliveryDetails(groupSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
@@ -252,8 +267,20 @@ public class CustomerOrdersController {
     }
 
     @GetMapping("/individual/{id}")
-    public ResponseEntity<CustomerOrdersForIndivSellers> getIndividualOrder(@PathVariable int id) {
-        return ResponseEntity.ok(customerOrdersService.getCustomerOrdersFromIndividual(id));
+    public ResponseEntity<SellerOrdersDTO> getIndividualOrder(@PathVariable int id) {
+        CustomerOrdersForIndivSellers customerOrdersForIndivSellers = customerOrdersService.getCustomerOrdersFromIndividual(id);
+        SellerOrdersDTO ordersDTO = new SellerOrdersDTO();
+        ordersDTO.setId(customerOrdersForIndivSellers.getId());
+        ordersDTO.setCustomerId(customerOrdersForIndivSellers.getCustomerId());
+        ordersDTO.setCustomerName(customerOrdersForIndivSellers.getCustomer().getName());
+        ordersDTO.setOrderList(customerOrdersForIndivSellers.getOrderList());
+        ordersDTO.setOrderPrice(customerOrdersForIndivSellers.getOrderPrice());
+        ordersDTO.setOrderStatus(customerOrdersForIndivSellers.getOrderStatus());
+        ordersDTO.setOrderType(customerOrdersForIndivSellers.getOrderType());
+        ordersDTO.setOrderDate(customerOrdersForIndivSellers.getOrderDate());
+        ordersDTO.setAddress(customerOrdersForIndivSellers.getCustomer().getAddress());
+        ordersDTO.setDeliveryDetails(customerOrdersForIndivSellers.getDeliveryDetails());
+        return ResponseEntity.ok(ordersDTO);
     }
 
     @GetMapping("/individual/customer/{id}")
@@ -270,6 +297,7 @@ public class CustomerOrdersController {
             ordersDTO.setOrderStatus(indivSeller.getOrderStatus());
             ordersDTO.setOrderType(indivSeller.getOrderType());
             ordersDTO.setOrderDate(indivSeller.getOrderDate());
+            ordersDTO.setAddress(indivSeller.getCustomer().getAddress());
             ordersDTO.setDeliveryDetails(indivSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
