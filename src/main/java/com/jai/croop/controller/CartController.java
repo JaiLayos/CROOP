@@ -4,6 +4,7 @@ import com.jai.croop.model.*;
 import com.jai.croop.repository.CustomerRepository;
 import com.jai.croop.service.ICartService;
 import com.jai.croop.service.ICustomerService;
+import com.jai.croop.service.IGroupSellersService;
 import com.jai.croop.service.IIndividualSellersService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class CartController {
     private IIndividualSellersService individualSellersService;
     @Autowired
     private ICustomerService customerService;
+    @Autowired
+    private IGroupSellersService groupSellersService;
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -165,52 +168,24 @@ public class CartController {
         if (current == null) {
             return ResponseEntity.notFound().build(); // Return 404 if the cart item doesn't exist
         }
-
-        Cart updatedCart = convertToCart(cartDTO);
-
-        updatedCart.setId(current.getId());
-        IndividualSellers individualSeller =  individualSellersService.getIndividualSellers(cartDTO.getSellerID());
-        updatedCart.setIndividualSellers(individualSeller);
         Customer customer = customerRepository.findById(cartDTO.getCustomerID()).orElseThrow(()-> new RuntimeException("Customer doesn't exist."));
-        updatedCart.setCustomer(customer);
+        IndividualSellers individualSeller =  individualSellersService.getIndividualSellers(cartDTO.getSellerID());
+        GroupSellers groupSellers =  groupSellersService.getGroupSellers(cartDTO.getSellerID());
 
-        Cart savedCart = cartService.updateCart(id, updatedCart);
-        CartDTO updatedCartDTO = convertToCartDTO(savedCart);
-
-        return ResponseEntity.ok(updatedCartDTO); // Return the updated CartDTO
-    }
-
-    private Cart convertToCart(CartDTO cartDTO) {
         Cart cart = new Cart();
         cart.setCropName(cartDTO.getCropName());
         cart.setQuantity(cartDTO.getQuantity());
         cart.setPrice(cartDTO.getPrice());
-        Customer customer = customerRepository.findById(cartDTO.getCustomerID()).orElseThrow(()-> new RuntimeException("Customer doesn't exist."));
         cart.setCustomer(customer);
-        // Relationships are handled separately in the controller
-        return cart;
+        cart.setIndividualSellers(individualSeller);
+        cart.setGroupSellers(groupSellers);
+
+
+        Cart savedCart = cartService.updateCart(id, cart);
+        return ResponseEntity.ok(cartDTO); // Return the updated CartDTO
     }
 
-    private CartDTO convertToCartDTO(Cart cart) {
-        CartDTO cartDTO = new CartDTO();
-        cartDTO.setId(cart.getId());
-        cartDTO.setCropName(cart.getCropName());
-        cartDTO.setQuantity(cart.getQuantity());
-        cartDTO.setPrice(cart.getPrice());
 
-        if (cart.getCustomer() != null) {
-            cartDTO.setCustomerID(cart.getCustomer().getId());
-            cartDTO.setCustomerName(cart.getCustomer().getName());
-        }
-
-        if (cart.getIndividualSellers() != null) {
-            cartDTO.setSellerID(cart.getIndividualSellers().getId());
-            cartDTO.setSellerName(cart.getIndividualSellers().getName());
-            cartDTO.setFirebaseID(cart.getIndividualSellers().getFirebaseID());
-        }
-
-        return cartDTO;
-    }
 
 
     @DeleteMapping("/{id}")
