@@ -185,7 +185,8 @@ public class CartController {
         cart.setCropName(cartDTO.getCropName());
         cart.setQuantity(cartDTO.getQuantity());
         cart.setPrice(cartDTO.getPrice());
-
+        Customer customer = customerRepository.findById(cartDTO.getCustomerID()).orElseThrow(()-> new RuntimeException("Customer doesn't exist."));
+        cart.setCustomer(customer);
         // Relationships are handled separately in the controller
         return cart;
     }
