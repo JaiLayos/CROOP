@@ -1,6 +1,7 @@
 package com.jai.croop.controller;
 
 import com.jai.croop.model.*;
+import com.jai.croop.repository.CustomerRepository;
 import com.jai.croop.service.ICartService;
 import com.jai.croop.service.ICustomerService;
 import com.jai.croop.service.IIndividualSellersService;
@@ -22,6 +23,8 @@ public class CartController {
     private IIndividualSellersService individualSellersService;
     @Autowired
     private ICustomerService customerService;
+    @Autowired
+    private CustomerRepository customerRepository;
 
 
     @PostMapping
@@ -168,7 +171,7 @@ public class CartController {
         updatedCart.setId(current.getId());
         IndividualSellers individualSeller =  individualSellersService.getIndividualSellers(cartDTO.getSellerID());
         updatedCart.setIndividualSellers(individualSeller);
-        Customer customer = customerService.getCustomer(cartDTO.getCustomerID());
+        Customer customer = customerRepository.findById(cartDTO.getCustomerID()).orElseThrow(()-> new RuntimeException("Customer doesn't exist."));
         updatedCart.setCustomer(customer);
 
         Cart savedCart = cartService.updateCart(id, updatedCart);
