@@ -179,9 +179,7 @@ public class CartController {
         cart.setCustomer(customer);
         cart.setIndividualSellers(individualSeller);
         cart.setGroupSellers(groupSellers);
-
-
-        Cart savedCart = cartService.updateCart(id, cart);
+        cartService.updateCart(id, cart);
         return ResponseEntity.ok(cartDTO); // Return the updated CartDTO
     }
 
