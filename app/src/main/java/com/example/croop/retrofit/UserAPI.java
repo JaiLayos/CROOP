@@ -292,7 +292,7 @@ public interface UserAPI {
     @GET("api/cart/from-individual/seller/{id}")
     Call<List<CartDTO>> getIndividualCartBySellerID(@Path("id") int sellerId);
     @PUT("api/cart/{id}")
-    Call<Cart> updateCart(@Path("id") int id, @Body Cart cart);
+    Call<CartDTO> updateCart(@Path("id") int id, @Body CartDTO cart);
     @DELETE("api/cart/{id}")
     Call<Void> deleteCart(@Path("id") int id);
 

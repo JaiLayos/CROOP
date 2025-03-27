@@ -36,11 +36,17 @@ public class EachItemAdapter extends RecyclerView.Adapter<EachItemAdapter.EachIt
     private RetrofitService RetrofitClient;
     private UserAPI userAPI;
     private FragmentActivity fragmentActivity;
+    private OnUpdateClickListener updateListener;
 
-    public EachItemAdapter(Context context, List<CartDTO> cartDTOList, FragmentActivity fragmentActivity) {
+    public interface OnUpdateClickListener {
+        void onUpdateClicked(CartDTO cartItem);
+    }
+
+    public EachItemAdapter(Context context, List<CartDTO> cartDTOList, FragmentActivity fragmentActivity, OnUpdateClickListener updateListener) {
         this.context = context;
         this.cartDTOList = cartDTOList;
         this.fragmentActivity = fragmentActivity;
+        this.updateListener = updateListener;
     }
 
     @NonNull
@@ -65,7 +71,9 @@ public class EachItemAdapter extends RecyclerView.Adapter<EachItemAdapter.EachIt
 
         loadImage(storageRef, holder);
         holder.update.setOnClickListener(v -> {
-
+            if (updateListener != null) {
+                updateListener.onUpdateClicked(cartDTO);
+            }
         });
 
         holder.delete.setOnClickListener(v -> {

@@ -42,7 +42,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Fragment_Cart_Customer extends Fragment {
+public class Fragment_Cart_Customer extends Fragment implements EachItemAdapter.OnUpdateClickListener{
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private RetrofitService RetrofitClient;
@@ -56,6 +56,7 @@ public class Fragment_Cart_Customer extends Fragment {
     private UserAPI userAPI;
     private FirebaseUser user;
     private String collection, buyerAddress;
+    private int id;
 
 
 
@@ -130,7 +131,7 @@ public class Fragment_Cart_Customer extends Fragment {
             @Override
             public void onResponse(Call<Customer> call, Response<Customer> response) {
                 Customer customer = response.body();
-                int id = customer.getId();
+                 id = customer.getId();
                 getGroupedCart(id);
             }
 
@@ -163,6 +164,7 @@ public class Fragment_Cart_Customer extends Fragment {
                                 }
                             }
                     );
+                    adapter.setUpdateListener(Fragment_Cart_Customer.this);
                     recyclerView.setAdapter(adapter);
                 }
             }
@@ -324,4 +326,11 @@ public class Fragment_Cart_Customer extends Fragment {
         return collection;
     }
 
+    @Override
+    public void onUpdateClicked(CartDTO cartItem) {
+        //Toast.makeText(getActivity(), "Customer ID: " + String.valueOf(cartItem.getCustomerID()), Toast.LENGTH_SHORT).show();
+
+        UpdateCartItemBottomSheet bottomSheet = new UpdateCartItemBottomSheet(cartItem, id);
+        bottomSheet.show(getChildFragmentManager(), "UpdateCartItemBottomSheet");
+    }
 }

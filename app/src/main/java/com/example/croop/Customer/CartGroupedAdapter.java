@@ -26,11 +26,14 @@ public class CartGroupedAdapter extends RecyclerView.Adapter<CartGroupedAdapter.
     private List<IndividualSellerCartDTO> individualSellers = new ArrayList<>();
     private static FragmentActivity fragmentActivity;
     private OnItemClickListener listener;
+    private static EachItemAdapter.OnUpdateClickListener updateListener;
 
-
-    // Listener now receives seller ID and type
     public interface OnItemClickListener {
         void onCheckout(int sellerId, boolean isGroupSeller);
+    }
+
+    public void setUpdateListener(EachItemAdapter.OnUpdateClickListener updateListener) {
+        this.updateListener = updateListener;
     }
 
     public CartGroupedAdapter(Context context, CartGroupedResponseDTO dto, FragmentActivity fragmentActivity, OnItemClickListener listener) {
@@ -86,28 +89,26 @@ public class CartGroupedAdapter extends RecyclerView.Adapter<CartGroupedAdapter.
         public void bindGroup(GroupSellerCartDTO group, OnItemClickListener listener) {
             sellerName.setText(group.getGroupName());
 
-            // Setup child RecyclerView
-            EachItemAdapter adapter = new EachItemAdapter(context, group.getCartItems(), fragmentActivity);
+            // Pass the update listener to the child adapter
+            EachItemAdapter adapter = new EachItemAdapter(context, group.getCartItems(), fragmentActivity, updateListener);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(adapter);
 
             checkout.setOnClickListener(v ->
                     listener.onCheckout(group.getId(), true)
-            ); // true = group seller
-
+            );
         }
 
         public void bindIndividual(IndividualSellerCartDTO individual, OnItemClickListener listener) {
             sellerName.setText(individual.getName());
 
-            // Setup child RecyclerView
-            EachItemAdapter adapter = new EachItemAdapter(context, individual.getCartItems(), fragmentActivity);
+            EachItemAdapter adapter = new EachItemAdapter(context, individual.getCartItems(), fragmentActivity, updateListener);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(adapter);
 
-            // Set click listener
             checkout.setOnClickListener(v ->
-                    listener.onCheckout(individual.getId(), false)); // false = individual seller
+                    listener.onCheckout(individual.getId(), false)
+            );
         }
     }
 }
