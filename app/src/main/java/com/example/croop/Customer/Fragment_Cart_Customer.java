@@ -1,5 +1,7 @@
 package com.example.croop.Customer;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,8 +26,12 @@ import com.example.croop.model.GroupSellers;
 import com.example.croop.model.IndividualSellerCartDTO;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -47,13 +54,49 @@ public class Fragment_Cart_Customer extends Fragment {
     private Customer getCustomer;
     private GroupSellers getGroupSeller;
     private UserAPI userAPI;
+    private FirebaseUser user;
+    private String collection, buyerAddress;
+
+
 
     public Fragment_Cart_Customer() {
+    }
+
+    public void refreshCartData() {
+        fetchCartData(); // Re-fetch the cart data
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        if (user != null) {
+            DocumentReference docRef = db.collection(collection).document(user.getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Map<String, Object> address_map = (Map<String, Object>) document.get("Address");
+
+                            // Access individual fields
+                            String city = (String) address_map.get("City");
+                            String country = (String) address_map.get("Country");
+                            String streetName = (String) address_map.get("House_Street_Name");
+                            String postalCode = (String) address_map.get("Postal_Code");
+                            String state = (String) address_map.get("State_Province_Region");
+                            String subdivision = (String) address_map.get("Subdivision_Baranggay");
+
+                            buyerAddress = (streetName + ", " + subdivision + ", " + city + ", " + state + ", " + postalCode + ", " + country);
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
         fetchCartData(); // This will refresh data every time fragment becomes visible
     }
 
@@ -64,9 +107,10 @@ public class Fragment_Cart_Customer extends Fragment {
         View view = inflater.inflate(R.layout.customer_cart, container, false);
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", getContext().MODE_PRIVATE);
         String role = prefs.getString("user_role", null);
+        collection = getCollection(role);
 
         recyclerView = view.findViewById(R.id.holderOfGroupedItem);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -110,6 +154,7 @@ public class Fragment_Cart_Customer extends Fragment {
                     CartGroupedAdapter adapter = new CartGroupedAdapter(
                             requireContext(),
                             cartGroupedResponseDTO,
+                            getActivity(),
                             (sellerId, isGroup) -> {
                                 if (isGroup) {
                                     cartForGroup(cartGroupedResponseDTO, id, sellerId);
@@ -142,6 +187,8 @@ public class Fragment_Cart_Customer extends Fragment {
                     customerOrdersForIndivSellers.setOrderPrice(priceOverall);
                     customerOrdersForIndivSellers.setOrderStatus("Pending");
                     customerOrdersForIndivSellers.setOrderType("Cash-On-Delivery");
+                    customerOrdersForIndivSellers.setBuyerLocation(buyerAddress);
+                    customerOrdersForIndivSellers.setSellerLocation("");
                     deleteCart(cart.getId());
                 }
             }
@@ -178,6 +225,8 @@ public class Fragment_Cart_Customer extends Fragment {
                     customerOrdersForGroupSellers.setOrderPrice(priceOverall);
                     customerOrdersForGroupSellers.setOrderStatus("Pending");
                     customerOrdersForGroupSellers.setOrderType("Cash-On-Delivery");
+                    customerOrdersForGroupSellers.setBuyerLocation(buyerAddress);
+                    customerOrdersForGroupSellers.setSellerLocation("");
                     deleteCart(cart.getId());
                 }
             }
@@ -248,4 +297,31 @@ public class Fragment_Cart_Customer extends Fragment {
         });
         return getCustomer;
     }
+    private String getCollection(String role) {
+        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        String collection;
+
+        switch (role) {
+            case "Group Business User (Association)":
+                collection = "Farming Association";
+                break;
+            case "Group Business User (Cooperative)":
+                collection = "Farming Cooperatives";
+                break;
+            case "Individual Business User":
+                collection = "Individual Sellers";
+                break;
+            case "Customer User":
+                collection = "Customers";
+                break;
+            default:
+                collection = "Unknown";
+                break;
+        }
+
+        editor.putString("user_collection", collection).apply();
+        return collection;
+    }
+
 }

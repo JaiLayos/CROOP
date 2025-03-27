@@ -78,7 +78,7 @@ public interface UserAPI {
             @Body CustomerOrdersForGroupSellers order
     );
     @GET("api/customer-orders/group/{id}")
-    Call<CustomerOrdersForGroupSellers> getGroupOrder(@Path("id") int id);
+    Call<SellerOrdersDTO> getGroupOrder(@Path("id") int id);
     @GET("api/customer-orders/group")
     Call<List<CustomerOrdersForGroupSellers>> getAllGroupOrders();
     @GET("api/customer-orders/group/seller/{id}")
@@ -86,9 +86,9 @@ public interface UserAPI {
     @GET("api/customer-orders/group/customer/{id}")
     Call<List<SellerOrdersDTO>> getGroupOrderByCustomer(@Path("id") int id);
     @PUT("api/customer-orders/group/{id}")
-    Call<CustomerOrdersForGroupSellers> updateGroupOrder(
+    Call<SellerOrdersDTO> updateGroupOrder(
             @Path("id") int id,
-            @Body CustomerOrdersForGroupSellers updatedOrder
+            @Body SellerOrdersDTO updatedOrder
     );
 
     @GET("api/customer-orders/group/sales/{sellerId}")
@@ -105,15 +105,15 @@ public interface UserAPI {
             @Body CustomerOrdersForIndivSellers order
     );
     @GET("api/customer-orders/individual/{id}")
-    Call<CustomerOrdersForIndivSellers> getIndividualOrder(@Path("id") int id);
+    Call<SellerOrdersDTO> getIndividualOrder(@Path("id") int id);
     @GET("api/customer-orders/individual/customer/{id}")
     Call<List<SellerOrdersDTO>> getIndividualOrderByCustomer(@Path("id") int id);
     @GET("api/customer-orders/individual")
     Call<List<CustomerOrdersForIndivSellers>> getAllIndividualOrders();
     @PUT("api/customer-orders/individual/{id}")
-    Call<CustomerOrdersForIndivSellers> updateIndividualOrder(
+    Call<SellerOrdersDTO> updateIndividualOrder(
             @Path("id") int id,
-            @Body CustomerOrdersForIndivSellers updatedOrder
+            @Body SellerOrdersDTO updatedOrder
     );
     @GET("api/customer-orders/individual/seller/{id}")
     Call<List<SellerOrdersDTO>> getIndividualOrderByGroupSellerId(@Path("id") int id);

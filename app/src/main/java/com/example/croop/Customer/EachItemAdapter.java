@@ -6,27 +6,41 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.croop.R;
 import com.example.croop.model.CartDTO;
+import com.example.croop.retrofit.RetrofitService;
+import com.example.croop.retrofit.UserAPI;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class EachItemAdapter extends RecyclerView.Adapter<EachItemAdapter.EachItemAdapterHolder> {
     private Context context;
     private List<CartDTO> cartDTOList;
+    private RetrofitService RetrofitClient;
+    private UserAPI userAPI;
+    private FragmentActivity fragmentActivity;
 
-    public EachItemAdapter(Context context, List<CartDTO> cartDTOList){
+    public EachItemAdapter(Context context, List<CartDTO> cartDTOList, FragmentActivity fragmentActivity) {
         this.context = context;
         this.cartDTOList = cartDTOList;
+        this.fragmentActivity = fragmentActivity;
     }
 
     @NonNull
@@ -50,6 +64,29 @@ public class EachItemAdapter extends RecyclerView.Adapter<EachItemAdapter.EachIt
                 .child(cartDTO.getCropName());
 
         loadImage(storageRef, holder);
+        holder.update.setOnClickListener(v -> {
+
+        });
+
+        holder.delete.setOnClickListener(v -> {
+            Call<Void> cartCall = userAPI.deleteCart(cartDTO.getId());
+            cartCall.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    Toast.makeText(v.getContext(), "Item Deleted", Toast.LENGTH_SHORT).show();
+                    Fragment parentFragment = fragmentActivity.getSupportFragmentManager()
+                            .findFragmentById(R.id.viewPagerContainer);
+                    if (parentFragment instanceof Fragment_Cart_Customer) {
+                        ((Fragment_Cart_Customer) parentFragment).refreshCartData();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(v.getContext(), "Item Deletion Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
 
     }
 
@@ -78,12 +115,16 @@ public class EachItemAdapter extends RecyclerView.Adapter<EachItemAdapter.EachIt
         TextView cropName, priceLabel;
         TextView quantity;
         ImageView cropProfile;
+        Button update, delete;
         public EachItemAdapterHolder(@NonNull View itemView) {
             super(itemView);
             cropName = itemView.findViewById(R.id.cropNameLabel);
             priceLabel = itemView.findViewById(R.id.priceLabel);
             quantity = itemView.findViewById(R.id.quantityEditText);
             cropProfile = itemView.findViewById(R.id.cropProfile);
+            userAPI = RetrofitClient.getClient().create(UserAPI.class);
+            update = itemView.findViewById(R.id.updateButton);
+            delete = itemView.findViewById(R.id.deleteButton);
         }
     }
 }

@@ -8,6 +8,7 @@ public class ProductDTO {
     private String productSeller;
     private String sellerRole;
     private String firebaseID;
+    private String unit;
     private double productDiscount;
     private int productFinalPrice;
     private int remaining;
@@ -19,7 +20,7 @@ public class ProductDTO {
     public ProductDTO(int productID, String productName, String firebaseID, int sellerID,
                       int productPrice, String productSeller, String sellerRole,
                       double productDiscount, int productFinalPrice,
-                      int remaining){
+                      int remaining, String unit){
         this.productID = productID;
         this.productName = productName;
         this.firebaseID = firebaseID;
@@ -30,6 +31,7 @@ public class ProductDTO {
         this.productDiscount = productDiscount;
         this.productFinalPrice = productFinalPrice;
         this.remaining = remaining;
+        this.unit = unit;
     }
 
     public int getProductID() {
@@ -100,5 +102,13 @@ public class ProductDTO {
     }
     public void setRemaining(int remaining) {
         this.remaining = remaining;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

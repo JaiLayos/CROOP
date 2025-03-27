@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:contentDescription="back">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -254,6 +253,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/secondary_color" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/commentList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/commentTextBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="0.4"
+                    android:background="@drawable/rounded_border_edit_text"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:hint="Ilagay dito kung may kumento"
+                    android:inputType="textMultiLine"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp" />
+
+                <Button
+                    android:id="@+id/postButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:backgroundTint="@color/highlight_green"
+                    android:text="POST" />
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"

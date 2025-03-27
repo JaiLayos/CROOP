@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.croop.GroupSellerLanding.Sign_In_Success_Group_Seller;
 import com.example.croop.R;
-import com.example.croop.model.CustomerOrdersForGroupSellers;
 import com.example.croop.model.IndividualSellers;
 import com.example.croop.model.SellerOrdersDTO;
 import com.example.croop.retrofit.RetrofitService;
@@ -161,7 +160,7 @@ public class Activity_Orders_Individual extends AppCompatActivity {
         String currentStatus = order.getOrderStatus();
         if ("Pending".equals(currentStatus)) {
             radioGroup.check(R.id.pendingRadio);
-        } else if ("Processing".equals(currentStatus)) {
+        } else if ("In Transit".equals(currentStatus)) {
             radioGroup.check(R.id.processingRadio);
         } else if ("Completed".equals(currentStatus)) {
             radioGroup.check(R.id.completedRadio);
@@ -190,18 +189,18 @@ public class Activity_Orders_Individual extends AppCompatActivity {
 
     private void updateOrderStatus(SellerOrdersDTO order, String newStatus) {
         order.setOrderStatus(newStatus);
-        Call<CustomerOrdersForGroupSellers> getOrder = apiService.getGroupOrder(order.getId());
-        getOrder.enqueue(new Callback<CustomerOrdersForGroupSellers>() {
+        Call<SellerOrdersDTO> getOrder = apiService.getGroupOrder(order.getId());
+        getOrder.enqueue(new Callback<SellerOrdersDTO>() {
             @Override
-            public void onResponse(Call<CustomerOrdersForGroupSellers> call, Response<CustomerOrdersForGroupSellers> response) {
-                CustomerOrdersForGroupSellers customerOrders = response.body();
+            public void onResponse(Call<SellerOrdersDTO> call, Response<SellerOrdersDTO> response) {
+                SellerOrdersDTO customerOrders = response.body();
                 customerOrders.setOrderList(order.getOrderList());
                 customerOrders.setOrderPrice(order.getOrderPrice());
                 customerOrders.setOrderStatus(newStatus);
-                Call<CustomerOrdersForGroupSellers> updateCall = apiService.updateGroupOrder(order.getId(),customerOrders);
-                updateCall.enqueue(new Callback<CustomerOrdersForGroupSellers>() {
+                Call<SellerOrdersDTO> updateCall = apiService.updateGroupOrder(order.getId(),customerOrders);
+                updateCall.enqueue(new Callback<SellerOrdersDTO>() {
                     @Override
-                    public void onResponse(Call<CustomerOrdersForGroupSellers> call, Response<CustomerOrdersForGroupSellers> response) {
+                    public void onResponse(Call<SellerOrdersDTO> call, Response<SellerOrdersDTO> response) {
                         Toast.makeText(Activity_Orders_Individual.this, "Updated", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(Activity_Orders_Individual.this, Sign_In_Success_Group_Seller.class);
                         startActivity(intent);
@@ -209,14 +208,14 @@ public class Activity_Orders_Individual extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<CustomerOrdersForGroupSellers> call, Throwable t) {
+                    public void onFailure(Call<SellerOrdersDTO> call, Throwable t) {
                         Log.e("Updating order error: ", t.getMessage());
                     }
                 });
             }
 
             @Override
-            public void onFailure(Call<CustomerOrdersForGroupSellers> call, Throwable t) {
+            public void onFailure(Call<SellerOrdersDTO> call, Throwable t) {
                 Log.e("Getting order error: ", t.getMessage());
             }
         });

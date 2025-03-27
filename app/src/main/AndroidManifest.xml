@@ -64,6 +64,7 @@
         <activity android:name=".GroupSellerLanding.Activity_Add_Products"/>
         <activity android:name=".GroupSellerLanding.Activity_Discount_Inventory"/>
         <activity android:name=".GroupSellerLanding.Activity_Add_Setup_Holding_Cost"/>
+        <activity android:name=".GroupSellerLanding.Activity_Orders_Details"/>
 
         <activity android:name=".IndividualSellerLanding.Sign_In_Success_Individual_Seller"/>
         <activity android:name=".IndividualSellerLanding.Activity_Inventory_Category_Individual"/>

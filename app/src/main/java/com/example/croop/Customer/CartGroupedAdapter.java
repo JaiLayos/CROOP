@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +24,7 @@ public class CartGroupedAdapter extends RecyclerView.Adapter<CartGroupedAdapter.
     private static Context context;
     private List<GroupSellerCartDTO> groupSellers = new ArrayList<>();
     private List<IndividualSellerCartDTO> individualSellers = new ArrayList<>();
+    private static FragmentActivity fragmentActivity;
     private OnItemClickListener listener;
 
 
@@ -31,9 +33,10 @@ public class CartGroupedAdapter extends RecyclerView.Adapter<CartGroupedAdapter.
         void onCheckout(int sellerId, boolean isGroupSeller);
     }
 
-    public CartGroupedAdapter(Context context, CartGroupedResponseDTO dto, OnItemClickListener listener) {
+    public CartGroupedAdapter(Context context, CartGroupedResponseDTO dto, FragmentActivity fragmentActivity, OnItemClickListener listener) {
         this.context = context;
         this.listener = listener;
+        this.fragmentActivity = fragmentActivity;
         this.groupSellers = dto.getGroupSellers() != null
                 ? dto.getGroupSellers()
                 : new ArrayList<>();
@@ -84,7 +87,7 @@ public class CartGroupedAdapter extends RecyclerView.Adapter<CartGroupedAdapter.
             sellerName.setText(group.getGroupName());
 
             // Setup child RecyclerView
-            EachItemAdapter adapter = new EachItemAdapter(context, group.getCartItems());
+            EachItemAdapter adapter = new EachItemAdapter(context, group.getCartItems(), fragmentActivity);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(adapter);
 
@@ -98,7 +101,7 @@ public class CartGroupedAdapter extends RecyclerView.Adapter<CartGroupedAdapter.
             sellerName.setText(individual.getName());
 
             // Setup child RecyclerView
-            EachItemAdapter adapter = new EachItemAdapter(context, individual.getCartItems());
+            EachItemAdapter adapter = new EachItemAdapter(context, individual.getCartItems(), fragmentActivity);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(adapter);
 

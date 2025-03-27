@@ -22,6 +22,7 @@ import com.example.croop.model.Customer;
 import com.example.croop.model.SellerOrdersDTO;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -177,8 +178,31 @@ public class Fragment_Orders_Customer extends Fragment {
         addTextViewToRow(row, formattedDate, 1f);
         addTextViewToRow(row, formattedOrderList, 1f);
         addTextViewToRow(row, String.valueOf(order.getOrderPrice()), 1f);
-        addTextViewToRow(row, order.getOrderStatus(), 1f);
 
+        // Add the status TextView and handle its background color
+        TextView statusTextView = new TextView(getContext());
+        statusTextView.setText(order.getOrderStatus());
+        statusTextView.setGravity(Gravity.CENTER); // Center-align the text
+        statusTextView.setLayoutParams(new TableRow.LayoutParams(
+                0,
+                TableRow.LayoutParams.WRAP_CONTENT,
+                1f
+        ));
+
+        if ("In Transit".equals(order.getOrderStatus())) {
+            statusTextView.setTextColor(getResources().getColor(R.color.highlight_green));
+            statusTextView.setOnClickListener(v -> {
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity());
+                View bottomSheetView = getLayoutInflater().inflate(R.layout.delivery_details, null);
+                TextView delivery;
+                delivery = bottomSheetView.findViewById(R.id.deliveryLink);
+                delivery.setText(order.getDeliveryDetails());
+                bottomSheetDialog.setContentView(bottomSheetView);
+                bottomSheetDialog.show();
+            });
+        }
+
+        row.addView(statusTextView);
         return row;
     }
 

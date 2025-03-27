@@ -1,6 +1,9 @@
 package com.example.croop.Customer;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -11,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,16 +31,23 @@ import com.example.croop.model.IndividualSellersProductsInventory;
 import com.example.croop.model.ProductDTO;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,14 +61,18 @@ public class Activity_Product_Profile extends AppCompatActivity {
     private RetrofitService retrofitService;
     private ImageView productProfile, sellerProfile;
     private TextView priceText, discountText, cropNameText,
-        sellerNameText, sellerRoleText;
+        sellerNameText, sellerRoleText, comments;
     private FloatingActionButton back;
-    private Button addToCart;
+    private Button addToCart, postComment;
     private Cart cart;
     private ProductDTO store;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private int count;
+    private BottomSheetDialog bottomSheetDialog;
+    private FirebaseFirestore db;
+    private RecyclerView forComment;
+    private String name_user, collection;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,10 +80,14 @@ public class Activity_Product_Profile extends AppCompatActivity {
         setContentView(R.layout.product_profile);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
         initializeComponents();
     }
 
     private void initializeComponents() {
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String role = prefs.getString("user_role", null);
+        collection = getCollection(role);
         Intent intent = getIntent();
         if (intent != null) {
             productID = intent.getIntExtra("product_id", 1);
@@ -81,8 +100,14 @@ public class Activity_Product_Profile extends AppCompatActivity {
         sellerNameText = findViewById(R.id.sellerNameText);
         sellerRoleText = findViewById(R.id.sellerRoleText);
 
+        forComment = findViewById(R.id.commentList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        forComment.setLayoutManager(layoutManager);
+
         productProfile = findViewById(R.id.productProfile);
         sellerProfile = findViewById(R.id.sellerProfile);
+        comments = findViewById(R.id.commentTextBox);
+        postComment = findViewById(R.id.postButton);
 
         back = findViewById(R.id.backButton);
         back.setOnClickListener(v -> {
@@ -92,6 +117,8 @@ public class Activity_Product_Profile extends AppCompatActivity {
         userAPI = retrofitService.getClient().create(UserAPI.class);
         layoutProfile(seller);
         layoutSuggestions(firebase_id);
+
+
     }
 
     private void layoutSuggestions(String firebase_id) {
@@ -219,13 +246,58 @@ public class Activity_Product_Profile extends AppCompatActivity {
         }
     }
 
+    private String getCollection(String role) {
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        String collection;
+
+        switch (role) {
+            case "Group Business User (Association)":
+                collection = "Farming Association";
+                break;
+            case "Group Business User (Cooperative)":
+                collection = "Farming Cooperatives";
+                break;
+            case "Individual Business User":
+                collection = "Individual Sellers";
+                break;
+            case "Customer User":
+                collection = "Customers";
+                break;
+            default:
+                collection = "Unknown";
+                break;
+        }
+
+        editor.putString("user_collection", collection).apply();
+        return collection;
+    }
+
     private void ifSuccess(Response<ProductDTO> response) {
         ProductDTO products = response.body();
         store = products;
         priceText.setText("₱" + products.getProductPrice());
         discountText.setText(String.valueOf(products.getProductDiscount() * 100)+"%");
-        cropNameText.setText(products.getProductName());
+        cropNameText.setText(products.getProductName()+ " per " + products.getUnit());
         sellerNameText.setText(products.getProductSeller());
+        if (user != null) {
+            DocumentReference docRef = db.collection(collection).document(user.getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            name_user = document.getString("Name");
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
         sellerNameText.setOnClickListener(v ->{
             Intent openThruProfile = new Intent(this,Activity_Seller_Profile.class);
             String kindOfSeller = products.getSellerRole();
@@ -247,6 +319,33 @@ public class Activity_Product_Profile extends AppCompatActivity {
             openThruName.putExtra("firebase_id", firebaseID);
             startActivity(openThruName);
         });
+        postComment.setOnClickListener(v -> {
+            String comment = comments.getText().toString();
+            db.collection("Comments on Products")
+                    .document(products.getSellerRole() + products.getProductID())
+                    .update(name_user, comment)  // Append the comment
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(Activity_Product_Profile.this, "Done!", Toast.LENGTH_SHORT).show();
+                        showComments(products);  // Refresh comments after posting
+                    })
+                    .addOnFailureListener(e -> {
+                        Map<String, Object> newComment = new HashMap<>();
+                        newComment.put(name_user, comment);
+                        db.collection("Comments on Products")
+                                .document(products.getSellerRole() + products.getProductID())
+                                .set(newComment)  // Create a new document
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(Activity_Product_Profile.this, "Done!", Toast.LENGTH_SHORT).show();
+                                    showComments(products);
+                                })
+                                .addOnFailureListener(err -> {
+                                    Toast.makeText(Activity_Product_Profile.this, "Error! " + err, Toast.LENGTH_SHORT).show();
+                                });
+                    });
+        });
+        if(products!=null){
+            showComments(products);
+        }
         StorageReference storageRef = FirebaseStorage.getInstance().getReference()
                 .child("Products")
                 .child(products.getFirebaseID())
@@ -274,8 +373,40 @@ public class Activity_Product_Profile extends AppCompatActivity {
         });
     }
 
+    private void showComments(ProductDTO products) {
+        db.collection("Comments on Products")
+                .document(products.getSellerRole() + products.getProductID())
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Map<String, Object> commentsMap = documentSnapshot.getData();
+                        if (commentsMap != null && !commentsMap.isEmpty()) {
+                            List<Map<String, String>> commentsList = new ArrayList<>();
+
+                            // Convert Firestore Map into a list of key-value pairs (userID -> comment)
+                            for (Map.Entry<String, Object> entry : commentsMap.entrySet()) {
+                                Map<String, String> comment = new HashMap<>();
+                                comment.put(entry.getKey(), entry.getValue().toString());  // Use "comment" as key
+                                commentsList.add(comment);
+                            }
+
+                            CommentsAdapter commentsAdapter = new CommentsAdapter(commentsList, this);
+                            forComment.setAdapter(commentsAdapter);
+                        } else {
+                            Log.e("FirestoreError", "No comments found");
+                        }
+                    } else {
+                        Log.e("FirestoreError", "Document does not exist");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("FirestoreError", "Error fetching comments: " + e.getMessage());
+                });
+    }
+
+
     private void openBottomView(ProductDTO products) {
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog = new BottomSheetDialog(this);
         View bottomSheetView = getLayoutInflater().inflate(R.layout.customer_products_quantity, null);
 
         EditText quantity = bottomSheetView.findViewById(R.id.quantityText);
@@ -360,6 +491,7 @@ public class Activity_Product_Profile extends AppCompatActivity {
                     Toast.makeText(Activity_Product_Profile.this,
                             "Added to Cart!",
                             Toast.LENGTH_SHORT).show();
+                    bottomSheetDialog.dismiss();
                 } else {
                     try {
                         String errorBody = response.errorBody().string();

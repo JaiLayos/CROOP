@@ -73,16 +73,6 @@
                                 android:layout_height="match_parent">
 
                                 <TextView
-                                    android:id="@+id/orderDateLabel"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:fontFamily="@font/mulish_medium"
-                                    android:text="Petsa"
-                                    android:textAlignment="center"
-                                    android:textStyle="bold" />
-
-                                <TextView
                                     android:id="@+id/orderCustomerLabel"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -119,6 +109,15 @@
                                     android:layout_weight="1"
                                     android:fontFamily="@font/mulish_medium"
                                     android:text="Status"
+                                    android:textAlignment="center"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/orderDateLabel"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/mulish_medium"
                                     android:textAlignment="center"
                                     android:textStyle="bold" />
                             </TableRow>
