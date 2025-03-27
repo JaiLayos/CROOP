@@ -11,11 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +41,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -61,7 +64,8 @@ public class Activity_Product_Profile extends AppCompatActivity {
     private RetrofitService retrofitService;
     private ImageView productProfile, sellerProfile;
     private TextView priceText, discountText, cropNameText,
-        sellerNameText, sellerRoleText, comments;
+        sellerNameText, sellerRoleText, comments, reviewsCount;
+    private RatingBar rate;
     private FloatingActionButton back;
     private Button addToCart, postComment;
     private Cart cart;
@@ -99,9 +103,11 @@ public class Activity_Product_Profile extends AppCompatActivity {
         cropNameText = findViewById(R.id.cropNameText);
         sellerNameText = findViewById(R.id.sellerNameText);
         sellerRoleText = findViewById(R.id.sellerRoleText);
+        reviewsCount = findViewById(R.id.reviewLabel);
+        rate = findViewById(R.id.ratingBar);
 
         forComment = findViewById(R.id.commentList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         forComment.setLayoutManager(layoutManager);
 
         productProfile = findViewById(R.id.productProfile);
@@ -320,27 +326,45 @@ public class Activity_Product_Profile extends AppCompatActivity {
             startActivity(openThruName);
         });
         postComment.setOnClickListener(v -> {
-            String comment = comments.getText().toString();
+            String comment = comments.getText().toString().trim();
+            float score = rate.getRating();
+            if (comment.isEmpty()) {
+                Toast.makeText(Activity_Product_Profile.this, "Comment cannot be empty!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             db.collection("Comments on Products")
                     .document(products.getSellerRole() + products.getProductID())
-                    .update(name_user, comment)  // Append the comment
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(Activity_Product_Profile.this, "Done!", Toast.LENGTH_SHORT).show();
-                        showComments(products);  // Refresh comments after posting
-                    })
-                    .addOnFailureListener(e -> {
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        String commentKey = "comment_" + System.currentTimeMillis();
+
                         Map<String, Object> newComment = new HashMap<>();
-                        newComment.put(name_user, comment);
+                        newComment.put(commentKey, name_user + ": " + comment + ": " + String.valueOf(score));
+
                         db.collection("Comments on Products")
                                 .document(products.getSellerRole() + products.getProductID())
-                                .set(newComment)  // Create a new document
+                                .update(newComment)
                                 .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(Activity_Product_Profile.this, "Done!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Activity_Product_Profile.this, "Comment added!", Toast.LENGTH_SHORT).show();
                                     showComments(products);
+                                    comments.setText("");
                                 })
-                                .addOnFailureListener(err -> {
-                                    Toast.makeText(Activity_Product_Profile.this, "Error! " + err, Toast.LENGTH_SHORT).show();
+                                .addOnFailureListener(e -> {
+                                    db.collection("Comments on Products")
+                                            .document(products.getSellerRole() + products.getProductID())
+                                            .set(newComment)
+                                            .addOnSuccessListener(aVoid -> {
+                                                Toast.makeText(Activity_Product_Profile.this, "Comment added!", Toast.LENGTH_SHORT).show();
+                                                showComments(products);
+                                            })
+                                            .addOnFailureListener(err -> {
+                                                Toast.makeText(Activity_Product_Profile.this, "Error adding comment: " + err.getMessage(), Toast.LENGTH_SHORT).show();
+                                            });
                                 });
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(Activity_Product_Profile.this, "Error fetching document: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         });
         if(products!=null){
@@ -380,31 +404,67 @@ public class Activity_Product_Profile extends AppCompatActivity {
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         Map<String, Object> commentsMap = documentSnapshot.getData();
-                        if (commentsMap != null && !commentsMap.isEmpty()) {
-                            List<Map<String, String>> commentsList = new ArrayList<>();
+                        List<Map<String, String>> commentsList = new ArrayList<>();
 
-                            // Convert Firestore Map into a list of key-value pairs (userID -> comment)
+                        if (commentsMap != null) {
                             for (Map.Entry<String, Object> entry : commentsMap.entrySet()) {
                                 Map<String, String> comment = new HashMap<>();
-                                comment.put(entry.getKey(), entry.getValue().toString());  // Use "comment" as key
+                                comment.put(entry.getKey(), entry.getValue().toString());
                                 commentsList.add(comment);
                             }
-
-                            CommentsAdapter commentsAdapter = new CommentsAdapter(commentsList, this);
-                            forComment.setAdapter(commentsAdapter);
-                        } else {
-                            Log.e("FirestoreError", "No comments found");
+                        }else{
+                            Toast.makeText(Activity_Product_Profile.this, "No comments found!", Toast.LENGTH_SHORT).show();
                         }
+
+                        CommentsAdapter adapter = new CommentsAdapter(commentsList, Activity_Product_Profile.this, new CommentsAdapter.OnItemClickListener() {
+                            @Override
+                            public void onDeleteClick(String commentKey, String commentUsername) {
+                                if(commentUsername != null){
+                                    if (commentUsername.equals(name_user)) {
+                                        showDeleteDialog(products, commentKey);
+                                    } else {
+                                        Toast.makeText(Activity_Product_Profile.this, "You can only delete your own comments!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }else{
+                                    Toast.makeText(Activity_Product_Profile.this, "You can only delete your own comments!", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
+                        forComment.setAdapter(adapter);
+                        reviewsCount.setText("REVIEWS ("+String.valueOf(commentsList.size())+")");
                     } else {
-                        Log.e("FirestoreError", "Document does not exist");
+                        Toast.makeText(Activity_Product_Profile.this, "No comments found!", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("FirestoreError", "Error fetching comments: " + e.getMessage());
+                    Toast.makeText(Activity_Product_Profile.this, "Error fetching comments: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
+    private void showDeleteDialog(ProductDTO products, String commentKey) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Activity_Product_Profile.this);
+        builder.setTitle("Delete Comment");
+        builder.setMessage("Are you sure you want to delete this comment?");
+        builder.setPositiveButton("Delete", (dialog, which) -> {
+            deleteComment(products, commentKey);
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
 
+    private void deleteComment(ProductDTO products, String commentKey) {
+        db.collection("Comments on Products")
+                .document(products.getSellerRole() + products.getProductID())
+                .update(commentKey, FieldValue.delete()) // Delete the field from Firestore
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(Activity_Product_Profile.this, "Comment deleted!", Toast.LENGTH_SHORT).show();
+                    showComments(products); // Refresh the comments list
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(Activity_Product_Profile.this, "Error deleting comment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
     private void openBottomView(ProductDTO products) {
         bottomSheetDialog = new BottomSheetDialog(this);
         View bottomSheetView = getLayoutInflater().inflate(R.layout.customer_products_quantity, null);

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.croop.R;
@@ -18,9 +19,17 @@ import java.util.Map;
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentsAdapterViewHolder> {
     private Context context;
     private List<Map<String, String>> comments;
-    public CommentsAdapter(List<Map<String, String>> comments, Context context){
+    private OnItemClickListener listener;
+    private String userName, commentText, stars, key, value;
+
+    public interface OnItemClickListener {
+        void onDeleteClick(String commentKey, String commentUsername);
+    }
+
+    public CommentsAdapter(List<Map<String, String>> comments, Context context, OnItemClickListener listener){
         this.comments = comments;
         this.context = context;
+        this.listener = listener;
     }
     @NonNull
     @Override
@@ -36,11 +45,32 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         if (!comment.isEmpty()) {
             Map.Entry<String, String> entry = comment.entrySet().iterator().next();
-            Log.d("DEBUG", "Key: " + entry.getKey() + ", Value: " + entry.getValue());
+            key = entry.getKey();
+            value = entry.getValue();
 
-            holder.userName.setText(entry.getKey());  // This should be user ID
-            holder.comments.setText(entry.getValue());  // This should be the comment text
+            String[] parts = value.split(": ", 3);
+            if (parts.length == 3) {
+                userName = parts[0];
+                commentText = parts[1];
+                stars = parts[2];
+
+                holder.userName.setText(userName);
+                holder.comments.setText(commentText);
+                holder.score.setText(stars + "/5 STARS");
+            } else {
+                holder.userName.setText("Unknown User");
+                holder.comments.setText(value);
+            }
         }
+        holder.itemView.setOnLongClickListener(v -> {
+            if (listener != null) {
+                holder.wholeCard.setCardBackgroundColor(context.getResources().getColor(R.color.secondary_color));
+                listener.onDeleteClick(key, userName);
+                v.postDelayed(() -> holder.wholeCard.setCardBackgroundColor(
+                        context.getResources().getColor(android.R.color.white)), 500);
+            }
+            return true; // Indicate that the long press was handled
+        });
     }
 
     @Override
@@ -49,11 +79,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
     public static class CommentsAdapterViewHolder extends RecyclerView.ViewHolder {
-        TextView userName, comments;
+        TextView userName, comments, score;
+        CardView wholeCard;
         public CommentsAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
             userName = itemView.findViewById(R.id.userNameLabel);
             comments = itemView.findViewById(R.id.commentText);
+            score = itemView.findViewById(R.id.scoreText);
+            wholeCard = itemView.findViewById(R.id.wholeCard);
         }
     }
+
+
 }
