@@ -1,9 +1,9 @@
 package com.jai.croop.controller;
 
-import com.jai.croop.model.Cart;
-import com.jai.croop.model.CartDTO;
-import com.jai.croop.model.CartGroupedResponseDTO;
+import com.jai.croop.model.*;
 import com.jai.croop.service.ICartService;
+import com.jai.croop.service.ICustomerService;
+import com.jai.croop.service.IIndividualSellersService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +18,11 @@ import java.util.List;
 public class CartController {
     @Autowired
     private ICartService cartService;
+    @Autowired
+    private IIndividualSellersService individualSellersService;
+    @Autowired
+    private ICustomerService customerService;
+
 
     @PostMapping
     public ResponseEntity<?> addCart(@RequestBody Cart cart) {
@@ -150,16 +155,59 @@ public class CartController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cart> updateCart(@PathVariable int id, @RequestBody Cart cart) {
+    public ResponseEntity<CartDTO> updateCart(@PathVariable int id, @RequestBody CartDTO cartDTO) {
+        // Fetch the existing cart by ID
         Cart current = cartService.getCart(id);
-        current.setCropName(cart.getCropName());
-        current.setQuantity(cart.getQuantity());
-        current.setPrice(cart.getPrice());
-        current.setGroupSellers(cart.getGroupSellers());
-        current.setIndividualSellers(cart.getIndividualSellers());
-        current.setCustomer(cart.getCustomer());
-        return ResponseEntity.ok(current);
+
+        if (current == null) {
+            return ResponseEntity.notFound().build(); // Return 404 if the cart item doesn't exist
+        }
+
+        Cart updatedCart = convertToCart(cartDTO);
+
+        updatedCart.setId(current.getId());
+        IndividualSellers individualSeller =  individualSellersService.getIndividualSellers(cartDTO.getSellerID());
+        updatedCart.setIndividualSellers(individualSeller);
+        Customer customer = customerService.getCustomer(cartDTO.getCustomerID());
+        updatedCart.setCustomer(customer);
+
+        Cart savedCart = cartService.updateCart(id, updatedCart);
+        CartDTO updatedCartDTO = convertToCartDTO(savedCart);
+
+        return ResponseEntity.ok(updatedCartDTO); // Return the updated CartDTO
     }
+
+    private Cart convertToCart(CartDTO cartDTO) {
+        Cart cart = new Cart();
+        cart.setCropName(cartDTO.getCropName());
+        cart.setQuantity(cartDTO.getQuantity());
+        cart.setPrice(cartDTO.getPrice());
+
+        // Relationships are handled separately in the controller
+        return cart;
+    }
+
+    private CartDTO convertToCartDTO(Cart cart) {
+        CartDTO cartDTO = new CartDTO();
+        cartDTO.setId(cart.getId());
+        cartDTO.setCropName(cart.getCropName());
+        cartDTO.setQuantity(cart.getQuantity());
+        cartDTO.setPrice(cart.getPrice());
+
+        if (cart.getCustomer() != null) {
+            cartDTO.setCustomerID(cart.getCustomer().getId());
+            cartDTO.setCustomerName(cart.getCustomer().getName());
+        }
+
+        if (cart.getIndividualSellers() != null) {
+            cartDTO.setSellerID(cart.getIndividualSellers().getId());
+            cartDTO.setSellerName(cart.getIndividualSellers().getName());
+            cartDTO.setFirebaseID(cart.getIndividualSellers().getFirebaseID());
+        }
+
+        return cartDTO;
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Cart> deleteCart(@PathVariable int id) {
