@@ -162,7 +162,6 @@ public class CartController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CartDTO> updateCart(@PathVariable int id, @RequestBody CartDTO cartDTO) {
-        // Fetch the existing cart by ID
         Cart current = cartService.getCart(id);
 
         if (current == null) {

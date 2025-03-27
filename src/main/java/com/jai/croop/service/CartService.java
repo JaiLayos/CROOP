@@ -120,7 +120,7 @@ public class CartService implements ICartService{
     @Transactional
     public Cart updateCart(int id, Cart cart) {
         Cart current = getCart(id);
-        current.setId(cart.getCropID());
+        current.setCropID(cart.getCropID());
         current.setCropName(cart.getCropName());
         current.setQuantity(cart.getQuantity());
         current.setPrice(cart.getPrice());
