@@ -125,12 +125,13 @@ public class Activity_Orders_Group extends AppCompatActivity {
                 View bottomSheetView = getLayoutInflater().inflate(R.layout.delivery_edit, null);
                 TextView delivery;
                 delivery = bottomSheetView.findViewById(R.id.deliveryLink);
-                String deliveryDetails = delivery.getText().toString();
+
 
                 Button update;
                 update = bottomSheetView.findViewById(R.id.updateButton);
                 update.setOnClickListener(view -> {
                     Call<SellerOrdersDTO> getOrder = apiService.getGroupOrder(order.getId());
+                    String deliveryDetails = delivery.getText().toString();
                     getOrder.enqueue(new Callback<SellerOrdersDTO>() {
                         @Override
                         public void onResponse(Call<SellerOrdersDTO> call, Response<SellerOrdersDTO> response) {
