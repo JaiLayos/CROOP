@@ -62,8 +62,7 @@ public class EachItemAdapter extends RecyclerView.Adapter<EachItemAdapter.EachIt
         holder.cropName.setText(cartDTO.getCropName());
         holder.quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
         holder.quantity.setText(String.valueOf(cartDTO.getQuantity()));
-        holder.priceLabel.setText("₱" + String.valueOf(cartDTO.getPrice()));
-
+        holder.priceLabel.setText("₱" + String.valueOf(cartDTO.getPrice()) + " + " + "\n" + String.format("%.0f", cartDTO.getPrice() * 0.01));
         StorageReference storageRef = FirebaseStorage.getInstance().getReference()
                 .child("Products")
                 .child(cartDTO.getFirebaseID())

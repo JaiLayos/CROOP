@@ -184,7 +184,7 @@ public class Fragment_Cart_Customer extends Fragment implements EachItemAdapter.
                 for(CartDTO cart : carts){
                     customerOrdersForIndivSellers = new CustomerOrdersForIndivSellers();
                     orderList.put(cart.getCropName(),cart.getQuantity());
-                    priceOverall = priceOverall + cart.getPrice();
+                    priceOverall = (int) (priceOverall + cart.getPrice() + (cart.getPrice()*0.01));
                     customerOrdersForIndivSellers.setOrderList(orderList);
                     customerOrdersForIndivSellers.setOrderPrice(priceOverall);
                     customerOrdersForIndivSellers.setOrderStatus("Pending");

@@ -357,9 +357,6 @@ public class Fragment_Home_Customer extends Fragment {
             case "Individual Customer User":
                 collection = "Customers";
                 break;
-            case "Group Customer User":
-                collection = "Group Customers";
-                break;
             default:
                 collection = "Unknown";
                 break;
