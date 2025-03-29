@@ -4,6 +4,7 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -43,6 +44,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -58,7 +60,8 @@ import retrofit2.Response;
 
 public class Activity_Product_Profile extends AppCompatActivity {
 
-    private String seller, firebase_id;
+    private String seller, firebase_id, sellerFirebaseID,
+            name_user, collection,kindOfSeller;
     private int productID;
     private UserAPI userAPI;
     private RetrofitService retrofitService;
@@ -72,11 +75,11 @@ public class Activity_Product_Profile extends AppCompatActivity {
     private ProductDTO store;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    private int count;
+    private int count, sellerProductID;
     private BottomSheetDialog bottomSheetDialog;
     private FirebaseFirestore db;
-    private RecyclerView forComment;
-    private String name_user, collection;
+    private RecyclerView forComment, recommendationView;
+    private List<ProductDTO> similarProducts;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,10 +108,15 @@ public class Activity_Product_Profile extends AppCompatActivity {
         sellerRoleText = findViewById(R.id.sellerRoleText);
         reviewsCount = findViewById(R.id.reviewLabel);
         rate = findViewById(R.id.ratingBar);
+        similarProducts = new ArrayList<>();
 
         forComment = findViewById(R.id.commentList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         forComment.setLayoutManager(layoutManager);
+
+        recommendationView = findViewById(R.id.recommendationList);
+        LinearLayoutManager recommendationLayout = new LinearLayoutManager(Activity_Product_Profile.this, LinearLayoutManager.HORIZONTAL, false);
+        recommendationView.setLayoutManager(recommendationLayout);
 
         productProfile = findViewById(R.id.productProfile);
         sellerProfile = findViewById(R.id.sellerProfile);
@@ -123,7 +131,130 @@ public class Activity_Product_Profile extends AppCompatActivity {
         userAPI = retrofitService.getClient().create(UserAPI.class);
         layoutProfile(seller);
         layoutSuggestions(firebase_id);
+    }
 
+    private void layoutSimilar() {
+        String cropName = cropNameText.getText().toString();
+        List<String> tagsOfTheCrop = new ArrayList<>();
+
+        db.collection("Product Tags")
+                .document(sellerFirebaseID)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Map<String, Object> productTagsMap = documentSnapshot.getData();
+                        if (productTagsMap != null && productTagsMap.containsKey(cropName)) {
+                            Map<String, Object> cropTagsMap = (Map<String, Object>) productTagsMap.get(cropName);
+
+                            if (cropTagsMap != null) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                    tagsOfTheCrop.addAll(cropTagsMap.values().stream().map(String::valueOf).toList());
+                                }
+                                Toast.makeText(Activity_Product_Profile.this, "Tags loaded successfully!", Toast.LENGTH_SHORT).show();
+                                searchForSimilarProducts(tagsOfTheCrop);
+                            } else {
+                                Toast.makeText(Activity_Product_Profile.this, "No tags found for " + cropName + ".", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(Activity_Product_Profile.this, "Crop not found in the document: " + sellerFirebaseID, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(Activity_Product_Profile.this, "No document found for this user.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(Activity_Product_Profile.this, "Error loading tags: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void searchForSimilarProducts(List<String> tagsOfTheCrop) {
+        List<String> matchingProducts = new ArrayList<>();
+
+        db.collection("Product Tags")
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        for (QueryDocumentSnapshot document : querySnapshot) {
+                            Map<String, Object> productTagsMap = document.getData();
+
+                            if (productTagsMap != null) {
+                                for (Map.Entry<String, Object> entry : productTagsMap.entrySet()) {
+                                    String productName = entry.getKey();
+                                    Map<String, Object> tagsMap = (Map<String, Object>) entry.getValue();
+
+                                    if (tagsMap != null) {
+                                        List<String> tags = new ArrayList<>();
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                            tags = tagsMap.values().stream().map(String::valueOf).toList();
+                                        }
+
+                                        if (tags.stream().anyMatch(tagsOfTheCrop::contains)) {
+                                            matchingProducts.add(productName);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        addProductsFromGroup(matchingProducts);
+                    } else {
+                        Toast.makeText(Activity_Product_Profile.this, "No documents found in the collection.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(Activity_Product_Profile.this, "Error searching for products: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void addProductsFromGroup(List<String> matchingProducts) {
+        for(String match :matchingProducts){
+            Call<List<ProductDTO>> group = userAPI.getGroupProductDTOByName(match);
+            group.enqueue(new Callback<List<ProductDTO>>() {
+                @Override
+                public void onResponse(Call<List<ProductDTO>> call, Response<List<ProductDTO>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        similarProducts.addAll(response.body()); // Use addAll() instead of loop
+                        addProductsFromIndividualSellers(matchingProducts);
+                    } else {
+                        Log.e("RetrofitAPI", "Error fetching group products: " + response.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<ProductDTO>> call, Throwable t) {
+                    Log.e("RetrofitAPI", "Error fetching group products: " + t.getMessage());
+                }
+            });
+        }
+    }
+
+    private void addProductsFromIndividualSellers(List<String> matchingProducts) {
+        for(String match :matchingProducts){
+            Call<List<ProductDTO>> group = userAPI.getIndividualProductDTOByName(match);
+            group.enqueue(new Callback<List<ProductDTO>>() {
+                @Override
+                public void onResponse(Call<List<ProductDTO>> call, Response<List<ProductDTO>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        similarProducts.addAll(response.body());
+                    } else {
+                        Log.e("RetrofitAPI", "Error fetching group products: " + response.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<ProductDTO>> call, Throwable t) {
+                    Log.e("RetrofitAPI", "Error fetching group products: " + t.getMessage());
+                }
+            });
+        }
+    }
+    private void displaySimilar(List<ProductDTO> similarProducts) {
+        SuggestionsAdapter suggestionsAdapter = new SuggestionsAdapter(Activity_Product_Profile.this, similarProducts, new SuggestionsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(ProductDTO productDTO) {
+                showProduct(productDTO);
+            }
+        });
+        recommendationView.setAdapter(suggestionsAdapter);
 
     }
 
@@ -197,8 +328,8 @@ public class Activity_Product_Profile extends AppCompatActivity {
 
     private void showProduct(ProductDTO productDTO) {
         int productID = productDTO.getProductID();
-        String kindOfSeller = productDTO.getSellerRole();
-        String firebase_id = productDTO.getFirebaseID();
+        kindOfSeller = productDTO.getSellerRole();
+        firebase_id = productDTO.getFirebaseID();
         Intent intent = new Intent(this, Activity_Product_Profile.class);
         intent.putExtra("product_id", productID);
         intent.putExtra("firebase_id",firebase_id);
@@ -281,6 +412,9 @@ public class Activity_Product_Profile extends AppCompatActivity {
 
     private void ifSuccess(Response<ProductDTO> response) {
         ProductDTO products = response.body();
+        kindOfSeller = products.getSellerRole();
+        sellerFirebaseID = products.getFirebaseID();
+        sellerProductID = products.getSellerID();
         store = products;
         priceText.setText("₱" + products.getProductPrice());
         discountText.setText(String.valueOf(products.getProductDiscount() * 100)+"%");
@@ -303,26 +437,22 @@ public class Activity_Product_Profile extends AppCompatActivity {
                     }
                 }
             });
+            layoutSimilar();
         }
         sellerNameText.setOnClickListener(v ->{
             Intent openThruProfile = new Intent(this,Activity_Seller_Profile.class);
-            String kindOfSeller = products.getSellerRole();
-            String firebaseID = products.getFirebaseID();
-            int id = products.getSellerID();
+
             openThruProfile.putExtra("seller", kindOfSeller);
-            openThruProfile.putExtra("seller_id", id);
-            openThruProfile.putExtra("firebase_id", firebaseID);
+            openThruProfile.putExtra("seller_id", sellerProductID);
+            openThruProfile.putExtra("firebase_id", sellerFirebaseID);
             startActivity(openThruProfile);
         });
         sellerRoleText.setText(products.getSellerRole());
         sellerProfile.setOnClickListener(v -> {
-            Intent openThruName = new Intent(this,Activity_Seller_Profile.class);
-            String kindOfSeller = products.getSellerRole();
-            String firebaseID = products.getFirebaseID();
-            int id = products.getSellerID();
+            Intent openThruName = new Intent(this,Activity_Seller_Profile.class);;
             openThruName.putExtra("seller", kindOfSeller);
-            openThruName.putExtra("seller_id", id);
-            openThruName.putExtra("firebase_id", firebaseID);
+            openThruName.putExtra("seller_id", sellerProductID);
+            openThruName.putExtra("firebase_id", sellerFirebaseID);
             startActivity(openThruName);
         });
         postComment.setOnClickListener(v -> {

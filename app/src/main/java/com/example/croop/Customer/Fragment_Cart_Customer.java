@@ -328,8 +328,6 @@ public class Fragment_Cart_Customer extends Fragment implements EachItemAdapter.
 
     @Override
     public void onUpdateClicked(CartDTO cartItem) {
-        //Toast.makeText(getActivity(), "Customer ID: " + String.valueOf(cartItem.getCustomerID()), Toast.LENGTH_SHORT).show();
-
         UpdateCartItemBottomSheet bottomSheet = new UpdateCartItemBottomSheet(cartItem, id);
         bottomSheet.show(getChildFragmentManager(), "UpdateCartItemBottomSheet");
     }

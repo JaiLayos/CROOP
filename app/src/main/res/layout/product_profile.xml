@@ -349,6 +349,14 @@
                     app:cornerRadius="0dp" />
             </LinearLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recommendationList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/secondary_color">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

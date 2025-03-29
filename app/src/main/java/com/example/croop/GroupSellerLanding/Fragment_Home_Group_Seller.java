@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.croop.R;
@@ -36,7 +36,7 @@ public class Fragment_Home_Group_Seller extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.home_group_seller, container, false);
+        View view = inflater.inflate(R.layout.home_seller, container, false);
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -72,18 +72,18 @@ public class Fragment_Home_Group_Seller extends Fragment {
                 }
             }
         });
-
-        Button order = view.findViewById(R.id.orderButton);
+        CardView order, inventory, discount;
+        order = view.findViewById(R.id.ordersContainer);
         order.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_Orders_Group.class);
             startActivity(intent);
         });
-        Button inventory = view.findViewById(R.id.inventoryButton);
+        inventory = view.findViewById(R.id.inventoryContainer);
         inventory.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_Inventory_Category.class);
             startActivity(intent);
         });
-        Button discount = view.findViewById(R.id.discountButton);
+        discount = view.findViewById(R.id.discountsContainer);
         discount.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), Activity_Discount_Inventory.class);
             startActivity(intent);

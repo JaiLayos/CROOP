@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,13 +23,21 @@ import com.example.croop.model.GroupSellers;
 import com.example.croop.model.GroupSellersProductsInventory;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,15 +48,23 @@ public class Activity_Add_Products extends AppCompatActivity {
     private static final int RC_IMAGE_PICKER = 100;
     private Uri imageUri;
     private FirebaseAuth mAuth;
+    private FirebaseUser user;
     private RetrofitService RetrofitClient;
     private ImageView product;
     private Spinner unit;
+    private ChipGroup chipGroup;
+    private EditText tagInput, name, quantity, price, freshness;
+    private FirebaseFirestore db;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_products);
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        user = mAuth.getCurrentUser();
         initializeComponents();
     }
     @Override
@@ -71,6 +88,15 @@ public class Activity_Add_Products extends AppCompatActivity {
         }
     }
     private void initializeComponents() {
+        name = findViewById(R.id.nameText);
+        quantity = findViewById(R.id.initialText);
+        price = findViewById(R.id.priceText);
+        freshness = findViewById(R.id.freshnessText);
+
+        quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
+        price.setInputType(InputType.TYPE_CLASS_NUMBER);
+        freshness.setInputType(InputType.TYPE_CLASS_NUMBER);
+
         Button picture = findViewById(R.id.uploadPicButton);
         picture.setOnClickListener(v1 -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -83,8 +109,35 @@ public class Activity_Add_Products extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unit.setAdapter(adapter);
 
+        chipGroup = findViewById(R.id.tagsChipGroup);
+        tagInput = findViewById(R.id.tagInput);
+        Button addTagButton = findViewById(R.id.addTagButton);
+        addTagButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tagName = tagInput.getText().toString().trim();
+                if (!tagName.isEmpty()) {
+                    addTag(tagName);
+                    tagInput.setText(""); // Clear the input field
+                }
+            }
+        });
+
         Button add = findViewById(R.id.addButton);
         add.setOnClickListener(v -> {
+            if (!validateInputs()) {
+                Toast.makeText(this, "Mangyaring sagutan ang bawat kahon!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            List<String> tags = new ArrayList<>();
+            for (int i = 0; i < chipGroup.getChildCount(); i++) {
+                View child = chipGroup.getChildAt(i);
+                if (child instanceof Chip) {
+                    Chip chip = (Chip) child;
+                    tags.add(chip.getText().toString());
+                }
+            }
+
             UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
             FirebaseUser user = mAuth.getCurrentUser();
             Call<Integer> call = userAPI.getGroupSellersID(user.getUid());
@@ -93,7 +146,7 @@ public class Activity_Add_Products extends AppCompatActivity {
                 public void onResponse(Call<Integer> call, Response<Integer> response) {
                     if(response.isSuccessful() && response.body()!=null){
                         int id = response.body();
-                        addItemProcess(id);
+                        addItemProcess(id, tags);
                     }
                 }
 
@@ -108,6 +161,21 @@ public class Activity_Add_Products extends AppCompatActivity {
         back.setOnClickListener(v -> {
             onBackPressed();
         });
+    }
+
+    private void addTag(String tagName) {
+        Chip chip = new Chip(this);
+        chip.setText(tagName);
+        chip.setCloseIconVisible(true);
+
+        chip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chipGroup.removeView(chip);
+            }
+        });
+
+        chipGroup.addView(chip);
     }
 
     private void addPictureProduct(Uri imageUri, String fileName) {
@@ -139,22 +207,10 @@ public class Activity_Add_Products extends AppCompatActivity {
                 });
     }
 
-    private void addItemProcess(int id) {
+    private void addItemProcess(int id, List<String> tags) {
         UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
         GroupSellers groupSellers = new GroupSellers();
         groupSellers.setID(id);
-        EditText name, quantity, price, freshness;
-
-
-
-        name = findViewById(R.id.nameText);
-        quantity = findViewById(R.id.initialText);
-        price = findViewById(R.id.priceText);
-        freshness = findViewById(R.id.freshnessText);
-
-        quantity.setInputType(InputType.TYPE_CLASS_NUMBER);
-        price.setInputType(InputType.TYPE_CLASS_NUMBER);
-        freshness.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         GroupSellersProductsInventory groupSellersProductsInventory = new GroupSellersProductsInventory();
         groupSellersProductsInventory.setItemName(name.getText().toString());
@@ -171,6 +227,21 @@ public class Activity_Add_Products extends AppCompatActivity {
             @Override
             public void onResponse(Call<GroupSellersProductsInventory> call, Response<GroupSellersProductsInventory> response) {
                 addPictureProduct(imageUri,name.getText().toString());
+
+                String productName = name.getText().toString();
+                Map<String, Object> productTags = new HashMap<>();
+                productTags.put(productName, tags);
+
+                db.collection("Product Tags")
+                        .document(user.getUid())
+                        .set(productTags, SetOptions.merge())
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(Activity_Add_Products.this, "Tags saved successfully!", Toast.LENGTH_SHORT).show();
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(Activity_Add_Products.this, "Error saving tags: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+
                 Toast.makeText(Activity_Add_Products.this, name.getText().toString() + " is added.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Activity_Add_Products.this, Activity_Products_Inventory.class);
                 startActivity(intent);
@@ -182,5 +253,16 @@ public class Activity_Add_Products extends AppCompatActivity {
                 Toast.makeText(Activity_Add_Products.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean validateInputs() {
+        EditText[] fields = {name, quantity, price, freshness};
+
+        for (EditText field : fields) {
+            if (field.getText().toString().trim().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

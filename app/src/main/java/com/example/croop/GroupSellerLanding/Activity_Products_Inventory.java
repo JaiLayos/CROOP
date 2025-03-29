@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
@@ -37,14 +36,21 @@ import com.example.croop.model.GroupSellersProductsInventory;
 import com.example.croop.retrofit.RetrofitService;
 import com.example.croop.retrofit.UserAPI;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +62,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
     private TableLayout table;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
+    private FirebaseFirestore db;
     private RetrofitService RetrofitClient;
     private UserAPI apiService = RetrofitClient.getClient().create(UserAPI.class);
     private int pgID;
@@ -63,7 +70,6 @@ public class Activity_Products_Inventory extends AppCompatActivity {
     @Nullable
     private Intent data;
     private StorageReference storageRef;
-
 
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE = 1;
 
@@ -96,6 +102,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
         setContentView(R.layout.products_group_seller);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
         userID = user.getUid();
         checkAndRequestPermissions();
         initializeComponents();
@@ -236,7 +243,8 @@ public class Activity_Products_Inventory extends AppCompatActivity {
             itemTextView.setTextColor(getResources().getColor(R.color.highlight_green));
             itemTextView.setOnClickListener(view -> {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(Activity_Products_Inventory.this);
-                View bottomSheetView = getLayoutInflater().inflate(R.layout.update_delete_products_group_sellers, null);
+                View bottomSheetView = getLayoutInflater().inflate(R.layout.update_delete_products, null);
+
                 ImageView productPic;
                 EditText itemName = bottomSheetView.findViewById(R.id.nameText);
                 itemName.setText(product.getItemName());
@@ -246,7 +254,12 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                 orderText.setText(String.valueOf(used));
                 TextView leftText = bottomSheetView.findViewById(R.id.remainingText);
                 leftText.setText(String.valueOf(remaining));
+
                 String itemNameText = itemName.getText().toString().trim();
+
+                ChipGroup chipGroup = bottomSheetView.findViewById(R.id.tagsChipGroup);
+                EditText tagInput = bottomSheetView.findViewById(R.id.tagInput);
+                Button addTagButton = bottomSheetView.findViewById(R.id.addTagButton);
 
                 productPic = bottomSheetView.findViewById(R.id.addProductProfile);
                 storageRef = FirebaseStorage.getInstance().getReference()
@@ -264,24 +277,9 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                     Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
                 });
 
-
-                Button update = bottomSheetView.findViewById(R.id.updateButton);
-                Button check = bottomSheetView.findViewById(R.id.checkButton);
-                Button delete = bottomSheetView.findViewById(R.id.deleteButton);
-                Button picture = bottomSheetView.findViewById(R.id.uploadPicButton);
-                picture.setOnClickListener(v1 -> {
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, RC_IMAGE_PICKER);
-                    Glide.with(this)
-                            .load(imageUri.toString())
-                            .placeholder(R.drawable.logo)
-                            .error(R.drawable.sun)
-                            .into(productPic);
-                });
-                Spinner unit;
-                unit = bottomSheetView.findViewById(R.id.unitOptions);
+                Spinner unit = bottomSheetView.findViewById(R.id.unitOptions);
                 String[] units = {"Kilo", "Sako", "Tumpok", "Piraso"};
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, units){
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, units) {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
@@ -312,6 +310,35 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                     unit.setSelection(0);
                 }
 
+                db.collection("Product Tags")
+                        .document(userID)
+                        .get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                Map<String, Object> productTags = documentSnapshot.getData();
+                                if (productTags != null && productTags.containsKey(itemNameText)) {
+                                    List<String> tags = (List<String>) productTags.get(itemNameText);
+                                    for (String tag : tags) {
+                                        addTag(tag, chipGroup);
+                                    }
+                                }
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(Activity_Products_Inventory.this, "Failed to load tags: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+
+                addTagButton.setOnClickListener(v -> {
+                    String tagName = tagInput.getText().toString().trim();
+                    if (!tagName.isEmpty()) {
+                        addTag(tagName, chipGroup); // Add the tag to the ChipGroup
+                        tagInput.setText(""); // Clear the input field
+                    } else {
+                        Toast.makeText(this, "Tag cannot be empty!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                Button update = bottomSheetView.findViewById(R.id.updateButton);
                 update.setOnClickListener(v -> {
                     String price = priceTag.getText().toString().trim();
                     String order = orderText.getText().toString().trim();
@@ -320,7 +347,6 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                         Toast.makeText(Activity_Products_Inventory.this, "Product name cannot be empty", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     if (price.isEmpty()) {
                         Toast.makeText(Activity_Products_Inventory.this, "Product price cannot be empty", Toast.LENGTH_SHORT).show();
                         return;
@@ -331,6 +357,15 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                         if (priceValue < 0) {
                             Toast.makeText(Activity_Products_Inventory.this, "Product price must be a non-negative number", Toast.LENGTH_SHORT).show();
                             return;
+                        }
+
+                        List<String> updatedTags = new ArrayList<>();
+                        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+                            View child = chipGroup.getChildAt(i);
+                            if (child instanceof Chip) {
+                                Chip chip = (Chip) child;
+                                updatedTags.add(chip.getText().toString());
+                            }
                         }
 
                         GroupSellersProductsInventory groupSellersProductsInventory = new GroupSellersProductsInventory();
@@ -346,6 +381,21 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                             public void onResponse(Call<GroupSellersProductsInventory> call, Response<GroupSellersProductsInventory> response) {
                                 if (response.isSuccessful() && response.body() != null) {
                                     Toast.makeText(Activity_Products_Inventory.this, "Product Updated", Toast.LENGTH_SHORT).show();
+
+                                    // Update tags in Firestore
+                                    Map<String, Object> productTags = new HashMap<>();
+                                    productTags.put(itemNameText, updatedTags);
+
+                                    db.collection("Product Tags")
+                                            .document(userID)
+                                            .set(productTags, SetOptions.merge())
+                                            .addOnSuccessListener(aVoid -> {
+                                                Toast.makeText(Activity_Products_Inventory.this, "Tags updated successfully!", Toast.LENGTH_SHORT).show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(Activity_Products_Inventory.this, "Error updating tags: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            });
+
                                     statusPicture(imageUri, itemNameText);
                                     Intent intent = new Intent(Activity_Products_Inventory.this, Activity_Inventory_Category.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -367,11 +417,12 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                                 t.printStackTrace();
                             }
                         });
-
                     } catch (NumberFormatException e) {
                         Toast.makeText(Activity_Products_Inventory.this, "Invalid number for item used", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                Button delete = bottomSheetView.findViewById(R.id.deleteButton);
                 delete.setOnClickListener(v -> {
                     if (user == null) {
                         Toast.makeText(this, "User not signed in!", Toast.LENGTH_SHORT).show();
@@ -386,12 +437,12 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                             .child(fileName);
 
                     System.out.println("Deleting image at: " + storageRef.getPath());
-
                     Call<GroupSellersProductsInventory> deleteItem = apiService.deleteProducts(product.getId());
                     deleteItem.enqueue(new Callback<GroupSellersProductsInventory>() {
                         @Override
                         public void onResponse(Call<GroupSellersProductsInventory> call, Response<GroupSellersProductsInventory> response) {
                             Toast.makeText(Activity_Products_Inventory.this, "Products Deleted", Toast.LENGTH_SHORT).show();
+
                             storageRef.delete()
                                     .addOnSuccessListener(aVoid -> {
                                         System.out.println("File deleted successfully!");
@@ -406,6 +457,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                                             Toast.makeText(Activity_Products_Inventory.this, "Failed to delete file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
+
                             Intent intent = new Intent(Activity_Products_Inventory.this, Activity_Products_Inventory.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             finish();
@@ -413,13 +465,14 @@ public class Activity_Products_Inventory extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<GroupSellersProductsInventory> call, Throwable t) {
-                            Toast.makeText(Activity_Products_Inventory.this, "API_ERROR"+ t.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Activity_Products_Inventory.this, "API_ERROR: " + t.toString(), Toast.LENGTH_SHORT).show();
                             t.printStackTrace();
                         }
                     });
                 });
 
-                check.setOnClickListener(v->{
+                Button check = bottomSheetView.findViewById(R.id.checkButton);
+                check.setOnClickListener(v -> {
                     recreate();
                 });
 
@@ -507,7 +560,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
         }
 
         if (imageUri == null) {
-            Toast.makeText(this, "Image URI is null!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Done!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -548,6 +601,18 @@ public class Activity_Products_Inventory extends AppCompatActivity {
                         Toast.makeText(this, "Error checking file existence: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void addTag(String tagName, ChipGroup chipGroup) {
+        Chip chip = new Chip(this);
+        chip.setText(tagName);
+        chip.setCloseIconVisible(true);
+
+        chip.setOnCloseIconClickListener(v -> {
+            chipGroup.removeView(chip); // Remove the chip from the ChipGroup
+        });
+
+        chipGroup.addView(chip); // Add the chip to the ChipGroup
     }
 
 

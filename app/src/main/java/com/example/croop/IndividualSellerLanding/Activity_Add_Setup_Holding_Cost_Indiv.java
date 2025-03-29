@@ -53,7 +53,7 @@ public class Activity_Add_Setup_Holding_Cost_Indiv extends AppCompatActivity {
         next.setOnClickListener(v -> {
 
             if (!validateInputs()) {
-                Toast.makeText(this, "All fields are required!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Mangyaring sagutan ang bawat kahon!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
