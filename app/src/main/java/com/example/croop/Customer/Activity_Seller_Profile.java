@@ -126,7 +126,7 @@ public class Activity_Seller_Profile extends AppCompatActivity {
     private void sucessFindIndividualSeller(Response<IndividualSellers> response) {
         IndividualSellers individualSellers = response.body();
         name.setText(individualSellers.getName());
-        position.setText(individualSellers.getRoles());
+        position.setText(individualSellers.returnRole());
         bio.setText(individualSellers.getBio());
         email.setText(individualSellers.getEmail());
         number.setText(individualSellers.getPhoneNum());
@@ -143,7 +143,7 @@ public class Activity_Seller_Profile extends AppCompatActivity {
     private void successFindGroupSeller(Response<GroupSellers> response) {
         GroupSellers groupSellers = response.body();
         name.setText(groupSellers.getGroupName());
-        position.setText(groupSellers.getRoles());
+        position.setText(groupSellers.getPersonPosition());
         bio.setText(groupSellers.getBio());
         email.setText(groupSellers.getEmail());
         number.setText(groupSellers.getPhoneNum());

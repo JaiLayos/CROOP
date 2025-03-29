@@ -73,7 +73,7 @@ public class SuggestionsAdapter extends RecyclerView.Adapter<SuggestionsAdapter.
                         .into(holder.productProfile);
             }
         }).addOnFailureListener(e -> {
-            Log.e("FirebaseImageError", "Failed to get download URL: " + e.getMessage());
+            Log.e("FirebaseImageError", "Failed to get Product Profile for suggestions: " + e.getMessage());
             holder.productProfile.setImageResource(R.drawable.logo);
         });
     }
