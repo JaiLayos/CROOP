@@ -126,7 +126,6 @@ public class Activity_Orders_Group extends AppCompatActivity {
                 TextView delivery;
                 delivery = bottomSheetView.findViewById(R.id.deliveryLink);
 
-
                 Button update;
                 update = bottomSheetView.findViewById(R.id.updateButton);
                 update.setOnClickListener(view -> {
