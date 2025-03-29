@@ -1,6 +1,8 @@
 package com.example.croop.Customer;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -197,6 +199,8 @@ public class Fragment_Orders_Customer extends Fragment {
                 TextView delivery;
                 delivery = bottomSheetView.findViewById(R.id.deliveryLink);
                 delivery.setText(order.getDeliveryDetails());
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(delivery.getText().toString()));
+                startActivity(intent); // Open the link in a browser
                 bottomSheetDialog.setContentView(bottomSheetView);
                 bottomSheetDialog.show();
             });

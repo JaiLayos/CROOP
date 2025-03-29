@@ -162,7 +162,8 @@
                             android:focusable="auto"
                             android:focusableInTouchMode="true"
                             android:paddingStart="10dp"
-                            android:text="TextView" />
+                            android:text="TextView"
+                            android:textIsSelectable="true" />
                     </TableRow>
 
                 </TableLayout>
