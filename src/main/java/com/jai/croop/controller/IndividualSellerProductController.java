@@ -145,6 +145,7 @@ public class IndividualSellerProductController {
             productDTO.setProductName(individualSellersProductsInventory.getItemName());
             productDTO.setSellerID(individualSellersProductsInventory.getIndividualSellers().getId());
             productDTO.setProductSeller(individualSellersProductsInventory.getIndividualSellers().getName());
+            productDTO.setSellerRole(individualSellersProductsInventory.getIndividualSellers().getRoles());
             productDTO.setFirebaseID(individualSellersProductsInventory.getIndividualSellers().getFirebaseID());
             productDTO.setUnit(individualSellersProductsInventory.getUnit());
             productDTO.setProductPrice(individualSellersProductsInventory.getIndividualSellersDiscount().getOriginalPrice());
