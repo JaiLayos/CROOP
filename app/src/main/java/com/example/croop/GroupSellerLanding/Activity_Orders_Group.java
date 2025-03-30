@@ -50,8 +50,7 @@ public class Activity_Orders_Group extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
-        // Fetch data from the API
-        String firebaseID = user.getUid(); // Replace with the actual Firebase
+        String firebaseID = user.getUid();
         Call<GroupSellers> groupSellersCall = apiService.getGroupSellersbyFirebaseID(user.getUid());
         groupSellersCall.enqueue(new Callback<GroupSellers>() {
             @Override

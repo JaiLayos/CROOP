@@ -191,6 +191,7 @@ public class Fragment_Cart_Customer extends Fragment implements EachItemAdapter.
                     customerOrdersForIndivSellers.setOrderType("Cash-On-Delivery");
                     customerOrdersForIndivSellers.setBuyerLocation(buyerAddress);
                     customerOrdersForIndivSellers.setSellerLocation("");
+                    customerOrdersForIndivSellers.setSellerType("individual");
                     deleteCart(cart.getId());
                 }
             }
@@ -203,13 +204,13 @@ public class Fragment_Cart_Customer extends Fragment implements EachItemAdapter.
                 if(response.isSuccessful() && response!= null){
 
                     Toast.makeText(getActivity(), "Order Added to the Group", Toast.LENGTH_SHORT).show();
-                    Log.e("Add Order to Group", "Success" + response.message());
+                    Log.e("Add Order to Individual", "Success" + response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<CustomerOrdersForIndivSellers> call, Throwable t) {
-                Log.e("Add Order to Group", "Error" + t.getMessage());
+                Log.e("Add Order to Individual", "Error" + t.getMessage());
             }
         });
     }
@@ -229,6 +230,7 @@ public class Fragment_Cart_Customer extends Fragment implements EachItemAdapter.
                     customerOrdersForGroupSellers.setOrderType("Cash-On-Delivery");
                     customerOrdersForGroupSellers.setBuyerLocation(buyerAddress);
                     customerOrdersForGroupSellers.setSellerLocation("");
+                    customerOrdersForGroupSellers.setSellerType("group");
                     deleteCart(cart.getId());
                 }
             }

@@ -402,6 +402,7 @@ public class Fragment_Home_Customer extends Fragment {
         intent.putExtra("firebase_id",firebase_id);
         intent.putExtra("seller", kindOfSeller);
         startActivity(intent);
+
     }
 
     private void openMessenger(String userId) {

@@ -119,6 +119,16 @@ public interface UserAPI {
     Call<List<SellerOrdersDTO>> getIndividualOrderByGroupSellerId(@Path("id") int id);
     @DELETE("api/customer-orders/individual/{id}")
     Call<Void> deleteIndividualOrder(@Path("id") int id);
+    @GET("api/customer-orders/group/hasPurchased/{customerId}/{groupSellerId}/{itemName}")
+    Call<Boolean> hasCustomerPurchasedGroupItem(@Path("customerId") int customerId,
+                                                @Path("groupSellerId") int groupSellerId,
+                                                @Path("itemName") String itemName);
+    @GET("api/customer-orders/individual/hasPurchased/{customerId}/{individualId}/{itemName}")
+    Call<Boolean> hasCustomerPurchasedIndividualItem(@Path("customerId") int customerId,
+                                                @Path("individualId") int individualId,
+                                                @Path("itemName") String itemName);
+
+
 
     //Group Sellers Item Inventory
     @POST("api/group-sellers-item-inventory/add-item")

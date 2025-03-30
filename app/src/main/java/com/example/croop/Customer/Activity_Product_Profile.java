@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -81,6 +83,7 @@ public class Activity_Product_Profile extends AppCompatActivity {
     private RecyclerView forComment, recommendationView;
     private List<ProductDTO> similarProducts;
     private List<String> matchingProducts;
+    private Boolean ifPurchased;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -359,11 +362,36 @@ public class Activity_Product_Profile extends AppCompatActivity {
                     Call<ProductDTO> productsInventoryCall = userAPI.getGroupProductDTO(productID);
                     productsInventoryCall.enqueue(new Callback<ProductDTO>() {
                         @Override
-                        public void onResponse(Call<ProductDTO> call, Response<ProductDTO> response) {
-                            if(response.isSuccessful() && response.body()!=null){
-                                ifSuccess(response);
+                        public void onResponse(Call<ProductDTO> call, Response<ProductDTO> responseProduct) {
+                            if(responseProduct.isSuccessful() && responseProduct.body()!=null){
+                                ProductDTO products = responseProduct.body();
+                                Call<Customer> customerCall = userAPI.getCustomerByFirebaseID(user.getUid());
+                                customerCall.enqueue(new Callback<Customer>() {
+                                    @Override
+                                    public void onResponse(Call<Customer> call, Response<Customer> response) {
+                                        Customer customer = response.body();
+                                        Call<Boolean> ifPurchaseCall = userAPI.hasCustomerPurchasedGroupItem(customer.getId(), products.getSellerID(), products.getProductName());
+                                        ifPurchaseCall.enqueue(new Callback<Boolean>() {
+                                            @Override
+                                            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                                ifPurchased = response.body();
+                                                ifSuccess(responseProduct);
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<Boolean> call, Throwable t) {
+                                                Log.e("If purchased status: ", t.getMessage());
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Customer> call, Throwable t) {
+                                        Log.e("RetrofitAPI", "Customer doesn't exist");
+                                    }
+                                });
                             }else{
-                                Log.e("RetrofitAPI", "Error fetching group discounts: " + response.code());
+                                Log.e("RetrofitAPI", "Error fetching group discounts: " + responseProduct.code());
                             }
                         }
 
@@ -377,11 +405,36 @@ public class Activity_Product_Profile extends AppCompatActivity {
                     Call<ProductDTO> productsInventoryCall_1 = userAPI.getIndividualProductDTO(productID);
                     productsInventoryCall_1.enqueue(new Callback<ProductDTO>() {
                         @Override
-                        public void onResponse(Call<ProductDTO> call, Response<ProductDTO> response) {
-                            if(response.isSuccessful() && response.body()!=null){
-                                ifSuccess(response);
+                        public void onResponse(Call<ProductDTO> call, Response<ProductDTO> responseProduct) {
+                            if(responseProduct.isSuccessful() && responseProduct.body()!=null){
+                                ProductDTO products = responseProduct.body();
+                                Call<Customer> customerCall = userAPI.getCustomerByFirebaseID(user.getUid());
+                                customerCall.enqueue(new Callback<Customer>() {
+                                    @Override
+                                    public void onResponse(Call<Customer> call, Response<Customer> response) {
+                                        Customer customer = response.body();
+                                        Call<Boolean> ifPurchaseCall = userAPI.hasCustomerPurchasedIndividualItem(customer.getId(), products.getSellerID(), products.getProductName());
+                                        ifPurchaseCall.enqueue(new Callback<Boolean>() {
+                                            @Override
+                                            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                                ifPurchased = response.body();
+                                                ifSuccess(responseProduct);
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<Boolean> call, Throwable t) {
+                                                Log.e("If purchased status: ", t.getMessage());
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Customer> call, Throwable t) {
+                                        Log.e("RetrofitAPI", "Customer doesn't exist");
+                                    }
+                                });
                             }else{
-                                Log.e("RetrofitAPI", "Error fetching group discounts: " + response.code());
+                                Log.e("RetrofitAPI", "Error fetching group discounts: " + responseProduct.code());
                             }
                         }
 
@@ -454,7 +507,6 @@ public class Activity_Product_Profile extends AppCompatActivity {
         }
         sellerNameText.setOnClickListener(v ->{
             Intent openThruProfile = new Intent(this,Activity_Seller_Profile.class);
-
             openThruProfile.putExtra("seller", kindOfSeller);
             openThruProfile.putExtra("seller_id", sellerProductID);
             openThruProfile.putExtra("firebase_id", sellerFirebaseID);
@@ -468,6 +520,15 @@ public class Activity_Product_Profile extends AppCompatActivity {
             openThruName.putExtra("firebase_id", sellerFirebaseID);
             startActivity(openThruName);
         });
+
+        CardView rating = findViewById(R.id.ratingCard);
+        LinearLayout commentLayout = findViewById(R.id.commentLayout);
+
+        if(ifPurchased){
+            rating.setVisibility(View.VISIBLE);
+            commentLayout.setVisibility(View.VISIBLE);
+        }
+
         postComment.setOnClickListener(v -> {
             String comment = comments.getText().toString().trim();
             float score = rate.getRating();

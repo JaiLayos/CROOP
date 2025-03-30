@@ -67,6 +67,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
     implementation ("com.github.bumptech.glide:glide:4.15.1")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
 

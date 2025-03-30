@@ -283,15 +283,18 @@
             </androidx.recyclerview.widget.RecyclerView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/ratingCard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/beige_brackground"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:visibility="visible">
 
                     <RatingBar
                         android:id="@+id/ratingBar"
@@ -312,9 +315,11 @@
 
 
             <LinearLayout
+                android:id="@+id/commentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/commentTextBox"
@@ -331,7 +336,8 @@
                     android:hint="Ilagay dito kung may kumento"
                     android:inputType="textMultiLine"
                     android:padding="10dp"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="visible" />
 
                 <Button
                     android:id="@+id/postButton"
