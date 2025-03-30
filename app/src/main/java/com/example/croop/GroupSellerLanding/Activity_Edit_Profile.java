@@ -45,11 +45,12 @@ public class Activity_Edit_Profile extends AppCompatActivity {
     private Uri imageUri;
     private StorageReference storageRef;
 
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseUser user = mAuth.getCurrentUser();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseUser user = mAuth.getCurrentUser();
 
     private RetrofitService RetrofitClient;
 
+    private String groupName, phoneNumber, roles;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,6 +101,9 @@ public class Activity_Edit_Profile extends AppCompatActivity {
                     String nameDB = documentSnapshot.getString("Name");
                     String positionDB = documentSnapshot.getString("Position");
                     String bioDB = documentSnapshot.getString("Bio");
+                    groupName = documentSnapshot.getString("Group Name");
+                    phoneNumber = documentSnapshot.getString("Phone Number");
+                    roles = documentSnapshot.getString("Role");
                     String cityDB = documentSnapshot.getString("Address.City");
                     String houseDB = documentSnapshot.getString("Address.House_Street_Name");
                     String postDB = documentSnapshot.getString("Address.Postal_Code");
@@ -135,6 +139,9 @@ public class Activity_Edit_Profile extends AppCompatActivity {
             groupSellers.setName(name);
             groupSellers.setBio(bio);
             groupSellers.setPersonPosition(position);
+            groupSellers.setGroupName(groupName);
+            groupSellers.setRoles(roles);
+            groupSellers.setPhoneNum(phoneNumber);
             Map<String, String> addressMap = new HashMap<>();
             addressMap.put("City", city);
             addressMap.put("Country", "Philippines");

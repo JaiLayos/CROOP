@@ -139,6 +139,7 @@ public class SignUp_COOP_Activity_4 extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(SignUp_COOP_Activity_4.this, "Group Seller Added!", Toast.LENGTH_SHORT).show();
                     sendToPhone(groupSellers, userId);
+                    sendToPostgres(groupSellers,userId);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(SignUp_COOP_Activity_4.this, "Error! " + e, Toast.LENGTH_SHORT).show();
@@ -172,7 +173,6 @@ public class SignUp_COOP_Activity_4 extends AppCompatActivity {
 
             @Override
             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                sendToPostgres(groupSellers,userId);
                 System.out.println("Code Sent: " + verificationId);
                 Intent intent = new Intent(SignUp_COOP_Activity_4.this, SignUp_MobPhone_valid.class);
                 intent.putExtra("V_ID", verificationId);
@@ -193,6 +193,7 @@ public class SignUp_COOP_Activity_4 extends AppCompatActivity {
         try {
             groupSellers.setFirebaseID(userID);
             groupSellers.setBio("Hi! I'm new here.");
+            groupSellers.setRoles(groupSellers.returnRole_coop());
             UserAPI userAPI = RetrofitClient.getClient().create(UserAPI.class);
             Call<Void> call = userAPI.sendGroupSellers(groupSellers);
             call.enqueue(new Callback<Void>() {
