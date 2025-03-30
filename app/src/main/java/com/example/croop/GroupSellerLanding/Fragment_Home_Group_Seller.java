@@ -196,16 +196,15 @@ public class Fragment_Home_Group_Seller extends Fragment {
                 totalRevenue.setText("₱"+ String.valueOf(initialRevenue));
                 countProducts.setText(String.valueOf(initialCount));
 
-                double meanOfRevenue = initialRevenue / storePrice.size();
+                double meanOfRevenue = storePrice.size() > 0 ? (double) initialRevenue / storePrice.size() : 0;
+                double meanOfCount = storeCount.size() > 0 ? (double) initialCount / storeCount.size() : 0;
+
+                int rangeRevenue = storePrice.size() > 0 ? calculateRange(storePrice) : 0;
+                int rangeCount = storeCount.size() > 0 ? calculateRange(storeCount) : 0;
+
                 meanRevenue.setText("₱"+String.valueOf(meanOfRevenue));
-
-                double meanOfCount = initialCount / storeCount.size();
                 meanCount.setText(String.valueOf(meanOfCount));
-
-                int rangeRevenue = calculateRange(storePrice);
                 modeRevenue.setText("₱" + String.valueOf(rangeRevenue));
-
-                int rangeCount = calculateRange(storeCount);
                 modeCount.setText(String.valueOf(rangeCount));
 
                 List<String> sortedDates = new ArrayList<>(dailySales.keySet());
