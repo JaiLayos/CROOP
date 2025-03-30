@@ -134,9 +134,7 @@ public class Landing_Activity extends AppCompatActivity {
         builder.setNegativeButton("Hindi Sumang-ayon", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss(); // Close the dialog
-                onBackPressed(); // Go back or exit
-                finish(); // End the activity
+                dialog.dismiss();
             }
         });
 
