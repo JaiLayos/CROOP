@@ -168,7 +168,7 @@ public class CustomerOrdersService implements ICustomerOrdersService{
 
         for (CustomerOrdersForGroupSellers order : filteredOrders) {
             Map<String, Integer> orderList = order.getOrderList();
-            if (orderList != null && orderList.containsKey(itemName)) {
+            if (orderList != null && orderList.containsKey(itemName) && order.getOrderStatus().equals("Completed")) {
                 return true;
             }
         }
@@ -186,7 +186,7 @@ public class CustomerOrdersService implements ICustomerOrdersService{
 
         for (CustomerOrdersForIndivSellers order : filteredOrders) {
             Map<String, Integer> orderList = order.getOrderList();
-            if (orderList != null && orderList.containsKey(itemName)) {
+            if (orderList != null && orderList.containsKey(itemName) && order.getOrderStatus().equals("Completed")) {
                 return true;
             }
         }
