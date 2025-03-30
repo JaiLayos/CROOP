@@ -50,7 +50,7 @@ public class Activity_Edit_Profile extends AppCompatActivity {
 
     private RetrofitService RetrofitClient;
 
-    private String groupName, phoneNumber, roles;
+    private String groupName, phoneNumber, roles, email;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,6 +104,7 @@ public class Activity_Edit_Profile extends AppCompatActivity {
                     groupName = documentSnapshot.getString("Group Name");
                     phoneNumber = documentSnapshot.getString("Phone Number");
                     roles = documentSnapshot.getString("Role");
+                    email = documentSnapshot.getString("Role");
                     String cityDB = documentSnapshot.getString("Address.City");
                     String houseDB = documentSnapshot.getString("Address.House_Street_Name");
                     String postDB = documentSnapshot.getString("Address.Postal_Code");
@@ -142,6 +143,7 @@ public class Activity_Edit_Profile extends AppCompatActivity {
             groupSellers.setGroupName(groupName);
             groupSellers.setRoles(roles);
             groupSellers.setPhoneNum(phoneNumber);
+            groupSellers.setEmail(email);
             Map<String, String> addressMap = new HashMap<>();
             addressMap.put("City", city);
             addressMap.put("Country", "Philippines");
