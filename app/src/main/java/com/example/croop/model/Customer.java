@@ -8,7 +8,6 @@ public class Customer {
     private String firebaseID;
     private String name;
     private String password;
-    private int age;
     private Map<String, String> address;
     private String phoneNumber;
     private String email;
@@ -24,11 +23,10 @@ public class Customer {
 
     }
 
-    public Customer(int id, String firebaseID, String name, String password, int age, Map<String, String> address, String phoneNumber,
+    public Customer(int id, String firebaseID, String name, String password, Map<String, String> address, String phoneNumber,
      String email, String bio, Date createdAt, Date updatedAt, String messengerLink, String roles,
                     int product_inventory_SC, int product_inventory_MC){
         this.id = id;
-        this.age = age;
         this.firebaseID = firebaseID;
         this.name =  name;
         this.password = password;
@@ -69,13 +67,6 @@ public class Customer {
     public String getPassword(){return password;}
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int getAge() {
-        return age;
-    }
-    public void setAge(int age) {
-        this.age=age;
     }
 
     public Map<String, String> getAddress(){

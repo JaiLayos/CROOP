@@ -52,26 +52,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userFirstNameText" />
 
-    <EditText
-        android:id="@+id/userAgeText"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/rounded_border_edit_text"
-        android:hint="@string/enter_age"
-        android:inputType="text"
-        android:paddingStart="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userLastNameText" />
-
     <Button
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="63dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/secondary_color"
         android:fontFamily="@font/inter_semibold"
         android:paddingLeft="100dp"
@@ -82,7 +67,7 @@
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userAgeText" />
+        app:layout_constraintTop_toBottomOf="@+id/userLastNameText" />
 
     <TextView
         android:id="@+id/existingAcctLabel"

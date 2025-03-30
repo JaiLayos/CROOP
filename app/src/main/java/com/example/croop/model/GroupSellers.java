@@ -21,7 +21,7 @@ public class GroupSellers extends Customer{
                         List<GroupSellersProductsInventory> groupSellersProductsInventoryList,
                         List<GroupSellersDiscount> groupSellerDiscounts,
                         int product_inventory_SC, int product_inventory_MC){
-        super(id, firebaseID, name, password, age, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, roles,
+        super(id, firebaseID, name, password, address, phoneNumber, email, bio, createdAt, updatedAt, messengerLink, roles,
                 product_inventory_SC, product_inventory_MC);
         this.groupName = groupName;
         this.position = position;

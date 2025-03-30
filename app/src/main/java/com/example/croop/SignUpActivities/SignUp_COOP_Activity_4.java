@@ -121,7 +121,6 @@ public class SignUp_COOP_Activity_4 extends AppCompatActivity {
         FirebaseFirestore db =FirebaseFirestore.getInstance();
         Map<String, Object> groupSellerProfile = new HashMap<>();
         groupSellerProfile.put("Address", groupSellers.getAddress());
-        groupSellerProfile.put("Age", groupSellers.getAge());
         groupSellerProfile.put("Group Name", groupSellers.getGroupName());
         groupSellerProfile.put("Bio", "Hi! I'm new here");
         groupSellerProfile.put("Created At", currentDate);

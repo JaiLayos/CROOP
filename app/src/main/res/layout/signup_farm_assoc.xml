@@ -155,40 +155,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/assocLastNameLabel" />
 
             <TextView
-                android:id="@+id/assocPersonAge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/mulish_medium"
-                android:text="@string/age"
-                android:textAlignment="viewStart"
-                android:textColor="@color/black_opaque_text"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.074"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocLastNameText" />
-
-            <EditText
-                android:id="@+id/assocAgeText"
-                android:layout_width="0dp"
-                android:layout_height="55dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/rounded_border_edit_text"
-                android:hint="@string/enter_age"
-                android:includeFontPadding="false"
-                android:inputType="number"
-                android:maxLength="2"
-                android:paddingStart="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.393"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocPersonAge" />
-
-            <TextView
                 android:id="@+id/assocPositionLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -202,7 +168,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.041"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/assocAgeText" />
+                app:layout_constraintTop_toBottomOf="@+id/assocLastNameText" />
 
             <EditText
                 android:id="@+id/assocPositionText"

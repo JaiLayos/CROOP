@@ -101,7 +101,6 @@ public class SignUp_Indiv_Farmer_Activity_4 extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> indivSellerProfile = new HashMap<>();
         indivSellerProfile.put("Address", individualSellers.getAddress());
-        indivSellerProfile.put("Age", individualSellers.getAge());
         indivSellerProfile.put("Bio", individualSellers.getBio());
         indivSellerProfile.put("Email", individualSellers.getEmail());
         indivSellerProfile.put("Messenger Link", individualSellers.getMessengerLink());

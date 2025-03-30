@@ -99,7 +99,6 @@ public class SignUp_Customer_Activity_4 extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> userProfile = new HashMap<>();
         userProfile.put("Address", customer.getAddress());
-        userProfile.put("Age", customer.getAge());
         userProfile.put("Bio", customer.getBio());
         userProfile.put("Created At", date);
         userProfile.put("Email", customer.getEmail());

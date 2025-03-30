@@ -118,7 +118,6 @@ public class SignUp_Farm_Assoc_Activity_4 extends AppCompatActivity {
         FirebaseFirestore db =FirebaseFirestore.getInstance();
         Map<String, Object> groupSellerProfile = new HashMap<>();
         groupSellerProfile.put("Address", groupSellers.getAddress());
-        groupSellerProfile.put("Age", groupSellers.getAge());
         groupSellerProfile.put("Group Name", groupSellers.getGroupName());
         groupSellerProfile.put("Bio", "I'm new here!");
         groupSellers.setBio("I'm new here!");
