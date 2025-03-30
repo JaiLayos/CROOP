@@ -19,6 +19,7 @@ public class BaseOrder {
     private String orderStatus;
     private String buyerLocation;
     private String sellerLocation;
+    private String sellerType;
     private String deliveryDetails = "";
 
     public BaseOrder(){
@@ -26,7 +27,7 @@ public class BaseOrder {
     }
     public BaseOrder(Map<String, Integer> orderList, int orderPrice, Date orderDate,
                      String orderType,String orderStatus, String buyerLocation, String sellerLocation,
-                     String deliveryDetails){
+                     String sellerType,String deliveryDetails){
         this.orderList = orderList;
         this.orderPrice = orderPrice;
         this.orderDate = (orderDate != null) ? new Date(orderDate.getTime()) : new Date();
@@ -34,6 +35,7 @@ public class BaseOrder {
         this.orderStatus = orderStatus;
         this.buyerLocation = buyerLocation;
         this.sellerLocation = sellerLocation;
+        this.sellerType = sellerType;
         this.deliveryDetails = deliveryDetails;
     }
 
@@ -88,5 +90,12 @@ public class BaseOrder {
     }
     public String getDeliveryDetails() {
         return deliveryDetails;
+    }
+
+    public void setSellerType(String sellerType) {
+        this.sellerType = sellerType;
+    }
+    public String getSellerType() {
+        return sellerType;
     }
 }

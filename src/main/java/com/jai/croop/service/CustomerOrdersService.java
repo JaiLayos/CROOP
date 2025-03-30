@@ -107,6 +107,7 @@ public class CustomerOrdersService implements ICustomerOrdersService{
         customerOrders.setOrderPrice(updatedCustomerOrders.getOrderPrice());
         customerOrders.setOrderStatus(updatedCustomerOrders.getOrderStatus());
         customerOrders.setDeliveryDetails(updatedCustomerOrders.getDeliveryDetails());
+        customerOrders.setSellerType("group");
         return customerOrdersForGroupRepository.save(customerOrders);
     }
 
@@ -117,6 +118,7 @@ public class CustomerOrdersService implements ICustomerOrdersService{
         customerOrders.setOrderPrice(updatedCustomerOrders.getOrderPrice());
         customerOrders.setOrderStatus(updatedCustomerOrders.getOrderStatus());
         customerOrders.setDeliveryDetails(updatedCustomerOrders.getDeliveryDetails());
+        customerOrders.setSellerType("individual");
         return customerOrdersForIndividualRepository.save(customerOrders);    }
 
     @Transactional

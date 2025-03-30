@@ -116,6 +116,8 @@ public class CustomerOrdersController {
         ordersDTO.setOrderStatus(customerOrdersForGroupSellers.getOrderStatus());
         ordersDTO.setOrderType(customerOrdersForGroupSellers.getOrderType());
         ordersDTO.setOrderDate(customerOrdersForGroupSellers.getOrderDate());
+        ordersDTO.setSellerType(customerOrdersForGroupSellers.getSellerType());
+        ordersDTO.setSellerID(customerOrdersForGroupSellers.getGroupSellerId());
         ordersDTO.setAddress(customerOrdersForGroupSellers.getCustomer().getAddress());
         ordersDTO.setDeliveryDetails(customerOrdersForGroupSellers.getDeliveryDetails());
         return ResponseEntity.ok(ordersDTO);
@@ -136,6 +138,8 @@ public class CustomerOrdersController {
             ordersDTO.setOrderType(groupSeller.getOrderType());
             ordersDTO.setOrderDate(groupSeller.getOrderDate());
             ordersDTO.setAddress(groupSeller.getCustomer().getAddress());
+            ordersDTO.setSellerType(groupSeller.getSellerType());
+            ordersDTO.setSellerID(groupSeller.getGroupSellerId());
             ordersDTO.setDeliveryDetails(groupSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
@@ -157,6 +161,8 @@ public class CustomerOrdersController {
             ordersDTO.setOrderType(groupSeller.getOrderType());
             ordersDTO.setOrderDate(groupSeller.getOrderDate());
             ordersDTO.setAddress(groupSeller.getCustomer().getAddress());
+            ordersDTO.setSellerType(groupSeller.getSellerType());
+            ordersDTO.setSellerID(groupSeller.getGroupSellerId());
             ordersDTO.setDeliveryDetails(groupSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
@@ -178,6 +184,8 @@ public class CustomerOrdersController {
             ordersDTO.setOrderType(groupSeller.getOrderType());
             ordersDTO.setOrderDate(groupSeller.getOrderDate());
             ordersDTO.setAddress(groupSeller.getCustomer().getAddress());
+            ordersDTO.setSellerType(groupSeller.getSellerType());
+            ordersDTO.setSellerID(groupSeller.getGroupSellerId());
             ordersDTO.setDeliveryDetails(groupSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
@@ -224,6 +232,8 @@ public class CustomerOrdersController {
         responseDTO.setOrderStatus(updatedOrder.getOrderStatus());
         responseDTO.setOrderType(updatedOrder.getOrderType());
         responseDTO.setOrderDate(updatedOrder.getOrderDate());
+        responseDTO.setSellerType(updatedOrder.getSellerType());
+        responseDTO.setSellerID(updatedOrder.getGroupSellerId());
         responseDTO.setAddress(updatedOrder.getCustomer().getAddress());
         responseDTO.setDeliveryDetails(updatedOrder.getDeliveryDetails());
 
@@ -312,6 +322,8 @@ public class CustomerOrdersController {
         ordersDTO.setOrderStatus(customerOrdersForIndivSellers.getOrderStatus());
         ordersDTO.setOrderType(customerOrdersForIndivSellers.getOrderType());
         ordersDTO.setOrderDate(customerOrdersForIndivSellers.getOrderDate());
+        ordersDTO.setSellerType(customerOrdersForIndivSellers.getSellerType());
+        ordersDTO.setSellerID(customerOrdersForIndivSellers.getGroupSellerId());
         ordersDTO.setAddress(customerOrdersForIndivSellers.getCustomer().getAddress());
         ordersDTO.setDeliveryDetails(customerOrdersForIndivSellers.getDeliveryDetails());
         return ResponseEntity.ok(ordersDTO);
@@ -332,6 +344,8 @@ public class CustomerOrdersController {
             ordersDTO.setOrderType(indivSeller.getOrderType());
             ordersDTO.setOrderDate(indivSeller.getOrderDate());
             ordersDTO.setAddress(indivSeller.getCustomer().getAddress());
+            ordersDTO.setSellerType(indivSeller.getSellerType());
+            ordersDTO.setSellerID(indivSeller.getGroupSellerId());
             ordersDTO.setDeliveryDetails(indivSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
@@ -379,6 +393,8 @@ public class CustomerOrdersController {
         responseDTO.setOrderType(updatedOrder.getOrderType());
         responseDTO.setOrderDate(updatedOrder.getOrderDate());
         responseDTO.setAddress(updatedOrder.getCustomer().getAddress());
+        responseDTO.setSellerType(updatedOrder.getSellerType());
+        responseDTO.setSellerID(updatedOrder.getGroupSellerId());
         responseDTO.setDeliveryDetails(updatedOrder.getDeliveryDetails());
 
         return ResponseEntity.ok(responseDTO);
