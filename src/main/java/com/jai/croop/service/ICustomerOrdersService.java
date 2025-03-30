@@ -22,4 +22,7 @@ public interface ICustomerOrdersService {
     void deleteIndividualCustomerOrders(int id);
     List<DailySalesDTO> getDailySalesForGroupSeller(int sellerId);
     List<Integer> getPastOrderQuantities(int groupSellerId, int productId);
+    boolean hasCustomerPurchasedGroupItem(int customerId, int groupSellerId, String itemName);
+    boolean hasCustomerPurchasedIndividualItem(int customerId, int individualId, String itemName);
+
 }

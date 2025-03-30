@@ -158,4 +158,40 @@ public class CustomerOrdersService implements ICustomerOrdersService{
         return demand;
     }
 
+    @Override
+    public boolean hasCustomerPurchasedGroupItem(int customerId, int groupSellerId, String itemName) {
+        List<CustomerOrdersForGroupSellers> customerOrders = customerOrdersForGroupRepository.findByCustomer_Id(customerId);
+
+        List<CustomerOrdersForGroupSellers> filteredOrders = customerOrders.stream()
+                .filter(order -> order.getGroupSeller().getId() == groupSellerId)
+                .toList();
+
+        for (CustomerOrdersForGroupSellers order : filteredOrders) {
+            Map<String, Integer> orderList = order.getOrderList();
+            if (orderList != null && orderList.containsKey(itemName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean hasCustomerPurchasedIndividualItem(int customerId, int individualId, String itemName) {
+        List<CustomerOrdersForIndivSellers> customerOrders = customerOrdersForIndividualRepository.findByCustomer_Id(customerId);
+
+        List<CustomerOrdersForIndivSellers> filteredOrders = customerOrders.stream()
+                .filter(order -> order.getIndividualSellers().getId() == individualId)
+                .toList();
+
+        for (CustomerOrdersForIndivSellers order : filteredOrders) {
+            Map<String, Integer> orderList = order.getOrderList();
+            if (orderList != null && orderList.containsKey(itemName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

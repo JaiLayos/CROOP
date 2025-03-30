@@ -399,4 +399,15 @@ public class CustomerOrdersController {
 
         return ResponseEntity.ok(salesData);
     }
+    @GetMapping("/group/hasPurchased/{customerId}/{groupSellerId}/{itemName}")
+    public ResponseEntity<Boolean> hasCustomerPurchasedGroupItem(int customerId, int groupSellerId, String itemName){
+        boolean hasPurchased = customerOrdersService.hasCustomerPurchasedGroupItem(customerId, groupSellerId, itemName);
+        return ResponseEntity.ok(hasPurchased);
+    }
+
+    @GetMapping("/individual/hasPurchased/{customerId}/{individualId}/{itemName}")
+    public ResponseEntity<Boolean> hasCustomerPurchasedIndividualItem(int customerId, int individualId, String itemName){
+        boolean hasPurchased = customerOrdersService.hasCustomerPurchasedIndividualItem(customerId, individualId, itemName);
+        return ResponseEntity.ok(hasPurchased);
+    }
 }
