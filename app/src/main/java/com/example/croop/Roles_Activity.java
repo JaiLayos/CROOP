@@ -38,7 +38,7 @@ public class Roles_Activity extends AppCompatActivity {
         });
         forCustomer.setOnClickListener(view -> {
             CurrentUserSingleton.getInstance().setCurrentRole(currentRole);
-            if(usage == "Sign Up"){
+            if(usage == "Sign In"){
                 Intent intent = new Intent(Roles_Activity.this, SignIn_Activity.class);
                 startActivity(intent);
             }else{
