@@ -49,6 +49,12 @@ public class Activity_Add_Setup_Holding_Cost extends AppCompatActivity {
         refText = findViewById(R.id.refText);
         storageText = findViewById(R.id.storageText);
         insuranceText = findViewById(R.id.insuranceText);
+        laborText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        processText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        packagingText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        refText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        storageText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        insuranceText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         initializeComponents();
     }

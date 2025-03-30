@@ -1,5 +1,6 @@
 package com.example.croop.IndividualSellerLanding;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -12,11 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -98,6 +101,11 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
         price.setInputType(InputType.TYPE_CLASS_NUMBER);
         freshness.setInputType(InputType.TYPE_CLASS_NUMBER);
 
+        TextView tagHelp = findViewById(R.id.tagHelp);
+        tagHelp.setOnClickListener(v-> {
+            showHoldCostHelp();
+        });
+
         Button picture = findViewById(R.id.uploadPicButton);
         picture.setOnClickListener(v1 -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -177,6 +185,35 @@ public class Activity_Add_Products_Individual extends AppCompatActivity {
         back.setOnClickListener(v -> {
             onBackPressed();
         });
+    }
+
+    private void showHoldCostHelp() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        TextView textView = new TextView(this);
+        textView.setText("Ang mga tags ay mga espesyal na salita o parirala na ginagamit bilang mga " +
+                "keyword upang madaling matukoy at mahanap ang iyong produkto sa online platforms tulad " +
+                "ng e-commerce websites, social media, o search engines. Ang mga ito ay parang mga \"label\" o \"marka\"" +
+                " na nagbibigay ng karagdagang impormasyon tungkol sa iyong produkto.");
+        textView.setPadding(80, 40, 80, 40); // Add padding for better readability
+        textView.setTextSize(16);
+
+        ScrollView scrollView = new ScrollView(this);
+        scrollView.addView(textView);
+
+        builder.setTitle("Ano ang mga Tags?");
+        builder.setView(scrollView);
+
+        builder.setPositiveButton("Naintindihan ko", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void addTag(String tagName) {
