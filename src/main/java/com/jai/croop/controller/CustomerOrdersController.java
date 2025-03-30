@@ -139,7 +139,7 @@ public class CustomerOrdersController {
             ordersDTO.setOrderDate(groupSeller.getOrderDate());
             ordersDTO.setAddress(groupSeller.getCustomer().getAddress());
             ordersDTO.setSellerType(groupSeller.getSellerType());
-            ordersDTO.setSellerID(groupSeller.getGroupSellerId());
+            ordersDTO.setSellerID(groupSeller.getGroupSeller().getId());
             ordersDTO.setDeliveryDetails(groupSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
@@ -345,7 +345,7 @@ public class CustomerOrdersController {
             ordersDTO.setOrderDate(indivSeller.getOrderDate());
             ordersDTO.setAddress(indivSeller.getCustomer().getAddress());
             ordersDTO.setSellerType(indivSeller.getSellerType());
-            ordersDTO.setSellerID(indivSeller.getGroupSellerId());
+            ordersDTO.setSellerID(indivSeller.getIndividualSellers().getId());
             ordersDTO.setDeliveryDetails(indivSeller.getDeliveryDetails());
             ordersDTOS.add(ordersDTO);
         }
