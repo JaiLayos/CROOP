@@ -3,9 +3,12 @@ package com.example.croop.GroupSellerLanding;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
+import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
@@ -47,6 +50,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,6 +135,7 @@ public class Activity_Products_Inventory extends AppCompatActivity {
         showProducts(table);
 
         Button find, add;
+        TextView download;
         find = findViewById(R.id.findItemButton);
         EditText itemNameFind = findViewById(R.id.productNameFindText);
         find.setOnClickListener(v -> {
@@ -169,10 +176,86 @@ public class Activity_Products_Inventory extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });
+        download = findViewById(R.id.downloadPdfButton);
+        download.setOnClickListener(v -> {
+            generatePdf(table);
+        });
         FloatingActionButton back = findViewById(R.id.backFloat);
         back.setOnClickListener(v -> {
             onBackPressed();
         });
+    }
+
+    private void generatePdf(TableLayout table) {
+        // Create a new PdfDocument
+        PdfDocument document = new PdfDocument();
+
+        // Define page dimensions (A4 size)
+        int pageNumber = 1;
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, pageNumber).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+
+        // Get canvas for drawing
+        android.graphics.Canvas canvas = page.getCanvas();
+
+        drawTableContent(canvas, table);
+
+        document.finishPage(page);
+
+        String filePath = savePdfToFile(document);
+
+        if (filePath != null) {
+            Toast.makeText(this, "PDF saved at: " + filePath, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Failed to save PDF", Toast.LENGTH_SHORT).show();
+        }
+
+        // Close the document
+        document.close();
+    }
+
+    private void drawTableContent(Canvas canvas, TableLayout table) {
+        int yPosition = 50;
+        int rowHeight = 50;
+
+        for (int i = 0; i < table.getChildCount(); i++) {
+            View child = table.getChildAt(i);
+
+            if (child instanceof TableRow) {
+                TableRow row = (TableRow) child;
+
+                int xPosition = 50; // Starting X position
+                for (int j = 0; j < row.getChildCount(); j++) {
+                    View cell = row.getChildAt(j);
+
+                    if (cell instanceof TextView) {
+                        TextView textView = (TextView) cell;
+
+                        android.graphics.Paint paint = new android.graphics.Paint();
+                        paint.setTextSize(12);
+                        canvas.drawText(textView.getText().toString(), xPosition, yPosition, paint);
+
+                        xPosition += 200; // Adjust column width
+                    }
+                }
+
+                yPosition += rowHeight;
+            }
+        }
+    }
+
+    private String savePdfToFile(PdfDocument document) {
+        // Define the file path
+        File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File file = new File(downloadsDir, "table_data.pdf");
+
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            document.writeTo(fos);
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void showProducts(TableLayout table) {

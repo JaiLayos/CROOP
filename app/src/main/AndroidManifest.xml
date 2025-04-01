@@ -80,6 +80,7 @@
         <activity android:name=".Customer.Activity_Product_Profile"/>
         <activity android:name=".Customer.Activity_Seller_Profile"/>
         <activity android:name=".Customer.Activity_Edit_User_Profile"/>
+        <activity android:name=".Customer.Activity_Orders_Receipt"/>
 
         <activity android:name=".Authentication_Phone_Number"/>
         <activity android:name=".Authentication_Email_Password_Change_Email"/>
