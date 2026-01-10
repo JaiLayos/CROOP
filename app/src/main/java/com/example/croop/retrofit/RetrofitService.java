@@ -1,33 +1,32 @@
 package com.example.croop.retrofit;
 
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.example.croop.BuildConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitService {
-    private Retrofit retrofit;
+    private static final String BASE_URL = "http://192.168.0.183:8081/";
+    private static Retrofit retrofit;
 
-    public RetrofitService(){
-        initializeRetrofit();
-    }
-
-    private void initializeRetrofit(){
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(message -> Log.d("Retrofit", message));
+    // Static block to initialize OkHttpClient with logging interceptor
+    static {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
-        retrofit=new Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
+
+        // Initialize Retrofit instance
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(httpClient.build())
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 
-    public Retrofit getRetrofit(){
+    // Method to get the Retrofit instance
+    public static Retrofit getClient() {
         return retrofit;
     }
 }

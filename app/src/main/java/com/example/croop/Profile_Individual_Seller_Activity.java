@@ -44,12 +44,12 @@ public class Profile_Individual_Seller_Activity extends AppCompatActivity {
         userBio = findViewById(R.id.userBioText);
         userEmail = findViewById(R.id.userEmailText);
         userPhone = findViewById(R.id.userPhoneNumberText);
-        userAddress = findViewById(R.id.userAddressText);
-        userMessenger = findViewById(R.id.userMessengerText);
+        userAddress = findViewById(R.id.userCityText);
+        //userMessenger = findViewById(R.id.userMessengerText);
 
         Button back = findViewById(R.id.backButton);
         back.setOnClickListener(view -> {
-            Intent intent = new Intent(this, Home_Group_Seller_Activity.class);
+            Intent intent = new Intent(this, Home_Individual_Seller_Activity.class);
             startActivity(intent);
         });
 

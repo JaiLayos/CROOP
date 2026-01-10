@@ -8,62 +8,57 @@
 
     <TextView
         android:id="@+id/coopRePasswordLabel11"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:text="@string/pass_req_second_line"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.322"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel8" />
 
     <TextView
         android:id="@+id/coopRePasswordLabel12"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:text="@string/pass_req_third_line"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel11" />
 
     <TextView
         android:id="@+id/coopRePasswordLabel13"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:text="@string/pass_req_fourth_line"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.232"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel12" />
 
     <TextView
         android:id="@+id/coopRePasswordLabel8"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:text="@string/pass_req_first_line"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.108"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coopRePasswordLabel2" />
 
     <TextView
         android:id="@+id/coopRePasswordLabel2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
         android:text="@string/password_requirements"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/indivFarmPasswordText" />
 

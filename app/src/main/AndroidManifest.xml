@@ -9,6 +9,8 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,40 +27,55 @@
             </intent-filter>
         </activity>
         <activity android:name=".Roles_Activity" />
-        <activity android:name=".Population_Seller_Activity" />
-        <activity android:name=".Population_Customer_Activity"/>
+        <activity android:name=".SignUpActivities.Population_Seller_Activity" />
+        <activity android:name=".SignUpActivities.Population_Customer_Activity"/>
         <activity android:name=".Group_Seller_Activity" />
-        <activity android:name=".SignUp_Bulk_Activity" />
-        <activity android:name=".SignUp_Bulk_Activity_2" />
-        <activity android:name=".SignUp_Bulk_Activity_3" />
-        <activity android:name=".SignUp_Bulk_Activity_4" />
-        <activity android:name=".SignUp_Indiv_Cust_Activity" />
-        <activity android:name=".SignUp_Indiv_Cust_Activity_2" />
-        <activity android:name=".SignUp_Indiv_Cust_Activity_3" />
-        <activity android:name=".SignUp_Indiv_Cust_Activity_4" />
-        <activity android:name=".SignUp_Farm_Assoc_Activity" />
-        <activity android:name=".SignUp_Farm_Assoc_Activity_2" />
-        <activity android:name=".SignUp_Farm_Assoc_Activity_3" />
-        <activity android:name=".SignUp_Farm_Assoc_Activity_4" />
-        <activity android:name=".SignUp_Indiv_Farmer_Activity"/>
-        <activity android:name=".SignUp_Indiv_Farmer_Activity_2"/>
-        <activity android:name=".SignUp_Indiv_Farmer_Activity_3"/>
-        <activity android:name=".SignUp_Indiv_Farmer_Activity_4"/>
-        <activity android:name=".SignUp_COOP_Activity"/>
-        <activity android:name=".SignUp_COOP_Activity_2"/>
-        <activity android:name=".SignUp_COOP_Activity_3"/>
-        <activity android:name=".SignUp_COOP_Activity_4"/>
-        <activity android:name=".SignUp_MobPhone_valid" />
+        <activity android:name=".SignUpActivities.SignUp_Bulk_Activity" />
+        <activity android:name=".SignUpActivities.SignUp_Bulk_Activity_2" />
+        <activity android:name=".SignUpActivities.SignUp_Bulk_Activity_3" />
+        <activity android:name=".SignUpActivities.SignUp_Bulk_Activity_4" />
+        <activity android:name=".SignUpActivities.SignUp_Indiv_Cust_Activity" />
+        <activity android:name=".SignUpActivities.SignUp_Indiv_Cust_Activity_2" />
+        <activity android:name=".SignUpActivities.SignUp_Indiv_Cust_Activity_3" />
+        <activity android:name=".SignUpActivities.SignUp_Indiv_Cust_Activity_4" />
+        <activity android:name=".SignUpActivities.SignUp_Farm_Assoc_Activity" />
+        <activity android:name=".SignUpActivities.SignUp_Farm_Assoc_Activity_2" />
+        <activity android:name=".SignUpActivities.SignUp_Farm_Assoc_Activity_3" />
+        <activity android:name=".SignUpActivities.SignUp_Farm_Assoc_Activity_4" />
+        <activity android:name=".SignUpActivities.SignUp_Indiv_Farmer_Activity"/>
+        <activity android:name=".SignUpActivities.SignUp_Indiv_Farmer_Activity_2"/>
+        <activity android:name=".SignUpActivities.SignUp_Indiv_Farmer_Activity_3"/>
+        <activity android:name=".SignUpActivities.SignUp_Indiv_Farmer_Activity_4"/>
+        <activity android:name=".SignUpActivities.SignUp_COOP_Activity"/>
+        <activity android:name=".SignUpActivities.SignUp_COOP_Activity_2"/>
+        <activity android:name=".SignUpActivities.SignUp_COOP_Activity_3"/>
+        <activity android:name=".SignUpActivities.SignUp_COOP_Activity_4"/>
+        <activity android:name=".SignUpActivities.SignUp_MobPhone_valid" />
 
         <activity android:name=".SignIn_Activity"/>
 
-        <activity android:name=".Home_Group_Seller_Activity" />
         <activity android:name=".Home_Group_Customer_Activity" />
         <activity android:name=".Home_Individual_Seller_Activity" />
         <activity android:name=".Home_Individual_Customer_Activity"/>
 
         <activity android:name=".Profile_Individual_Seller_Activity"/>
-        <activity android:name=".Profile_Group_Seller_Activity"/>
+
+        <activity android:name=".GroupSellerLanding.Sign_In_Success_Group_Seller"/>
+
+        <activity android:name=".GroupSellerLanding.Activity_Orders_Group"/>
+        <activity android:name=".GroupSellerLanding.Activity_Edit_Profile"/>
+        <activity android:name=".GroupSellerLanding.Activity_Inventory_Category"/>
+        <activity android:name=".GroupSellerLanding.Activity_Item_Inventory"/>
+        <activity android:name=".GroupSellerLanding.Activity_Add_Item"/>
+        <activity android:name=".GroupSellerLanding.Activity_Products_Inventory"/>
+        <activity android:name=".GroupSellerLanding.Activity_Add_Products"/>
+        <activity android:name=".GroupSellerLanding.Activity_Discount_Inventory"/>
+
+        <activity android:name=".IndividualSellerLanding.Sign_In_Success_Individual_Seller"/>
+
+        <activity android:name=".Authentication_Phone_Number"/>
+        <activity android:name=".Authentication_Email_Password_Change_Email"/>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
